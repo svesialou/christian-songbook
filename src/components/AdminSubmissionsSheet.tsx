@@ -1,11 +1,9 @@
 import { SongSubmission } from '../lib/catalogApi';
 
 type Props = {
-  adminKey: string;
   submissions: SongSubmission[];
   isLoading: boolean;
   approvingId: number | null;
-  onAdminKeyChange: (value: string) => void;
   onRefresh: () => void;
   onApprove: (submissionId: number) => void;
   onClose: () => void;
@@ -23,11 +21,9 @@ const formatSubmissionDate = (value: string) => {
 };
 
 const AdminSubmissionsSheet = ({
-  adminKey,
   submissions,
   isLoading,
   approvingId,
-  onAdminKeyChange,
   onRefresh,
   onApprove,
   onClose,
@@ -46,28 +42,18 @@ const AdminSubmissionsSheet = ({
         </button>
       </div>
 
-      <label className="submission-field">
-        <span>Admin key</span>
-        <input
-          type="password"
-          value={adminKey}
-          onChange={(event) => onAdminKeyChange(event.target.value)}
-          placeholder="ADMIN_API_KEY"
-        />
-      </label>
-
       <div className="sheet-actions">
         <button type="button" className="sheet-secondary" onClick={onClose}>
           Закрыть
         </button>
-        <button type="button" className="sheet-primary" onClick={onRefresh} disabled={isLoading || !adminKey.trim()}>
+        <button type="button" className="sheet-primary" onClick={onRefresh} disabled={isLoading}>
           {isLoading ? 'Загрузка...' : 'Обновить'}
         </button>
       </div>
 
       <div className="submission-list">
         {submissions.length === 0 ? (
-          <p className="empty">{adminKey.trim() ? 'Нет pending заявок.' : 'Введите admin key и обновите список.'}</p>
+          <p className="empty">Нет pending заявок.</p>
         ) : (
           submissions.map((submission) => (
             <article key={submission.id} className="submission-card">

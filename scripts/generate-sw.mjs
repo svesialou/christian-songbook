@@ -25,7 +25,7 @@ const files = (await walk(distDir.pathname))
   .filter((path) => path !== '/sw.js')
   .sort();
 
-const appShell = ['/', ...files];
+const appShell = ['/', '/admin', ...files];
 const cacheHash = createHash('sha256')
   .update(JSON.stringify(appShell))
   .digest('hex')

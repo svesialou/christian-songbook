@@ -68,6 +68,12 @@ const readSearchParam = (key: string) => {
   return new URLSearchParams(window.location.search).get(key);
 };
 
+const isAdminRoute = () => {
+  if (typeof window === 'undefined') return false;
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+  return pathname === '/admin';
+};
+
 const updateSongQuery = (songId: string | null) => {
   if (typeof window === 'undefined') return;
 
@@ -292,7 +298,7 @@ const statusLabel = (tone: StatusTone, source: CatalogSource, meta: CatalogSnaps
 };
 
 function App() {
-  const [isAdminMode] = useState(() => readSearchParam('admin') === '1');
+  const [isAdminMode] = useState(() => isAdminRoute() || readSearchParam('admin') === '1');
   const [isMenuPreview] = useState(() => readSearchParam('menu') === '1');
   const [isSplitPreview] = useState(() => readSearchParam('split') === '1');
   const [isCategoryPickerPreview] = useState(() => readSearchParam('categoryPicker') === '1');
@@ -352,9 +358,9 @@ function App() {
   const [pendingSubmissions, setPendingSubmissions] = useState<SongSubmission[]>([]);
   const [isPendingSubmissionsLoading, setIsPendingSubmissionsLoading] = useState(false);
   const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
-  const [adminApiKey, setAdminApiKey] = useState(() =>
-    typeof window === 'undefined' ? '' : window.sessionStorage.getItem('songbook-admin-key') ?? '',
-  );
+  const [adminApiKey, setAdminApiKey] = useState('');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
 
   const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>) => {
     if (!snapshot || snapshot.songs.length === 0) return false;
@@ -396,7 +402,7 @@ function App() {
   };
 
   const loadPendingSubmissions = async () => {
-    if (!isAdminMode) return;
+    if (!isAdminMode || !isAdminAuthenticated) return;
     if (!adminApiKey.trim()) {
       setError('Введите admin key для загрузки заявок.');
       return;
@@ -415,6 +421,10 @@ function App() {
   };
 
   const handleApproveSubmission = async (submissionId: number) => {
+    if (!isAdminAuthenticated) {
+      setError('Нужно войти в админку.');
+      return;
+    }
     if (!adminApiKey.trim()) {
       setError('Введите admin key для апрува.');
       return;
@@ -433,6 +443,38 @@ function App() {
     } finally {
       setApprovingSubmissionId(null);
     }
+  };
+
+  const handleAdminLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const key = adminApiKey.trim();
+    if (!key) {
+      setError('Введите admin key.');
+      return;
+    }
+
+    setIsAdminLoginLoading(true);
+    setError(null);
+    try {
+      const submissions = await fetchPendingSongSubmissions(key);
+      setPendingSubmissions(submissions);
+      setIsAdminAuthenticated(true);
+      setNotice(`Вход выполнен. Pending заявок: ${submissions.length}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось войти в админку.');
+      setNotice(null);
+    } finally {
+      setIsAdminLoginLoading(false);
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setAdminApiKey('');
+    setPendingSubmissions([]);
+    setIsAdminAuthenticated(false);
+    setIsAdminSubmissionsOpen(false);
+    setNotice(null);
+    setError(null);
   };
 
   useEffect(() => {
@@ -548,15 +590,6 @@ function App() {
   useEffect(() => {
     saveSettings(settings);
   }, [settings]);
-
-  useEffect(() => {
-    if (!isAdminMode || typeof window === 'undefined') return;
-    if (adminApiKey) {
-      window.sessionStorage.setItem('songbook-admin-key', adminApiKey);
-    } else {
-      window.sessionStorage.removeItem('songbook-admin-key');
-    }
-  }, [adminApiKey, isAdminMode]);
 
   useEffect(() => {
     saveRecentSongs(recentSongIds);
@@ -930,7 +963,7 @@ function App() {
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
   const songViewSettings = isSplitPreview ? { ...settings, splitSections: true } : settings;
-  const canOpenLiveMode = !activeSong && listMode === 'collection' && activeCollection !== null;
+  const canOpenLiveMode = !isAdminMode && !activeSong && listMode === 'collection' && activeCollection !== null;
 
   const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
     if (!canPullRefresh || window.scrollY > 2) return;
@@ -958,6 +991,48 @@ function App() {
     pullStartY.current = null;
     setPullDistance(0);
   };
+
+  if (isAdminMode && !isAdminAuthenticated) {
+    return (
+      <main className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}>
+        <div className="admin-login-shell">
+          <section className="admin-login-card" aria-labelledby="admin-login-title">
+            <div>
+              <p className="eyebrow">Admin</p>
+              <h1 id="admin-login-title">Вход в админку</h1>
+              <p className="admin-login-note">
+                Панель доступна отдельно по адресу /admin. Введите ключ, который совпадает с ADMIN_API_KEY на backend.
+              </p>
+            </div>
+
+            {error ? <div className="error">{error}</div> : null}
+            {notice ? <div className="notice">{notice}</div> : null}
+
+            <form className="admin-login-form" onSubmit={handleAdminLogin}>
+              <label className="submission-field">
+                <span>Admin key</span>
+                <input
+                  type="password"
+                  value={adminApiKey}
+                  onChange={(event) => setAdminApiKey(event.target.value)}
+                  placeholder="ADMIN_API_KEY"
+                  autoComplete="current-password"
+                  autoFocus
+                />
+              </label>
+              <button type="submit" className="sheet-primary" disabled={isAdminLoginLoading || !adminApiKey.trim()}>
+                {isAdminLoginLoading ? 'Проверка...' : 'Войти'}
+              </button>
+            </form>
+
+            <a className="admin-login-link" href="/">
+              Вернуться в сборник
+            </a>
+          </section>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main
@@ -990,7 +1065,7 @@ function App() {
                 Назад
               </button>
             ) : null}
-            <h1>{activeSong ? activeSong.title : 'Песни'}</h1>
+            <h1>{activeSong ? activeSong.title : isAdminMode ? 'Админка' : 'Песни'}</h1>
           </div>
           <div className="top-actions">
             {canOpenLiveMode ? (
@@ -1026,15 +1101,17 @@ function App() {
                   </button>
                 ) : null}
 
-                <button
-                  className="toolbar-button install-button"
-                  onClick={() => {
-                    setIsAppMenuOpen(false);
-                    setIsSubmissionSheetOpen(true);
-                  }}
-                >
-                  Предложить песню
-                </button>
+                {!isAdminMode ? (
+                  <button
+                    className="toolbar-button install-button"
+                    onClick={() => {
+                      setIsAppMenuOpen(false);
+                      setIsSubmissionSheetOpen(true);
+                    }}
+                  >
+                    Предложить песню
+                  </button>
+                ) : null}
 
                 {isAdminMode ? (
                   <div className="admin-tools">
@@ -1042,15 +1119,6 @@ function App() {
                       <p className="admin-tools-title">Admin</p>
                       <p className="admin-tools-note">Заявки и локальный импорт. Для обычных пользователей скрыто.</p>
                     </div>
-                    <label className="submission-field">
-                      <span>Admin key</span>
-                      <input
-                        type="password"
-                        value={adminApiKey}
-                        onChange={(event) => setAdminApiKey(event.target.value)}
-                        placeholder="ADMIN_API_KEY"
-                      />
-                    </label>
                     <div className="toolbar">
                       <button
                         type="button"
@@ -1092,6 +1160,9 @@ function App() {
                       >
                         Экспорт
                       </button>
+                      <button type="button" className="toolbar-button" onClick={handleAdminLogout}>
+                        Выйти
+                      </button>
                     </div>
                   </div>
                 ) : null}
@@ -1103,6 +1174,33 @@ function App() {
         <section className="content-panel">
           {error ? <div className="error">{error}</div> : null}
           {notice ? <div className="notice">{notice}</div> : null}
+          {isAdminMode && !activeSong ? (
+            <section className="admin-dashboard" aria-labelledby="admin-dashboard-title">
+              <div>
+                <p className="eyebrow">Admin panel</p>
+                <h2 id="admin-dashboard-title">Управление каталогом</h2>
+                <p>Каталог подтягивается из MySQL. Заявки можно проверить и добавить в текущую опубликованную версию.</p>
+              </div>
+              <div className="admin-dashboard-actions">
+                <button
+                  type="button"
+                  className="sheet-primary"
+                  onClick={() => {
+                    setIsAdminSubmissionsOpen(true);
+                    void loadPendingSubmissions();
+                  }}
+                >
+                  Заявки
+                </button>
+                <button type="button" className="sheet-secondary" onClick={() => void refreshCatalog(true)}>
+                  Обновить из БД
+                </button>
+                <button type="button" className="sheet-secondary" onClick={handleAdminLogout}>
+                  Выйти
+                </button>
+              </div>
+            </section>
+          ) : null}
 
           {activeSong ? (
             <SongView
@@ -1245,11 +1343,9 @@ function App() {
 
       {isAdminMode && isAdminSubmissionsOpen ? (
         <AdminSubmissionsSheet
-          adminKey={adminApiKey}
           submissions={pendingSubmissions}
           isLoading={isPendingSubmissionsLoading}
           approvingId={approvingSubmissionId}
-          onAdminKeyChange={setAdminApiKey}
           onRefresh={() => void loadPendingSubmissions()}
           onApprove={(submissionId) => void handleApproveSubmission(submissionId)}
           onClose={() => setIsAdminSubmissionsOpen(false)}

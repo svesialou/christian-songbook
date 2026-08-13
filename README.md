@@ -98,9 +98,17 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - В UI есть карточка статуса каталога со статусами источника, сети, sync и последнего обновления; обновление каталога для обычного пользователя делается жестом pull-to-refresh, import/export не показываются.
 - В панели музыканта есть локальные view presets `Lead`, `Singer`, `Chords` как foundation для будущих ролей команды без server-side users/live sync.
 
+### Admin
+
+- Отдельная админка открывается по `/admin`.
+- Для входа нужен `ADMIN_API_KEY`; frontend проверяет ключ через admin API и не сохраняет его между запусками.
+- `/admin` использует отдельный `manifest-admin.webmanifest`, поэтому админку можно установить как отдельную PWA с `start_url=/admin`.
+- Сейчас реализован первый admin slice: просмотр pending заявок и approve песни в текущий MySQL-каталог. Полноценные пользователи, роли, audit log и редактор песен остаются отдельными задачами.
+
 ## PWA / offline
 
 - `public/manifest.webmanifest` описывает installable app shell.
+- `public/manifest-admin.webmanifest` описывает installable admin app shell для `/admin`.
 - `public/icon.svg` используется как app icon.
 - `public/sw.js` — исходный service worker template.
 - `scripts/generate-sw.mjs` после `vite build` подставляет в `dist/sw.js` реальные hashed assets из сборки.

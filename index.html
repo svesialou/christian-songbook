@@ -6,6 +6,11 @@
     <meta name="theme-color" content="#0f172a" />
     <meta name="description" content="Сборник песен с аккордами для прославления" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <script>
+      if (window.location.pathname.replace(/\/+$/, '') === '/admin') {
+        document.querySelector('link[rel="manifest"]').setAttribute('href', '/manifest-admin.webmanifest');
+      }
+    </script>
     <title>Christian Songbook</title>
   </head>
   <body>
