@@ -140,19 +140,25 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
   - `docker build`
 - Deploy workflow: `.github/workflows/deploy.yml`
   - публикует image в `ghcr.io/<owner>/christian-songbook`;
-  - manual `workflow_dispatch` может выполнить restart через SSH, если заданы secrets:
+  - после merge/push в `main` автоматически выполняет deploy через SSH;
+  - manual `workflow_dispatch` тоже может выполнить deploy через SSH, если выбрать `restart_server=true`;
+  - нужны GitHub secrets:
     - `DEPLOY_HOST`
     - `DEPLOY_USER`
     - `DEPLOY_SSH_KEY`
-    - `DEPLOY_RESTART_COMMAND`
+    - `DEPLOY_COMMAND`
 
-Рекомендуемое значение `DEPLOY_RESTART_COMMAND` для текущего management toolkit:
+Рекомендуемые значения для `songs.vess.by`:
 
 ```bash
-cd /home/stanislavv/MyProjects/management && make apps-restart-prod STACKS=christian_songbook VAULT_ARGS=--ask-vault-pass
+DEPLOY_HOST=185.251.38.234
+DEPLOY_USER=deploy
+DEPLOY_COMMAND='cd /home/stanislavv/christian_songbook && ./restart.sh'
 ```
 
-Для non-interactive CI restart лучше использовать vault password file на сервере и заменить `VAULT_ARGS`.
+`DEPLOY_SSH_KEY` должен быть приватным SSH key, публичная часть которого добавлена в `authorized_keys` для `deploy@185.251.38.234`.
+
+Если меняется инфраструктурная конфигурация, env или база, применяй management playbook отдельно. Обычный deploy после merge в `main` использует уже подготовленный `restart.sh`.
 
 ### Legacy catalog seed
 Исходный mobile repo `pavelliolia/christian-songs-mobile-app` хранит модель клиента, но сам каталог тянет из legacy API.
