@@ -66,6 +66,7 @@ const MAX_BPM = 220;
 const MIN_BEATS_PER_LINE = 1;
 const MAX_BEATS_PER_LINE = 16;
 const MAX_INTRO_BEATS = 64;
+const DEFAULT_ADMIN_API_KEY = '123456';
 
 const readSearchParam = (key: string) => {
   if (typeof window === 'undefined') return null;
@@ -355,6 +356,7 @@ function App() {
   );
   const pullStartY = useRef<number | null>(null);
   const appMenuRef = useRef<HTMLDetailsElement | null>(null);
+  const adminStatusTapRef = useRef({ count: 0, lastAt: 0 });
   const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
   const [pullDistance, setPullDistance] = useState(0);
   const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
@@ -365,7 +367,7 @@ function App() {
   const [savingSubmissionId, setSavingSubmissionId] = useState<number | null>(null);
   const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
   const [rejectingSubmissionId, setRejectingSubmissionId] = useState<number | null>(null);
-  const [adminApiKey, setAdminApiKey] = useState('');
+  const [adminApiKey, setAdminApiKey] = useState(() => (isAdminMode ? DEFAULT_ADMIN_API_KEY : ''));
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
 
@@ -525,7 +527,7 @@ function App() {
   };
 
   const handleAdminLogout = () => {
-    setAdminApiKey('');
+    setAdminApiKey(DEFAULT_ADMIN_API_KEY);
     setPendingSubmissions([]);
     setIsAdminAuthenticated(false);
     setIsAdminSubmissionsOpen(false);
@@ -828,29 +830,12 @@ function App() {
     () => collections.find((collection) => collection.id === liveCollectionId) ?? null,
     [collections, liveCollectionId],
   );
-  const liveSourceSongs = useMemo(
-    () => (liveCollection ? liveCollection.songIds.flatMap((songId) => songs.find((song) => song.id === songId) ?? []) : []),
-    [liveCollection, songs],
-  );
+  const liveSourceSongs = songs;
 
   const openLiveMode = () => {
-    const targetCollection =
-      activeCollection ??
-      collections.find((collection) => collection.songIds.some((songId) => songs.some((song) => song.id === songId))) ??
-      liveCollection ??
-      collections[0] ??
-      null;
-
-    if (!targetCollection) {
-      openCreateCollection();
-      return;
-    }
-
-    const nextLiveSongIds =
-      liveCollectionId === targetCollection.id
-        ? liveSongIds.filter((songId) => targetCollection.songIds.includes(songId))
-        : [];
-    setLiveCollectionId(targetCollection.id);
+    const catalogSongIds = new Set(songs.map((song) => song.id));
+    const nextLiveSongIds = liveSongIds.filter((songId) => catalogSongIds.has(songId));
+    setLiveCollectionId(null);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId(liveSongId && nextLiveSongIds.includes(liveSongId) ? liveSongId : nextLiveSongIds[0] ?? null);
     setQuery('');
@@ -860,7 +845,7 @@ function App() {
   };
 
   const addLiveSong = (songId: string) => {
-    if (!liveCollectionId || !liveSourceSongs.some((song) => song.id === songId)) return;
+    if (!liveSourceSongs.some((song) => song.id === songId)) return;
     if (liveSongIds.includes(songId)) return;
 
     setLiveSongIds([...liveSongIds, songId]);
@@ -1000,7 +985,7 @@ function App() {
   };
 
   const openSong = (songId: string) => {
-    if (listMode === 'live' && liveCollectionId) {
+    if (listMode === 'live') {
       setLiveSongId(songId);
     }
 
@@ -1058,6 +1043,17 @@ function App() {
     setPullDistance(0);
   };
 
+  const handleStatusDotClick = () => {
+    if (isAdminMode || typeof window === 'undefined') return;
+    const now = Date.now();
+    const nextCount = now - adminStatusTapRef.current.lastAt > 1400 ? 1 : adminStatusTapRef.current.count + 1;
+    adminStatusTapRef.current = { count: nextCount, lastAt: now };
+    if (nextCount >= 3) {
+      adminStatusTapRef.current = { count: 0, lastAt: 0 };
+      window.location.assign('/admin');
+    }
+  };
+
   if (isAdminMode && !isAdminAuthenticated) {
     return (
       <main className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}>
@@ -1067,7 +1063,8 @@ function App() {
               <p className="eyebrow">Admin</p>
               <h1 id="admin-login-title">Вход в админку</h1>
               <p className="admin-login-note">
-                Панель доступна отдельно по адресу /admin. Введите ключ, который совпадает с ADMIN_API_KEY на backend.
+                Панель доступна отдельно по адресу /admin. Если ADMIN_API_KEY на backend не задан, используется
+                dev-ключ 123456.
               </p>
             </div>
 
@@ -1081,11 +1078,21 @@ function App() {
                   type="password"
                   value={adminApiKey}
                   onChange={(event) => setAdminApiKey(event.target.value)}
-                  placeholder="ADMIN_API_KEY"
-                  autoComplete="current-password"
+                  placeholder={DEFAULT_ADMIN_API_KEY}
+                  autoComplete="off"
                   autoFocus
                 />
               </label>
+              <div className="admin-login-shortcuts">
+                <button
+                  type="button"
+                  className="sheet-secondary"
+                  onClick={() => setAdminApiKey(DEFAULT_ADMIN_API_KEY)}
+                  disabled={adminApiKey.trim() === DEFAULT_ADMIN_API_KEY}
+                >
+                  Использовать 123456
+                </button>
+              </div>
               <button type="submit" className="sheet-primary" disabled={isAdminLoginLoading || !adminApiKey.trim()}>
                 {isAdminLoginLoading ? 'Проверка...' : 'Войти'}
               </button>
@@ -1139,9 +1146,15 @@ function App() {
                 Live
               </button>
             ) : null}
-            <span className={`status-dot status-${tone}`} title={toneLabel} role="status" aria-label={toneLabel}>
+            <button
+              type="button"
+              className={`status-dot status-${tone}`}
+              title={toneLabel}
+              aria-label={toneLabel}
+              onClick={handleStatusDotClick}
+            >
               <span className="sr-only">{toneLabel}</span>
-            </span>
+            </button>
             <details
               ref={appMenuRef}
               className="app-menu"

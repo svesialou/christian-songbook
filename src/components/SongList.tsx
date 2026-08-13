@@ -108,23 +108,7 @@ const SongList = ({
   };
   const liveCollection = collections.find((collection) => collection.id === liveCollectionId) ?? null;
   const isLiveMode = mode === 'live';
-  const preferredLiveCollection =
-    (liveCollection && (collectionCounts[liveCollection.id] ?? 0) > 0 ? liveCollection : null) ??
-    collections.find((collection) => (collectionCounts[collection.id] ?? 0) > 0) ??
-    liveCollection ??
-    collections[0] ??
-    null;
-  const preferredLiveCollectionCount = preferredLiveCollection ? collectionCounts[preferredLiveCollection.id] ?? 0 : 0;
-  const liveEntryHint = !preferredLiveCollection
-    ? 'Сначала создайте сборник для выступления.'
-    : preferredLiveCollectionCount > 0
-      ? `${preferredLiveCollection.name} · ${preferredLiveCollectionCount} песен`
-      : `${preferredLiveCollection.name} пока пустой. Добавьте песни из каталога.`;
-  const liveEntryButtonLabel = !preferredLiveCollection
-    ? 'Создать сборник'
-    : preferredLiveCollectionCount > 0
-      ? 'Открыть Live'
-      : 'Добавить песни';
+  const liveEntryHint = 'Откройте Live и выберите песни из всего каталога.';
   const activePlaybackIndex = isLiveMode
     ? songs.findIndex((song) => song.id === activeLiveSongId)
     : -1;
@@ -178,19 +162,11 @@ const SongList = ({
               type="button"
               className="live-entry-button"
               onClick={() => {
-                if (!preferredLiveCollection) {
-                  onCreateCollection();
-                  return;
-                }
-                if (preferredLiveCollectionCount === 0) {
-                  onCollectionSelect(preferredLiveCollection.id);
-                  return;
-                }
-                onLiveCollectionChange(preferredLiveCollection.id);
+                onLiveCollectionChange(null);
                 onOpenLiveMode();
               }}
             >
-              {liveEntryButtonLabel}
+              Открыть Live
             </button>
           </section>
 
@@ -247,7 +223,7 @@ const SongList = ({
         <div className="live-list-card is-live is-stage">
           <span>
             <strong>Live</strong>
-            <small>{liveCollection?.name ?? 'Список не выбран'}</small>
+            <small>{liveSongIds.length > 0 ? `${liveSongIds.length} песен выбрано` : 'Выберите песни ниже'}</small>
           </span>
           <div className="live-list-actions">
             {liveAdvanceSongId ? (
@@ -264,14 +240,9 @@ const SongList = ({
               type="button"
               className="live-list-button"
               onClick={() => {
-                const finishedCollectionId = liveCollectionId;
                 onLiveCollectionChange(null);
                 onLiveSongChange(null);
-                if (finishedCollectionId) {
-                  onCollectionSelect(finishedCollectionId);
-                } else {
-                  onModeChange('all');
-                }
+                onModeChange('all');
               }}
             >
               Завершить
@@ -317,7 +288,7 @@ const SongList = ({
         {songs.length === 0 ? (
           <li className="empty">
             {mode === 'live'
-              ? 'Live список пуст.'
+              ? 'Live список пуст. Добавьте песни из каталога ниже.'
               : mode === 'recent'
               ? 'Недавних песен пока нет.'
               : mode === 'collection'
@@ -415,24 +386,24 @@ const SongList = ({
       </ul>
 
       {isLiveMode && liveSourceSongs.length > 0 ? (
-        <section className="live-source-panel" aria-label="Песни из сборника">
+        <section className="live-source-panel" aria-label="Все песни для live">
           <div className="live-source-title">
-            <strong>Из сборника</strong>
+            <strong>Все песни</strong>
             <span>
               {filteredLiveSourceSongs.length}
               {liveSourceQuery.trim() ? `/${liveSourceSongs.length}` : ''}
             </span>
           </div>
           <label className="search-label sr-only" htmlFor="live-source-search">
-            Поиск в сборнике
+            Поиск по каталогу
           </label>
           <input
             id="live-source-search"
             value={liveSourceQuery}
             onChange={(event) => setLiveSourceQuery(event.target.value)}
-            placeholder="Поиск в сборнике"
+            placeholder="Найти песню для live"
             className="live-source-search"
-            aria-label="Поиск песни в сборнике"
+            aria-label="Поиск песни для live"
           />
           <div className="live-source-list">
             {filteredLiveSourceSongs.length === 0 ? (

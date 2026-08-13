@@ -25,6 +25,8 @@ const DEFAULT_PLAYBACK = {
   beatsPerLine: 4,
   introBeats: 4,
 };
+const MIN_BPM = 40;
+const MAX_BPM = 220;
 
 const lineKey = (sectionId: string, lineIndex: number) => `${sectionId}:${lineIndex}`;
 
@@ -160,12 +162,13 @@ const SongView = ({
   const [isAutoPlaying, setIsAutoPlaying] = useState(initialAutoPlay);
   const [isIntroActive, setIsIntroActive] = useState(initialAutoPlay);
   const [playbackTick, setPlaybackTick] = useState(() => Date.now());
+  const [playbackBpm, setPlaybackBpm] = useState(() => song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const introStartedAt = useRef<number | null>(initialAutoPlay ? Date.now() : null);
   const lineStartedAt = useRef<number | null>(null);
   const activePosition = playbackPosition?.songId === song.id ? playbackPosition : null;
-  const playback = song.playback ?? DEFAULT_PLAYBACK;
+  const playback = { ...DEFAULT_PLAYBACK, ...song.playback, bpm: playbackBpm };
   const beatDurationMs = 60000 / playback.bpm;
   const lineDurationMs = Math.max(1200, Math.round((60000 / playback.bpm) * playback.beatsPerLine));
   const introBeats = playback.introBeats ?? DEFAULT_PLAYBACK.introBeats;
@@ -205,6 +208,15 @@ const SongView = ({
     : activePlaybackLine
       ? `${activePlaybackLine.sectionTitle} · ${activeLineIndex + 1}/${playbackLines.length}`
       : `${playback.bpm} BPM · ${playback.beatsPerLine} доли`;
+
+  useEffect(() => {
+    setPlaybackBpm(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
+    setIsAutoPlaying(initialAutoPlay);
+    setIsIntroActive(initialAutoPlay);
+    introStartedAt.current = initialAutoPlay ? Date.now() : null;
+    lineStartedAt.current = null;
+    setPlaybackTick(Date.now());
+  }, [initialAutoPlay, song.id, song.playback?.bpm]);
 
   const registerLine = (key: string, element: HTMLButtonElement | null) => {
     lineElements.current[key] = element;
@@ -305,6 +317,27 @@ const SongView = ({
     }
 
     setIsAutoPlaying(true);
+  };
+
+  const setBpm = (nextBpm: number) => {
+    setPlaybackBpm(Math.min(MAX_BPM, Math.max(MIN_BPM, Math.round(nextBpm))));
+    if (isAutoPlaying && !isIntroActive) {
+      lineStartedAt.current = Date.now();
+      setPlaybackTick(Date.now());
+    }
+  };
+
+  const advancePlaybackLine = () => {
+    if (playbackLines.length === 0) return;
+    const nextLine =
+      activeLineIndex >= 0 && activeLineIndex < playbackLines.length - 1
+        ? playbackLines[activeLineIndex + 1]
+        : playbackLines[0];
+    setIsIntroActive(false);
+    introStartedAt.current = null;
+    lineStartedAt.current = Date.now();
+    setPlaybackTick(Date.now());
+    onPlaybackPositionChange(playbackLineToPosition(nextLine));
   };
 
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
@@ -439,6 +472,36 @@ const SongView = ({
             onPlaybackPositionChange={onPlaybackPositionChange}
           />
         ) : null}
+      </div>
+
+      <div className={`song-playback-dock ${isAutoPlaying ? 'is-running' : ''}`} style={playbackProgressStyle}>
+        <div className="song-playback-dock-main">
+          <strong>{playbackTimingLabel}</strong>
+          <span>{isAutoPlaying ? 'Автолистание включено' : 'Ручное управление строкой'}</span>
+        </div>
+        <div className="song-playback-dock-actions">
+          <button
+            type="button"
+            className={`playback-dock-button ${isAutoPlaying ? 'is-active' : ''}`}
+            onClick={toggleAutoPlayback}
+            aria-pressed={isAutoPlaying}
+            disabled={playbackLines.length === 0}
+          >
+            {isAutoPlaying ? 'Стоп' : 'Пуск'}
+          </button>
+          <button type="button" className="playback-dock-button" onClick={advancePlaybackLine} disabled={playbackLines.length === 0}>
+            Далее
+          </button>
+          <div className="playback-bpm-control" aria-label="Скорость автолистания">
+            <button type="button" onClick={() => setBpm(playback.bpm - 2)} disabled={playback.bpm <= MIN_BPM}>
+              -
+            </button>
+            <span>{playback.bpm} BPM</span>
+            <button type="button" onClick={() => setBpm(playback.bpm + 2)} disabled={playback.bpm >= MAX_BPM}>
+              +
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
