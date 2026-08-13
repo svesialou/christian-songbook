@@ -778,13 +778,23 @@ function App() {
   );
 
   const openLiveMode = () => {
-    if (!activeCollection) return;
+    const targetCollection =
+      activeCollection ??
+      collections.find((collection) => collection.songIds.some((songId) => songs.some((song) => song.id === songId))) ??
+      liveCollection ??
+      collections[0] ??
+      null;
+
+    if (!targetCollection) {
+      openCreateCollection();
+      return;
+    }
 
     const nextLiveSongIds =
-      liveCollectionId === activeCollection.id
-        ? liveSongIds.filter((songId) => activeCollection.songIds.includes(songId))
+      liveCollectionId === targetCollection.id
+        ? liveSongIds.filter((songId) => targetCollection.songIds.includes(songId))
         : [];
-    setLiveCollectionId(activeCollection.id);
+    setLiveCollectionId(targetCollection.id);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId(liveSongId && nextLiveSongIds.includes(liveSongId) ? liveSongId : nextLiveSongIds[0] ?? null);
     setQuery('');
@@ -963,7 +973,7 @@ function App() {
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
   const songViewSettings = isSplitPreview ? { ...settings, splitSections: true } : settings;
-  const canOpenLiveMode = !isAdminMode && !activeSong && listMode === 'collection' && activeCollection !== null;
+  const canOpenLiveMode = !isAdminMode && !activeSong && listMode !== 'live';
 
   const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
     if (!canPullRefresh || window.scrollY > 2) return;
@@ -1236,6 +1246,7 @@ function App() {
                 activeCollectionSongIds={listMode === 'collection' ? activeCollection?.songIds ?? [] : []}
                 onCollectionSelect={selectCollection}
                 onCreateCollection={() => openCreateCollection()}
+                onOpenLiveMode={openLiveMode}
                 onLiveCollectionChange={setLiveCollectionId}
                 onLiveSongChange={setLiveSongId}
                 onAddLiveSong={addLiveSong}

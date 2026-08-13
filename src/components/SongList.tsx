@@ -26,6 +26,7 @@ type SongListProps = {
   activeCollectionSongIds: string[];
   onCollectionSelect: (collectionId: string) => void;
   onCreateCollection: () => void;
+  onOpenLiveMode: () => void;
   onLiveCollectionChange: (collectionId: string | null) => void;
   onLiveSongChange: (songId: string | null) => void;
   onAddLiveSong: (songId: string) => void;
@@ -72,6 +73,7 @@ const SongList = ({
   activeCollectionSongIds,
   onCollectionSelect,
   onCreateCollection,
+  onOpenLiveMode,
   onLiveCollectionChange,
   onLiveSongChange,
   onAddLiveSong,
@@ -106,6 +108,23 @@ const SongList = ({
   };
   const liveCollection = collections.find((collection) => collection.id === liveCollectionId) ?? null;
   const isLiveMode = mode === 'live';
+  const preferredLiveCollection =
+    (liveCollection && (collectionCounts[liveCollection.id] ?? 0) > 0 ? liveCollection : null) ??
+    collections.find((collection) => (collectionCounts[collection.id] ?? 0) > 0) ??
+    liveCollection ??
+    collections[0] ??
+    null;
+  const preferredLiveCollectionCount = preferredLiveCollection ? collectionCounts[preferredLiveCollection.id] ?? 0 : 0;
+  const liveEntryHint = !preferredLiveCollection
+    ? 'Сначала создайте сборник для выступления.'
+    : preferredLiveCollectionCount > 0
+      ? `${preferredLiveCollection.name} · ${preferredLiveCollectionCount} песен`
+      : `${preferredLiveCollection.name} пока пустой. Добавьте песни из каталога.`;
+  const liveEntryButtonLabel = !preferredLiveCollection
+    ? 'Создать сборник'
+    : preferredLiveCollectionCount > 0
+      ? 'Открыть Live'
+      : 'Добавить песни';
   const activePlaybackIndex = isLiveMode
     ? songs.findIndex((song) => song.id === activeLiveSongId)
     : -1;
@@ -150,6 +169,31 @@ const SongList = ({
     <div className="catalog">
       {!isLiveMode ? (
         <>
+          <section className="live-entry-card" aria-labelledby="live-entry-title">
+            <span className="live-entry-copy">
+              <strong id="live-entry-title">Live режим</strong>
+              <small>{liveEntryHint}</small>
+            </span>
+            <button
+              type="button"
+              className="live-entry-button"
+              onClick={() => {
+                if (!preferredLiveCollection) {
+                  onCreateCollection();
+                  return;
+                }
+                if (preferredLiveCollectionCount === 0) {
+                  onCollectionSelect(preferredLiveCollection.id);
+                  return;
+                }
+                onLiveCollectionChange(preferredLiveCollection.id);
+                onOpenLiveMode();
+              }}
+            >
+              {liveEntryButtonLabel}
+            </button>
+          </section>
+
           <label className="search-label sr-only" htmlFor="song-search">
             Поиск
           </label>

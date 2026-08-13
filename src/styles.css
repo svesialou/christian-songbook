@@ -351,6 +351,7 @@ button:disabled {
 .collection-btn:focus-visible,
 .live-song-menu-action:focus-visible,
 .folder-chip:focus-visible,
+.live-entry-button:focus-visible,
 .live-list-button:focus-visible,
 .category-chip:focus-visible,
 .sheet-close:focus-visible,
@@ -385,6 +386,60 @@ button:disabled {
 
 .folder-strip::-webkit-scrollbar {
   display: none;
+}
+
+.live-entry-card {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 12px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--border));
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent-soft) 88%, var(--surface-strong)), var(--surface-strong));
+  padding: 12px;
+}
+
+.live-entry-copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.live-entry-copy strong,
+.live-entry-copy small,
+.live-entry-button {
+  font-family: Aptos, "Segoe UI", sans-serif;
+}
+
+.live-entry-copy strong {
+  color: var(--accent-strong);
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.live-entry-copy small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+}
+
+.live-entry-button {
+  min-height: 44px;
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+  border-radius: 14px;
+  background: var(--accent);
+  color: var(--surface-strong);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 8px 12px;
 }
 
 .category-strip {
