@@ -83,12 +83,16 @@ type catalogVersion struct {
 type songSubmissionRequest struct {
 	Title          string `json:"title"`
 	Category       string `json:"category"`
-	DefaultKey      string `json:"defaultKey"`
+	DefaultKey     string `json:"defaultKey"`
 	Lyrics         string `json:"lyrics"`
 	Chords         string `json:"chords"`
 	SubmitterName  string `json:"submitterName"`
 	SubmitterEmail string `json:"submitterEmail"`
 	Note           string `json:"note"`
+}
+
+type rejectSongSubmissionRequest struct {
+	Reason string `json:"reason"`
 }
 
 type songSubmissionCreatedResponse struct {
@@ -100,7 +104,7 @@ type songSubmissionListItem struct {
 	ID             int64     `json:"id"`
 	Title          string    `json:"title"`
 	Category       string    `json:"category"`
-	DefaultKey      string    `json:"defaultKey"`
+	DefaultKey     string    `json:"defaultKey"`
 	Lyrics         string    `json:"lyrics"`
 	Chords         string    `json:"chords"`
 	SubmitterName  string    `json:"submitterName"`
@@ -236,6 +240,64 @@ func main() {
 
 		writeJSON(w, http.StatusOK, submissions)
 	})
+	mux.HandleFunc("PUT /api/admin/song-submissions/{id}", func(w http.ResponseWriter, r *http.Request) {
+		if !requireAdmin(w, r, cfg) {
+			return
+		}
+
+		submissionID, err := strconv.ParseInt(strings.TrimSpace(r.PathValue("id")), 10, 64)
+		if err != nil || submissionID <= 0 {
+			writeError(w, http.StatusBadRequest, "valid submission id is required")
+			return
+		}
+
+		var payload songSubmissionRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid submission payload")
+			return
+		}
+
+		result, err := updateSongSubmission(r.Context(), db, submissionID, payload)
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "pending submission not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("update song submission failed", "error", err, "submission_id", submissionID)
+			writeError(w, http.StatusInternalServerError, "failed to update song submission")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, result)
+	})
+	mux.HandleFunc("POST /api/admin/songs", func(w http.ResponseWriter, r *http.Request) {
+		if !requireAdmin(w, r, cfg) {
+			return
+		}
+
+		var payload songSubmissionRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid song payload")
+			return
+		}
+
+		result, err := createPublishedSong(r.Context(), db, payload)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("create admin song failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to create song")
+			return
+		}
+
+		writeJSON(w, http.StatusCreated, result)
+	})
 	mux.HandleFunc("POST /api/admin/song-submissions/{id}/approve", func(w http.ResponseWriter, r *http.Request) {
 		if !requireAdmin(w, r, cfg) {
 			return
@@ -259,6 +321,40 @@ func main() {
 		if err != nil {
 			logger.Error("approve song submission failed", "error", err, "submission_id", submissionID)
 			writeError(w, http.StatusInternalServerError, "failed to approve song submission")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, result)
+	})
+	mux.HandleFunc("POST /api/admin/song-submissions/{id}/reject", func(w http.ResponseWriter, r *http.Request) {
+		if !requireAdmin(w, r, cfg) {
+			return
+		}
+
+		submissionID, err := strconv.ParseInt(strings.TrimSpace(r.PathValue("id")), 10, 64)
+		if err != nil || submissionID <= 0 {
+			writeError(w, http.StatusBadRequest, "valid submission id is required")
+			return
+		}
+
+		var payload rejectSongSubmissionRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid rejection payload")
+			return
+		}
+
+		result, err := rejectSongSubmission(r.Context(), db, submissionID, payload.Reason)
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "pending submission not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("reject song submission failed", "error", err, "submission_id", submissionID)
+			writeError(w, http.StatusInternalServerError, "failed to reject song submission")
 			return
 		}
 
@@ -302,7 +398,7 @@ func loadConfig() config {
 		DBName:      getenv("DB_NAME", "christian_songbook"),
 		DBUser:      getenv("DB_USER", "songbook"),
 		DBPassword:  getenv("DB_PASSWORD", "songbook"),
-		AdminAPIKey: getenv("ADMIN_API_KEY", ""),
+		AdminAPIKey: getenv("ADMIN_API_KEY", "123456"),
 	}
 }
 
@@ -424,6 +520,49 @@ INSERT INTO song_submissions (
 	return result.LastInsertId()
 }
 
+func updateSongSubmission(ctx context.Context, db *sql.DB, submissionID int64, payload songSubmissionRequest) (songSubmissionCreatedResponse, error) {
+	normalized, err := normalizeSongSubmission(payload)
+	if err != nil {
+		return songSubmissionCreatedResponse{}, err
+	}
+
+	result, err := db.ExecContext(
+		ctx,
+		`UPDATE song_submissions
+SET
+  title = ?,
+  category = ?,
+  default_key = NULLIF(?, ''),
+  lyrics = ?,
+  chords = NULLIF(?, ''),
+  submitter_name = NULLIF(?, ''),
+  submitter_email = NULLIF(?, ''),
+  note = NULLIF(?, '')
+WHERE id = ? AND status = 'pending'`,
+		normalized.Title,
+		normalized.Category,
+		normalized.DefaultKey,
+		normalized.Lyrics,
+		normalized.Chords,
+		normalized.SubmitterName,
+		normalized.SubmitterEmail,
+		normalized.Note,
+		submissionID,
+	)
+	if err != nil {
+		return songSubmissionCreatedResponse{}, err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return songSubmissionCreatedResponse{}, err
+	}
+	if affected == 0 {
+		return songSubmissionCreatedResponse{}, sql.ErrNoRows
+	}
+
+	return songSubmissionCreatedResponse{ID: submissionID, Status: "pending"}, nil
+}
+
 func listSongSubmissions(ctx context.Context, db *sql.DB) ([]songSubmissionListItem, error) {
 	const query = `
 SELECT
@@ -473,6 +612,74 @@ LIMIT 100`
 	return submissions, rows.Err()
 }
 
+func createPublishedSong(ctx context.Context, db *sql.DB, payload songSubmissionRequest) (approveSubmissionResponse, error) {
+	normalized, err := normalizeSongSubmission(payload)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	defer tx.Rollback()
+
+	version, nextNumber, err := lockCurrentCatalogVersionAndNextNumber(ctx, tx)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	songID := fmt.Sprintf("admin-%d-%d", nextNumber, time.Now().UTC().UnixNano())
+	if err := insertPublishedSongTx(ctx, tx, version.ID, songID, nextNumber, normalized); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	nextVersion := fmt.Sprintf("admin-%d-%s", nextNumber, time.Now().UTC().Format("20060102150405"))
+	if _, err := tx.ExecContext(
+		ctx,
+		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
+		nextVersion,
+		fmt.Sprintf("Admin created song %s", songID),
+		version.ID,
+	); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	return approveSubmissionResponse{SongID: songID, CatalogVersion: nextVersion}, nil
+}
+
+func rejectSongSubmission(ctx context.Context, db *sql.DB, submissionID int64, reason string) (songSubmissionCreatedResponse, error) {
+	normalizedReason := strings.TrimSpace(reason)
+	if tooLong(normalizedReason, 500) {
+		return songSubmissionCreatedResponse{}, validationError("rejection reason is too long")
+	}
+
+	result, err := db.ExecContext(
+		ctx,
+		`UPDATE song_submissions
+SET status = 'rejected', rejection_reason = NULLIF(?, ''), reviewed_at = UTC_TIMESTAMP()
+WHERE id = ? AND status = 'pending'`,
+		normalizedReason,
+		submissionID,
+	)
+	if err != nil {
+		return songSubmissionCreatedResponse{}, err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return songSubmissionCreatedResponse{}, err
+	}
+	if affected == 0 {
+		return songSubmissionCreatedResponse{}, sql.ErrNoRows
+	}
+
+	return songSubmissionCreatedResponse{ID: submissionID, Status: "rejected"}, nil
+}
+
 func approveSongSubmission(ctx context.Context, db *sql.DB, submissionID int64) (approveSubmissionResponse, error) {
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -500,83 +707,15 @@ FOR UPDATE`
 	if err != nil {
 		return approveSubmissionResponse{}, err
 	}
-	lyrics := splitNonEmptyLines(normalized.Lyrics)
-	chords := splitChordLines(normalized.Chords)
 
-	var version catalogVersion
-	const versionQuery = `
-SELECT id, version, published_at
-FROM catalog_versions
-WHERE is_current = 1
-ORDER BY published_at DESC, id DESC
-LIMIT 1
-FOR UPDATE`
-	if err := tx.QueryRowContext(ctx, versionQuery).Scan(&version.ID, &version.Version, &version.PublishedAt); err != nil {
-		return approveSubmissionResponse{}, err
-	}
-
-	var nextNumber int
-	if err := tx.QueryRowContext(ctx, `SELECT COALESCE(MAX(number), 0) + 1 FROM songs WHERE catalog_version_id = ?`, version.ID).Scan(&nextNumber); err != nil {
+	version, nextNumber, err := lockCurrentCatalogVersionAndNextNumber(ctx, tx)
+	if err != nil {
 		return approveSubmissionResponse{}, err
 	}
 
 	songID := fmt.Sprintf("submission-%d", submissionID)
-	if _, err := tx.ExecContext(
-		ctx,
-		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), 'published')`,
-		songID,
-		version.ID,
-		nextNumber,
-		normalized.Title,
-		normalized.Category,
-		normalized.DefaultKey,
-	); err != nil {
+	if err := insertPublishedSongTx(ctx, tx, version.ID, songID, nextNumber, normalized); err != nil {
 		return approveSubmissionResponse{}, err
-	}
-
-	sectionResult, err := tx.ExecContext(
-		ctx,
-		`INSERT INTO song_sections (song_id, section_type, position, title) VALUES (?, 'verse', 1, 'Куплет 1')`,
-		songID,
-	)
-	if err != nil {
-		return approveSubmissionResponse{}, err
-	}
-	sectionID, err := sectionResult.LastInsertId()
-	if err != nil {
-		return approveSubmissionResponse{}, err
-	}
-
-	for index, line := range lyrics {
-		lineResult, err := tx.ExecContext(
-			ctx,
-			`INSERT INTO song_lines (section_id, position, text) VALUES (?, ?, ?)`,
-			sectionID,
-			index+1,
-			line,
-		)
-		if err != nil {
-			return approveSubmissionResponse{}, err
-		}
-		lineID, err := lineResult.LastInsertId()
-		if err != nil {
-			return approveSubmissionResponse{}, err
-		}
-
-		if index >= len(chords) {
-			continue
-		}
-		for chordIndex, chord := range chords[index] {
-			if _, err := tx.ExecContext(
-				ctx,
-				`INSERT INTO song_line_chords (line_id, position, chord) VALUES (?, ?, ?)`,
-				lineID,
-				chordIndex+1,
-				chord,
-			); err != nil {
-				return approveSubmissionResponse{}, err
-			}
-		}
 	}
 
 	nextVersion := fmt.Sprintf("submission-%d-%s", submissionID, time.Now().UTC().Format("20060102150405"))
@@ -606,11 +745,103 @@ FOR UPDATE`
 	return approveSubmissionResponse{SongID: songID, CatalogVersion: nextVersion}, nil
 }
 
+func lockCurrentCatalogVersionAndNextNumber(ctx context.Context, tx *sql.Tx) (catalogVersion, int, error) {
+	var version catalogVersion
+	const versionQuery = `
+SELECT id, version, published_at
+FROM catalog_versions
+WHERE is_current = 1
+ORDER BY published_at DESC, id DESC
+LIMIT 1
+FOR UPDATE`
+	if err := tx.QueryRowContext(ctx, versionQuery).Scan(&version.ID, &version.Version, &version.PublishedAt); err != nil {
+		return catalogVersion{}, 0, err
+	}
+
+	var nextNumber int
+	if err := tx.QueryRowContext(ctx, `SELECT COALESCE(MAX(number), 0) + 1 FROM songs WHERE catalog_version_id = ?`, version.ID).Scan(&nextNumber); err != nil {
+		return catalogVersion{}, 0, err
+	}
+
+	return version, nextNumber, nil
+}
+
+func insertPublishedSongTx(
+	ctx context.Context,
+	tx *sql.Tx,
+	catalogVersionID int64,
+	songID string,
+	number int,
+	normalized songSubmissionRequest,
+) error {
+	if _, err := tx.ExecContext(
+		ctx,
+		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), 'published')`,
+		songID,
+		catalogVersionID,
+		number,
+		normalized.Title,
+		normalized.Category,
+		normalized.DefaultKey,
+	); err != nil {
+		return err
+	}
+
+	sectionResult, err := tx.ExecContext(
+		ctx,
+		`INSERT INTO song_sections (song_id, section_type, position, title) VALUES (?, 'verse', 1, 'Куплет 1')`,
+		songID,
+	)
+	if err != nil {
+		return err
+	}
+	sectionID, err := sectionResult.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	lyrics := splitNonEmptyLines(normalized.Lyrics)
+	chords := splitChordLines(normalized.Chords)
+	for index, line := range lyrics {
+		lineResult, err := tx.ExecContext(
+			ctx,
+			`INSERT INTO song_lines (section_id, position, text) VALUES (?, ?, ?)`,
+			sectionID,
+			index+1,
+			line,
+		)
+		if err != nil {
+			return err
+		}
+		lineID, err := lineResult.LastInsertId()
+		if err != nil {
+			return err
+		}
+
+		if index >= len(chords) {
+			continue
+		}
+		for chordIndex, chord := range chords[index] {
+			if _, err := tx.ExecContext(
+				ctx,
+				`INSERT INTO song_line_chords (line_id, position, chord) VALUES (?, ?, ?)`,
+				lineID,
+				chordIndex+1,
+				chord,
+			); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionRequest, error) {
 	normalized := songSubmissionRequest{
 		Title:          strings.TrimSpace(payload.Title),
 		Category:       strings.TrimSpace(payload.Category),
-		DefaultKey:      strings.TrimSpace(payload.DefaultKey),
+		DefaultKey:     strings.TrimSpace(payload.DefaultKey),
 		Lyrics:         strings.TrimSpace(payload.Lyrics),
 		Chords:         strings.TrimSpace(payload.Chords),
 		SubmitterName:  strings.TrimSpace(payload.SubmitterName),

@@ -1102,7 +1102,7 @@ button:disabled {
 
 .admin-dashboard-actions {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
 }
 
@@ -1640,6 +1640,17 @@ button:disabled {
   border-radius: 18px;
   background: var(--surface-strong);
   padding: 12px;
+}
+
+.submission-card-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 10px;
+}
+
+.submission-edit-form {
+  display: grid;
+  gap: 11px;
 }
 
 .submission-card-header {

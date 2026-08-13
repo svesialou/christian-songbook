@@ -87,6 +87,22 @@ node scripts/import-legacy-songs.mjs \
   --out src/data/importedCatalog.generated.json
 ```
 
+## Inspect APK source
+
+If only the Android APK is available, the importer can inspect `assets/index.android.bundle` and reuse the original mobile API URL from it:
+
+```bash
+node scripts/import-legacy-songs.mjs \
+  --apk base.apk \
+  --out src/data/importedCatalog.generated.json
+```
+
+Current inspected APK result:
+
+- no embedded SQLite/Realm/JSON song catalog was found;
+- `assets/index.android.bundle` contains `BASE_URL=https://quiet-sierra-94562.herokuapp.com` and `SONGS=/songs`;
+- the discovered API currently returns `404 No such app`, so the real song dump still needs to come from another backup/export/source.
+
 ## Category mapping
 
 The importer maps songs to the Russian category list from `src/data/songCategories.ts`.

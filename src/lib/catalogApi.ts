@@ -39,6 +39,11 @@ export type ApproveSongSubmissionResult = {
   catalogVersion: string;
 };
 
+export type CreateAdminSongResult = {
+  songId: string;
+  catalogVersion: string;
+};
+
 const API_TIMEOUT_MS = 3500;
 
 const resolveApiBaseUrl = (): string => {
@@ -187,4 +192,42 @@ export const approveSongSubmission = (
     headers: {
       'X-Admin-Key': adminKey.trim(),
     },
+  });
+
+export const rejectSongSubmission = (
+  submissionId: number,
+  reason: string,
+  adminKey: string,
+): Promise<SongSubmissionCreated> =>
+  requestJSON<SongSubmissionCreated>(`/api/admin/song-submissions/${submissionId}/reject`, {
+    method: 'POST',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
+    body: JSON.stringify({ reason }),
+  });
+
+export const updateSongSubmission = (
+  submissionId: number,
+  payload: SongSubmissionPayload,
+  adminKey: string,
+): Promise<SongSubmissionCreated> =>
+  requestJSON<SongSubmissionCreated>(`/api/admin/song-submissions/${submissionId}`, {
+    method: 'PUT',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
+    body: JSON.stringify(payload),
+  });
+
+export const createAdminSong = (
+  payload: SongSubmissionPayload,
+  adminKey: string,
+): Promise<CreateAdminSongResult> =>
+  requestJSON<CreateAdminSongResult>('/api/admin/songs', {
+    method: 'POST',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
+    body: JSON.stringify(payload),
   });

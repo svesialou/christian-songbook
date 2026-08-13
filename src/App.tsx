@@ -26,10 +26,14 @@ import { sampleCatalog } from './data/sampleCatalog';
 import { songCategories } from './data/songCategories';
 import {
   SongSubmission,
+  SongSubmissionPayload,
   approveSongSubmission,
   fetchCatalogSnapshot,
   fetchPendingSongSubmissions,
+  rejectSongSubmission,
+  updateSongSubmission,
 } from './lib/catalogApi';
+import AdminSongCreateSheet from './components/AdminSongCreateSheet';
 import AdminSubmissionsSheet from './components/AdminSubmissionsSheet';
 import SongList from './components/SongList';
 import SongSubmissionSheet from './components/SongSubmissionSheet';
@@ -355,9 +359,12 @@ function App() {
   const [pullDistance, setPullDistance] = useState(0);
   const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
   const [isAdminSubmissionsOpen, setIsAdminSubmissionsOpen] = useState(false);
+  const [isAdminSongCreateOpen, setIsAdminSongCreateOpen] = useState(false);
   const [pendingSubmissions, setPendingSubmissions] = useState<SongSubmission[]>([]);
   const [isPendingSubmissionsLoading, setIsPendingSubmissionsLoading] = useState(false);
+  const [savingSubmissionId, setSavingSubmissionId] = useState<number | null>(null);
   const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
+  const [rejectingSubmissionId, setRejectingSubmissionId] = useState<number | null>(null);
   const [adminApiKey, setAdminApiKey] = useState('');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
@@ -442,6 +449,55 @@ function App() {
       setError(err instanceof Error ? err.message : 'Не удалось апрувить заявку.');
     } finally {
       setApprovingSubmissionId(null);
+    }
+  };
+
+  const handleSaveSubmission = async (submissionId: number, payload: SongSubmissionPayload) => {
+    if (!isAdminAuthenticated) {
+      setError('Нужно войти в админку.');
+      return;
+    }
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для сохранения.');
+      return;
+    }
+
+    setSavingSubmissionId(submissionId);
+    try {
+      await updateSongSubmission(submissionId, payload, adminApiKey);
+      setPendingSubmissions((current) =>
+        current.map((submission) => (submission.id === submissionId ? { ...submission, ...payload } : submission)),
+      );
+      setNotice(`Заявка #${submissionId} сохранена.`);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось сохранить заявку.');
+    } finally {
+      setSavingSubmissionId(null);
+    }
+  };
+
+  const handleRejectSubmission = async (submissionId: number) => {
+    if (!isAdminAuthenticated) {
+      setError('Нужно войти в админку.');
+      return;
+    }
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для отклонения.');
+      return;
+    }
+
+    const reason = window.prompt('Причина отклонения заявки (опционально)', '') ?? '';
+    setRejectingSubmissionId(submissionId);
+    try {
+      await rejectSongSubmission(submissionId, reason, adminApiKey);
+      setPendingSubmissions((current) => current.filter((submission) => submission.id !== submissionId));
+      setNotice(`Заявка #${submissionId} отклонена.`);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось отклонить заявку.');
+    } finally {
+      setRejectingSubmissionId(null);
     }
   };
 
@@ -1135,6 +1191,16 @@ function App() {
                         className="toolbar-button"
                         onClick={() => {
                           setIsAppMenuOpen(false);
+                          setIsAdminSongCreateOpen(true);
+                        }}
+                      >
+                        Добавить песню
+                      </button>
+                      <button
+                        type="button"
+                        className="toolbar-button"
+                        onClick={() => {
+                          setIsAppMenuOpen(false);
                           setIsAdminSubmissionsOpen(true);
                           if (adminApiKey.trim()) void loadPendingSubmissions();
                         }}
@@ -1192,6 +1258,9 @@ function App() {
                 <p>Каталог подтягивается из MySQL. Заявки можно проверить и добавить в текущую опубликованную версию.</p>
               </div>
               <div className="admin-dashboard-actions">
+                <button type="button" className="sheet-primary" onClick={() => setIsAdminSongCreateOpen(true)}>
+                  Добавить песню
+                </button>
                 <button
                   type="button"
                   className="sheet-primary"
@@ -1357,9 +1426,27 @@ function App() {
           submissions={pendingSubmissions}
           isLoading={isPendingSubmissionsLoading}
           approvingId={approvingSubmissionId}
+          rejectingId={rejectingSubmissionId}
+          savingId={savingSubmissionId}
           onRefresh={() => void loadPendingSubmissions()}
+          onSave={(submissionId, payload) => void handleSaveSubmission(submissionId, payload)}
           onApprove={(submissionId) => void handleApproveSubmission(submissionId)}
+          onReject={(submissionId) => void handleRejectSubmission(submissionId)}
           onClose={() => setIsAdminSubmissionsOpen(false)}
+        />
+      ) : null}
+
+      {isAdminMode && isAdminSongCreateOpen ? (
+        <AdminSongCreateSheet
+          adminKey={adminApiKey}
+          categories={categoryOptions.map((category) => category.name)}
+          onClose={() => setIsAdminSongCreateOpen(false)}
+          onCreated={async (message) => {
+            setIsAdminSongCreateOpen(false);
+            setNotice(message);
+            setError(null);
+            await refreshCatalog(false);
+          }}
         />
       ) : null}
     </main>

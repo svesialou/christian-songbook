@@ -1,8 +1,11 @@
 #!/usr/bin/env node
+import { execFile } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
+import { promisify } from 'node:util';
 
 const DEFAULT_LEGACY_URL = 'https://quiet-sierra-94562.herokuapp.com/songs';
 const DEFAULT_CATEGORY = 'Разное';
+const execFileAsync = promisify(execFile);
 
 const CATEGORY_RULES = [
   ['Рождественские', ['рождеств', 'вифлеем', 'ясли', 'младенец']],
@@ -62,6 +65,7 @@ function parseArgs(items) {
   for (let i = 0; i < items.length; i += 1) {
     const item = items[i];
     if (item === '--help' || item === '-h') parsed.help = true;
+    else if (item === '--apk') parsed.apk = items[++i];
     else if (item === '--input') parsed.input = items[++i];
     else if (item === '--url') parsed.url = items[++i];
     else if (item === '--out') parsed.out = items[++i];
@@ -74,10 +78,12 @@ function parseArgs(items) {
 
 function printHelp() {
   console.log(`Usage:
+  node scripts/import-legacy-songs.mjs --apk base.apk --out src/data/importedCatalog.generated.json
   node scripts/import-legacy-songs.mjs --input legacy-songs.json --out src/data/importedCatalog.generated.json
   node scripts/import-legacy-songs.mjs --url ${DEFAULT_LEGACY_URL} --sql-out migrations/003_legacy_catalog_seed.generated.sql
 
 Options:
+  --apk        Inspect a React Native APK, extract its legacy /songs API URL, then fetch songs.
   --input      Read legacy /songs JSON from a local file.
   --url        Fetch legacy /songs JSON from a URL. Defaults to the original mobile app API.
   --out        Write normalized frontend catalog JSON.
@@ -87,6 +93,10 @@ Options:
 }
 
 async function loadLegacySongs(options) {
+  if (options.apk) {
+    return loadLegacySongsFromApk(options.apk);
+  }
+
   if (options.input) {
     return parseSongList(await readFile(options.input, 'utf8'));
   }
@@ -97,6 +107,36 @@ async function loadLegacySongs(options) {
     throw new Error(`Legacy songs request failed: ${response.status} ${response.statusText}`);
   }
   return parseSongList(await response.text());
+}
+
+async function loadLegacySongsFromApk(apkPath) {
+  let bundle;
+  try {
+    const result = await execFileAsync('unzip', ['-p', apkPath, 'assets/index.android.bundle'], {
+      maxBuffer: 8 * 1024 * 1024,
+    });
+    bundle = result.stdout;
+  } catch (err) {
+    throw new Error(`Failed to extract assets/index.android.bundle from APK: ${err.message}`);
+  }
+
+  const baseURL = findBundleString(bundle, 'BASE_URL') || DEFAULT_LEGACY_URL.replace(/\/songs$/, '');
+  const songsPath = findBundleString(bundle, 'SONGS') || '/songs';
+  const songsURL = new URL(songsPath, baseURL).toString();
+
+  const response = await fetch(songsURL);
+  if (!response.ok) {
+    throw new Error(
+      `APK does not contain an embedded song catalog; discovered legacy API ${songsURL}, but request failed: ${response.status} ${response.statusText}`,
+    );
+  }
+
+  return parseSongList(await response.text());
+}
+
+function findBundleString(bundle, exportName) {
+  const pattern = new RegExp(`e\\.${exportName}='([^']+)'`);
+  return bundle.match(pattern)?.[1];
 }
 
 function parseSongList(text) {
