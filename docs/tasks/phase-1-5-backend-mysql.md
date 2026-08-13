@@ -29,7 +29,7 @@
 - **Критерий приёмки:** обычный пользователь не видит import/export; admin mutation API требует auth в будущей реализации.
 - **Критерий отмены:** нет решения по auth/admin доступу.
 - **Зависимости:** задача 4.
-- **Статус:** добавлен planning draft в `docs/backend-mysql-plan.md`: импорт в draft catalog version, review, transactional publish, rollback через previous current version, audit log и auth/security requirements без реализации mutation API.
+- **Статус:** добавлен первый minimal slice: public song submissions, admin-key protected pending list and approve. Полноценные users/auth/audit остаются отдельной задачей.
 
 ## 6. PWA catalog snapshot sync
 - **Цель:** синхронизировать опубликованную MySQL-базу в локальный snapshot PWA.

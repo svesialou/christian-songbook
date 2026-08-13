@@ -34,11 +34,16 @@ PHP remains acceptable if the implementation later needs to fit an existing PHP 
 - `GET /api/catalog/snapshot`: full published catalog snapshot for PWA local cache.
 - `GET /api/songs`: published song list with optional `query`.
 - `GET /api/songs/{id}`: one published song in the frontend-compatible shape.
+- `POST /api/song-submissions`: public pending song proposal endpoint with size/required-field validation.
+- `GET /api/admin/song-submissions`: admin-key protected pending submissions list.
+- `POST /api/admin/song-submissions/{id}/approve`: admin-key protected approval that appends the song to the current catalog version.
 - `docker-compose.yml`: local MySQL + backend.
 - `migrations/001_catalog.up.sql`: read-only catalog schema and initial seed catalog.
 - `migrations/001_catalog.down.sql`: rollback for the initial catalog schema.
+- `migrations/003_song_submissions.up.sql`: pending song submissions.
 
-This scaffold intentionally does not include auth, admin mutation APIs, users, collections sync, setlists, or live session tables.
+This scaffold intentionally does not include full user auth, users, collections sync, setlists, or live session tables.
+Admin mutation endpoints are protected by `ADMIN_API_KEY` and must be replaced or extended with a real auth/audit model before broader team administration.
 
 ## Domain Boundaries
 - Catalog: songs, sections, lines, chords, tags, catalog versions.

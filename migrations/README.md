@@ -5,6 +5,8 @@ Current migrations:
 - `001_catalog.down.sql` - drops the catalog schema and removes the initial seed catalog.
 - `002_song_categories.up.sql` - adds song categories and seed category values.
 - `002_song_categories.down.sql` - removes the song category index and column.
+- `003_song_submissions.up.sql` - adds pending song submissions for admin approval.
+- `003_song_submissions.down.sql` - removes song submissions.
 
 Apply locally:
 - `make db-migrate`

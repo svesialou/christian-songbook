@@ -24,8 +24,15 @@ import {
 } from './lib/storage';
 import { sampleCatalog } from './data/sampleCatalog';
 import { songCategories } from './data/songCategories';
-import { fetchCatalogSnapshot } from './lib/catalogApi';
+import {
+  SongSubmission,
+  approveSongSubmission,
+  fetchCatalogSnapshot,
+  fetchPendingSongSubmissions,
+} from './lib/catalogApi';
+import AdminSubmissionsSheet from './components/AdminSubmissionsSheet';
 import SongList from './components/SongList';
+import SongSubmissionSheet from './components/SongSubmissionSheet';
 import SongView from './components/SongView';
 import SettingsPanel from './components/SettingsPanel';
 
@@ -340,6 +347,14 @@ function App() {
   const appMenuRef = useRef<HTMLDetailsElement | null>(null);
   const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
   const [pullDistance, setPullDistance] = useState(0);
+  const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
+  const [isAdminSubmissionsOpen, setIsAdminSubmissionsOpen] = useState(false);
+  const [pendingSubmissions, setPendingSubmissions] = useState<SongSubmission[]>([]);
+  const [isPendingSubmissionsLoading, setIsPendingSubmissionsLoading] = useState(false);
+  const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
+  const [adminApiKey, setAdminApiKey] = useState(() =>
+    typeof window === 'undefined' ? '' : window.sessionStorage.getItem('songbook-admin-key') ?? '',
+  );
 
   const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>) => {
     if (!snapshot || snapshot.songs.length === 0) return false;
@@ -379,6 +394,46 @@ function App() {
     setSyncState('success');
     setError(null);
     if (showNotice) setNotice(`Каталог обновлён: ${snapshot!.songs.length} песен`);
+  };
+
+  const loadPendingSubmissions = async () => {
+    if (!isAdminMode) return;
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для загрузки заявок.');
+      return;
+    }
+
+    setIsPendingSubmissionsLoading(true);
+    try {
+      const submissions = await fetchPendingSongSubmissions(adminApiKey);
+      setPendingSubmissions(submissions);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось загрузить заявки.');
+    } finally {
+      setIsPendingSubmissionsLoading(false);
+    }
+  };
+
+  const handleApproveSubmission = async (submissionId: number) => {
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для апрува.');
+      return;
+    }
+
+    setApprovingSubmissionId(submissionId);
+    try {
+      const result = await approveSongSubmission(submissionId, adminApiKey);
+      setPendingSubmissions((current) => current.filter((submission) => submission.id !== submissionId));
+      const snapshot = await fetchCatalogSnapshot();
+      await applyCatalogSnapshot(snapshot);
+      setNotice(`Песня добавлена в каталог: ${result.songId}`);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось апрувить заявку.');
+    } finally {
+      setApprovingSubmissionId(null);
+    }
   };
 
   useEffect(() => {
@@ -494,6 +549,15 @@ function App() {
   useEffect(() => {
     saveSettings(settings);
   }, [settings]);
+
+  useEffect(() => {
+    if (!isAdminMode || typeof window === 'undefined') return;
+    if (adminApiKey) {
+      window.sessionStorage.setItem('songbook-admin-key', adminApiKey);
+    } else {
+      window.sessionStorage.removeItem('songbook-admin-key');
+    }
+  }, [adminApiKey, isAdminMode]);
 
   useEffect(() => {
     saveRecentSongs(recentSongIds);
@@ -963,13 +1027,43 @@ function App() {
                   </button>
                 ) : null}
 
+                <button
+                  className="toolbar-button install-button"
+                  onClick={() => {
+                    setIsAppMenuOpen(false);
+                    setIsSubmissionSheetOpen(true);
+                  }}
+                >
+                  Предложить песню
+                </button>
+
                 {isAdminMode ? (
                   <div className="admin-tools">
                     <div>
                       <p className="admin-tools-title">Admin</p>
-                      <p className="admin-tools-note">Локальное управление каталогом. Для обычных пользователей скрыто.</p>
+                      <p className="admin-tools-note">Заявки и локальный импорт. Для обычных пользователей скрыто.</p>
                     </div>
+                    <label className="submission-field">
+                      <span>Admin key</span>
+                      <input
+                        type="password"
+                        value={adminApiKey}
+                        onChange={(event) => setAdminApiKey(event.target.value)}
+                        placeholder="ADMIN_API_KEY"
+                      />
+                    </label>
                     <div className="toolbar">
+                      <button
+                        type="button"
+                        className="toolbar-button"
+                        onClick={() => {
+                          setIsAppMenuOpen(false);
+                          setIsAdminSubmissionsOpen(true);
+                          if (adminApiKey.trim()) void loadPendingSubmissions();
+                        }}
+                      >
+                        Заявки
+                      </button>
                       <label className="toolbar-button upload">
                         Импорт
                         <input type="file" accept="application/json" onChange={(event) => {
@@ -1126,6 +1220,31 @@ function App() {
             )}
           </section>
         </div>
+      ) : null}
+
+      {isSubmissionSheetOpen ? (
+        <SongSubmissionSheet
+          categories={categoryOptions.map((category) => category.name)}
+          onClose={() => setIsSubmissionSheetOpen(false)}
+          onSubmitted={(message) => {
+            setIsSubmissionSheetOpen(false);
+            setNotice(message);
+            setError(null);
+          }}
+        />
+      ) : null}
+
+      {isAdminMode && isAdminSubmissionsOpen ? (
+        <AdminSubmissionsSheet
+          adminKey={adminApiKey}
+          submissions={pendingSubmissions}
+          isLoading={isPendingSubmissionsLoading}
+          approvingId={approvingSubmissionId}
+          onAdminKeyChange={setAdminApiKey}
+          onRefresh={() => void loadPendingSubmissions()}
+          onApprove={(submissionId) => void handleApproveSubmission(submissionId)}
+          onClose={() => setIsAdminSubmissionsOpen(false)}
+        />
       ) : null}
     </main>
   );

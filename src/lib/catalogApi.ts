@@ -12,6 +12,33 @@ export type CatalogSnapshot = {
   songs: Song[];
 };
 
+export type SongSubmissionPayload = {
+  title: string;
+  category: string;
+  defaultKey: string;
+  lyrics: string;
+  chords: string;
+  submitterName: string;
+  submitterEmail: string;
+  note: string;
+};
+
+export type SongSubmission = SongSubmissionPayload & {
+  id: number;
+  status: string;
+  createdAt: string;
+};
+
+export type SongSubmissionCreated = {
+  id: number;
+  status: string;
+};
+
+export type ApproveSongSubmissionResult = {
+  songId: string;
+  catalogVersion: string;
+};
+
 const API_TIMEOUT_MS = 3500;
 
 const resolveApiBaseUrl = (): string => {
@@ -28,6 +55,32 @@ const resolveApiBaseUrl = (): string => {
 };
 
 const apiUrl = (path: string): string => `${resolveApiBaseUrl()}${path}`;
+
+const requestJSON = async <T>(path: string, init: RequestInit): Promise<T> => {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(apiUrl(path), {
+      ...init,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        ...init.headers,
+      },
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      throw new Error(payload?.error || `API request failed: ${response.status}`);
+    }
+
+    return (await response.json()) as T;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+};
 
 const isStringList = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
@@ -110,3 +163,28 @@ export const fetchCatalogSnapshot = async (): Promise<CatalogSnapshot | null> =>
     window.clearTimeout(timeout);
   }
 };
+
+export const submitSongSubmission = (payload: SongSubmissionPayload): Promise<SongSubmissionCreated> =>
+  requestJSON<SongSubmissionCreated>('/api/song-submissions', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+export const fetchPendingSongSubmissions = (adminKey: string): Promise<SongSubmission[]> =>
+  requestJSON<SongSubmission[]>('/api/admin/song-submissions', {
+    method: 'GET',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
+  });
+
+export const approveSongSubmission = (
+  submissionId: number,
+  adminKey: string,
+): Promise<ApproveSongSubmissionResult> =>
+  requestJSON<ApproveSongSubmissionResult>(`/api/admin/song-submissions/${submissionId}/approve`, {
+    method: 'POST',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
+  });

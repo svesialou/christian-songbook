@@ -27,6 +27,7 @@ services:
       - christian-songbook-mysql:/var/lib/mysql
       - ./migrations/001_catalog.up.sql:/docker-entrypoint-initdb.d/001_catalog.sql:ro
       - ./migrations/002_song_categories.up.sql:/docker-entrypoint-initdb.d/002_song_categories.sql:ro
+      - ./migrations/003_song_submissions.up.sql:/docker-entrypoint-initdb.d/003_song_submissions.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
       interval: 10s
@@ -47,6 +48,7 @@ services:
       DB_NAME: christian_songbook
       DB_USER: songbook
       DB_PASSWORD: songbook
+      ADMIN_API_KEY: songbook-admin-dev
     ports:
       - "8082:8082"
     depends_on:
