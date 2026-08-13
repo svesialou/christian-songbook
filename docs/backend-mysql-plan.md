@@ -67,6 +67,81 @@ Planned later after user/auth confirmation:
 - `live_sessions`: current worship session state.
 - `live_participants`: user/device role inside a session.
 
+## Future User-Link Model Draft
+This is a planning draft only. Do not add these tables to production migrations until auth, invite, and ownership rules are approved.
+
+### Identity
+- `users`
+  - `id`: stable internal identity.
+  - `display_name`: visible participant name.
+  - `status`: `active`, `disabled`.
+  - `created_at`, `updated_at`.
+- Early implementation can use invite-based identities instead of external OAuth. Passwords, OAuth accounts, and long-lived session storage require a separate auth/security decision.
+
+### User collections
+- `user_collections`
+  - `id`, `user_id`, `name`, `description`, `created_at`, `updated_at`.
+  - Purpose: personal or team-visible song groups selected from the canonical catalog.
+- `user_collection_items`
+  - `collection_id`, `song_id`, `position`, `note`, `created_at`.
+  - Purpose: ordered membership only; it must not duplicate song text/chords from the catalog.
+
+Expected access patterns:
+- list collections for a user;
+- fetch one collection with ordered songs;
+- add/remove/reorder songs inside one collection.
+
+Indexes:
+- `user_collections(user_id, name)`.
+- `user_collection_items(collection_id, position)`.
+- `user_collection_items(collection_id, song_id)` unique.
+
+### Setlists
+- `setlists`
+  - `id`, `owner_user_id`, `title`, `date`, `status`, `created_at`, `updated_at`.
+  - `status`: draft values `draft`, `ready`, `archived`.
+- `setlist_items`
+  - `setlist_id`, `song_id`, `position`, `preferred_key`, `tempo_bpm`, `beats_per_line`, `intro_beats`, `note`.
+  - Purpose: performance-specific ordering and playback hints without mutating the canonical song.
+
+Expected access patterns:
+- list upcoming setlists for a user/team;
+- fetch a setlist with ordered songs and playback metadata;
+- reorder setlist items atomically.
+
+Indexes:
+- `setlists(owner_user_id, date)`.
+- `setlist_items(setlist_id, position)`.
+- `setlist_items(setlist_id, song_id)`.
+
+### Live sessions
+- `live_sessions`
+  - `id`, `setlist_id`, `leader_user_id`, `code`, `status`, `active_song_id`, `active_section_id`, `active_line_index`, `revision`, `started_at`, `ended_at`, `updated_at`.
+  - `status`: draft values `planned`, `active`, `ended`.
+  - `revision`: monotonic counter for idempotent future sync events.
+- `live_participants`
+  - `session_id`, `user_id`, `device_id`, `role_preset`, `last_seen_at`.
+  - `role_preset`: draft values `lead`, `singer`, `chords`.
+
+Expected access patterns:
+- join a live session by code;
+- fetch current session position;
+- update position from a master/leader role;
+- list active participants.
+
+Indexes:
+- `live_sessions(code)` unique if join codes are used.
+- `live_sessions(status, updated_at)`.
+- `live_participants(session_id, user_id)`.
+- `live_participants(session_id, device_id)`.
+
+### Data safety rules
+- User-linked tables must reference canonical `songs`; do not copy lyrics/chords into collections, setlists, or live session rows.
+- Reordering collections/setlists should be transactional.
+- Position updates should use optimistic concurrency with `revision` once live sync is implemented.
+- Access checks must be defined before any write API is exposed.
+- Offline PWA reading must continue to use the latest local catalog snapshot when user-linked backend state is unavailable.
+
 ## Access Patterns
 - List songs by current published catalog version.
 - Search songs by title, number, text, and tags.

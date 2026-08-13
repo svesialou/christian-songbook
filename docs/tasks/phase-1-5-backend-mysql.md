@@ -41,3 +41,4 @@
 - **Критерий приёмки:** описаны таблицы и API-контуры для `users`, `user_collections`, `user_collection_items`, `setlists`, `live_sessions`.
 - **Критерий отмены:** нет подтверждения сценариев пользователей.
 - **Зависимости:** задача 3.
+- **Статус:** добавлен planning draft в `docs/backend-mysql-plan.md`: `users`, `user_collections`, `user_collection_items`, `setlists`, `setlist_items`, `live_sessions`, `live_participants`, основные access patterns, индексы и правила data safety без production migrations/auth/API.

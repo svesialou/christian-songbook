@@ -35,3 +35,4 @@
 - **Цель:** связать пользователей со сборниками, setlists и role presets на уровне backend/MySQL модели.
 - **Критерий приёмки:** есть draft API/schema без обязательной социальной авторизации.
 - **Зависимости:** фаза 1.5, задача 2.
+- **Статус:** добавлен draft user-link модели в `docs/backend-mysql-plan.md`: будущие identities, collections, setlists, live sessions и role presets описаны как planning-only слой без auth/API/migration реализации.
