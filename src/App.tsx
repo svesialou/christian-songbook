@@ -374,7 +374,6 @@ function App() {
   };
 
   const refreshCatalog = async (showNotice: boolean) => {
-    if (isAdminMode) return;
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
       setSyncState('failed');
       if (showNotice) setError('Нет сети: используется локальный каталог.');
@@ -499,7 +498,7 @@ function App() {
         updateSongQuery(null);
       }
 
-      if (isAdminMode || (typeof navigator !== 'undefined' && !navigator.onLine)) return;
+      if (typeof navigator !== 'undefined' && !navigator.onLine) return;
 
       setSyncState('syncing');
       const snapshot = await fetchCatalogSnapshot();
@@ -926,7 +925,7 @@ function App() {
     setInstallPrompt(null);
   };
 
-  const canPullRefresh = !isAdminMode && isOnline && syncState !== 'syncing';
+  const canPullRefresh = isOnline && syncState !== 'syncing';
   const isPullReady = pullDistance >= PULL_REFRESH_THRESHOLD;
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
@@ -1063,6 +1062,16 @@ function App() {
                         }}
                       >
                         Заявки
+                      </button>
+                      <button
+                        type="button"
+                        className="toolbar-button"
+                        onClick={() => {
+                          setIsAppMenuOpen(false);
+                          void refreshCatalog(true);
+                        }}
+                      >
+                        Обновить из БД
                       </button>
                       <label className="toolbar-button upload">
                         Импорт
