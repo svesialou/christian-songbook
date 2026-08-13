@@ -1,0 +1,48 @@
+[
+  {
+    "_id": "legacy-example-1",
+    "name": "Рождество пришло",
+    "number": 1,
+    "verses": [
+      {
+        "_id": "legacy-example-1-verse-1",
+        "rows": [
+          "В Вифлееме свет горит",
+          "Нам родился Царь царей"
+        ]
+      }
+    ],
+    "chorus": {
+      "_id": "legacy-example-1-chorus",
+      "rows": [
+        "Слава в вышних Богу",
+        "Мир земле"
+      ]
+    },
+    "chords": {
+      "verse": [
+        [
+          {
+            "_id": "legacy-example-1-verse-1-row-1",
+            "items": ["C", "G"]
+          },
+          {
+            "_id": "legacy-example-1-verse-1-row-2",
+            "items": ["Am", "F"]
+          }
+        ]
+      ],
+      "chorus": [
+        {
+          "_id": "legacy-example-1-chorus-row-1",
+          "items": ["F", "C"]
+        },
+        {
+          "_id": "legacy-example-1-chorus-row-2",
+          "items": ["G"]
+        }
+      ]
+    },
+    "publishDate": "2020-01-01T00:00:00.000Z"
+  }
+]

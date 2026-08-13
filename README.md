@@ -164,6 +164,19 @@ node scripts/import-legacy-songs.mjs --input legacy-songs.json --out src/data/im
 node scripts/import-legacy-songs.mjs --input legacy-songs.json --sql-out migrations/003_legacy_catalog_seed.generated.sql --version 2026.08.13.legacy
 ```
 
+Seed workspace:
+
+- `seed/legacy/README.md`
+- `seed/legacy/songs.example.json`
+
+Команды:
+
+```bash
+npm run seed:legacy:example
+npm run seed:legacy:json
+npm run seed:legacy:sql
+```
+
 Если legacy API снова доступен:
 
 ```bash

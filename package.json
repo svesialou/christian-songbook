@@ -7,6 +7,9 @@
     "dev": "vite",
     "lint": "tsc --noEmit",
     "test": "node --check scripts/generate-sw.mjs && node --check scripts/import-legacy-songs.mjs",
+    "seed:legacy:example": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.example.json",
+    "seed:legacy:json": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.dump.json --out src/data/importedCatalog.generated.json",
+    "seed:legacy:sql": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.dump.json --sql-out migrations/003_legacy_catalog_seed.generated.sql",
     "build": "tsc && vite build && node scripts/generate-sw.mjs",
     "preview": "vite preview"
   },
