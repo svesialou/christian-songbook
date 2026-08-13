@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Christian Songbook icon">
+  <rect width="512" height="512" rx="112" fill="#f7efe2"/>
+  <path d="M126 118c0-20 16-36 36-36h188c20 0 36 16 36 36v276c0 20-16 36-36 36H162c-20 0-36-16-36-36V118Z" fill="#17211a"/>
+  <path d="M166 122h180v252H166V122Z" fill="#fff8ec"/>
+  <path d="M256 151v168" stroke="#b5772f" stroke-width="22" stroke-linecap="round"/>
+  <path d="M207 205h98" stroke="#b5772f" stroke-width="22" stroke-linecap="round"/>
+  <path d="M197 339h118" stroke="#17211a" stroke-width="18" stroke-linecap="round"/>
+  <path d="M197 378h82" stroke="#17211a" stroke-width="18" stroke-linecap="round"/>
+</svg>

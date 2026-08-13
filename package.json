@@ -1,0 +1,25 @@
+{
+  "name": "christian-songbook",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "lint": "tsc --noEmit",
+    "test": "node --check scripts/generate-sw.mjs && node --check scripts/import-legacy-songs.mjs",
+    "build": "tsc && vite build && node scripts/generate-sw.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "idb": "^8.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.38",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.19"
+  }
+}

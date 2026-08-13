@@ -1,0 +1,57 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: christian-songbook-web
+    environment:
+      HTTP_ADDR: :8080
+      API_UPSTREAM: http://backend:8082
+    ports:
+      - "${WEB_PORT:-8083}:8080"
+    depends_on:
+      backend:
+        condition: service_started
+
+  mysql:
+    image: mysql:8.4
+    container_name: christian-songbook-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: christian_songbook
+      MYSQL_USER: songbook
+      MYSQL_PASSWORD: songbook
+    ports:
+      - "3309:3306"
+    volumes:
+      - christian-songbook-mysql:/var/lib/mysql
+      - ./migrations/001_catalog.up.sql:/docker-entrypoint-initdb.d/001_catalog.sql:ro
+      - ./migrations/002_song_categories.up.sql:/docker-entrypoint-initdb.d/002_song_categories.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: christian-songbook-api
+    environment:
+      SERVICE_NAME: christian-songbook-api
+      HTTP_ADDR: :8082
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: christian_songbook
+      DB_USER: songbook
+      DB_PASSWORD: songbook
+    ports:
+      - "8082:8082"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  christian-songbook-mysql:

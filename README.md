@@ -1,0 +1,181 @@
+# Christian Songbook Web
+
+Проект: веб-приложение для сборника песен с аккордами для служб/практики и репетиции.
+
+Стартовая идея:
+- сначала как удобный **сборник (MVP)**,
+- затем — **live-режим для команды** (разные роли просмотра, синхронная подсветка).
+
+> Репозиторий-референс: `pavelliolia/christian-songs-mobile-app` используется только как источник идей по UX и модели данных, но реализуем как новый web-проект с собственной архитектурой.
+
+## Быстрый статус
+- Платформа: React + TypeScript + Vite
+- Формат приложения: PWA (offline-first)
+- Язык интерфейса: русский
+
+## Что уже сделано в плановой документации
+- [`docs/repo-audit.md`](docs/repo-audit.md) — оценка референсного репозитория и выводы.
+- [`docs/requirements.md`](docs/requirements.md) — требования и нефункциональные требования.
+- [`docs/architecture.md`](docs/architecture.md) — проектная архитектура.
+- [`docs/backend-mysql-plan.md`](docs/backend-mysql-plan.md) — план backend + MySQL foundation.
+- [`docs/ui-ux-design-system.md`](docs/ui-ux-design-system.md) — UI/UX стиль и палитра.
+- [`docs/frontend-guardrails.md`](docs/frontend-guardrails.md) — ограничения и правила для frontend, чтобы не раздувать UI и не ломать mobile/PWA.
+- [`docs/development-quality-gates.md`](docs/development-quality-gates.md) — обязательные проверки после каждого цикла разработки.
+- [`docs/self-review-prompt.md`](docs/self-review-prompt.md) — prompt для строгого self-review без неподтвержденных утверждений.
+- [`docs/roadmap.md`](docs/roadmap.md) — план по фазам.
+- [`docs/tasks/phase-1-mvp.md`](docs/tasks/phase-1-mvp.md)
+- [`docs/tasks/phase-1-5-backend-mysql.md`](docs/tasks/phase-1-5-backend-mysql.md)
+- [`docs/tasks/phase-2-live-foundation.md`](docs/tasks/phase-2-live-foundation.md)
+- [`docs/tasks/phase-3-live-sync.md`](docs/tasks/phase-3-live-sync.md)
+
+## Структура проекта (план)
+- `src/pages` — экраны (список, песня, настройки).
+- `src/features/songs` — модель песни, репозиторий, преобразования.
+- `src/features/player` — режим автопереходов и будущая синхронизация.
+- `src/features/live` — фаза 2 и 3 (после MVP).
+- `src/storage` — IndexedDB + локальный snapshot каталога.
+- `backend` — будущий backend service для MySQL catalog/users/setlists/live.
+- `migrations` — будущие MySQL migrations.
+- `docs/ui-ux-design-system.md` — визуальная система (палитра, spacing, контраст).
+
+## Полезные соглашения
+- Изменения не должны ломать офлайн-поведение.
+- Любые изменения структуры данных песни описывать в `AGENTS.md` и `docs/requirements.md`.
+- Первичная метрика качества: время открытия списка после установки не должна требовать сети.
+- После каждого цикла разработки нужно открыть frontend и проверить затронутые сценарии на мобильном, планшетном и desktop-разрешениях.
+- Backend/API изменения проверяются вместе с frontend-интеграцией, а не только отдельным health endpoint.
+- Финальный отчет должен перечислять только реально выполненные проверки.
+
+## Релизный режим
+1. Собираем только MVP-ядро.
+2. Параллельно проектируем backend + MySQL foundation без ломки offline-first.
+3. Добавляем настройки и улучшения UX.
+4. После стабилизации выводим в live-план (фаза 2/3).
+
+## Как запускать локально
+- Установка зависимостей:
+  - `npm install`
+- Режим разработки:
+  - `npm run dev -- --host 0.0.0.0 --port 5173`
+- Локальная предпросмотр сборки:
+  - `npm run build`
+  - `npm run preview`
+- Публичный просмотр для проверки:
+  - Поднятый туннель: `ngrok http 5173`
+  - Ссылка из API: `curl http://127.0.0.1:4040/api/tunnels` (берётся `public_url`).
+
+## Backend + MySQL foundation
+
+Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog schema и API.
+
+- Backend: Go HTTP service на `localhost:8082`.
+- MySQL: `localhost:3309` внутри Docker Compose.
+- Health:
+  - `GET http://127.0.0.1:8082/healthz`
+  - `GET http://127.0.0.1:8082/readyz`
+- Catalog API:
+  - `GET http://127.0.0.1:8082/api/catalog/version`
+  - `GET http://127.0.0.1:8082/api/catalog/snapshot`
+  - `GET http://127.0.0.1:8082/api/songs`
+  - `GET http://127.0.0.1:8082/api/songs/song-1`
+
+Команды:
+- `make backend-build`
+- `make backend-up`
+- `make db-migrate`
+- `make backend-health`
+- `make backend-logs`
+- `make backend-down`
+- `make stack-up` — frontend + backend + MySQL вместе
+- `make stack-health` — проверка web, proxied API и backend readiness
+
+Важно:
+- Backend читает опубликованный каталог из MySQL.
+- Fresh MySQL volume получает initial catalog через `docker-entrypoint-initdb.d`; для существующего volume использовать `make db-migrate`.
+- Admin mutation API добавлять только после утверждения auth/security.
+- Frontend обновляет локальный snapshot из `/api/catalog/snapshot`, но при недоступности backend продолжает читать локальный или встроенный каталог.
+- Недавние песни и пользовательские сборники сохраняются локально и доступны рядом со списком.
+- В UI есть карточка статуса каталога со статусами источника, сети, sync и последнего обновления; обновление каталога для обычного пользователя делается жестом pull-to-refresh, import/export не показываются.
+- В панели музыканта есть локальные view presets `Lead`, `Singer`, `Chords` как foundation для будущих ролей команды без server-side users/live sync.
+
+## PWA / offline
+
+- `public/manifest.webmanifest` описывает installable app shell.
+- `public/icon.svg` используется как app icon.
+- `public/sw.js` — исходный service worker template.
+- `scripts/generate-sw.mjs` после `vite build` подставляет в `dist/sw.js` реальные hashed assets из сборки.
+- `scripts/send-telegram-screenshots.sh` отправляет screenshot-файлы в Telegram task chat, если настроены `CODEX_TELEGRAM_BOT_TOKEN` и `CODEX_TELEGRAM_CHAT_ID`.
+- API-запросы не кэшируются service worker-ом: каталог сохраняется отдельно в IndexedDB.
+- Static assets в production-контейнере отдаются Go web runtime с long-cache, а `sw.js` и manifest — без долгого кэша.
+
+## Запуск как production через Docker
+
+### Простой сценарий
+1. Собрать production-образ:
+   - `make docker-build`
+2. Запустить контейнер на `localhost:8081` (во избежание коллизии с уже занятым `8080` в этой машине):
+   - `make docker-run`
+3. Проверить:
+   - `curl http://localhost:8081`
+
+### Проверка через ngrok (для тебя)
+1. После `make docker-run` запустить:
+   - `make ngrok-fresh`
+2. В браузере открыть `public_url` из:
+   - `make ngrok-url`
+3. Не использовать старый `public_url` вручную. После рестарта браузера/PC нужно заново получить URL командой `make ngrok-fresh` или `make ngrok-url`.
+4. Если ошибка повторяется:
+   - остановить предыдущие туннели: `make ngrok-stop`
+   - перезапустить: `make ngrok-fresh`.
+
+### Альтернативно через raw docker
+- Сборка: `docker build -t christian-songbook:latest .`
+- Запуск: `docker run -d --name christian-songbook -p 8081:8080 christian-songbook:latest`
+
+### GitHub CI/CD
+- CI workflow: `.github/workflows/ci.yml`
+  - `npm run lint`
+  - `npm test`
+  - `npm run build`
+  - `docker build`
+- Deploy workflow: `.github/workflows/deploy.yml`
+  - публикует image в `ghcr.io/<owner>/christian-songbook`;
+  - manual `workflow_dispatch` может выполнить restart через SSH, если заданы secrets:
+    - `DEPLOY_HOST`
+    - `DEPLOY_USER`
+    - `DEPLOY_SSH_KEY`
+    - `DEPLOY_RESTART_COMMAND`
+
+Рекомендуемое значение `DEPLOY_RESTART_COMMAND` для текущего management toolkit:
+
+```bash
+cd /home/stanislavv/MyProjects/management && make apps-restart-prod STACKS=christian_songbook VAULT_ARGS=--ask-vault-pass
+```
+
+Для non-interactive CI restart лучше использовать vault password file на сервере и заменить `VAULT_ARGS`.
+
+### Legacy catalog seed
+Исходный mobile repo `pavelliolia/christian-songs-mobile-app` хранит модель клиента, но сам каталог тянет из legacy API.
+
+Importer:
+
+```bash
+node scripts/import-legacy-songs.mjs --input legacy-songs.json --out src/data/importedCatalog.generated.json
+node scripts/import-legacy-songs.mjs --input legacy-songs.json --sql-out migrations/003_legacy_catalog_seed.generated.sql --version 2026.08.13.legacy
+```
+
+Если legacy API снова доступен:
+
+```bash
+node scripts/import-legacy-songs.mjs --url https://quiet-sierra-94562.herokuapp.com/songs --out src/data/importedCatalog.generated.json
+```
+
+Importer сопоставляет песни с русскими категориями из `src/data/songCategories.ts` по keyword mapping и использует `Разное` как fallback.
+
+### Full-stack сценарий
+- Запуск web + backend + MySQL:
+  - `make stack-up`
+- Проверка:
+  - `make stack-health`
+- В этом режиме frontend на `http://localhost:8083` проксирует `/api/*` в backend container.
+- Порт можно поменять: `WEB_PORT=8090 make stack-up`.
