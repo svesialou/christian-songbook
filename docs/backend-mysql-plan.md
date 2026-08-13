@@ -176,6 +176,51 @@ Conflict policy:
 - Admin catalog edits happen on backend only.
 - User-local settings can remain local until user accounts are introduced.
 
+## Admin Catalog Management Plan
+This is a planning draft only. Do not expose admin mutation endpoints until auth, audit, and ownership rules are approved.
+
+### Goal
+Admin flow should let a trusted maintainer import, review, edit, and publish the canonical song catalog without exposing catalog mutation tools to regular users.
+
+### Draft flow
+1. Admin prepares an import file from a trusted source.
+2. Backend validates the file into a draft catalog version.
+3. Admin reviews validation errors, duplicate matches, categories, keys, lyrics, and chord line alignment.
+4. Backend stores the draft separately from the current published catalog.
+5. Admin publishes the draft as a new `catalog_versions` row and marks it current in one transaction.
+6. PWA clients discover the new version through `/api/catalog/version` and download `/api/catalog/snapshot`.
+
+### Draft entities
+- `catalog_import_jobs`
+  - import status, source metadata, validation summary, created by admin.
+- `catalog_draft_versions`
+  - unpublished catalog version candidate.
+- `catalog_draft_songs`
+  - normalized song draft rows before publication.
+- `catalog_audit_log`
+  - append-only admin action log.
+
+These entities are not in production migrations yet. They need auth/security approval before implementation.
+
+### Validation rules
+- Reject empty title, empty song body, invalid section order, or chord rows that cannot be mapped to song lines.
+- Normalize category using the approved Russian category list; unknown categories should be review warnings, not silent replacements.
+- Detect possible duplicates by title and normalized lyrics.
+- Keep original source metadata for audit, but do not expose it to regular PWA clients.
+
+### Publication safety
+- Publishing must be transactional: either the whole new catalog version becomes current, or the previous current version remains active.
+- Never update published song rows in place for catalog content changes; publish a new version instead.
+- Rollback should mark the previous known-good catalog version as current, not delete historical rows.
+- Regular PWA read APIs must continue to serve only published versions.
+
+### Access control requirements before implementation
+- Admin identity and session model.
+- Least-privilege admin roles for import, edit, publish, and rollback.
+- Audit trail for every import, publish, rollback, and destructive draft cleanup.
+- Rate limits or upload size limits for import endpoints.
+- No secrets, raw credentials, or private source tokens in import logs.
+
 ## Phase Safety Rules
 - Do not add auth, users, or public write APIs in Phase 1.
 - Do not expose admin catalog mutation without auth.
