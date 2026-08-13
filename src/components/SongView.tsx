@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Song } from '../types/song';
 import { transposeSongRows } from '../lib/chords';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
@@ -9,7 +9,7 @@ type SongViewProps = {
   playbackPosition: SongPlaybackPosition | null;
   initialAutoPlay?: boolean;
   onBack: () => void;
-  onPlaybackPositionChange: (position: SongPlaybackPosition) => void;
+  onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
 };
 
 type PlaybackLine = {
@@ -96,7 +96,7 @@ const Section = ({
   settings: SongSettings;
   playbackPosition: SongPlaybackPosition | null;
   registerLine: (key: string, element: HTMLButtonElement | null) => void;
-  onPlaybackPositionChange: (position: SongPlaybackPosition) => void;
+  onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
 }) => {
   const rendered = rows.map((row, index) => {
     const chordRow = chords[index] || [];
@@ -115,18 +115,22 @@ const Section = ({
           type="button"
           className="song-line-button"
           ref={(element) => registerLine(lineKey(sectionId, index), element)}
-          onClick={() =>
-            onPlaybackPositionChange({
-              songId,
-              sectionId,
-              sectionTitle: title,
-              lineIndex: index,
-              updatedAt: new Date().toISOString(),
-            })
-          }
+          onClick={() => {
+            onPlaybackPositionChange(
+              isActive
+                ? null
+                : {
+                    songId,
+                    sectionId,
+                    sectionTitle: title,
+                    lineIndex: index,
+                    updatedAt: new Date().toISOString(),
+                  },
+            );
+          }}
           aria-pressed={isActive}
           aria-current={isActive ? 'true' : undefined}
-          aria-label={`Отметить текущую строку: ${title}, строка ${index + 1}`}
+          aria-label={`${isActive ? 'Снять фокус со строки' : 'Отметить текущую строку'}: ${title}, строка ${index + 1}`}
         >
           {chordText ? (
             <span className="chords">{transposeSongRows([chordText], settings.transposition)[0]}</span>
@@ -157,6 +161,7 @@ const SongView = ({
   const [isIntroActive, setIsIntroActive] = useState(initialAutoPlay);
   const [playbackTick, setPlaybackTick] = useState(() => Date.now());
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const introStartedAt = useRef<number | null>(initialAutoPlay ? Date.now() : null);
   const lineStartedAt = useRef<number | null>(null);
   const activePosition = playbackPosition?.songId === song.id ? playbackPosition : null;
@@ -302,8 +307,38 @@ const SongView = ({
     setIsAutoPlaying(true);
   };
 
+  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    swipeStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    const horizontalDistance = Math.abs(deltaX);
+    const verticalDistance = Math.abs(deltaY);
+
+    if (horizontalDistance < 88 || horizontalDistance < verticalDistance * 1.45) return;
+    onBack();
+  };
+
   return (
-    <section className={`song-view preset-${settings.viewPreset} ${settings.splitSections ? 'split-sections' : ''}`}>
+    <section
+      className={`song-view preset-${settings.viewPreset} ${settings.splitSections ? 'split-sections' : ''}`}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={() => {
+        swipeStart.current = null;
+      }}
+    >
       <div className="song-header">
         <button onClick={onBack} className="toolbar-button">Назад к списку</button>
         <div>

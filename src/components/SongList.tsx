@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Song, SongCollection } from '../types/song';
 
 type SongListMode = 'all' | 'recent' | 'collection' | 'live';
@@ -82,6 +82,7 @@ const SongList = ({
   const [isCategoryPickerOpen, setIsCategoryPickerOpen] = useState(initialCategoryPickerOpen);
   const [categoryQuery, setCategoryQuery] = useState('');
   const [liveSourceQuery, setLiveSourceQuery] = useState('');
+  const [openLiveSongMenuId, setOpenLiveSongMenuId] = useState<string | null>(null);
   const hasCategoryOverflow = categories.length > QUICK_CATEGORY_LIMIT;
   const quickCategories = useMemo(() => {
     if (!hasCategoryOverflow) return categories;
@@ -121,6 +122,29 @@ const SongList = ({
       [song.title, song.category, String(song.number)].join(' ').toLowerCase().includes(normalized),
     );
   }, [liveSourceQuery, liveSourceSongs]);
+
+  useEffect(() => {
+    if (!openLiveSongMenuId) return undefined;
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest('.live-song-menu')) return;
+      setOpenLiveSongMenuId(null);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpenLiveSongMenuId(null);
+      }
+    };
+
+    document.addEventListener('pointerdown', closeOnOutsidePointer);
+    document.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePointer);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [openLiveSongMenuId]);
 
   return (
     <div className="catalog">
@@ -284,7 +308,13 @@ const SongList = ({
                   {isNextPlaying ? <span className="live-song-badge">Далее</span> : null}
                 </button>
                 {isLiveMode ? (
-                  <details className="live-song-menu">
+                  <details
+                    className="live-song-menu"
+                    open={openLiveSongMenuId === song.id}
+                    onToggle={(event) => {
+                      setOpenLiveSongMenuId(event.currentTarget.open ? song.id : null);
+                    }}
+                  >
                     <summary className="collection-btn live-song-menu-trigger" aria-label="Действия live-песни">
                       <span aria-hidden="true" />
                       <span aria-hidden="true" />
@@ -294,7 +324,10 @@ const SongList = ({
                       <button
                         type="button"
                         className="live-song-menu-action"
-                        onClick={() => onMoveLiveSong(song.id, -1)}
+                        onClick={() => {
+                          onMoveLiveSong(song.id, -1);
+                          setOpenLiveSongMenuId(null);
+                        }}
                         disabled={songIndex === 0}
                       >
                         Выше
@@ -302,7 +335,10 @@ const SongList = ({
                       <button
                         type="button"
                         className="live-song-menu-action"
-                        onClick={() => onMoveLiveSong(song.id, 1)}
+                        onClick={() => {
+                          onMoveLiveSong(song.id, 1);
+                          setOpenLiveSongMenuId(null);
+                        }}
                         disabled={songIndex === songs.length - 1}
                       >
                         Ниже
@@ -310,7 +346,10 @@ const SongList = ({
                       <button
                         type="button"
                         className="live-song-menu-action is-danger"
-                        onClick={() => onRemoveLiveSong(song.id)}
+                        onClick={() => {
+                          onRemoveLiveSong(song.id);
+                          setOpenLiveSongMenuId(null);
+                        }}
                       >
                         Убрать
                       </button>

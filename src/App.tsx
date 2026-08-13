@@ -337,6 +337,8 @@ function App() {
     typeof window === 'undefined' ? false : window.matchMedia('(display-mode: standalone)').matches,
   );
   const pullStartY = useRef<number | null>(null);
+  const appMenuRef = useRef<HTMLDetailsElement | null>(null);
+  const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
   const [pullDistance, setPullDistance] = useState(0);
 
   const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>) => {
@@ -552,6 +554,28 @@ function App() {
       saveSongs(songs);
     }
   }, [isAdminMode, songs]);
+
+  useEffect(() => {
+    if (!isAppMenuOpen) return undefined;
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      if (appMenuRef.current?.contains(event.target as Node)) return;
+      setIsAppMenuOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsAppMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('pointerdown', closeOnOutsidePointer);
+    document.addEventListener('keydown', closeOnEscape);
+
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsidePointer);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [isAppMenuOpen]);
 
   const onSettingsChange = (next: SongSettings) => setSettings(next);
 
@@ -897,7 +921,14 @@ function App() {
 
       <div className="app-shell">
         <header className="top-bar">
-          <h1>{activeSong ? activeSong.title : 'Песни'}</h1>
+          <div className="top-title-row">
+            {activeSong ? (
+              <button type="button" className="top-back-button" onClick={closeSong} aria-label="Назад к списку">
+                Назад
+              </button>
+            ) : null}
+            <h1>{activeSong ? activeSong.title : 'Песни'}</h1>
+          </div>
           <div className="top-actions">
             {canOpenLiveMode ? (
               <button className="top-live-button" type="button" onClick={openLiveMode}>
@@ -907,7 +938,12 @@ function App() {
             <span className={`status-dot status-${tone}`} title={toneLabel} role="status" aria-label={toneLabel}>
               <span className="sr-only">{toneLabel}</span>
             </span>
-            <details className="app-menu" {...(isMenuPreview ? { open: true } : {})}>
+            <details
+              ref={appMenuRef}
+              className="app-menu"
+              open={isAppMenuOpen}
+              onToggle={(event) => setIsAppMenuOpen(event.currentTarget.open)}
+            >
               <summary className="menu-trigger" aria-label="Открыть меню">
                 <span aria-hidden="true" />
                 <span aria-hidden="true" />

@@ -120,6 +120,14 @@ button:disabled {
   background: linear-gradient(180deg, var(--bg) 70%, color-mix(in srgb, var(--bg) 0%, transparent));
 }
 
+.top-title-row {
+  min-width: 0;
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 8px;
+}
+
 .top-bar h1 {
   min-width: 0;
   margin: 0;
@@ -130,6 +138,21 @@ button:disabled {
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.top-back-button {
+  min-width: 58px;
+  min-height: 44px;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-strong);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 8px 11px;
 }
 
 .top-actions {
@@ -284,6 +307,11 @@ button:disabled {
 .preset-button:focus-visible,
 .select-row select:focus,
 .menu-trigger:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.top-back-button:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
