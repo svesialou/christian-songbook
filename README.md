@@ -92,7 +92,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 Важно:
 - Backend читает опубликованный каталог из MySQL.
 - Fresh MySQL volume получает initial catalog через `docker-entrypoint-initdb.d`; для существующего volume использовать `make db-migrate`.
-- Admin mutation API добавлять только после утверждения auth/security.
+- Admin mutation API сейчас защищён `ADMIN_API_KEY`; полноценные users/roles/audit остаются отдельным hardening-шагом.
 - Frontend обновляет локальный snapshot из `/api/catalog/snapshot`, но при недоступности backend продолжает читать локальный или встроенный каталог.
 - Недавние песни и пользовательские сборники сохраняются локально и доступны рядом со списком.
 - В UI есть карточка статуса каталога со статусами источника, сети, sync и последнего обновления; обновление каталога для обычного пользователя делается жестом pull-to-refresh, import/export не показываются.
@@ -103,7 +103,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - Отдельная админка открывается по `/admin`.
 - Для входа нужен `ADMIN_API_KEY`; frontend проверяет ключ через admin API и не сохраняет его между запусками.
 - `/admin` использует отдельный `manifest-admin.webmanifest`, поэтому админку можно установить как отдельную PWA с `start_url=/admin`.
-- Сейчас реализован первый admin slice: просмотр pending заявок и approve песни в текущий MySQL-каталог. Полноценные пользователи, роли, audit log и редактор песен остаются отдельными задачами.
+- Сейчас реализован admin slice: просмотр и редактирование pending заявок, approve в текущий MySQL-каталог, прямое добавление песни, редактирование опубликованных песен и playback-параметров. Полноценные пользователи, роли и audit log остаются отдельными задачами.
 
 ## PWA / offline
 

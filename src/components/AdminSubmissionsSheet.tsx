@@ -15,6 +15,9 @@ type Props = {
 };
 
 type Draft = SongSubmissionPayload;
+const DEFAULT_BPM = 72;
+const DEFAULT_BEATS_PER_LINE = 4;
+const DEFAULT_INTRO_BEATS = 4;
 
 const formatSubmissionDate = (value: string) => {
   const date = new Date(value);
@@ -51,6 +54,9 @@ const AdminSubmissionsSheet = ({
       defaultKey: submission.defaultKey,
       lyrics: submission.lyrics,
       chords: submission.chords,
+      bpm: submission.bpm ?? DEFAULT_BPM,
+      beatsPerLine: submission.beatsPerLine ?? DEFAULT_BEATS_PER_LINE,
+      introBeats: submission.introBeats ?? DEFAULT_INTRO_BEATS,
       submitterName: submission.submitterName,
       submitterEmail: submission.submitterEmail,
       note: submission.note,
@@ -58,7 +64,7 @@ const AdminSubmissionsSheet = ({
     setError(null);
   };
 
-  const updateDraft = (key: keyof Draft, value: string) => {
+  const updateDraft = (key: keyof Draft, value: string | number) => {
     setDraft((current) => (current ? { ...current, [key]: value } : current));
   };
 
@@ -155,6 +161,38 @@ const AdminSubmissionsSheet = ({
                         <span>Аккорды</span>
                         <textarea value={draft.chords} onChange={(event) => updateDraft('chords', event.target.value)} rows={5} />
                       </label>
+                      <div className="submission-grid submission-grid-three">
+                        <label className="submission-field">
+                          <span>BPM</span>
+                          <input
+                            type="number"
+                            min={40}
+                            max={220}
+                            value={draft.bpm}
+                            onChange={(event) => updateDraft('bpm', Number(event.target.value))}
+                          />
+                        </label>
+                        <label className="submission-field">
+                          <span>Долей на строку</span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={16}
+                            value={draft.beatsPerLine}
+                            onChange={(event) => updateDraft('beatsPerLine', Number(event.target.value))}
+                          />
+                        </label>
+                        <label className="submission-field">
+                          <span>Вступление</span>
+                          <input
+                            type="number"
+                            min={0}
+                            max={64}
+                            value={draft.introBeats}
+                            onChange={(event) => updateDraft('introBeats', Number(event.target.value))}
+                          />
+                        </label>
+                      </div>
                       <label className="submission-field">
                         <span>Комментарий</span>
                         <textarea value={draft.note} onChange={(event) => updateDraft('note', event.target.value)} rows={3} />

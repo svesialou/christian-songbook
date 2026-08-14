@@ -8,6 +8,9 @@ type Props = {
 };
 
 const DEFAULT_CATEGORY = 'Общее';
+const DEFAULT_BPM = 72;
+const DEFAULT_BEATS_PER_LINE = 4;
+const DEFAULT_INTRO_BEATS = 4;
 
 const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
   const categoryOptions = useMemo(() => {
@@ -19,6 +22,9 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
   const [defaultKey, setDefaultKey] = useState('');
   const [lyrics, setLyrics] = useState('');
   const [chords, setChords] = useState('');
+  const [bpm, setBpm] = useState(DEFAULT_BPM);
+  const [beatsPerLine, setBeatsPerLine] = useState(DEFAULT_BEATS_PER_LINE);
+  const [introBeats, setIntroBeats] = useState(DEFAULT_INTRO_BEATS);
   const [submitterName, setSubmitterName] = useState('');
   const [submitterEmail, setSubmitterEmail] = useState('');
   const [note, setNote] = useState('');
@@ -41,6 +47,9 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
         defaultKey,
         lyrics,
         chords,
+        bpm,
+        beatsPerLine,
+        introBeats,
         submitterName,
         submitterEmail,
         note,
@@ -93,18 +102,22 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
             </label>
           </div>
 
-          <label className="submission-field">
-            <span>Текст</span>
-            <textarea
-              value={lyrics}
-              onChange={(event) => setLyrics(event.target.value)}
-              placeholder="Каждая строка песни с новой строки"
-              rows={8}
-            />
-          </label>
+	          <label className="submission-field">
+	            <span>Текст</span>
+	            <textarea
+	              value={lyrics}
+	              onChange={(event) => setLyrics(event.target.value)}
+	              placeholder="Каждая строка песни с новой строки"
+	              rows={8}
+	            />
+	          </label>
+	          <p className="submission-help">
+	            Можно разделять песню заголовками: [Куплет 1], [Припев], [Бридж]. Аккорды можно писать с такими же
+	            заголовками или строками в том же порядке.
+	          </p>
 
-          <label className="submission-field">
-            <span>Аккорды</span>
+	          <label className="submission-field">
+	            <span>Аккорды</span>
             <textarea
               value={chords}
               onChange={(event) => setChords(event.target.value)}
@@ -112,6 +125,33 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
               rows={5}
             />
           </label>
+
+          <div className="submission-grid submission-grid-three">
+            <label className="submission-field">
+              <span>BPM</span>
+              <input type="number" min={40} max={220} value={bpm} onChange={(event) => setBpm(Number(event.target.value))} />
+            </label>
+            <label className="submission-field">
+              <span>Долей на строку</span>
+              <input
+                type="number"
+                min={1}
+                max={16}
+                value={beatsPerLine}
+                onChange={(event) => setBeatsPerLine(Number(event.target.value))}
+              />
+            </label>
+            <label className="submission-field">
+              <span>Вступление</span>
+              <input
+                type="number"
+                min={0}
+                max={64}
+                value={introBeats}
+                onChange={(event) => setIntroBeats(Number(event.target.value))}
+              />
+            </label>
+          </div>
 
           <div className="submission-grid">
             <label className="submission-field">

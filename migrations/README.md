@@ -7,6 +7,8 @@ Current migrations:
 - `002_song_categories.down.sql` - removes the song category index and column.
 - `003_song_submissions.up.sql` - adds pending song submissions for admin approval.
 - `003_song_submissions.down.sql` - removes song submissions.
+- `004_song_playback.up.sql` - adds optional BPM/autoscroll playback fields to songs and submissions.
+- `004_song_playback.down.sql` - removes optional playback fields.
 
 Apply locally:
 - `make db-migrate`

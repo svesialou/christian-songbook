@@ -14,6 +14,7 @@ export type Song = {
   number: number;
   title: string;
   category: string;
+  defaultKey?: string;
   playback?: SongPlayback;
   verses: SongSection[];
   chorus?: SongSection;

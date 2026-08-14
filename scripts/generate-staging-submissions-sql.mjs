@@ -64,6 +64,11 @@ function normalizeSongs(payload) {
       title,
       category: String(song.category || 'Разное').trim() || 'Разное',
       defaultKey: nullableString(song.defaultKey),
+      bpm: nullableNumber(song.bpm),
+      beatsPerLine: nullableNumber(song.beatsPerLine),
+      introBeats: nullableNumber(song.introBeats),
+      lyrics: nullableString(song.lyrics) || PLACEHOLDER_LYRICS,
+      chords: nullableString(song.chords),
       note: buildNote(song),
     };
   });
@@ -75,21 +80,31 @@ function nullableString(value) {
   return trimmed.length > 0 ? trimmed : null;
 }
 
+function nullableNumber(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? Math.round(parsed) : null;
+}
+
 function buildNote(song) {
   const sources = [];
   if (song.holychordsUrl) sources.push(`HolyChords: ${song.holychordsUrl}`);
   if (song.kgMusicUrl) sources.push(`KG Music: ${song.kgMusicUrl}`);
+  if (song.notionUrl) sources.push(`Notion: ${song.notionUrl}`);
   if (song.backingTrackUrl) sources.push(`Backing track: ${song.backingTrackUrl}`);
   if (song.originalPerformanceUrl) sources.push(`Original: ${song.originalPerformanceUrl}`);
 
   const parts = [
     `oldNumber=${song.oldNumber}`,
     `photo=${song.photoIndex ?? 'unknown'}`,
+    song.notionPageId ? `notionPageId=${song.notionPageId}` : null,
+    song.notionChordPageId ? `notionChordPageId=${song.notionChordPageId}` : null,
     `status=${song.status || 'pending'}`,
     `confidence=${song.confidence || 'unknown'}`,
     ...sources,
-    'Fill lyrics/chords from an approved source before approval.',
-  ];
+    song.lyrics ? null : 'Fill lyrics from an approved source before approval.',
+    song.chords ? null : 'Fill chords from an approved source before approval.',
+  ].filter(Boolean);
 
   return parts.join(' | ').slice(0, 1000);
 }
@@ -104,8 +119,8 @@ function buildSQL(songs, marker) {
   for (const song of songs) {
     const note = `[staging:${marker}] ${song.note}`;
     lines.push(
-      'INSERT INTO song_submissions (title, category, default_key, lyrics, chords, submitter_name, submitter_email, note, status)',
-      `SELECT ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(PLACEHOLDER_LYRICS)}, NULL, 'Seed import', NULL, ${sql(note)}, 'pending'`,
+      'INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)',
+      `SELECT ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.lyrics)}, ${sql(song.chords)}, ${sql(song.bpm)}, ${sql(song.beatsPerLine)}, ${sql(song.introBeats)}, 'Seed import', NULL, ${sql(note)}, 'pending'`,
       'WHERE NOT EXISTS (',
       '  SELECT 1 FROM song_submissions',
       `  WHERE title = ${sql(song.title)}`,

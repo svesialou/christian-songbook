@@ -31,16 +31,21 @@ PHP remains acceptable if the implementation later needs to fit an existing PHP 
 - `GET /healthz`: service liveness.
 - `GET /readyz`: MySQL readiness.
 - `GET /api/catalog/version`: current published catalog version.
-- `GET /api/catalog/snapshot`: full published catalog snapshot for PWA local cache.
-- `GET /api/songs`: published song list with optional `query`.
+- `GET /api/catalog/snapshot`: published catalog snapshot for PWA local cache, capped at 1000 songs.
+- `GET /api/songs`: published song list with optional `query`, capped at 1000 songs.
 - `GET /api/songs/{id}`: one published song in the frontend-compatible shape.
 - `POST /api/song-submissions`: public pending song proposal endpoint with size/required-field validation.
 - `GET /api/admin/song-submissions`: admin-key protected pending submissions list.
+- `PUT /api/admin/song-submissions/{id}`: admin-key protected pending submission edit before review.
 - `POST /api/admin/song-submissions/{id}/approve`: admin-key protected approval that appends the song to the current catalog version.
+- `POST /api/admin/song-submissions/{id}/reject`: admin-key protected rejection with optional reason.
+- `POST /api/admin/songs`: admin-key protected direct song publish into the current catalog version.
+- `PUT /api/admin/songs/{id}`: admin-key protected published song metadata/playback/section edit.
 - `docker-compose.yml`: local MySQL + backend.
 - `migrations/001_catalog.up.sql`: read-only catalog schema and initial seed catalog.
 - `migrations/001_catalog.down.sql`: rollback for the initial catalog schema.
 - `migrations/003_song_submissions.up.sql`: pending song submissions.
+- `migrations/004_song_playback.up.sql`: playback metadata for songs and submissions.
 
 This scaffold intentionally does not include full user auth, users, collections sync, setlists, or live session tables.
 Admin mutation endpoints are protected by `ADMIN_API_KEY` and must be replaced or extended with a real auth/audit model before broader team administration.
@@ -182,7 +187,7 @@ Conflict policy:
 - User-local settings can remain local until user accounts are introduced.
 
 ## Admin Catalog Management Plan
-This is a planning draft only. Do not expose admin mutation endpoints until auth, audit, and ownership rules are approved.
+The current implementation contains a trusted-maintainer admin slice protected by `ADMIN_API_KEY`. Replace or extend it with auth, audit, and ownership rules before broader team administration.
 
 ### Goal
 Admin flow should let a trusted maintainer import, review, edit, and publish the canonical song catalog without exposing catalog mutation tools to regular users.

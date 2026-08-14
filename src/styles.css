@@ -1708,6 +1708,10 @@ button:disabled {
   gap: 10px;
 }
 
+.submission-grid-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .submission-field {
   display: grid;
   gap: 6px;
@@ -1820,6 +1824,10 @@ button:disabled {
   }
 
   .submission-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .submission-grid-three {
     grid-template-columns: 1fr;
   }
 }

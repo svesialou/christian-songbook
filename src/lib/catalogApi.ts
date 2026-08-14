@@ -18,6 +18,9 @@ export type SongSubmissionPayload = {
   defaultKey: string;
   lyrics: string;
   chords: string;
+  bpm: number;
+  beatsPerLine: number;
+  introBeats: number;
   submitterName: string;
   submitterEmail: string;
   note: string;
@@ -42,6 +45,23 @@ export type ApproveSongSubmissionResult = {
 export type CreateAdminSongResult = {
   songId: string;
   catalogVersion: string;
+};
+
+export type AdminSongUpdatePayload = {
+  title: string;
+  category: string;
+  defaultKey: string;
+  bpm: number;
+  beatsPerLine: number;
+  introBeats: number;
+  sections?: AdminSongSectionUpdatePayload[];
+};
+
+export type AdminSongSectionUpdatePayload = {
+  sectionType: 'verse' | 'chorus' | 'bridge';
+  title: string;
+  lyrics: string;
+  chords: string;
 };
 
 const API_TIMEOUT_MS = 3500;
@@ -106,6 +126,9 @@ const isSongSection = (value: unknown): value is SongSection => {
 const isOptionalSongSection = (value: unknown): value is SongSection | undefined =>
   value === undefined || isSongSection(value);
 
+const isOptionalString = (value: unknown): value is string | undefined =>
+  value === undefined || typeof value === 'string';
+
 const isOptionalSongPlayback = (value: unknown): value is SongPlayback | undefined => {
   if (value === undefined) return true;
   const playback = value as SongPlayback;
@@ -129,6 +152,7 @@ const isSong = (value: unknown): value is Song => {
     typeof song.category === 'string' &&
     Array.isArray(song.verses) &&
     song.verses.every(isSongSection) &&
+    isOptionalString(song.defaultKey) &&
     isOptionalSongPlayback(song.playback) &&
     isOptionalSongSection(song.chorus) &&
     isOptionalSongSection(song.bridge)
@@ -226,6 +250,19 @@ export const createAdminSong = (
 ): Promise<CreateAdminSongResult> =>
   requestJSON<CreateAdminSongResult>('/api/admin/songs', {
     method: 'POST',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
+    body: JSON.stringify(payload),
+  });
+
+export const updateAdminSong = (
+  songId: string,
+  payload: AdminSongUpdatePayload,
+  adminKey: string,
+): Promise<CreateAdminSongResult> =>
+  requestJSON<CreateAdminSongResult>(`/api/admin/songs/${encodeURIComponent(songId)}`, {
+    method: 'PUT',
     headers: {
       'X-Admin-Key': adminKey.trim(),
     },

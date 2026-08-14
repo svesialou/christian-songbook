@@ -33,7 +33,7 @@
 - Docker-first локальный запуск backend + MySQL параллельно с PWA.
 - Draft MySQL schema для песен, секций, строк, аккордов, версий каталога.
 - Read-only catalog API: версия каталога, список песен, детальная песня.
-- Admin-only план для импорта/редактирования/публикации каталога.
+- Admin-only flow для заявок, добавления, редактирования и публикации каталога.
 - PWA snapshot sync: backend -> локальное хранилище -> офлайн-чтение.
 - Предварительная модель пользователей: collections/setlists, roles, live sessions.
 
@@ -41,7 +41,7 @@
 - Есть утверждённый backend/MySQL план и migration draft.
 - Есть стратегия индексов и основных access patterns.
 - PWA не зависит от backend для чтения уже загруженного каталога.
-- Admin mutation API не реализован без auth/security решения.
+- Admin mutation API закрыт `ADMIN_API_KEY`; полноценные users/roles/audit остаются hardening-задачей перед broader team administration.
 - Full-stack проверка подтверждает, что frontend получает catalog snapshot из backend и сохраняет offline fallback.
 
 ### Риск/отложение

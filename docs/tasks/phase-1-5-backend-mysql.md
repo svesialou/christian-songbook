@@ -29,7 +29,7 @@
 - **Критерий приёмки:** обычный пользователь не видит import/export; admin mutation API требует auth в будущей реализации.
 - **Критерий отмены:** нет решения по auth/admin доступу.
 - **Зависимости:** задача 4.
-- **Статус:** добавлен первый minimal slice: public song submissions, admin-key protected pending list and approve. Полноценные users/auth/audit остаются отдельной задачей.
+- **Статус:** добавлен admin slice: public song submissions, admin-key protected pending list/edit/approve/reject, direct admin song create, published song metadata/playback/section editor, section-heading parser for submitted songs. Полноценные users/auth/audit остаются отдельной задачей.
 
 ## 6. PWA catalog snapshot sync
 - **Цель:** синхронизировать опубликованную MySQL-базу в локальный snapshot PWA.

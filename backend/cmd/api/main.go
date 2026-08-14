@@ -64,14 +64,22 @@ type songSection struct {
 	Chords [][]string `json:"chords"`
 }
 
+type songPlayback struct {
+	BPM          int  `json:"bpm"`
+	BeatsPerLine int  `json:"beatsPerLine"`
+	IntroBeats   *int `json:"introBeats,omitempty"`
+}
+
 type songResponse struct {
-	ID       string        `json:"id"`
-	Number   int           `json:"number"`
-	Title    string        `json:"title"`
-	Category string        `json:"category"`
-	Verses   []songSection `json:"verses"`
-	Chorus   *songSection  `json:"chorus,omitempty"`
-	Bridge   *songSection  `json:"bridge,omitempty"`
+	ID         string        `json:"id"`
+	Number     int           `json:"number"`
+	Title      string        `json:"title"`
+	Category   string        `json:"category"`
+	DefaultKey string        `json:"defaultKey,omitempty"`
+	Playback   *songPlayback `json:"playback,omitempty"`
+	Verses     []songSection `json:"verses"`
+	Chorus     *songSection  `json:"chorus,omitempty"`
+	Bridge     *songSection  `json:"bridge,omitempty"`
 }
 
 type catalogVersion struct {
@@ -86,9 +94,36 @@ type songSubmissionRequest struct {
 	DefaultKey     string `json:"defaultKey"`
 	Lyrics         string `json:"lyrics"`
 	Chords         string `json:"chords"`
+	BPM            *int   `json:"bpm,omitempty"`
+	BeatsPerLine   *int   `json:"beatsPerLine,omitempty"`
+	IntroBeats     *int   `json:"introBeats,omitempty"`
 	SubmitterName  string `json:"submitterName"`
 	SubmitterEmail string `json:"submitterEmail"`
 	Note           string `json:"note"`
+}
+
+type songAdminUpdateRequest struct {
+	Title        string                          `json:"title"`
+	Category     string                          `json:"category"`
+	DefaultKey   string                          `json:"defaultKey"`
+	BPM          *int                            `json:"bpm,omitempty"`
+	BeatsPerLine *int                            `json:"beatsPerLine,omitempty"`
+	IntroBeats   *int                            `json:"introBeats,omitempty"`
+	Sections     []songAdminSectionUpdateRequest `json:"sections,omitempty"`
+}
+
+type songAdminSectionUpdateRequest struct {
+	SectionType string `json:"sectionType"`
+	Title       string `json:"title"`
+	Lyrics      string `json:"lyrics"`
+	Chords      string `json:"chords"`
+}
+
+type parsedSongSection struct {
+	SectionType string
+	Title       string
+	Lines       []string
+	Chords      [][]string
 }
 
 type rejectSongSubmissionRequest struct {
@@ -107,6 +142,9 @@ type songSubmissionListItem struct {
 	DefaultKey     string    `json:"defaultKey"`
 	Lyrics         string    `json:"lyrics"`
 	Chords         string    `json:"chords"`
+	BPM            *int      `json:"bpm,omitempty"`
+	BeatsPerLine   *int      `json:"beatsPerLine,omitempty"`
+	IntroBeats     *int      `json:"introBeats,omitempty"`
 	SubmitterName  string    `json:"submitterName"`
 	SubmitterEmail string    `json:"submitterEmail"`
 	Note           string    `json:"note"`
@@ -298,6 +336,40 @@ func main() {
 
 		writeJSON(w, http.StatusCreated, result)
 	})
+	mux.HandleFunc("PUT /api/admin/songs/{id}", func(w http.ResponseWriter, r *http.Request) {
+		if !requireAdmin(w, r, cfg) {
+			return
+		}
+
+		songID := strings.TrimSpace(r.PathValue("id"))
+		if songID == "" {
+			writeError(w, http.StatusBadRequest, "song id is required")
+			return
+		}
+
+		var payload songAdminUpdateRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid song payload")
+			return
+		}
+
+		result, err := updatePublishedSongMetadata(r.Context(), db, songID, payload)
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "published song not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("update admin song failed", "error", err, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to update song")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, result)
+	})
 	mux.HandleFunc("POST /api/admin/song-submissions/{id}/approve", func(w http.ResponseWriter, r *http.Request) {
 		if !requireAdmin(w, r, cfg) {
 			return
@@ -453,6 +525,14 @@ func writeError(w http.ResponseWriter, status int, message string) {
 
 var errValidation = errors.New("validation failed")
 
+const (
+	minBPM          = 40
+	maxBPM          = 220
+	minBeatsPerLine = 1
+	maxBeatsPerLine = 16
+	maxIntroBeats   = 64
+)
+
 func validationError(message string) error {
 	return fmt.Errorf("%w: %s", errValidation, message)
 }
@@ -498,8 +578,8 @@ func createSongSubmission(ctx context.Context, db *sql.DB, payload songSubmissio
 
 	const query = `
 INSERT INTO song_submissions (
-  title, category, default_key, lyrics, chords, submitter_name, submitter_email, note
-) VALUES (?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''))`
+  title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note
+) VALUES (?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''))`
 
 	result, err := db.ExecContext(
 		ctx,
@@ -509,6 +589,9 @@ INSERT INTO song_submissions (
 		normalized.DefaultKey,
 		normalized.Lyrics,
 		normalized.Chords,
+		optionalIntParam(normalized.BPM),
+		optionalIntParam(normalized.BeatsPerLine),
+		optionalIntParam(normalized.IntroBeats),
 		normalized.SubmitterName,
 		normalized.SubmitterEmail,
 		normalized.Note,
@@ -535,6 +618,9 @@ SET
   default_key = NULLIF(?, ''),
   lyrics = ?,
   chords = NULLIF(?, ''),
+  bpm = ?,
+  beats_per_line = ?,
+  intro_beats = ?,
   submitter_name = NULLIF(?, ''),
   submitter_email = NULLIF(?, ''),
   note = NULLIF(?, '')
@@ -544,6 +630,9 @@ WHERE id = ? AND status = 'pending'`,
 		normalized.DefaultKey,
 		normalized.Lyrics,
 		normalized.Chords,
+		optionalIntParam(normalized.BPM),
+		optionalIntParam(normalized.BeatsPerLine),
+		optionalIntParam(normalized.IntroBeats),
 		normalized.SubmitterName,
 		normalized.SubmitterEmail,
 		normalized.Note,
@@ -572,6 +661,9 @@ SELECT
   COALESCE(default_key, ''),
   lyrics,
   COALESCE(chords, ''),
+  bpm,
+  beats_per_line,
+  intro_beats,
   COALESCE(submitter_name, ''),
   COALESCE(submitter_email, ''),
   COALESCE(note, ''),
@@ -591,6 +683,9 @@ LIMIT 100`
 	submissions := make([]songSubmissionListItem, 0)
 	for rows.Next() {
 		var item songSubmissionListItem
+		var bpm sql.NullInt64
+		var beatsPerLine sql.NullInt64
+		var introBeats sql.NullInt64
 		if err := rows.Scan(
 			&item.ID,
 			&item.Title,
@@ -598,6 +693,9 @@ LIMIT 100`
 			&item.DefaultKey,
 			&item.Lyrics,
 			&item.Chords,
+			&bpm,
+			&beatsPerLine,
+			&introBeats,
 			&item.SubmitterName,
 			&item.SubmitterEmail,
 			&item.Note,
@@ -606,6 +704,9 @@ LIMIT 100`
 		); err != nil {
 			return nil, err
 		}
+		item.BPM = intPtrFromNull(bpm)
+		item.BeatsPerLine = intPtrFromNull(beatsPerLine)
+		item.IntroBeats = intPtrFromNull(introBeats)
 		submissions = append(submissions, item)
 	}
 
@@ -640,6 +741,71 @@ func createPublishedSong(ctx context.Context, db *sql.DB, payload songSubmission
 		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
 		nextVersion,
 		fmt.Sprintf("Admin created song %s", songID),
+		version.ID,
+	); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	return approveSubmissionResponse{SongID: songID, CatalogVersion: nextVersion}, nil
+}
+
+func updatePublishedSongMetadata(ctx context.Context, db *sql.DB, songID string, payload songAdminUpdateRequest) (approveSubmissionResponse, error) {
+	normalized, err := normalizeSongMetadata(payload)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	defer tx.Rollback()
+
+	version, err := lockCurrentCatalogVersion(ctx, tx)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	result, err := tx.ExecContext(
+		ctx,
+		`UPDATE songs
+SET title = ?, category = ?, default_key = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
+WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
+		normalized.Title,
+		normalized.Category,
+		normalized.DefaultKey,
+		optionalIntParam(normalized.BPM),
+		optionalIntParam(normalized.BeatsPerLine),
+		optionalIntParam(normalized.IntroBeats),
+		songID,
+		version.ID,
+	)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	if affected == 0 {
+		return approveSubmissionResponse{}, sql.ErrNoRows
+	}
+	if normalized.Sections != nil {
+		if err := replacePublishedSongSectionsTx(ctx, tx, songID, normalized.Sections); err != nil {
+			return approveSubmissionResponse{}, err
+		}
+	}
+
+	nextVersion := fmt.Sprintf("admin-edit-%s", time.Now().UTC().Format("20060102150405"))
+	if _, err := tx.ExecContext(
+		ctx,
+		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
+		nextVersion,
+		fmt.Sprintf("Admin updated song %s", songID),
 		version.ID,
 	); err != nil {
 		return approveSubmissionResponse{}, err
@@ -689,19 +855,28 @@ func approveSongSubmission(ctx context.Context, db *sql.DB, submissionID int64) 
 
 	var submission songSubmissionRequest
 	const submissionQuery = `
-SELECT title, category, COALESCE(default_key, ''), lyrics, COALESCE(chords, '')
+SELECT title, category, COALESCE(default_key, ''), lyrics, COALESCE(chords, ''), bpm, beats_per_line, intro_beats
 FROM song_submissions
 WHERE id = ? AND status = 'pending'
 FOR UPDATE`
+	var bpm sql.NullInt64
+	var beatsPerLine sql.NullInt64
+	var introBeats sql.NullInt64
 	if err := tx.QueryRowContext(ctx, submissionQuery, submissionID).Scan(
 		&submission.Title,
 		&submission.Category,
 		&submission.DefaultKey,
 		&submission.Lyrics,
 		&submission.Chords,
+		&bpm,
+		&beatsPerLine,
+		&introBeats,
 	); err != nil {
 		return approveSubmissionResponse{}, err
 	}
+	submission.BPM = intPtrFromNull(bpm)
+	submission.BeatsPerLine = intPtrFromNull(beatsPerLine)
+	submission.IntroBeats = intPtrFromNull(introBeats)
 
 	normalized, err := normalizeSongSubmission(submission)
 	if err != nil {
@@ -746,15 +921,8 @@ FOR UPDATE`
 }
 
 func lockCurrentCatalogVersionAndNextNumber(ctx context.Context, tx *sql.Tx) (catalogVersion, int, error) {
-	var version catalogVersion
-	const versionQuery = `
-SELECT id, version, published_at
-FROM catalog_versions
-WHERE is_current = 1
-ORDER BY published_at DESC, id DESC
-LIMIT 1
-FOR UPDATE`
-	if err := tx.QueryRowContext(ctx, versionQuery).Scan(&version.ID, &version.Version, &version.PublishedAt); err != nil {
+	version, err := lockCurrentCatalogVersion(ctx, tx)
+	if err != nil {
 		return catalogVersion{}, 0, err
 	}
 
@@ -764,6 +932,22 @@ FOR UPDATE`
 	}
 
 	return version, nextNumber, nil
+}
+
+func lockCurrentCatalogVersion(ctx context.Context, tx *sql.Tx) (catalogVersion, error) {
+	var version catalogVersion
+	const versionQuery = `
+SELECT id, version, published_at
+FROM catalog_versions
+WHERE is_current = 1
+ORDER BY published_at DESC, id DESC
+LIMIT 1
+FOR UPDATE`
+	if err := tx.QueryRowContext(ctx, versionQuery).Scan(&version.ID, &version.Version, &version.PublishedAt); err != nil {
+		return catalogVersion{}, err
+	}
+
+	return version, nil
 }
 
 func insertPublishedSongTx(
@@ -776,21 +960,100 @@ func insertPublishedSongTx(
 ) error {
 	if _, err := tx.ExecContext(
 		ctx,
-		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), 'published')`,
+		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, bpm, beats_per_line, intro_beats, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), ?, ?, ?, 'published')`,
 		songID,
 		catalogVersionID,
 		number,
 		normalized.Title,
 		normalized.Category,
 		normalized.DefaultKey,
+		optionalIntParam(normalized.BPM),
+		optionalIntParam(normalized.BeatsPerLine),
+		optionalIntParam(normalized.IntroBeats),
 	); err != nil {
 		return err
 	}
 
+	sections, err := parsePublishedSongSections(normalized.Lyrics, normalized.Chords)
+	if err != nil {
+		return err
+	}
+	for index, section := range sections {
+		if err := insertParsedSongSectionTx(ctx, tx, songID, index+1, section); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func replacePublishedSongSectionsTx(ctx context.Context, tx *sql.Tx, songID string, sections []songAdminSectionUpdateRequest) error {
+	if _, err := tx.ExecContext(
+		ctx,
+		`DELETE slc
+FROM song_line_chords slc
+JOIN song_lines sl ON sl.id = slc.line_id
+JOIN song_sections ss ON ss.id = sl.section_id
+WHERE ss.song_id = ?`,
+		songID,
+	); err != nil {
+		return err
+	}
+	if _, err := tx.ExecContext(
+		ctx,
+		`DELETE sl
+FROM song_lines sl
+JOIN song_sections ss ON ss.id = sl.section_id
+WHERE ss.song_id = ?`,
+		songID,
+	); err != nil {
+		return err
+	}
+	if _, err := tx.ExecContext(ctx, `DELETE FROM song_sections WHERE song_id = ?`, songID); err != nil {
+		return err
+	}
+
+	for index, section := range sections {
+		if err := insertSongSectionTx(ctx, tx, songID, index+1, section.SectionType, section.Title, section.Lyrics, section.Chords); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func insertSongSectionTx(
+	ctx context.Context,
+	tx *sql.Tx,
+	songID string,
+	position int,
+	sectionType string,
+	title string,
+	lyricsText string,
+	chordsText string,
+) error {
+	return insertParsedSongSectionTx(ctx, tx, songID, position, parsedSongSection{
+		SectionType: sectionType,
+		Title:       title,
+		Lines:       splitNonEmptyLines(lyricsText),
+		Chords:      splitChordLines(chordsText),
+	})
+}
+
+func insertParsedSongSectionTx(
+	ctx context.Context,
+	tx *sql.Tx,
+	songID string,
+	position int,
+	section parsedSongSection,
+) error {
 	sectionResult, err := tx.ExecContext(
 		ctx,
-		`INSERT INTO song_sections (song_id, section_type, position, title) VALUES (?, 'verse', 1, 'Куплет 1')`,
+		`INSERT INTO song_sections (song_id, section_type, position, title) VALUES (?, ?, ?, NULLIF(?, ''))`,
 		songID,
+		section.SectionType,
+		position,
+		section.Title,
 	)
 	if err != nil {
 		return err
@@ -800,9 +1063,7 @@ func insertPublishedSongTx(
 		return err
 	}
 
-	lyrics := splitNonEmptyLines(normalized.Lyrics)
-	chords := splitChordLines(normalized.Chords)
-	for index, line := range lyrics {
+	for index, line := range section.Lines {
 		lineResult, err := tx.ExecContext(
 			ctx,
 			`INSERT INTO song_lines (section_id, position, text) VALUES (?, ?, ?)`,
@@ -818,10 +1079,10 @@ func insertPublishedSongTx(
 			return err
 		}
 
-		if index >= len(chords) {
+		if index >= len(section.Chords) {
 			continue
 		}
-		for chordIndex, chord := range chords[index] {
+		for chordIndex, chord := range section.Chords[index] {
 			if _, err := tx.ExecContext(
 				ctx,
 				`INSERT INTO song_line_chords (line_id, position, chord) VALUES (?, ?, ?)`,
@@ -837,6 +1098,143 @@ func insertPublishedSongTx(
 	return nil
 }
 
+func parsePublishedSongSections(lyricsText string, chordsText string) ([]parsedSongSection, error) {
+	sections := splitLyricsSections(lyricsText)
+	if len(sections) == 0 {
+		return nil, validationError("lyrics must contain text lines")
+	}
+
+	chordSections, hasChordHeadings := splitChordSections(chordsText)
+	if hasChordHeadings {
+		for index := range sections {
+			if index < len(chordSections) {
+				sections[index].Chords = chordSections[index].Chords
+			}
+		}
+		return sections, nil
+	}
+
+	chordLines := splitChordLines(chordsText)
+	chordIndex := 0
+	for sectionIndex := range sections {
+		sections[sectionIndex].Chords = make([][]string, 0, len(sections[sectionIndex].Lines))
+		for range sections[sectionIndex].Lines {
+			if chordIndex >= len(chordLines) {
+				sections[sectionIndex].Chords = append(sections[sectionIndex].Chords, []string{})
+				continue
+			}
+			sections[sectionIndex].Chords = append(sections[sectionIndex].Chords, chordLines[chordIndex])
+			chordIndex++
+		}
+	}
+
+	return sections, nil
+}
+
+func splitLyricsSections(value string) []parsedSongSection {
+	sections := make([]parsedSongSection, 0)
+	currentIndex := -1
+	verseCount := 0
+
+	for _, rawLine := range strings.Split(value, "\n") {
+		line := strings.TrimSpace(rawLine)
+		if line == "" {
+			continue
+		}
+		if sectionType, title, ok := parseSectionHeading(line); ok {
+			if sectionType == "verse" {
+				verseCount++
+			}
+			sections = append(sections, parsedSongSection{SectionType: sectionType, Title: title})
+			currentIndex = len(sections) - 1
+			continue
+		}
+		if currentIndex < 0 {
+			verseCount++
+			sections = append(sections, parsedSongSection{SectionType: "verse", Title: fmt.Sprintf("Куплет %d", verseCount)})
+			currentIndex = 0
+		}
+		sections[currentIndex].Lines = append(sections[currentIndex].Lines, line)
+	}
+
+	return filterEmptyParsedSections(sections)
+}
+
+func splitChordSections(value string) ([]parsedSongSection, bool) {
+	sections := make([]parsedSongSection, 0)
+	currentIndex := -1
+	hasHeadings := false
+
+	for _, rawLine := range strings.Split(value, "\n") {
+		line := strings.TrimSpace(rawLine)
+		if sectionType, title, ok := parseSectionHeading(line); ok {
+			hasHeadings = true
+			sections = append(sections, parsedSongSection{SectionType: sectionType, Title: title})
+			currentIndex = len(sections) - 1
+			continue
+		}
+		if line == "" && currentIndex < 0 {
+			continue
+		}
+		if currentIndex < 0 {
+			sections = append(sections, parsedSongSection{SectionType: "verse", Title: "Куплет 1"})
+			currentIndex = 0
+		}
+		sections[currentIndex].Chords = append(sections[currentIndex].Chords, strings.Fields(rawLine))
+	}
+
+	return sections, hasHeadings
+}
+
+func filterEmptyParsedSections(sections []parsedSongSection) []parsedSongSection {
+	filtered := make([]parsedSongSection, 0, len(sections))
+	for _, section := range sections {
+		if len(section.Lines) == 0 {
+			continue
+		}
+		filtered = append(filtered, section)
+	}
+	return filtered
+}
+
+func parseSectionHeading(value string) (string, string, bool) {
+	title := strings.Trim(strings.TrimSpace(value), "[]: \t")
+	if title == "" {
+		return "", "", false
+	}
+
+	lower := strings.ToLower(title)
+	switch {
+	case isSectionHeading(lower, "куплет") || isSectionHeading(lower, "verse"):
+		return "verse", title, true
+	case isSectionHeading(lower, "припев") || isSectionHeading(lower, "chorus") || isSectionHeading(lower, "refrain"):
+		return "chorus", title, true
+	case isSectionHeading(lower, "бридж") || isSectionHeading(lower, "мост") || isSectionHeading(lower, "bridge"):
+		return "bridge", title, true
+	default:
+		return "", "", false
+	}
+}
+
+func isSectionHeading(value string, prefix string) bool {
+	if value == prefix {
+		return true
+	}
+	for _, separator := range []string{" ", "-"} {
+		suffix, ok := strings.CutPrefix(value, prefix+separator)
+		if !ok {
+			continue
+		}
+		suffix = strings.TrimSpace(suffix)
+		if suffix == "" {
+			return true
+		}
+		first := []rune(suffix)[0]
+		return first >= '0' && first <= '9'
+	}
+	return false
+}
+
 func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionRequest, error) {
 	normalized := songSubmissionRequest{
 		Title:          strings.TrimSpace(payload.Title),
@@ -844,6 +1242,9 @@ func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionReque
 		DefaultKey:     strings.TrimSpace(payload.DefaultKey),
 		Lyrics:         strings.TrimSpace(payload.Lyrics),
 		Chords:         strings.TrimSpace(payload.Chords),
+		BPM:            payload.BPM,
+		BeatsPerLine:   payload.BeatsPerLine,
+		IntroBeats:     payload.IntroBeats,
 		SubmitterName:  strings.TrimSpace(payload.SubmitterName),
 		SubmitterEmail: strings.TrimSpace(payload.SubmitterEmail),
 		Note:           strings.TrimSpace(payload.Note),
@@ -869,6 +1270,12 @@ func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionReque
 		return songSubmissionRequest{}, validationError("lyrics are too long")
 	case tooLong(normalized.Chords, 12000):
 		return songSubmissionRequest{}, validationError("chords are too long")
+	case normalized.BPM != nil && (*normalized.BPM < minBPM || *normalized.BPM > maxBPM):
+		return songSubmissionRequest{}, validationError("bpm must be between 40 and 220")
+	case normalized.BeatsPerLine != nil && (*normalized.BeatsPerLine < minBeatsPerLine || *normalized.BeatsPerLine > maxBeatsPerLine):
+		return songSubmissionRequest{}, validationError("beats per line must be between 1 and 16")
+	case normalized.IntroBeats != nil && (*normalized.IntroBeats < 0 || *normalized.IntroBeats > maxIntroBeats):
+		return songSubmissionRequest{}, validationError("intro beats must be between 0 and 64")
 	case tooLong(normalized.SubmitterName, 128):
 		return songSubmissionRequest{}, validationError("submitter name is too long")
 	case tooLong(normalized.SubmitterEmail, 255):
@@ -878,6 +1285,89 @@ func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionReque
 	}
 
 	return normalized, nil
+}
+
+func normalizeSongMetadata(payload songAdminUpdateRequest) (songAdminUpdateRequest, error) {
+	normalized := songAdminUpdateRequest{
+		Title:        strings.TrimSpace(payload.Title),
+		Category:     strings.TrimSpace(payload.Category),
+		DefaultKey:   strings.TrimSpace(payload.DefaultKey),
+		BPM:          payload.BPM,
+		BeatsPerLine: payload.BeatsPerLine,
+		IntroBeats:   payload.IntroBeats,
+		Sections:     payload.Sections,
+	}
+	if normalized.Category == "" {
+		normalized.Category = "Общее"
+	}
+
+	switch {
+	case normalized.Title == "":
+		return songAdminUpdateRequest{}, validationError("title is required")
+	case tooLong(normalized.Title, 255):
+		return songAdminUpdateRequest{}, validationError("title is too long")
+	case tooLong(normalized.Category, 128):
+		return songAdminUpdateRequest{}, validationError("category is too long")
+	case tooLong(normalized.DefaultKey, 16):
+		return songAdminUpdateRequest{}, validationError("default key is too long")
+	case normalized.BPM != nil && (*normalized.BPM < minBPM || *normalized.BPM > maxBPM):
+		return songAdminUpdateRequest{}, validationError("bpm must be between 40 and 220")
+	case normalized.BeatsPerLine != nil && (*normalized.BeatsPerLine < minBeatsPerLine || *normalized.BeatsPerLine > maxBeatsPerLine):
+		return songAdminUpdateRequest{}, validationError("beats per line must be between 1 and 16")
+	case normalized.IntroBeats != nil && (*normalized.IntroBeats < 0 || *normalized.IntroBeats > maxIntroBeats):
+		return songAdminUpdateRequest{}, validationError("intro beats must be between 0 and 64")
+	}
+	if normalized.Sections != nil {
+		if len(normalized.Sections) == 0 {
+			return songAdminUpdateRequest{}, validationError("song sections are required")
+		}
+		if len(normalized.Sections) > 30 {
+			return songAdminUpdateRequest{}, validationError("too many song sections")
+		}
+		for index, section := range normalized.Sections {
+			normalizedSection := songAdminSectionUpdateRequest{
+				SectionType: strings.TrimSpace(section.SectionType),
+				Title:       strings.TrimSpace(section.Title),
+				Lyrics:      strings.TrimSpace(section.Lyrics),
+				Chords:      strings.TrimSpace(section.Chords),
+			}
+			switch normalizedSection.SectionType {
+			case "verse", "chorus", "bridge":
+			default:
+				return songAdminUpdateRequest{}, validationError("section type is invalid")
+			}
+			switch {
+			case tooLong(normalizedSection.Title, 128):
+				return songAdminUpdateRequest{}, validationError("section title is too long")
+			case normalizedSection.Lyrics == "":
+				return songAdminUpdateRequest{}, validationError("section lyrics are required")
+			case len(splitNonEmptyLines(normalizedSection.Lyrics)) == 0:
+				return songAdminUpdateRequest{}, validationError("section lyrics must contain text lines")
+			case tooLong(normalizedSection.Lyrics, 12000):
+				return songAdminUpdateRequest{}, validationError("section lyrics are too long")
+			case tooLong(normalizedSection.Chords, 12000):
+				return songAdminUpdateRequest{}, validationError("section chords are too long")
+			}
+			normalized.Sections[index] = normalizedSection
+		}
+	}
+
+	return normalized, nil
+}
+
+func optionalIntParam(value *int) any {
+	if value == nil {
+		return nil
+	}
+	return *value
+}
+
+func intPtrFromNull(value sql.NullInt64) *int {
+	if !value.Valid {
+		return nil
+	}
+	converted := int(value.Int64)
+	return &converted
 }
 
 func splitNonEmptyLines(value string) []string {
@@ -932,7 +1422,7 @@ WHERE s.catalog_version_id = ?
     )
   )
 ORDER BY s.number ASC, s.title ASC
-LIMIT 200`
+LIMIT 1000`
 
 	rows, err := db.QueryContext(ctx, query, version.ID, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery)
 	if err != nil {
@@ -962,7 +1452,7 @@ SELECT id
 FROM songs
 WHERE catalog_version_id = ? AND status = 'published'
 ORDER BY number ASC, title ASC
-LIMIT 200`
+LIMIT 1000`
 
 	rows, err := db.QueryContext(ctx, query, version.ID)
 	if err != nil {
@@ -1003,14 +1493,24 @@ func getSong(ctx context.Context, db *sql.DB, songID string) (songResponse, erro
 
 func getSongByVersion(ctx context.Context, db *sql.DB, catalogVersionID int64, songID string) (songResponse, error) {
 	const songQuery = `
-SELECT id, number, title, category
+SELECT id, number, title, category, COALESCE(default_key, ''), bpm, beats_per_line, intro_beats
 FROM songs
 WHERE catalog_version_id = ? AND id = ? AND status = 'published'
 LIMIT 1`
 
 	var song songResponse
-	if err := db.QueryRowContext(ctx, songQuery, catalogVersionID, songID).Scan(&song.ID, &song.Number, &song.Title, &song.Category); err != nil {
+	var bpm sql.NullInt64
+	var beatsPerLine sql.NullInt64
+	var introBeats sql.NullInt64
+	if err := db.QueryRowContext(ctx, songQuery, catalogVersionID, songID).Scan(&song.ID, &song.Number, &song.Title, &song.Category, &song.DefaultKey, &bpm, &beatsPerLine, &introBeats); err != nil {
 		return songResponse{}, err
+	}
+	if bpm.Valid && beatsPerLine.Valid {
+		song.Playback = &songPlayback{
+			BPM:          int(bpm.Int64),
+			BeatsPerLine: int(beatsPerLine.Int64),
+			IntroBeats:   intPtrFromNull(introBeats),
+		}
 	}
 
 	sections, err := loadSongSections(ctx, db, songID)

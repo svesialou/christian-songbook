@@ -25,14 +25,17 @@ import {
 import { sampleCatalog } from './data/sampleCatalog';
 import { songCategories } from './data/songCategories';
 import {
+  AdminSongUpdatePayload,
   SongSubmission,
   SongSubmissionPayload,
   approveSongSubmission,
   fetchCatalogSnapshot,
   fetchPendingSongSubmissions,
   rejectSongSubmission,
+  updateAdminSong,
   updateSongSubmission,
 } from './lib/catalogApi';
+import AdminCatalogSheet from './components/AdminCatalogSheet';
 import AdminSongCreateSheet from './components/AdminSongCreateSheet';
 import AdminSubmissionsSheet from './components/AdminSubmissionsSheet';
 import SongList from './components/SongList';
@@ -238,6 +241,7 @@ const parseCatalogImport = (
       number,
       title,
       category: normalizeCategory(song.category),
+      defaultKey: typeof song.defaultKey === 'string' && song.defaultKey.trim().length > 0 ? song.defaultKey.trim() : undefined,
       playback: normalizeSongPlayback(song.playback),
       verses,
       chorus: normalizeSection(song.chorus),
@@ -266,6 +270,7 @@ const normalizeCatalog = (songs: Song[]) =>
     id: song.id || `song-${index + 1}`,
     number: song.number || index + 1,
     category: normalizeCategory(song.category),
+    defaultKey: typeof song.defaultKey === 'string' && song.defaultKey.trim().length > 0 ? song.defaultKey.trim() : undefined,
     playback: normalizeSongPlayback(song.playback),
     verses: song.verses ?? [],
   }));
@@ -362,11 +367,13 @@ function App() {
   const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
   const [isAdminSubmissionsOpen, setIsAdminSubmissionsOpen] = useState(false);
   const [isAdminSongCreateOpen, setIsAdminSongCreateOpen] = useState(false);
+  const [isAdminCatalogOpen, setIsAdminCatalogOpen] = useState(false);
   const [pendingSubmissions, setPendingSubmissions] = useState<SongSubmission[]>([]);
   const [isPendingSubmissionsLoading, setIsPendingSubmissionsLoading] = useState(false);
   const [savingSubmissionId, setSavingSubmissionId] = useState<number | null>(null);
   const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
   const [rejectingSubmissionId, setRejectingSubmissionId] = useState<number | null>(null);
+  const [savingAdminSongId, setSavingAdminSongId] = useState<string | null>(null);
   const [adminApiKey, setAdminApiKey] = useState(() => (isAdminMode ? DEFAULT_ADMIN_API_KEY : ''));
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
@@ -503,6 +510,54 @@ function App() {
     }
   };
 
+  const handleSaveAdminSong = async (songId: string, payload: AdminSongUpdatePayload) => {
+    if (!isAdminAuthenticated) {
+      setError('Нужно войти в админку.');
+      return;
+    }
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для сохранения.');
+      return;
+    }
+
+    const normalizedPayload = {
+      ...payload,
+      title: payload.title.trim(),
+      category: payload.category.trim() || DEFAULT_CATEGORY,
+      defaultKey: payload.defaultKey.trim(),
+    };
+
+    setSavingAdminSongId(songId);
+    try {
+      const result = await updateAdminSong(songId, normalizedPayload, adminApiKey);
+      setSongs((current) =>
+        current.map((song) =>
+          song.id === songId
+            ? {
+                ...song,
+                title: normalizedPayload.title,
+                category: normalizedPayload.category,
+                defaultKey: normalizedPayload.defaultKey || undefined,
+                playback: {
+                  bpm: normalizedPayload.bpm,
+                  beatsPerLine: normalizedPayload.beatsPerLine,
+                  introBeats: normalizedPayload.introBeats,
+                },
+              }
+            : song,
+        ),
+      );
+      const snapshot = await fetchCatalogSnapshot();
+      await applyCatalogSnapshot(snapshot);
+      setNotice(`Песня сохранена: ${result.songId}`);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось сохранить песню.');
+    } finally {
+      setSavingAdminSongId(null);
+    }
+  };
+
   const handleAdminLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const key = adminApiKey.trim();
@@ -531,6 +586,8 @@ function App() {
     setPendingSubmissions([]);
     setIsAdminAuthenticated(false);
     setIsAdminSubmissionsOpen(false);
+    setIsAdminSongCreateOpen(false);
+    setIsAdminCatalogOpen(false);
     setNotice(null);
     setError(null);
   };
@@ -1199,10 +1256,20 @@ function App() {
                       <p className="admin-tools-note">Заявки и локальный импорт. Для обычных пользователей скрыто.</p>
                     </div>
                     <div className="toolbar">
-                      <button
-                        type="button"
-                        className="toolbar-button"
-                        onClick={() => {
+	                      <button
+	                        type="button"
+	                        className="toolbar-button"
+	                        onClick={() => {
+	                          setIsAppMenuOpen(false);
+	                          setIsAdminCatalogOpen(true);
+	                        }}
+	                      >
+	                        Каталог
+	                      </button>
+	                      <button
+	                        type="button"
+	                        className="toolbar-button"
+	                        onClick={() => {
                           setIsAppMenuOpen(false);
                           setIsAdminSongCreateOpen(true);
                         }}
@@ -1271,12 +1338,15 @@ function App() {
                 <p>Каталог подтягивается из MySQL. Заявки можно проверить и добавить в текущую опубликованную версию.</p>
               </div>
               <div className="admin-dashboard-actions">
-                <button type="button" className="sheet-primary" onClick={() => setIsAdminSongCreateOpen(true)}>
-                  Добавить песню
-                </button>
-                <button
-                  type="button"
-                  className="sheet-primary"
+	                <button type="button" className="sheet-primary" onClick={() => setIsAdminSongCreateOpen(true)}>
+	                  Добавить песню
+	                </button>
+	                <button type="button" className="sheet-primary" onClick={() => setIsAdminCatalogOpen(true)}>
+	                  Каталог
+	                </button>
+	                <button
+	                  type="button"
+	                  className="sheet-primary"
                   onClick={() => {
                     setIsAdminSubmissionsOpen(true);
                     void loadPendingSubmissions();
@@ -1446,6 +1516,17 @@ function App() {
           onApprove={(submissionId) => void handleApproveSubmission(submissionId)}
           onReject={(submissionId) => void handleRejectSubmission(submissionId)}
           onClose={() => setIsAdminSubmissionsOpen(false)}
+        />
+      ) : null}
+
+      {isAdminMode && isAdminCatalogOpen ? (
+        <AdminCatalogSheet
+          songs={songs}
+          categories={categoryOptions.map((category) => category.name)}
+          savingId={savingAdminSongId}
+          onRefresh={() => void refreshCatalog(true)}
+          onSave={(songId, payload) => void handleSaveAdminSong(songId, payload)}
+          onClose={() => setIsAdminCatalogOpen(false)}
         />
       ) : null}
 
