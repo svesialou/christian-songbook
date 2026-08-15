@@ -16,6 +16,7 @@ const TEXT_BLOCK_TYPES = new Set([
   'quote',
   'callout',
 ]);
+const SECTION_BREAK_BLOCK_TYPES = new Set(['divider']);
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -187,10 +188,14 @@ function extractTextLines(blocks, root) {
   const lines = [];
   for (const childId of root?.content || []) {
     const block = getBlock(blocks, childId);
+    if (SECTION_BREAK_BLOCK_TYPES.has(block.type)) {
+      lines.push('');
+      continue;
+    }
     if (!TEXT_BLOCK_TYPES.has(block.type)) continue;
 
     const line = getTitle(block);
-    if (line) lines.push(line);
+    lines.push(line);
   }
   return trimEmptyEdges(lines);
 }

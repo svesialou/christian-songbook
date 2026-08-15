@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
+import { categorizeSong } from './lib/song-category-rules.mjs';
 
 const DEFAULT_INPUT = 'seed/holychords/songs.from-photos.staging.json';
-const DEFAULT_MARKER = 'photo-staging-2026-08-13';
+const DEFAULT_MARKER = 'songbook-staging-2026-08-14';
 const PLACEHOLDER_LYRICS = '[Текст песни нужно добавить вручную перед апрувом]';
 
 const args = parseArgs(process.argv.slice(2));
@@ -39,7 +40,7 @@ function parseArgs(items) {
 
 function printHelp() {
   console.log(`Usage:
-  node scripts/generate-staging-submissions-sql.mjs --sql-out seed/holychords/submissions.generated.sql
+  node scripts/generate-staging-submissions-sql.mjs --sql-out seed/notion-youth-songbook/submissions.generated.sql
 
 Options:
   --input      Read staging manifest JSON. Defaults to ${DEFAULT_INPUT}
@@ -62,7 +63,7 @@ function normalizeSongs(payload) {
     return {
       oldNumber,
       title,
-      category: String(song.category || 'Разное').trim() || 'Разное',
+      category: categorizeSong(song, String(song.category || 'Разное').trim() || 'Разное'),
       defaultKey: nullableString(song.defaultKey),
       bpm: nullableNumber(song.bpm),
       beatsPerLine: nullableNumber(song.beatsPerLine),

@@ -424,7 +424,6 @@ const SongView = ({
       }}
     >
       <div className="song-header">
-        <button onClick={onBack} className="toolbar-button">Назад к списку</button>
         <button type="button" onClick={() => onShare(song)} className="toolbar-button">Поделиться</button>
         <div>
           <p className="eyebrow">Песня №{song.number}</p>

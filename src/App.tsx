@@ -62,7 +62,7 @@ const DEFAULT_CATEGORY = 'Общее';
 const LIVE_PREVIEW_COLLECTION: SongCollection = {
   id: 'collection-live-preview',
   name: 'Live команда',
-  songIds: ['notion-youth-1', 'notion-youth-2'],
+  songIds: ['a-ty-ne-dumai', 'agnecz-pashalnyi'],
   createdAt: '2026-08-13T00:00:00.000Z',
   updatedAt: '2026-08-13T00:00:00.000Z',
 };
@@ -84,6 +84,12 @@ const readSearchParam = (key: string) => {
   return new URLSearchParams(window.location.search).get(key);
 };
 
+const readSongRouteParam = () => {
+  if (typeof window === 'undefined') return null;
+  const match = window.location.pathname.match(/^\/song\/([^/]+)\/?$/);
+  return match ? decodeURIComponent(match[1]) : null;
+};
+
 const isAdminRoute = () => {
   if (typeof window === 'undefined') return false;
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -95,10 +101,14 @@ const updateSongQuery = (songId: string | null) => {
 
   const url = new URL(window.location.href);
   if (songId) {
-    url.searchParams.set('song', songId);
+    url.pathname = `/song/${encodeURIComponent(songId)}`;
+    url.searchParams.delete('song');
     url.searchParams.delete('menu');
   } else {
     url.searchParams.delete('song');
+    if (url.pathname.match(/^\/song\/[^/]+\/?$/)) {
+      url.pathname = '/';
+    }
   }
 
   window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
@@ -130,7 +140,7 @@ const getShareOrigin = () => {
 
 const buildSongShareText = (song: Song) => {
   const origin = getShareOrigin();
-  const link = origin ? `${origin}/?song=${encodeURIComponent(song.id)}` : '';
+  const link = origin ? `${origin}/song/${encodeURIComponent(song.id)}` : '';
   return [`Песня №${song.number}: ${song.title}`, normalizeCategory(song.category), link].filter(Boolean).join('\n');
 };
 
@@ -306,6 +316,11 @@ const normalizeCatalog = (songs: Song[]) =>
     verses: song.verses ?? [],
   }));
 const bundledSongs = normalizeCatalog(bundledCatalog);
+const resolveRouteSongId = (songs: Song[], routeSongId: string | null) => {
+  if (!routeSongId) return null;
+  if (songs.some((song) => song.id === routeSongId)) return routeSongId;
+  return null;
+};
 const isDemoCatalog = (songs: Song[]) => {
   const ids = new Set(songs.map((song) => song.id));
   return songs.length === 2 && ids.has('song-1') && ids.has('song-2');
@@ -391,7 +406,7 @@ function App() {
   );
   const [collectionSheet, setCollectionSheet] = useState<CollectionSheetState>(null);
   const [collectionName, setCollectionName] = useState('');
-  const [activeSongId, setActiveSongId] = useState<string | null>(() => readSearchParam('song'));
+  const [activeSongId, setActiveSongId] = useState<string | null>(() => readSongRouteParam());
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine));
@@ -707,7 +722,11 @@ function App() {
       }
       setPlaybackPosition(loadedPlaybackPosition);
       setSettings(loadedSettings);
-      if (activeSongId && !baseCatalog.some((song) => song.id === activeSongId)) {
+      const resolvedActiveSongId = resolveRouteSongId(baseCatalog, activeSongId);
+      if (activeSongId && resolvedActiveSongId && resolvedActiveSongId !== activeSongId) {
+        setActiveSongId(resolvedActiveSongId);
+        updateSongQuery(resolvedActiveSongId);
+      } else if (activeSongId && !resolvedActiveSongId) {
         setActiveSongId(null);
         updateSongQuery(null);
       }
@@ -1143,7 +1162,10 @@ function App() {
     });
   }, [songs, recentSongs, activeCollection, liveSongIds, listMode, activeCategory, query]);
 
-  const activeSong = useMemo(() => songs.find((item) => item.id === activeSongId), [songs, activeSongId]);
+  const activeSong = useMemo(() => {
+    const resolvedSongId = resolveRouteSongId(songs, activeSongId);
+    return resolvedSongId ? songs.find((item) => item.id === resolvedSongId) : undefined;
+  }, [songs, activeSongId]);
   const previewPlaybackPosition: SongPlaybackPosition | null =
     isPlaybackPreview && activeSong
       ? {

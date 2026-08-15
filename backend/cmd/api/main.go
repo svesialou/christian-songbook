@@ -730,7 +730,10 @@ func createPublishedSong(ctx context.Context, db *sql.DB, payload songSubmission
 		return approveSubmissionResponse{}, err
 	}
 
-	songID := fmt.Sprintf("admin-%d-%d", nextNumber, time.Now().UTC().UnixNano())
+	songID, err := uniqueSongID(ctx, tx, version.ID, normalized.Title, fmt.Sprintf("song-%d", nextNumber))
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
 	if err := insertPublishedSongTx(ctx, tx, version.ID, songID, nextNumber, normalized); err != nil {
 		return approveSubmissionResponse{}, err
 	}
@@ -888,7 +891,10 @@ FOR UPDATE`
 		return approveSubmissionResponse{}, err
 	}
 
-	songID := fmt.Sprintf("submission-%d", submissionID)
+	songID, err := uniqueSongID(ctx, tx, version.ID, normalized.Title, fmt.Sprintf("song-%d", nextNumber))
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
 	if err := insertPublishedSongTx(ctx, tx, version.ID, songID, nextNumber, normalized); err != nil {
 		return approveSubmissionResponse{}, err
 	}
@@ -985,6 +991,111 @@ func insertPublishedSongTx(
 	}
 
 	return nil
+}
+
+func uniqueSongID(ctx context.Context, tx *sql.Tx, catalogVersionID int64, title string, fallback string) (string, error) {
+	base := songSlug(title, fallback)
+	songID := base
+	for suffix := 2; ; suffix++ {
+		var exists int
+		if err := tx.QueryRowContext(ctx, `SELECT COUNT(*) FROM songs WHERE catalog_version_id = ? AND id = ?`, catalogVersionID, songID).Scan(&exists); err != nil {
+			return "", err
+		}
+		if exists == 0 {
+			return songID, nil
+		}
+		songID = fmt.Sprintf("%s-%d", base, suffix)
+	}
+}
+
+func songSlug(title string, fallback string) string {
+	var builder strings.Builder
+	lastDash := false
+	for _, letter := range strings.ToLower(title) {
+		part, ok := transliterateLetter(letter)
+		if !ok {
+			if !lastDash && builder.Len() > 0 {
+				builder.WriteByte('-')
+				lastDash = true
+			}
+			continue
+		}
+		builder.WriteString(part)
+		lastDash = false
+	}
+
+	slug := strings.Trim(builder.String(), "-")
+	if slug == "" {
+		return fallback
+	}
+	return slug
+}
+
+func transliterateLetter(letter rune) (string, bool) {
+	switch letter {
+	case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+		return string(letter), true
+	case 'а':
+		return "a", true
+	case 'б':
+		return "b", true
+	case 'в':
+		return "v", true
+	case 'г':
+		return "g", true
+	case 'д':
+		return "d", true
+	case 'е', 'ё':
+		return "e", true
+	case 'ж':
+		return "zh", true
+	case 'з':
+		return "z", true
+	case 'и', 'й':
+		return "i", true
+	case 'к':
+		return "k", true
+	case 'л':
+		return "l", true
+	case 'м':
+		return "m", true
+	case 'н':
+		return "n", true
+	case 'о':
+		return "o", true
+	case 'п':
+		return "p", true
+	case 'р':
+		return "r", true
+	case 'с':
+		return "s", true
+	case 'т':
+		return "t", true
+	case 'у':
+		return "u", true
+	case 'ф':
+		return "f", true
+	case 'х':
+		return "h", true
+	case 'ц':
+		return "cz", true
+	case 'ч':
+		return "ch", true
+	case 'ш':
+		return "sh", true
+	case 'щ':
+		return "sch", true
+	case 'ы':
+		return "y", true
+	case 'э':
+		return "e", true
+	case 'ю':
+		return "yu", true
+	case 'я':
+		return "ya", true
+	default:
+		return "", false
+	}
 }
 
 func replacePublishedSongSectionsTx(ctx context.Context, tx *sql.Tx, songID string, sections []songAdminSectionUpdateRequest) error {
@@ -1139,6 +1250,9 @@ func splitLyricsSections(value string) []parsedSongSection {
 	for _, rawLine := range strings.Split(value, "\n") {
 		line := strings.TrimSpace(rawLine)
 		if line == "" {
+			if currentIndex >= 0 && len(sections[currentIndex].Lines) > 0 {
+				currentIndex = -1
+			}
 			continue
 		}
 		if sectionType, title, ok := parseSectionHeading(line); ok {
@@ -1152,7 +1266,7 @@ func splitLyricsSections(value string) []parsedSongSection {
 		if currentIndex < 0 {
 			verseCount++
 			sections = append(sections, parsedSongSection{SectionType: "verse", Title: fmt.Sprintf("Куплет %d", verseCount)})
-			currentIndex = 0
+			currentIndex = len(sections) - 1
 		}
 		sections[currentIndex].Lines = append(sections[currentIndex].Lines, line)
 	}
@@ -1174,6 +1288,11 @@ func splitChordSections(value string) ([]parsedSongSection, bool) {
 			continue
 		}
 		if line == "" && currentIndex < 0 {
+			continue
+		}
+		if line == "" {
+			currentIndex = -1
+			hasHeadings = true
 			continue
 		}
 		if currentIndex < 0 {

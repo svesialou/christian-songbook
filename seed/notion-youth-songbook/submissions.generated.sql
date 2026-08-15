@@ -2,7 +2,7 @@ SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 START TRANSACTION;
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'А ты не думай', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'А ты не думай', 'Прощение', NULL, 'Куплет 1:
 А ты не думай, что тебе тяжело,
 А ты не думай, что тебе лишь темно,
 А ты забудь, что на сердце печаль.
@@ -36,16 +36,16 @@ D
 D Hm
 Em A
 D Hm
-Em G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=1 | photo=notion-youth-songbook | notionPageId=b7e923e9-208c-423f-9f0c-ab265a5b8983 | notionChordPageId=adb7c20c-b77a-4da4-8491-706696cbd589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b7e923e9208c423f9f0cab265a5b8983', 'pending'
+Em G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=1 | photo=notion-youth-songbook | notionPageId=b7e923e9-208c-423f-9f0c-ab265a5b8983 | notionChordPageId=adb7c20c-b77a-4da4-8491-706696cbd589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b7e923e9208c423f9f0cab265a5b8983', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'А ты не думай'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=1%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=1%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Агнец Пасхальный', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Агнец Пасхальный', 'Пасхальные', NULL, 'Куплет 1:
 Над Голгофою тьма нависла, тучи солнце закрыли быстро,
 Вся стонет земля от смерти Царя.
 Содрогается от рыданий, ибо чувствует боль страданий,
@@ -85,16 +85,16 @@ Am Dm Am Dm
 C G F G
 Dm Am F C Dm Am
 F Am F C Dm E
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=2 | photo=notion-youth-songbook | notionPageId=7576a9df-f607-4039-936f-bd591ac41938 | notionChordPageId=b0522ea3-c67c-4e0d-a40e-917d56defe31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7576a9dff6074039936fbd591ac41938', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=2 | photo=notion-youth-songbook | notionPageId=7576a9df-f607-4039-936f-bd591ac41938 | notionChordPageId=b0522ea3-c67c-4e0d-a40e-917d56defe31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7576a9dff6074039936fbd591ac41938', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Агнец Пасхальный'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=2%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=2%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ангелы в небе', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ангелы в небе', 'Свадебные', NULL, 'Куплет 1:
 Ангелы в небе Господа славят,
 Славу достойную Богу поют, Богу поют:
 Вечная слава, вечная слава,
@@ -140,16 +140,16 @@ Em H
 Am H Em E
 Am D G C
 Am H Em
-E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=3 | photo=notion-youth-songbook | notionPageId=e83a746c-21f0-4488-8166-90a56a931022 | notionChordPageId=e6f8ae5a-f3dc-4e42-a89f-e3f5198e90ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e83a746c21f04488816690a56a931022', 'pending'
+E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=3 | photo=notion-youth-songbook | notionPageId=e83a746c-21f0-4488-8166-90a56a931022 | notionChordPageId=e6f8ae5a-f3dc-4e42-a89f-e3f5198e90ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e83a746c21f04488816690a56a931022', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ангелы в небе'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=3%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=3%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Баллада о трёх сыновьях', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Баллада о трёх сыновьях', 'Семья', NULL, 'Куплет 1:
 В краю средь гор и цветущих долин
 Текла река, исчезая вдали.
 Прекрасней не было страны,
@@ -224,16 +224,16 @@ Am D Em
 C D Em C D Em
 C D Hm C
 Am D Em
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=4 | photo=notion-youth-songbook | notionPageId=3d2948d7-632e-4578-86ef-c6a2868837c4 | notionChordPageId=e32e8382-3297-4dc6-a61f-b5957e61851b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d2948d7632e457886efc6a2868837c4', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=4 | photo=notion-youth-songbook | notionPageId=3d2948d7-632e-4578-86ef-c6a2868837c4 | notionChordPageId=e32e8382-3297-4dc6-a61f-b5957e61851b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d2948d7632e457886efc6a2868837c4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Баллада о трёх сыновьях'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=4%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=4%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Благо есть славить Господа', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Благо есть славить Господа', 'Семья', NULL, 'Куплет 1:
 Благо есть славить Господа
 И петь имени Твоему, Спаситель,
 Возвещать утром милость Твою
@@ -252,16 +252,16 @@ SELECT 'Благо есть славить Господа', 'Молодёжны�
 Ты укажешь мне жизни путь,
 Да не постыжусь, что к Тебе взываю,
 На Тебя уповаю я,
-Благослови, Господь, меня.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=5 | photo=notion-youth-songbook | notionPageId=a03f83e5-cf38-433d-b124-01a999feb4e8 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a03f83e5cf38433db12401a999feb4e8 | Fill chords from an approved source before approval.', 'pending'
+Благослови, Господь, меня.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=5 | photo=notion-youth-songbook | notionPageId=a03f83e5-cf38-433d-b124-01a999feb4e8 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a03f83e5cf38433db12401a999feb4e8 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благо есть славить Господа'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=5%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=5%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Благодарные сердца', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Благодарные сердца', 'Благодарение', NULL, 'Куплет 1:
 Благодарные сердца, поспешите в дом Отца!
 Урожай свезли с полей до прихода зимних дней.
 Бог - начало всех начал - нам все нужное послал.
@@ -299,16 +299,16 @@ D E E7
 A F#m D E
 A F#m D E
 F#m D E C#
-D E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=6 | photo=notion-youth-songbook | notionPageId=8321e7f6-2cec-4848-8c04-5e1254def079 | notionChordPageId=c894bf77-0f2c-4bba-bc8c-3b35ac25a1cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8321e7f62cec48488c045e1254def079', 'pending'
+D E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=6 | photo=notion-youth-songbook | notionPageId=8321e7f6-2cec-4848-8c04-5e1254def079 | notionChordPageId=c894bf77-0f2c-4bba-bc8c-3b35ac25a1cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8321e7f62cec48488c045e1254def079', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благодарные сердца'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=6%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=6%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Благословен тот дом', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Благословен тот дом', 'Семья', NULL, 'Куплет 1:
 Благословен тот дом, где в каждом чистом сердце
 Слово святое Господа живет,
 Нет власти тьмы, и страха смерти,
@@ -342,16 +342,16 @@ G Em F#
 Hm Em F# Hm
 Hm Em F#
 H Em A D
-G Em F#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=7 | photo=notion-youth-songbook | notionPageId=600a0575-0dff-4805-ae68-4735de5f94e3 | notionChordPageId=1d55b8b7-5ada-42c9-8916-e8859b4c92f0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/600a05750dff4805ae684735de5f94e3', 'pending'
+G Em F#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=7 | photo=notion-youth-songbook | notionPageId=600a0575-0dff-4805-ae68-4735de5f94e3 | notionChordPageId=1d55b8b7-5ada-42c9-8916-e8859b4c92f0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/600a05750dff4805ae684735de5f94e3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благословен тот дом'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=7%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=7%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Благослови Господа, душа моя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Благослови Господа, душа моя', 'Благодарение', NULL, 'Куплет 1:
 Буду петь Господу всю жизнь мою.
 Буду петь Ему доколе я жив.
 Да будет благоприятна песнь моя,
@@ -385,16 +385,16 @@ Em A D D7
 D G D
 A7 D A7
 D G D
-Em A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=8 | photo=notion-youth-songbook | notionPageId=8be04214-b121-45b3-8fab-27b76d4da3c5 | notionChordPageId=621d0c72-5f08-4881-b7d4-a052e3b5a250 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8be04214b12145b38fab27b76d4da3c5', 'pending'
+Em A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=8 | photo=notion-youth-songbook | notionPageId=8be04214-b121-45b3-8fab-27b76d4da3c5 | notionChordPageId=621d0c72-5f08-4881-b7d4-a052e3b5a250 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8be04214b12145b38fab27b76d4da3c5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благослови Господа, душа моя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=8%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=8%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Бог избрал нас', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Бог избрал нас', 'Спасение', NULL, 'Куплет 1:
 Бог избрал нас из разных народов,
 Дал нам имя Свое.
 Бог избрал нас из разных племен и языков,
@@ -408,16 +408,16 @@ SELECT 'Бог избрал нас', 'Молодёжный сборник', NULL
 Мы есть Церковь – Мы есть Тело Христа,
 Мы искуплены кровью Его!
 Врата ада не одолеют нас,
-Потому, что с нами Господь!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=9 | photo=notion-youth-songbook | notionPageId=53aa0387-82b2-4766-948b-9dc62c83227f | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/53aa038782b24766948b9dc62c83227f | Fill chords from an approved source before approval.', 'pending'
+Потому, что с нами Господь!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=9 | photo=notion-youth-songbook | notionPageId=53aa0387-82b2-4766-948b-9dc62c83227f | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/53aa038782b24766948b9dc62c83227f | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог избрал нас'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=9%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=9%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Бог мой, во мне Ты', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Бог мой, во мне Ты', 'Утешение и ободрение', NULL, 'Куплет 1:
 Бог мой, во мне Ты,
 Лишь Ты один наполнил жизнь мою.
 Бог мой, со мной Ты,
@@ -445,16 +445,16 @@ Em C D G
 G Am
 C D G
 G Am
-C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=10 | photo=notion-youth-songbook | notionPageId=4681f5ad-a334-4151-8380-096cf70d345c | notionChordPageId=6c393284-7517-4c77-847a-bd996b81e7d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4681f5ada33441518380096cf70d345c', 'pending'
+C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=10 | photo=notion-youth-songbook | notionPageId=4681f5ad-a334-4151-8380-096cf70d345c | notionChordPageId=6c393284-7517-4c77-847a-bd996b81e7d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4681f5ada33441518380096cf70d345c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог мой, во мне Ты'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=10%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=10%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Бог пришел и умер за меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Бог пришел и умер за меня', 'Пасхальные', NULL, 'Куплет 1:
 Бог пришел и умер за меня, аминь, аминь
 Победу одержал над силой зла, аминь, аминь
 Распят был, но он воскрес, аминь, аминь
@@ -488,16 +488,16 @@ Dm A# F C
 Dm A# F C
 Dm A# F C
 Dm A# F C
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=11 | photo=notion-youth-songbook | notionPageId=1fd3c678-3c1d-4219-b603-1ff73359baa5 | notionChordPageId=dcbbacaf-614e-42da-8855-a04a7f6e93a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1fd3c6783c1d4219b6031ff73359baa5', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=11 | photo=notion-youth-songbook | notionPageId=1fd3c678-3c1d-4219-b603-1ff73359baa5 | notionChordPageId=dcbbacaf-614e-42da-8855-a04a7f6e93a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1fd3c6783c1d4219b6031ff73359baa5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог пришел и умер за меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=11%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=11%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Бог с нами в долине удачи', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Бог с нами в долине удачи', 'Спасение', NULL, 'Куплет 1:
 Бог с нами в долине удачи,
 И близок в часы неудач.
 Когда мы смеемся и плачем,
@@ -573,16 +573,16 @@ H7
 Em
 D
 C
-H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=12 | photo=notion-youth-songbook | notionPageId=569dac52-3c7e-45f5-b957-fbc45b8bc88b | notionChordPageId=9cb3dac6-12b9-4772-b093-19f8d1c9ee51 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/569dac523c7e45f5b957fbc45b8bc88b', 'pending'
+H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=12 | photo=notion-youth-songbook | notionPageId=569dac52-3c7e-45f5-b957-fbc45b8bc88b | notionChordPageId=9cb3dac6-12b9-4772-b093-19f8d1c9ee51 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/569dac523c7e45f5b957fbc45b8bc88b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог с нами в долине удачи'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=12%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=12%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Боже, Ты мой Бог', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Боже, Ты мой Бог', 'Божья любовь', NULL, 'Куплет 1:
 Боже, Ты мой Бог!
 Тебя от ранней зари ищу я.
 Тебя жаждет душа моя.
@@ -620,16 +620,16 @@ Em Hm Em
 Em C Am Hm
 Em C Am D7
 G7 C7 Am H7
-Em Hm Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=13 | photo=notion-youth-songbook | notionPageId=baff265b-85b9-425e-bf2e-d3db75cbd481 | notionChordPageId=71772f51-511b-4035-b4e5-3bcf3dd2dd09 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/baff265b85b9425ebf2ed3db75cbd481', 'pending'
+Em Hm Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=13 | photo=notion-youth-songbook | notionPageId=baff265b-85b9-425e-bf2e-d3db75cbd481 | notionChordPageId=71772f51-511b-4035-b4e5-3bcf3dd2dd09 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/baff265b85b9425ebf2ed3db75cbd481', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Боже, Ты мой Бог'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=13%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=13%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Божья любовь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Божья любовь', 'Божья любовь', NULL, 'Куплет 1:
 Скажи, ну что тебя сюда ведет?
 Ответь, ну что тебя сюда влечет?
 И от чего твои глаза горят,
@@ -667,16 +667,16 @@ A7
 Dm Gm
 C F
 A# Gm
-A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=14 | photo=notion-youth-songbook | notionPageId=d4d96011-4899-45a0-be4c-55ebf6bb14d9 | notionChordPageId=75d65a49-0948-4675-95e8-a786bcc4937f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4d96011489945a0be4c55ebf6bb14d9', 'pending'
+A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=14 | photo=notion-youth-songbook | notionPageId=d4d96011-4899-45a0-be4c-55ebf6bb14d9 | notionChordPageId=75d65a49-0948-4675-95e8-a786bcc4937f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4d96011489945a0be4c55ebf6bb14d9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Божья любовь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=14%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=14%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Буду Бога хвалить', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Буду Бога хвалить', 'Спасение', NULL, 'Куплет 1:
 Буду Бога хвалить доколе жив,
 Буду Господу петь доколе есть.
 Божьей милости я не заслужил,
@@ -720,16 +720,16 @@ E
 A
 C#m
 Hm
-E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=15 | photo=notion-youth-songbook | notionPageId=42266a6a-3f58-46b3-a978-38f5d1e4f8be | notionChordPageId=f47930e4-c4af-4e12-900f-b9549c46048b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/42266a6a3f5846b3a97838f5d1e4f8be', 'pending'
+E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=15 | photo=notion-youth-songbook | notionPageId=42266a6a-3f58-46b3-a978-38f5d1e4f8be | notionChordPageId=f47930e4-c4af-4e12-900f-b9549c46048b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/42266a6a3f5846b3a97838f5d1e4f8be', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Буду Бога хвалить'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=15%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=15%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Будь благословен', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Будь благословен', 'Утешение и ободрение', NULL, 'Куплет 1:
 Будь благословен на земле изобилия,
 Где течёт молоко и мёд, будь благословен.
 Будь благословен на земле иссохшей и пустой,
@@ -771,16 +771,16 @@ A E F#m D
 A E D
 A E F#m D
 A E D
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=16 | photo=notion-youth-songbook | notionPageId=c3e51ec0-6ec5-4e0b-bca2-d6073cefb8b4 | notionChordPageId=3f183d9c-b131-47d1-ad9d-8037658a4390 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c3e51ec06ec54e0bbca2d6073cefb8b4', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=16 | photo=notion-youth-songbook | notionPageId=c3e51ec0-6ec5-4e0b-bca2-d6073cefb8b4 | notionChordPageId=3f183d9c-b131-47d1-ad9d-8037658a4390 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c3e51ec06ec54e0bbca2d6073cefb8b4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Будь благословен'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=16%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=16%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Будь храброй, душа', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Будь храброй, душа', 'Вера и упование', NULL, 'Куплет 1:
 Спокойно стой, прими покой:
 Совершит все Господь.
 Все мысли Его выше наших путей,
@@ -814,16 +814,16 @@ G D
 Em C
 G D
 Em C
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=17 | photo=notion-youth-songbook | notionPageId=7fe4ca5e-360b-4bd6-a14a-f3bb688882f7 | notionChordPageId=efb3acd5-4c31-4184-8ae8-1c0b4a04beb2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7fe4ca5e360b4bd6a14af3bb688882f7', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=17 | photo=notion-youth-songbook | notionPageId=7fe4ca5e-360b-4bd6-a14a-f3bb688882f7 | notionChordPageId=efb3acd5-4c31-4184-8ae8-1c0b4a04beb2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7fe4ca5e360b4bd6a14af3bb688882f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Будь храброй, душа'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=17%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=17%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'В городе тихая осень', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'В городе тихая осень', 'Прославление', NULL, 'Куплет 1:
 В городе тихая осень, первые дни октября.
 Клён как-то листья сбросил, и стала другой земля.
 Оделась она царицей всего на несколько дней,
@@ -847,16 +847,16 @@ D E F#m A
 D E F#m
 D E A E F#m
 Hm C#m F#m
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=18 | photo=notion-youth-songbook | notionPageId=0dad6474-e94f-4fc2-ac5a-7f7769693401 | notionChordPageId=8a79ea7d-ec3c-45a1-b779-6ebe46af68b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0dad6474e94f4fc2ac5a7f7769693401', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=18 | photo=notion-youth-songbook | notionPageId=0dad6474-e94f-4fc2-ac5a-7f7769693401 | notionChordPageId=8a79ea7d-ec3c-45a1-b779-6ebe46af68b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0dad6474e94f4fc2ac5a7f7769693401', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В городе тихая осень'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=18%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=18%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'В жизни земной', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'В жизни земной', 'Призыв к покаянию', NULL, 'Куплет 1:
 В жизни земной всё приходит к концу,
 И для всего назначено время.
 Осенью ветер срывает листву,
@@ -914,16 +914,16 @@ Gm A Dm
 A# C F
 Gm A Dm
 Gm A Dm
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=19 | photo=notion-youth-songbook | notionPageId=98bd3076-7070-4051-9253-1e2dd32426f1 | notionChordPageId=e723f2fd-e546-4df5-883a-ec6ff49347a0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/98bd30767070405192531e2dd32426f1', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=19 | photo=notion-youth-songbook | notionPageId=98bd3076-7070-4051-9253-1e2dd32426f1 | notionChordPageId=e723f2fd-e546-4df5-883a-ec6ff49347a0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/98bd30767070405192531e2dd32426f1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В жизни земной'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=19%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=19%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'В мир греха', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'В мир греха', 'Спасение', NULL, 'Куплет 1:
 В мир греха, мерзости и зла
 С неба к нам любовь шла.
 Пыль дорог, боль усталых ног:
@@ -969,16 +969,16 @@ C D Em
 Em Hm Em Hm
 C D Em
 Em Hm Em Hm
-C D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=20 | photo=notion-youth-songbook | notionPageId=bcdfa534-ff65-429e-ba79-269919f4a603 | notionChordPageId=f3b64da8-fa68-4868-a30f-68e3adf88682 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bcdfa534ff65429eba79269919f4a603', 'pending'
+C D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=20 | photo=notion-youth-songbook | notionPageId=bcdfa534-ff65-429e-ba79-269919f4a603 | notionChordPageId=f3b64da8-fa68-4868-a30f-68e3adf88682 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bcdfa534ff65429eba79269919f4a603', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В мир греха'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=20%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=20%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'В Палестине Царь родился в те далекие года', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'В Палестине Царь родился в те далекие года', 'Рождественские', NULL, 'Куплет 1:
 В Палестине Царь родился в те далекие года,
 Бог на землю к нам явился и зажглась Его звезда,
 Пастухов, стада пасущих, свет великий осиял,
@@ -1016,16 +1016,16 @@ A# Gm C
 F Dm
 A# Gm C
 F Dm
-A# Gm C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=21 | photo=notion-youth-songbook | notionPageId=27a9f73a-2e3a-448a-acda-8f5b7da5c5ee | notionChordPageId=8597f944-d10c-4992-928f-23dc0246a8ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a9f73a2e3a448aacda8f5b7da5c5ee', 'pending'
+A# Gm C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=21 | photo=notion-youth-songbook | notionPageId=27a9f73a-2e3a-448a-acda-8f5b7da5c5ee | notionChordPageId=8597f944-d10c-4992-928f-23dc0246a8ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a9f73a2e3a448aacda8f5b7da5c5ee', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В Палестине Царь родился в те далекие года'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=21%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=21%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'В Христе одном', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'В Христе одном', 'Пасхальные', NULL, 'Куплет 1:
 В Христе одном надежда есть,
 Вся моя жизнь и сила в Нём.
 Он - Камень мой, скала и песнь,
@@ -1095,16 +1095,16 @@ D G A D
 G D A
 D G D A
 G D G A
-D G A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=22 | photo=notion-youth-songbook | notionPageId=5e3a733d-3c37-4297-888a-dbbbb4e61262 | notionChordPageId=8c753842-be45-4628-a9ec-3161c94f3eca | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5e3a733d3c374297888adbbbb4e61262', 'pending'
+D G A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=22 | photo=notion-youth-songbook | notionPageId=5e3a733d-3c37-4297-888a-dbbbb4e61262 | notionChordPageId=8c753842-be45-4628-a9ec-3161c94f3eca | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5e3a733d3c374297888adbbbb4e61262', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В Христе одном'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=22%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=22%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'В часы тревог, унынья и сомненья', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'В часы тревог, унынья и сомненья', 'Пасхальные', NULL, 'Куплет 1:
 В часы тревог, унынья и сомненья,
 Не видя света, света пред собой,
 Душа болит, терзается в волненьи,
@@ -1152,16 +1152,16 @@ Gm D7 Gm
 Gm D7 Gm
 F A# D7
 Gm Cm
-Gm D7 Gm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=23 | photo=notion-youth-songbook | notionPageId=9679d4e0-6d39-4931-a4b2-83ebd31669f7 | notionChordPageId=9699cc71-2d60-4427-b73e-1f75244dd9d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9679d4e06d394931a4b283ebd31669f7', 'pending'
+Gm D7 Gm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=23 | photo=notion-youth-songbook | notionPageId=9679d4e0-6d39-4931-a4b2-83ebd31669f7 | notionChordPageId=9699cc71-2d60-4427-b73e-1f75244dd9d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9679d4e06d394931a4b283ebd31669f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В часы тревог, унынья и сомненья'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=23%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=23%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Велики и чудны', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Велики и чудны', 'Прославление', NULL, 'Куплет 1:
 Велики и чудны дела Твои,
 Господи Боже Вседержитель.
 Праведны и истинны пути Твои
@@ -1203,16 +1203,16 @@ C D Em
 Em Am D Em
 C D G H
 Em Am D Em
-C D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=24 | photo=notion-youth-songbook | notionPageId=03e7b7e1-9b25-415f-8096-8a24b71729f4 | notionChordPageId=83fda083-a002-4dcd-af25-341796f18a56 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/03e7b7e19b25415f80968a24b71729f4', 'pending'
+C D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=24 | photo=notion-youth-songbook | notionPageId=03e7b7e1-9b25-415f-8096-8a24b71729f4 | notionChordPageId=83fda083-a002-4dcd-af25-341796f18a56 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/03e7b7e19b25415f80968a24b71729f4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Велики и чудны'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=24%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=24%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Величит душа моя Бога', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Величит душа моя Бога', 'Молитвенные', NULL, 'Куплет 1:
 Величит душа моя Бога,
 Он – Царь и Владыка миров,
 Когда на душе тревога,
@@ -1252,16 +1252,16 @@ C D
 G
 Em
 Am D
-C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=25 | photo=notion-youth-songbook | notionPageId=5d8e0053-b0cd-41e0-9d85-e38d00a0ad5c | notionChordPageId=24b8d158-9139-4216-9303-c36ce1b4ca3b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5d8e0053b0cd41e09d85e38d00a0ad5c', 'pending'
+C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=25 | photo=notion-youth-songbook | notionPageId=5d8e0053-b0cd-41e0-9d85-e38d00a0ad5c | notionChordPageId=24b8d158-9139-4216-9303-c36ce1b4ca3b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5d8e0053b0cd41e09d85e38d00a0ad5c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Величит душа моя Бога'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=25%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=25%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Верим мы', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Верим мы', 'Пасхальные', NULL, 'Куплет 1:
 В час когда вокруг сомненье,
 Страх вокруг во тьме земля
 Есть Единственное Спасение
@@ -1305,16 +1305,16 @@ C Csus
 C Csus
 Am F
 C F
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=26 | photo=notion-youth-songbook | notionPageId=4ebcd920-7b2d-4c4f-b6eb-027a123e92de | notionChordPageId=b2f0e304-20bc-4522-99d0-bc7cc073a44d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ebcd9207b2d4c4fb6eb027a123e92de', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=26 | photo=notion-youth-songbook | notionPageId=4ebcd920-7b2d-4c4f-b6eb-027a123e92de | notionChordPageId=b2f0e304-20bc-4522-99d0-bc7cc073a44d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ebcd9207b2d4c4fb6eb027a123e92de', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Верим мы'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=26%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=26%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Верую, Господи', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Верую, Господи', 'Небо', NULL, 'Куплет 1:
 Верую, Господи, истинно верую в Слово святое Твое.
 Время отмерено каждому верному определенье свое.
 Все, что назначено, будет исполнено сильной рукою Твоей
@@ -1362,16 +1362,16 @@ Gm A A7
 Dm Gm C F
 Dm Gm A
 Dm Gm C F
-Dm Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=27 | photo=notion-youth-songbook | notionPageId=3c7a9694-04dc-4538-a11a-5eeeb7b573f4 | notionChordPageId=9e3d2855-c14e-43bc-89fb-e8a081d52c2d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7a969404dc4538a11a5eeeb7b573f4', 'pending'
+Dm Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=27 | photo=notion-youth-songbook | notionPageId=3c7a9694-04dc-4538-a11a-5eeeb7b573f4 | notionChordPageId=9e3d2855-c14e-43bc-89fb-e8a081d52c2d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7a969404dc4538a11a5eeeb7b573f4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Верую, Господи'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=27%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=27%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ветры холодные', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ветры холодные', 'Семья', NULL, 'Куплет 1:
 Ещё будет зима, ещё ветры подуют холодные,
 Ещё голосом вьюг разразится метель и пурга.
 Чтобы нас испытать, будем ли для спасенья пригодные
@@ -1441,16 +1441,16 @@ Am E Am
 A7 Dm
 F E
 Am Dm
-Am E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=28 | photo=notion-youth-songbook | notionPageId=08a5f372-3fcb-472f-978b-5f7b37b1ea88 | notionChordPageId=b5cd00a6-a782-4d6a-a293-c9b0339fdc3e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/08a5f3723fcb472f978b5f7b37b1ea88', 'pending'
+Am E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=28 | photo=notion-youth-songbook | notionPageId=08a5f372-3fcb-472f-978b-5f7b37b1ea88 | notionChordPageId=b5cd00a6-a782-4d6a-a293-c9b0339fdc3e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/08a5f3723fcb472f978b5f7b37b1ea88', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ветры холодные'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=28%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=28%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Взор поднимаю к лазурному небу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Взор поднимаю к лазурному небу', 'Спасение', NULL, 'Куплет 1:
 Взор поднимаю к лазурному небу
 Светлой надеждой сердце горит
 В жизни земной этой где бы я ни был
@@ -1490,16 +1490,16 @@ Am H7 Em
 Em C
 Am H7
 Em C
-Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=29 | photo=notion-youth-songbook | notionPageId=14be1917-0dc6-42c8-86f4-d39cf573f73d | notionChordPageId=67402743-2ca0-4960-a85b-cb65d71241a6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/14be19170dc642c886f4d39cf573f73d', 'pending'
+Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=29 | photo=notion-youth-songbook | notionPageId=14be1917-0dc6-42c8-86f4-d39cf573f73d | notionChordPageId=67402743-2ca0-4960-a85b-cb65d71241a6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/14be19170dc642c886f4d39cf573f73d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Взор поднимаю к лазурному небу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=29%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=29%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Вот наш Бог', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Вот наш Бог', 'Пасхальные', NULL, 'Куплет 1:
 Кто моря все горстью исчерпал?
 Кто песок земли пересчитал?
 Кто Один над всем имеет власть?
@@ -1518,16 +1518,16 @@ SELECT 'Вот наш Бог', 'Молодёжный сборник', NULL, 'К�
 Кто был свят, но взял вину людей?
 Кто подставил руки для гвоздей?
 Кто в смиреньи умер на кресте?
-Кто воскрес, чтоб грешников спасти?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=30 | photo=notion-youth-songbook | notionPageId=e4c919de-4ab6-496d-8f82-42548f63e1dd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e4c919de4ab6496d8f8242548f63e1dd | Fill chords from an approved source before approval.', 'pending'
+Кто воскрес, чтоб грешников спасти?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=30 | photo=notion-youth-songbook | notionPageId=e4c919de-4ab6-496d-8f82-42548f63e1dd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e4c919de4ab6496d8f8242548f63e1dd | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вот наш Бог'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=30%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=30%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Вот он я', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Вот он я', 'Пасхальные', NULL, 'Куплет 1:
 Вот он я. Твоим величием смирён,
 Благодатью освобождён.
 Вот он я. Нечистый, грешный человек.
@@ -1557,16 +1557,16 @@ Am F
 Am G F C F
 C G
 Am G F C F
-C G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=31 | photo=notion-youth-songbook | notionPageId=fc08ad30-2c85-4dab-9175-985f389071f0 | notionChordPageId=06494446-b0dd-429f-8167-d093294bbfae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fc08ad302c854dab9175985f389071f0', 'pending'
+C G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=31 | photo=notion-youth-songbook | notionPageId=fc08ad30-2c85-4dab-9175-985f389071f0 | notionChordPageId=06494446-b0dd-429f-8167-d093294bbfae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fc08ad302c854dab9175985f389071f0', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вот он я'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=31%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=31%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Вот прошли тысячелетья...', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Вот прошли тысячелетья...', 'Пасхальные', NULL, 'Куплет 1:
 Вот прошли тысячелетья…
 Над землей, над миром этим
 Все по-прежнему нам светит солнца свет.
@@ -1616,16 +1616,16 @@ Am
 Dm G C
 C
 Am
-Dm G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=32 | photo=notion-youth-songbook | notionPageId=a21255a5-82ca-4a2c-b393-ac7dd3837ddd | notionChordPageId=cf02ed42-7772-4933-a227-de2e8defa95c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a21255a582ca4a2cb393ac7dd3837ddd', 'pending'
+Dm G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=32 | photo=notion-youth-songbook | notionPageId=a21255a5-82ca-4a2c-b393-ac7dd3837ddd | notionChordPageId=cf02ed42-7772-4933-a227-de2e8defa95c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a21255a582ca4a2cb393ac7dd3837ddd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вот прошли тысячелетья...'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=32%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=32%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Все небеса да хвалят Воскресшего', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Все небеса да хвалят Воскресшего', 'Пасхальные', NULL, 'Куплет 1:
 Все небеса да хвалят Воскресшего
 Сравнится ль кто с сияньем красоты Его?
 Ведь Агнец, Божий Сын - Небесный занял трон,
@@ -1643,16 +1643,16 @@ C D G
 G C D G
 G C D G
 G C G Em
-C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=33 | photo=notion-youth-songbook | notionPageId=19bf4e19-c6d7-41bd-a001-35e1c0dfca8a | notionChordPageId=155ab88a-5ec0-41dc-9300-1e769bc80efe | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/19bf4e19c6d741bda00135e1c0dfca8a', 'pending'
+C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=33 | photo=notion-youth-songbook | notionPageId=19bf4e19-c6d7-41bd-a001-35e1c0dfca8a | notionChordPageId=155ab88a-5ec0-41dc-9300-1e769bc80efe | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/19bf4e19c6d741bda00135e1c0dfca8a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Все небеса да хвалят Воскресшего'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=33%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=33%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Встает заря', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Встает заря', 'Прощение', NULL, 'Куплет 1:
 Встает заря, и солнца луч на небо всходит,
 Засияв в бескрайней синеве.
 За новый день хвалу Творцу поет природа,
@@ -1690,16 +1690,16 @@ Am H7 Em
 Em D
 Am H7 Em
 Em D
-Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=34 | photo=notion-youth-songbook | notionPageId=bdd0ce16-c2ed-42db-9412-57022a5604f7 | notionChordPageId=024e644e-0d6b-4ba1-ab76-5c83e6d025c6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd0ce16c2ed42db941257022a5604f7', 'pending'
+Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=34 | photo=notion-youth-songbook | notionPageId=bdd0ce16-c2ed-42db-9412-57022a5604f7 | notionChordPageId=024e644e-0d6b-4ba1-ab76-5c83e6d025c6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd0ce16c2ed42db941257022a5604f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Встает заря'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=34%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=34%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Вся земля полна славы', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Вся земля полна славы', 'Рождественские', NULL, 'Куплет 1:
 Вся земля полна славы и хвалы
 Любовь Отца нам явилась в Сыне
 И зажглась в небе яркая звезда
@@ -1717,16 +1717,16 @@ SELECT 'Вся земля полна славы', 'Молодёжный сбор
 Подними к небу руки и тогда,
 Льется пусть слава и хвала Иисусу,
 Ликуй Земля, ведь открыты Небеса,
-Родился Царь и грех мира разрушен', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=35 | photo=notion-youth-songbook | notionPageId=50dfd8c1-a23f-4321-9906-b39cc217a6b2 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50dfd8c1a23f43219906b39cc217a6b2 | Fill chords from an approved source before approval.', 'pending'
+Родился Царь и грех мира разрушен', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=35 | photo=notion-youth-songbook | notionPageId=50dfd8c1-a23f-4321-9906-b39cc217a6b2 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50dfd8c1a23f43219906b39cc217a6b2 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вся земля полна славы'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=35%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=35%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Вся земля хвалу поет', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Вся земля хвалу поет', 'Небо', NULL, 'Куплет 1:
 Вся земля хвалу поет лишь Тебе, наш чудный Бог.
 И во всей вселенной нет
 Кто б с Тобой сравниться смог.
@@ -1766,16 +1766,16 @@ Hm G
 Em D
 G A
 Em D
-G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=36 | photo=notion-youth-songbook | notionPageId=13b70973-e9ba-4e1d-bfaa-f10aaf895bfe | notionChordPageId=022bac89-cb62-49a1-a83f-b96d429f6f8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/13b70973e9ba4e1dbfaaf10aaf895bfe', 'pending'
+G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=36 | photo=notion-youth-songbook | notionPageId=13b70973-e9ba-4e1d-bfaa-f10aaf895bfe | notionChordPageId=022bac89-cb62-49a1-a83f-b96d429f6f8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/13b70973e9ba4e1dbfaaf10aaf895bfe', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вся земля хвалу поет'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=36%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=36%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Выбрали мы узкую дорогу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Выбрали мы узкую дорогу', 'Божья любовь', NULL, 'Куплет 1:
 Выбрали мы узкую дорогу
 Нам не жалко юные года;
 Ведь с каждым днём мы становимся ближе к Богу
@@ -1815,16 +1815,16 @@ C Am H7
 Em C D G
 C Am H
 Em C D G
-C Am H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=37 | photo=notion-youth-songbook | notionPageId=47d1d217-afd3-48f8-b014-f4c7e0b80172 | notionChordPageId=bc5f9fed-e4e0-4a8c-aaeb-46e71dc39feb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/47d1d217afd348f8b014f4c7e0b80172', 'pending'
+C Am H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=37 | photo=notion-youth-songbook | notionPageId=47d1d217-afd3-48f8-b014-f4c7e0b80172 | notionChordPageId=bc5f9fed-e4e0-4a8c-aaeb-46e71dc39feb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/47d1d217afd348f8b014f4c7e0b80172', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Выбрали мы узкую дорогу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=37%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=37%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Где вы, друзья мои', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Где вы, друзья мои', 'Небо', NULL, 'Куплет 1:
 Где вы, друзья мои? Я вас люблю.
 Бог приготовил дорогу мне мою,
 Но память приносит вас, и сквозь года
@@ -1852,16 +1852,16 @@ Am H Em
 Em Am H
 Am D Am H
 Em Am H
-Am D Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=38 | photo=notion-youth-songbook | notionPageId=2e598b1d-3f98-4122-af63-9aa553cfaefd | notionChordPageId=dc7f8357-5762-47a8-bb9c-02d84129c1e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2e598b1d3f984122af639aa553cfaefd', 'pending'
+Am D Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=38 | photo=notion-youth-songbook | notionPageId=2e598b1d-3f98-4122-af63-9aa553cfaefd | notionChordPageId=dc7f8357-5762-47a8-bb9c-02d84129c1e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2e598b1d3f984122af639aa553cfaefd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Где вы, друзья мои'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=38%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=38%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Где ты прекрасная', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Где ты прекрасная', 'Молитвенные', NULL, 'Куплет 1:
 Где ты прекрасная, светлая, ясная,
 Родина вечная — Отчизна моя.
 Мысли к тебе летят, в высь устремляются,
@@ -1909,16 +1909,16 @@ A Dm
 A Dm Gm
 A Dm A
 Dm Gm
-A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=39 | photo=notion-youth-songbook | notionPageId=239c968f-827d-490e-857d-8b5dc5205d78 | notionChordPageId=1249248b-9315-41ac-8d2e-9a2ff5bd626d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/239c968f827d490e857d8b5dc5205d78', 'pending'
+A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=39 | photo=notion-youth-songbook | notionPageId=239c968f-827d-490e-857d-8b5dc5205d78 | notionChordPageId=1249248b-9315-41ac-8d2e-9a2ff5bd626d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/239c968f827d490e857d8b5dc5205d78', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Где ты прекрасная'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=39%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=39%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Гефсиманский сад', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Гефсиманский сад', 'Пасхальные', NULL, 'Куплет 1:
 Гефсиманский сад, Гефсиманский сад…
 Спят цветы в саду, и деревья спят…
 ||: Слышит сад слова и молитвы стон
@@ -1962,16 +1962,16 @@ Dm
 Gm A
 Gm C F A#
 Gm A# A
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=40 | photo=notion-youth-songbook | notionPageId=b705466a-8e38-4cf9-9f56-6d51a42cb061 | notionChordPageId=406c0e71-5f5d-431c-abee-1a1ff19cd366 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b705466a8e384cf99f566d51a42cb061', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=40 | photo=notion-youth-songbook | notionPageId=b705466a-8e38-4cf9-9f56-6d51a42cb061 | notionChordPageId=406c0e71-5f5d-431c-abee-1a1ff19cd366 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b705466a8e384cf99f566d51a42cb061', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Гефсиманский сад'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=40%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=40%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Глубока, подобно морю', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Глубока, подобно морю', 'Пасхальные', NULL, 'Куплет 1:
 Глубока, подобно морю, совершенная Любовь
 Как поток, поящий горы, жизнь даёт Христова Кровь.
 Царь вселенной, Искупитель умирал за нас с тобой.
@@ -1999,16 +1999,16 @@ Hm G D A D
 D G D A
 D G D A D
 D Em A D
-Hm G D A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=41 | photo=notion-youth-songbook | notionPageId=262ed320-85b7-41da-9de6-8402c2e9f769 | notionChordPageId=0025d45d-d12d-4c58-b4c0-39e43104f4db | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/262ed32085b741da9de68402c2e9f769', 'pending'
+Hm G D A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=41 | photo=notion-youth-songbook | notionPageId=262ed320-85b7-41da-9de6-8402c2e9f769 | notionChordPageId=0025d45d-d12d-4c58-b4c0-39e43104f4db | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/262ed32085b741da9de68402c2e9f769', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Глубока, подобно морю'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=41%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=41%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Говори ко мне', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Говори ко мне', 'Разное', NULL, 'Куплет 1:
 От гласа Твоего содрогаются горы
 От гласа Твоего сотрясается земля
 От гласа Твоего разверзается море
@@ -2034,16 +2034,16 @@ A G#m C#m
 C#m H
 A G#
 C#m H
-A G#m C#m', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=42 | photo=notion-youth-songbook | notionPageId=229ce5db-c8bb-4814-b49b-b392f378c2e4 | notionChordPageId=4259388c-05cc-4fc3-ac3b-e236200e8cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/229ce5dbc8bb4814b49bb392f378c2e4', 'pending'
+A G#m C#m', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=42 | photo=notion-youth-songbook | notionPageId=229ce5db-c8bb-4814-b49b-b392f378c2e4 | notionChordPageId=4259388c-05cc-4fc3-ac3b-e236200e8cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/229ce5dbc8bb4814b49bb392f378c2e4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Говори ко мне'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=42%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=42%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Горы сдвинутся', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Горы сдвинутся', 'Молитвенные', NULL, 'Куплет 1:
 Его мысли не наши мысли, и пути Его не наши пути.
 Сам Господь их записал однажды, по которым нам должно пройти.
 Но как небо выше земли, выше наших Боже мысли Твои.
@@ -2071,16 +2071,16 @@ Gm A Dm
 Dm Am
 Gm A
 Gm A Dm Gm A Dm
-A#m Dm Gm A Dm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=43 | photo=notion-youth-songbook | notionPageId=d40e4798-8cc4-47c6-9b45-b797ec40493d | notionChordPageId=97643278-8dca-4b0e-98fd-1cb92cdbee9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d40e47988cc447c69b45b797ec40493d', 'pending'
+A#m Dm Gm A Dm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=43 | photo=notion-youth-songbook | notionPageId=d40e4798-8cc4-47c6-9b45-b797ec40493d | notionChordPageId=97643278-8dca-4b0e-98fd-1cb92cdbee9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d40e47988cc447c69b45b797ec40493d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Горы сдвинутся'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=43%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=43%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Господи, как странно', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Господи, как странно', 'Благодарение', NULL, 'Куплет 1:
 Господи, как странно, что я жил Тебя не зная
 Жил без благости Твоей Святой и без Твоей любви
 Ныне я с Тобой, меня в семью Своих детей Ты принял
@@ -2128,16 +2128,16 @@ C D H7
 Em D
 C D H7
 Em D
-C D H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=44 | photo=notion-youth-songbook | notionPageId=acdea7df-dc0a-47af-8985-fea2661be7f6 | notionChordPageId=4a659e20-7b01-4605-af41-a93f93962de3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/acdea7dfdc0a47af8985fea2661be7f6', 'pending'
+C D H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=44 | photo=notion-youth-songbook | notionPageId=acdea7df-dc0a-47af-8985-fea2661be7f6 | notionChordPageId=4a659e20-7b01-4605-af41-a93f93962de3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/acdea7dfdc0a47af8985fea2661be7f6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господи, как странно'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=44%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=44%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Господь - пастырь мой', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Господь - пастырь мой', 'Хлебопреломление', NULL, 'Куплет 1:
 На злачных пажитях меня покоит Он,
 Водит к тихой воде наслаждаться.
 Припев:
@@ -2171,16 +2171,16 @@ Em D G C
 G D Em
 Куплет 5:
 Em D G C
-G D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=45 | photo=notion-youth-songbook | notionPageId=843f43e7-9f21-40b6-a40b-d2ce1d54d550 | notionChordPageId=cec5a1fd-09b9-48f2-b55a-7624bbfab7a1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/843f43e79f2140b6a40bd2ce1d54d550', 'pending'
+G D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=45 | photo=notion-youth-songbook | notionPageId=843f43e7-9f21-40b6-a40b-d2ce1d54d550 | notionChordPageId=cec5a1fd-09b9-48f2-b55a-7624bbfab7a1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/843f43e79f2140b6a40bd2ce1d54d550', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господь - пастырь мой'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=45%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=45%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Господь есть мой Пастырь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Господь есть мой Пастырь', 'Божья любовь', NULL, 'Куплет 1:
 Господь есть мой Пастырь, не буду тужить,
 На пажитях злачных пасет.
 Дает насыщенье моей Он душе
@@ -2218,16 +2218,16 @@ D G
 G C
 D G
 G C
-D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=46 | photo=notion-youth-songbook | notionPageId=0f92c987-641d-493b-9b2c-2be4ddf1e083 | notionChordPageId=81dfa1fb-a39c-4fe3-93f4-72df8159ca78 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f92c987641d493b9b2c2be4ddf1e083', 'pending'
+D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=46 | photo=notion-youth-songbook | notionPageId=0f92c987-641d-493b-9b2c-2be4ddf1e083 | notionChordPageId=81dfa1fb-a39c-4fe3-93f4-72df8159ca78 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f92c987641d493b9b2c2be4ddf1e083', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господь есть мой Пастырь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=46%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=46%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Господь моя сила', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Господь моя сила', 'Вера и упование', NULL, 'Куплет 1:
 // Господь моя сила и щит. //
 Господь упованье моё и помощь мне.
 Припев:
@@ -2236,16 +2236,16 @@ SELECT 'Господь моя сила', 'Молодёжный сборник', 
 И песнь моя славит Господа.
 Куплет 2:
 // Господь моя радость и мир //
-Господь утешенье мое и мой покой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=47 | photo=notion-youth-songbook | notionPageId=5499f738-a54a-41ec-bfa5-1c1b5e5444fa | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/5499f738a54a41ecbfa51c1b5e5444fa | Fill chords from an approved source before approval.', 'pending'
+Господь утешенье мое и мой покой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=47 | photo=notion-youth-songbook | notionPageId=5499f738-a54a-41ec-bfa5-1c1b5e5444fa | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/5499f738a54a41ecbfa51c1b5e5444fa | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господь моя сила'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=47%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=47%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Давно погасли огни', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Давно погасли огни', 'Спасение', NULL, 'Куплет 1:
 Давно погасли огни туманных надежд
 Давно затихли слова безумных невежд
 И только мысли летят в полночную даль
@@ -2285,16 +2285,16 @@ Am F C E Am
 Am F C E Am
 Am F C E Am
 Am F C E Am
-Am F C E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=48 | photo=notion-youth-songbook | notionPageId=4d1f7889-d830-4444-b112-3da7ba50f7ac | notionChordPageId=4d3c5c81-6216-4bca-910b-438fffada889 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4d1f7889d8304444b1123da7ba50f7ac', 'pending'
+Am F C E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=48 | photo=notion-youth-songbook | notionPageId=4d1f7889-d830-4444-b112-3da7ba50f7ac | notionChordPageId=4d3c5c81-6216-4bca-910b-438fffada889 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4d1f7889d8304444b1123da7ba50f7ac', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Давно погасли огни'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=48%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=48%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Далеко, далеко', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Далеко, далеко', 'Спасение', NULL, 'Куплет 1:
 Далеко, далеко, далеко, далеко,
 Там за гранью небес голубых.
 Там так нежно, прекрасно, там так мило, легко,
@@ -2332,16 +2332,16 @@ Fm G Cm
 Cm G#
 A# D#
 Fm Cm
-Fm G Cm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=49 | photo=notion-youth-songbook | notionPageId=e2c47307-d972-49d1-9de9-d830c376234d | notionChordPageId=73f55c34-d77a-4901-932d-e0b6c0c88869 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e2c47307d97249d19de9d830c376234d', 'pending'
+Fm G Cm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=49 | photo=notion-youth-songbook | notionPageId=e2c47307-d972-49d1-9de9-d830c376234d | notionChordPageId=73f55c34-d77a-4901-932d-e0b6c0c88869 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e2c47307d97249d19de9d830c376234d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Далеко, далеко'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=49%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=49%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Держит Он меня!', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Держит Он меня!', 'Пасхальные', NULL, 'Куплет 1:
 Если грех меня страшит, Держит Он меня!
 Вера в Бога победит: Держит Он меня.
 Чтобы мне не потерять Вечного огня,
@@ -2379,16 +2379,16 @@ C D G C D G
 G C D G
 G C D G
 C D G C H Em
-C D G C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=50 | photo=notion-youth-songbook | notionPageId=991ed6ab-0e7b-47ae-ba03-63b4f21634af | notionChordPageId=399ee036-70b3-4efe-959e-7f12ba4c2a22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/991ed6ab0e7b47aeba0363b4f21634af', 'pending'
+C D G C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=50 | photo=notion-youth-songbook | notionPageId=991ed6ab-0e7b-47ae-ba03-63b4f21634af | notionChordPageId=399ee036-70b3-4efe-959e-7f12ba4c2a22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/991ed6ab0e7b47aeba0363b4f21634af', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Держит Он меня!'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=50%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=50%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Дивный Спаситель, прекрасный', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Дивный Спаситель, прекрасный', 'Пасхальные', NULL, 'Куплет 1:
 Дивный Спаситель, прекрасный,
 Наш Искупитель и Друг.
 Кто мог подумать, что Агнец
@@ -2434,16 +2434,16 @@ C F C
 Em F G
 Am F Fm
 C G Am
-F C G C E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=51 | photo=notion-youth-songbook | notionPageId=7c4040ad-8119-4299-8431-941e770f4eaa | notionChordPageId=de777582-6048-43d7-89ab-2259b9b10eef | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c4040ad811942998431941e770f4eaa', 'pending'
+F C G C E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=51 | photo=notion-youth-songbook | notionPageId=7c4040ad-8119-4299-8431-941e770f4eaa | notionChordPageId=de777582-6048-43d7-89ab-2259b9b10eef | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c4040ad811942998431941e770f4eaa', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Дивный Спаситель, прекрасный'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=51%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=51%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Для тебя, о человек', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Для тебя, о человек', 'Небо', NULL, 'Куплет 1:
 Для тебя, о человек, Бог создал небо и поля,
 Для тебя цветут сады и плод дает земля,
 Для тебя моря и горы, все живое – для тебя,
@@ -2471,16 +2471,16 @@ Dm F E
 Am Dm
 E Am
 A Dm
-Am E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=52 | photo=notion-youth-songbook | notionPageId=0aee615f-f9a3-4135-8066-2599b0ee10e9 | notionChordPageId=ae1489c5-0a4c-4165-b600-e3fce2d53577 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0aee615ff9a3413580662599b0ee10e9', 'pending'
+Am E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=52 | photo=notion-youth-songbook | notionPageId=0aee615f-f9a3-4135-8066-2599b0ee10e9 | notionChordPageId=ae1489c5-0a4c-4165-b600-e3fce2d53577 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0aee615ff9a3413580662599b0ee10e9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Для тебя, о человек'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=52%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=52%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Дни, как звук, отшумят', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Дни, как звук, отшумят', 'Жизнь христианина', NULL, 'Куплет 1:
 Дни, как звук, отшумят и исчезнут вдали.
 В синем небе летят над землёй журавли.
 В журавлином пути быстрый бег твоих лет.
@@ -2514,16 +2514,16 @@ Am E Am
 Dm G C
 C Dm G C
 Dm Am E
-E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=53 | photo=notion-youth-songbook | notionPageId=7052ee21-45bc-4abd-993e-d28480e1c62b | notionChordPageId=eb817dd6-9104-4a25-9e39-def5ec966797 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7052ee2145bc4abd993ed28480e1c62b', 'pending'
+E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=53 | photo=notion-youth-songbook | notionPageId=7052ee21-45bc-4abd-993e-d28480e1c62b | notionChordPageId=eb817dd6-9104-4a25-9e39-def5ec966797 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7052ee2145bc4abd993ed28480e1c62b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Дни, как звук, отшумят'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=53%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=53%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Долго в сумраке скитался', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Долго в сумраке скитался', 'Пасхальные', NULL, 'Куплет 1:
 Долго в сумраке скитался, на путях греховных я
 В жизни разочаровался, мир обманывал меня.
 Я взывал: «Кто мне поможет? Скорбь мою увидит кто?»
@@ -2567,16 +2567,16 @@ F Dm E E7
 Am Dm G C
 F Dm E E7
 Am Dm G C
-F Dm E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=54 | photo=notion-youth-songbook | notionPageId=9b8eb47a-2e74-430a-8d4c-701c377553dd | notionChordPageId=76f4e9b7-97d0-4272-955a-50a4a4f73d1b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b8eb47a2e74430a8d4c701c377553dd', 'pending'
+F Dm E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=54 | photo=notion-youth-songbook | notionPageId=9b8eb47a-2e74-430a-8d4c-701c377553dd | notionChordPageId=76f4e9b7-97d0-4272-955a-50a4a4f73d1b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b8eb47a2e74430a8d4c701c377553dd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Долго в сумраке скитался'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=54%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=54%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Дорога смерти в Иерусалиме', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Дорога смерти в Иерусалиме', 'Пасхальные', NULL, 'Куплет 1:
 Дорога смерти в Иерусалиме,
 По ней ступает Человек совсем бессильный
 Избит, измучен, весь кровоточит,
@@ -2614,16 +2614,16 @@ Gm C F
 Dm A#
 Gm C Dm
 Dm A#
-Gm C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=55 | photo=notion-youth-songbook | notionPageId=a9294273-b26d-4350-b251-b59638ed0bff | notionChordPageId=a8ff8072-3286-4859-a7d0-e044ef134294 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9294273b26d4350b251b59638ed0bff', 'pending'
+Gm C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=55 | photo=notion-youth-songbook | notionPageId=a9294273-b26d-4350-b251-b59638ed0bff | notionChordPageId=a8ff8072-3286-4859-a7d0-e044ef134294 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9294273b26d4350b251b59638ed0bff', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Дорога смерти в Иерусалиме'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=55%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=55%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Душу мою к Тебе возношу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Душу мою к Тебе возношу', 'Божья любовь', NULL, 'Куплет 1:
 Душу мою к Тебе возношу -
 На Тебя уповаю.
 Веры своей не устыжусь
@@ -2651,16 +2651,16 @@ G A D
 D A Em Hm
 G A
 D A Em Hm
-G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=56 | photo=notion-youth-songbook | notionPageId=404959d9-81ef-483d-8e34-336f40e9cc4b | notionChordPageId=169b3e7e-d29a-45fe-ae1e-b8017926ac6d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/404959d981ef483d8e34336f40e9cc4b', 'pending'
+G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=56 | photo=notion-youth-songbook | notionPageId=404959d9-81ef-483d-8e34-336f40e9cc4b | notionChordPageId=169b3e7e-d29a-45fe-ae1e-b8017926ac6d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/404959d981ef483d8e34336f40e9cc4b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Душу мою к Тебе возношу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=56%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=56%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Если ждет тебя дорога', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Если ждет тебя дорога', 'Небо', NULL, 'Куплет 1:
 Если ждет тебя дорога в неизвестный край,
 На прощанье у порога думы не гадай,
 Слово доброе послушай и совет прими:
@@ -2679,16 +2679,16 @@ SELECT 'Если ждет тебя дорога', 'Молодёжный сбор
 Жизнь кипит вокруг, как море, бьет тебя волной,
 И в твоем огромном горе ты для всех чужой.
 Помощь есть для всех у Бога, ты к Нему взывай,
-Если ждет тебя дорога в неизвестный край.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=57 | photo=notion-youth-songbook | notionPageId=a39f5d5d-7b8c-4ece-ac49-ab32d3ce250a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a39f5d5d7b8c4eceac49ab32d3ce250a | Fill chords from an approved source before approval.', 'pending'
+Если ждет тебя дорога в неизвестный край.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=57 | photo=notion-youth-songbook | notionPageId=a39f5d5d-7b8c-4ece-ac49-ab32d3ce250a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a39f5d5d7b8c4eceac49ab32d3ce250a | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Если ждет тебя дорога'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=57%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=57%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Есть на небе город', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Есть на небе город', 'Небо', NULL, 'Куплет 1:
 Есть на небе город, чудный город света,
 Там нужды болезни и печали нету.
 Там Живут святые, там играют гусли,
@@ -2726,16 +2726,16 @@ Am E
 Am Dm E Am
 Am F G C
 Am Dm G C
-Am E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=58 | photo=notion-youth-songbook | notionPageId=4a650950-ebfc-4e24-a91f-2209a5ae6962 | notionChordPageId=09204246-e0b9-4199-92d6-7ffbd20f9321 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a650950ebfc4e24a91f2209a5ae6962', 'pending'
+Am E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=58 | photo=notion-youth-songbook | notionPageId=4a650950-ebfc-4e24-a91f-2209a5ae6962 | notionChordPageId=09204246-e0b9-4199-92d6-7ffbd20f9321 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a650950ebfc4e24a91f2209a5ae6962', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Есть на небе город'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=58%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=58%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Живущий под кровом Твоим', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Живущий под кровом Твоим', 'Вера и упование', NULL, 'Куплет 1:
 Живущий под кровом Твоим
 Под сенью покоится,
 Господу говорит:
@@ -2753,16 +2753,16 @@ H A H
 E G#m A H
 E G#m A H
 E H A
-A H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=59 | photo=notion-youth-songbook | notionPageId=4977a864-2386-44a9-8e79-08c7f1b40e41 | notionChordPageId=0aa2b9c6-803b-4326-a72a-0b23ac58f952 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4977a864238644a98e7908c7f1b40e41', 'pending'
+A H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=59 | photo=notion-youth-songbook | notionPageId=4977a864-2386-44a9-8e79-08c7f1b40e41 | notionChordPageId=0aa2b9c6-803b-4326-a72a-0b23ac58f952 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4977a864238644a98e7908c7f1b40e41', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Живущий под кровом Твоим'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=59%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=59%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Жизни река бежит', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Жизни река бежит', 'Спасение', NULL, 'Куплет 1:
 Жизни река бежит, в вечность она ведёт,
 Кто грех свой победит, в вечную жизнь войдёт.
 Нужно Иисуса искать, нужно Его найти.
@@ -2790,16 +2790,16 @@ Dm A7 Dm
 Dm A7 Dm Gm
 A7 Dm C7 F
 D7 Gm
-Dm A7 Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=60 | photo=notion-youth-songbook | notionPageId=1785e4eb-f62f-4b08-9197-92145fca5797 | notionChordPageId=82ea0cfb-0b2e-4737-bcc0-8a3fd1774da2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1785e4ebf62f4b08919792145fca5797', 'pending'
+Dm A7 Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=60 | photo=notion-youth-songbook | notionPageId=1785e4eb-f62f-4b08-9197-92145fca5797 | notionChordPageId=82ea0cfb-0b2e-4737-bcc0-8a3fd1774da2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1785e4ebf62f4b08919792145fca5797', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Жизни река бежит'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=60%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=60%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Жизнь – борьба', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Жизнь – борьба', 'Прославление', NULL, 'Куплет 1:
 Жизнь – борьба Света с тьмой,
 Надо мной и над тобой.
 Шумит ветер, рвется пламя,
@@ -2843,16 +2843,16 @@ Dm G
 F C
 Dm Am
 F C
-Dm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=61 | photo=notion-youth-songbook | notionPageId=0ceae948-d008-4a32-8b8e-f2928cb0fc2b | notionChordPageId=eaae2921-1742-411d-b3ef-089ea93ec398 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceae948d0084a328b8ef2928cb0fc2b', 'pending'
+Dm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=61 | photo=notion-youth-songbook | notionPageId=0ceae948-d008-4a32-8b8e-f2928cb0fc2b | notionChordPageId=eaae2921-1742-411d-b3ef-089ea93ec398 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceae948d0084a328b8ef2928cb0fc2b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Жизнь – борьба'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=61%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=61%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Жизнь это поле', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Жизнь это поле', 'Пасхальные', NULL, 'Куплет 1:
 Ты устал в этой жизни от горя и слез,
 Ты повсюду встречаешь шипы вместо роз,
 Кто-то предал тебя - ты ему не простил,
@@ -2896,16 +2896,16 @@ Dm E
 F C
 Dm Am
 F Am
-Dm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=62 | photo=notion-youth-songbook | notionPageId=07af1246-82a6-4ae9-b3ed-32089f1b4d0e | notionChordPageId=f52dc671-4ade-45d7-a9f2-38da46c10594 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/07af124682a64ae9b3ed32089f1b4d0e', 'pending'
+Dm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=62 | photo=notion-youth-songbook | notionPageId=07af1246-82a6-4ae9-b3ed-32089f1b4d0e | notionChordPageId=f52dc671-4ade-45d7-a9f2-38da46c10594 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/07af124682a64ae9b3ed32089f1b4d0e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Жизнь это поле'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=62%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=62%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'За всё благодарите', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'За всё благодарите', 'Благодарение', NULL, 'Куплет 1:
 Праздник жатвы наступил как ты этот год прожил?
 Сердце благодарное ли ты Богу принес?
 Мы всегда в Его руках, будем же беречь в сердцах
@@ -2920,16 +2920,16 @@ SELECT 'За всё благодарите', 'Молодёжный сборни�
 Все здесь проходящее, ветром уносящее,
 Как песок рассыпется и все уйдет в никуда.
 Только милость вечная, Божья бесконечная
-На Земле останется, ведь Он Бог Спаситель твой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=63 | photo=notion-youth-songbook | notionPageId=15e8794a-cda0-42c9-9ba1-ad76d1e99860 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/15e8794acda042c99ba1ad76d1e99860 | Fill chords from an approved source before approval.', 'pending'
+На Земле останется, ведь Он Бог Спаситель твой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=63 | photo=notion-youth-songbook | notionPageId=15e8794a-cda0-42c9-9ba1-ad76d1e99860 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/15e8794acda042c99ba1ad76d1e99860 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За всё благодарите'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=63%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=63%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'За все я благодарю', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'За все я благодарю', 'Пасхальные', NULL, 'Куплет 1:
 За все Тебя, Господь, я благодарю
 Ты искупил от смерти душу мою.
 И буду возвещать я по всей земле
@@ -2967,16 +2967,16 @@ F C A# C
 F A Dm
 F A Dm
 Gm D Gm C
-F C A# C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=64 | photo=notion-youth-songbook | notionPageId=f8279bc8-ed20-4386-baf3-b4f5203bfde3 | notionChordPageId=95889e28-768f-4110-a9bf-8d34961148bd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f8279bc8ed204386baf3b4f5203bfde3', 'pending'
+F C A# C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=64 | photo=notion-youth-songbook | notionPageId=f8279bc8-ed20-4386-baf3-b4f5203bfde3 | notionChordPageId=95889e28-768f-4110-a9bf-8d34961148bd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f8279bc8ed204386baf3b4f5203bfde3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За все я благодарю'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=64%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=64%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'За Голгофу, за кровь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'За Голгофу, за кровь', 'Пасхальные', NULL, 'Куплет 1:
 За Голгофу, за кровь я Тебя благодарю.
 За Воскресенье Твое, за победу Твою.
 Припев:
@@ -3004,16 +3004,16 @@ D A Hm G D A
 D A Hm G A D
 Куплет 3:
 D A Hm G D A
-D A Hm G A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=65 | photo=notion-youth-songbook | notionPageId=9f1f4d29-1193-4a45-be7c-a33d604a699a | notionChordPageId=3c55ef66-c092-478e-895e-3506f17ab82a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9f1f4d2911934a45be7ca33d604a699a', 'pending'
+D A Hm G A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=65 | photo=notion-youth-songbook | notionPageId=9f1f4d29-1193-4a45-be7c-a33d604a699a | notionChordPageId=3c55ef66-c092-478e-895e-3506f17ab82a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9f1f4d2911934a45be7ca33d604a699a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За Голгофу, за кровь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=65%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=65%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Зажечь лесной пожар', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Зажечь лесной пожар', 'Спасение', NULL, 'Куплет 1:
 Зажечь лесной пожар одной довольно искры,
 Огонь не удержать, он вширь помчится быстро.
 //: Вот так и Божия любовь и Божья благодать,
@@ -3031,16 +3031,16 @@ G Hm G A D
 D F#m G A
 D F#m G A
 G D G D Hm
-G Hm G A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=66 | photo=notion-youth-songbook | notionPageId=602272fe-28a7-45f4-a9d1-716993d8dee1 | notionChordPageId=956365a3-fc26-4568-bc9f-bb8d8cde7a75 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/602272fe28a745f4a9d1716993d8dee1', 'pending'
+G Hm G A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=66 | photo=notion-youth-songbook | notionPageId=602272fe-28a7-45f4-a9d1-716993d8dee1 | notionChordPageId=956365a3-fc26-4568-bc9f-bb8d8cde7a75 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/602272fe28a745f4a9d1716993d8dee1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Зажечь лесной пожар'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=66%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=66%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Зачем мой Господь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Зачем мой Господь', 'Пасхальные', NULL, 'Куплет 1:
 Зачем, мой Господь, Ты оставил всех ангелов в небе?
 Зачем, мой Господь, Ты оставил родного Отца?
 И славу оставив всю, родился Ты в смертном теле.
@@ -3103,16 +3103,16 @@ Dm                F                                       Gm                    
 Припев:
                Dm    Gm                 Dm    Gm
                Dm   Gm           F        Bb       A
-Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=67 | photo=notion-youth-songbook | notionPageId=ec38bccd-02be-4ad8-bc8e-215bb9d1909e | notionChordPageId=6a86c4c9-d546-469b-b1fb-7769645e1f22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec38bccd02be4ad8bc8e215bb9d1909e', 'pending'
+Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=67 | photo=notion-youth-songbook | notionPageId=ec38bccd-02be-4ad8-bc8e-215bb9d1909e | notionChordPageId=6a86c4c9-d546-469b-b1fb-7769645e1f22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec38bccd02be4ad8bc8e215bb9d1909e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Зачем мой Господь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=67%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=67%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'За шагом шаг', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'За шагом шаг', 'Божья любовь', NULL, 'Куплет 1:
 Мы пытаемся найти в жизни разные пути.
 Кто укажет нам дорогу в светлый мир?
 Кто подарит мир сердцам, не оставит до конца?
@@ -3128,16 +3128,16 @@ SELECT 'За шагом шаг', 'Молодёжный сборник', NULL, '�
 Церковь станет нам мостом в замок веры, в светлый дом,
 Где надежда и уверенность в грядущем.
 Пусть сияет свет Христа. В нём любовь и доброта
-И святая неземная красота.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=68 | photo=notion-youth-songbook | notionPageId=c8f0c7b5-eabb-4975-8baf-e16a80148656 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/c8f0c7b5eabb49758bafe16a80148656 | Fill chords from an approved source before approval.', 'pending'
+И святая неземная красота.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=68 | photo=notion-youth-songbook | notionPageId=c8f0c7b5-eabb-4975-8baf-e16a80148656 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/c8f0c7b5eabb49758bafe16a80148656 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За шагом шаг'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=68%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=68%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Здесь, на земле, мы только странники', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Здесь, на земле, мы только странники', 'Спасение', NULL, 'Куплет 1:
 Здесь, на земле, мы только странники
 И часто путь далекий ждёт.
 Порою ноги от усталости болят,
@@ -3175,16 +3175,16 @@ F E
 Am Dm
 E Am
 Am Dm
-F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=69 | photo=notion-youth-songbook | notionPageId=e110d31d-3257-4c3f-bf07-3c438e9cabac | notionChordPageId=e563d8eb-790e-4ff9-9f2e-19caa761abc7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e110d31d32574c3fbf073c438e9cabac', 'pending'
+F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=69 | photo=notion-youth-songbook | notionPageId=e110d31d-3257-4c3f-bf07-3c438e9cabac | notionChordPageId=e563d8eb-790e-4ff9-9f2e-19caa761abc7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e110d31d32574c3fbf073c438e9cabac', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Здесь, на земле, мы только странники'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=69%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=69%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Знаешь, в жизни всё проходит', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Знаешь, в жизни всё проходит', 'Божья любовь', NULL, 'Куплет 1:
 Знаешь, в жизни всё проходит и уходит, уплывает как вода,
 А за суетою жарких будней остается лишь пустота.
 Каждый день бежишь куда не знаешь, на работу, по делам,
@@ -3223,16 +3223,16 @@ Dm
 A# Gm A
 Мост:
 Em
-C Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=70 | photo=notion-youth-songbook | notionPageId=b9682b7b-50ae-4f80-9457-6d0865157e15 | notionChordPageId=18b335cf-250e-4d40-9662-b3bacb20db83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b9682b7b50ae4f8094576d0865157e15', 'pending'
+C Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=70 | photo=notion-youth-songbook | notionPageId=b9682b7b-50ae-4f80-9457-6d0865157e15 | notionChordPageId=18b335cf-250e-4d40-9662-b3bacb20db83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b9682b7b50ae4f8094576d0865157e15', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Знаешь, в жизни всё проходит'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=70%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=70%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Измени меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Измени меня', 'Прославление', NULL, 'Куплет 1:
 Измени меня, измени меня
 Чтобы я смог сделать то,
 Для чего Ты меня призвал,
@@ -3280,16 +3280,16 @@ A H7 E
 E H7 E
 A H7
 E C#m
-A H7 E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=71 | photo=notion-youth-songbook | notionPageId=b4d218a9-2acc-4547-b627-614fb0f57bd7 | notionChordPageId=64d67bf2-fa7b-4d2e-b3e2-d8d577ff81df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b4d218a92acc4547b627614fb0f57bd7', 'pending'
+A H7 E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=71 | photo=notion-youth-songbook | notionPageId=b4d218a9-2acc-4547-b627-614fb0f57bd7 | notionChordPageId=64d67bf2-fa7b-4d2e-b3e2-d8d577ff81df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b4d218a92acc4547b627614fb0f57bd7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Измени меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=71%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=71%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Иисус, как Ты дорог для меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Иисус, как Ты дорог для меня', 'Молитвенные', NULL, 'Куплет 1:
 Иисус, как Ты дорог для меня
 Иисус, внемлешь Ты мольбе моей.
 О, Иисус, поднимешь Ты, коль упаду;
@@ -3317,16 +3317,16 @@ A7 D
 D Em
 A7 D
 Hm Em
-A7 D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=72 | photo=notion-youth-songbook | notionPageId=480318d0-5895-42f8-8cdc-6c6900672ece | notionChordPageId=9f2d6af7-a499-4b02-a80e-c1a5f96d0f16 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/480318d0589542f88cdc6c6900672ece', 'pending'
+A7 D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=72 | photo=notion-youth-songbook | notionPageId=480318d0-5895-42f8-8cdc-6c6900672ece | notionChordPageId=9f2d6af7-a499-4b02-a80e-c1a5f96d0f16 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/480318d0589542f88cdc6c6900672ece', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, как Ты дорог для меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=72%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=72%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Иисус, превозносим', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Иисус, превозносим', 'Прославление', NULL, 'Куплет 1:
 Иисус, превозносим
 Твоё имя, Ты – Царь,
 Пребывающий среди нас,
@@ -3364,16 +3364,16 @@ C D G
 G Em
 C Am D
 G Em
-C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=73 | photo=notion-youth-songbook | notionPageId=3aa33724-4ed5-4258-8131-3e98e0ecfd38 | notionChordPageId=c597f442-2c74-4549-9f20-4c28124d5a6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3aa337244ed5425881313e98e0ecfd38', 'pending'
+C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=73 | photo=notion-youth-songbook | notionPageId=3aa33724-4ed5-4258-8131-3e98e0ecfd38 | notionChordPageId=c597f442-2c74-4549-9f20-4c28124d5a6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3aa337244ed5425881313e98e0ecfd38', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, превозносим'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=73%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=73%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Иисус, Ты любовь моя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Иисус, Ты любовь моя', 'Спасение', NULL, 'Куплет 1:
 Иисус, Ты любовь моя,
 Иисус, не оставлю я Тебя,
 Из темноты Ты забрал меня,
@@ -3401,16 +3401,16 @@ G A D
 D A F#
 Hm G A
 D A F#
-Hm G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=74 | photo=notion-youth-songbook | notionPageId=49f7d329-452f-440f-9568-e23cf3c8d18d | notionChordPageId=4bc2fdbc-0c46-485f-abc7-b31da83b8f00 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/49f7d329452f440f9568e23cf3c8d18d', 'pending'
+Hm G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=74 | photo=notion-youth-songbook | notionPageId=49f7d329-452f-440f-9568-e23cf3c8d18d | notionChordPageId=4bc2fdbc-0c46-485f-abc7-b31da83b8f00 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/49f7d329452f440f9568e23cf3c8d18d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, Ты любовь моя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=74%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=74%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Иисус, Ты моя скала', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Иисус, Ты моя скала', 'Пасхальные', NULL, 'Куплет 1:
 Когда в море бушует волна,
 Ветер рвет твои паруса,
 И бессмысленной стала борьба,
@@ -3456,16 +3456,16 @@ E
 Am E Am
 G C
 Dm Am
-E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=75 | photo=notion-youth-songbook | notionPageId=48be6208-3700-44ae-a808-8afb39ab9ac2 | notionChordPageId=15a3479b-d150-4dd7-89c0-539b9a95b589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/48be6208370044aea8088afb39ab9ac2', 'pending'
+E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=75 | photo=notion-youth-songbook | notionPageId=48be6208-3700-44ae-a808-8afb39ab9ac2 | notionChordPageId=15a3479b-d150-4dd7-89c0-539b9a95b589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/48be6208370044aea8088afb39ab9ac2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, Ты моя скала'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=75%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=75%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Иисус, Ты умер на кресте', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Иисус, Ты умер на кресте', 'Пасхальные', NULL, 'Куплет 1:
 Иисус, Ты умер на кресте
 Воскрес, чтоб грешников спасти.
 Мои все грехи, Иисус, прости,
@@ -3483,16 +3483,16 @@ G D A D
 G A Hm
 G D A D
 G A Hm
-G D A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=76 | photo=notion-youth-songbook | notionPageId=101d044d-0291-4a41-a204-b6f0ca7601f1 | notionChordPageId=a072921f-55c7-447d-8f13-73621ff833a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/101d044d02914a41a204b6f0ca7601f1', 'pending'
+G D A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=76 | photo=notion-youth-songbook | notionPageId=101d044d-0291-4a41-a204-b6f0ca7601f1 | notionChordPageId=a072921f-55c7-447d-8f13-73621ff833a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/101d044d02914a41a204b6f0ca7601f1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, Ты умер на кресте'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=76%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=76%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ищите Бога', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ищите Бога', 'Утешение и ободрение', NULL, 'Куплет 1:
 Ищите Бога, ищите слёзно,
 Ищите, люди, пока не поздно.
 И днём, и ночью, в жару и стужу
@@ -3510,16 +3510,16 @@ Fm G Cm
 Cm Fm G Cm
 Fm G Cm C
 Fm A# Cm
-Fm G Cm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=77 | photo=notion-youth-songbook | notionPageId=5a9ca282-7ae7-4255-b6e2-86df7ffc65c3 | notionChordPageId=c4ffd83c-7861-4625-a80a-99d6610c392f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5a9ca2827ae74255b6e286df7ffc65c3', 'pending'
+Fm G Cm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=77 | photo=notion-youth-songbook | notionPageId=5a9ca282-7ae7-4255-b6e2-86df7ffc65c3 | notionChordPageId=c4ffd83c-7861-4625-a80a-99d6610c392f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5a9ca2827ae74255b6e286df7ffc65c3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ищите Бога'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=77%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=77%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ищите прежде Царства', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ищите прежде Царства', 'Прославление', NULL, 'Куплет 1:
 Ищите прежде Царства Божия
 И правды Его,
 Все остальное приложится вам,
@@ -3533,16 +3533,16 @@ SELECT 'Ищите прежде Царства', 'Молодёжный сбор�
 Просите и дано будет вам,
 Ищите и найдете,
 Стучите и отворят вам,
-Аллилуйя, аллилуйя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=78 | photo=notion-youth-songbook | notionPageId=214a2ef2-ad6b-4881-bb4b-5fbdd34400ec | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/214a2ef2ad6b4881bb4b5fbdd34400ec | Fill chords from an approved source before approval.', 'pending'
+Аллилуйя, аллилуйя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=78 | photo=notion-youth-songbook | notionPageId=214a2ef2-ad6b-4881-bb4b-5fbdd34400ec | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/214a2ef2ad6b4881bb4b5fbdd34400ec | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ищите прежде Царства'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=78%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=78%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Каждый день улетают самолёты', 'Молодёжный сборник', NULL, 'Припев:
+SELECT 'Каждый день улетают самолёты', 'Вера и упование', NULL, 'Припев:
 Каждый день улетают самолёты,
 Каждый час уезжают поезда,
 Но, а я - останусь с Иисусом
@@ -3561,16 +3561,16 @@ SELECT 'Каждый день улетают самолёты', 'Молодёж�
 Никогда не унывай,
 Небо есть заветный край.
 Ты в него всегда смотри,
-Помощь Господа прими.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=79 | photo=notion-youth-songbook | notionPageId=263c0a1a-4df3-4525-94be-259bd75020d9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/263c0a1a4df3452594be259bd75020d9 | Fill chords from an approved source before approval.', 'pending'
+Помощь Господа прими.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=79 | photo=notion-youth-songbook | notionPageId=263c0a1a-4df3-4525-94be-259bd75020d9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/263c0a1a4df3452594be259bd75020d9 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Каждый день улетают самолёты'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=79%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=79%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как вожделенны жилища Твои', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как вожделенны жилища Твои', 'Дух Святой', NULL, 'Куплет 1:
 Как вожделенны жилища Твои,
 Господи сил!
 Истомилась душа моя,
@@ -3604,16 +3604,16 @@ C G
 C E Am F
 E Am
 Dm G Em Am
-Dm G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=80 | photo=notion-youth-songbook | notionPageId=3ad616da-f2ce-41f7-99f2-8353184afa37 | notionChordPageId=d13aeb49-5f33-47d4-8ce7-40c62f3c3723 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3ad616daf2ce41f799f28353184afa37', 'pending'
+Dm G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=80 | photo=notion-youth-songbook | notionPageId=3ad616da-f2ce-41f7-99f2-8353184afa37 | notionChordPageId=d13aeb49-5f33-47d4-8ce7-40c62f3c3723 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3ad616daf2ce41f799f28353184afa37', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как вожделенны жилища Твои'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=80%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=80%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как вожделенны', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как вожделенны', 'Дух Святой', NULL, 'Куплет 1:
 Как вожделенны жилища Твои,
 Господи, Боже сил.
 Как вожделенны жилища Твои,
@@ -3657,16 +3657,16 @@ G
 D
 Hm
 Hm D A
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=81 | photo=notion-youth-songbook | notionPageId=0908f372-f2b8-4852-88e1-4ec8011709f8 | notionChordPageId=dfe5f973-7603-423a-af9e-efc789140af5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0908f372f2b8485288e14ec8011709f8', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=81 | photo=notion-youth-songbook | notionPageId=0908f372-f2b8-4852-88e1-4ec8011709f8 | notionChordPageId=dfe5f973-7603-423a-af9e-efc789140af5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0908f372f2b8485288e14ec8011709f8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как вожделенны'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=81%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=81%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как глубока Твоя любовь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как глубока Твоя любовь', 'Дух Святой', NULL, 'Куплет 1:
 Как глубока Твоя любовь,
 И прощение – наш покров,
 Ты – наш свет и наш покой,
@@ -3692,16 +3692,16 @@ G C
 Am H7 Em E7
 Am D
 G C
-Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=82 | photo=notion-youth-songbook | notionPageId=35ea72ae-290c-42bd-a4dc-7893b8391526 | notionChordPageId=051b1862-1405-464c-96e1-c855e08c0134 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/35ea72ae290c42bda4dc7893b8391526', 'pending'
+Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=82 | photo=notion-youth-songbook | notionPageId=35ea72ae-290c-42bd-a4dc-7893b8391526 | notionChordPageId=051b1862-1405-464c-96e1-c855e08c0134 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/35ea72ae290c42bda4dc7893b8391526', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как глубока Твоя любовь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=82%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=82%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как олень стремится к водам', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как олень стремится к водам', 'Молитвенные', NULL, 'Куплет 1:
 Как олень стремится к водам,
 Так душа моя к Тебе.
 Ты один желанье сердца;
@@ -3739,16 +3739,16 @@ F G C
 C Em Am
 F G C F G
 C G Am
-F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=83 | photo=notion-youth-songbook | notionPageId=3f531f6f-3751-40cf-8209-c5eb82c98dcf | notionChordPageId=06a709db-8663-461f-92bd-249545d180ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3f531f6f375140cf8209c5eb82c98dcf', 'pending'
+F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=83 | photo=notion-youth-songbook | notionPageId=3f531f6f-3751-40cf-8209-c5eb82c98dcf | notionChordPageId=06a709db-8663-461f-92bd-249545d180ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3f531f6f375140cf8209c5eb82c98dcf', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как олень стремится к водам'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=83%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=83%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как прекрасно все то, что Твое', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как прекрасно все то, что Твое', 'Спасение', NULL, 'Куплет 1:
 Как прекрасно все то, что Твое,
 Мне повсюду Твой слышится голос,
 Ветром в листьях звенит и поет,
@@ -3810,16 +3810,16 @@ C E7
 Am
 Dm
 F
-E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=84 | photo=notion-youth-songbook | notionPageId=4be82751-2886-41cc-95cc-628b88c41666 | notionChordPageId=85309b48-1a65-4b3e-ad93-f38076a1b855 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4be82751288641cc95cc628b88c41666', 'pending'
+E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=84 | photo=notion-youth-songbook | notionPageId=4be82751-2886-41cc-95cc-628b88c41666 | notionChordPageId=85309b48-1a65-4b3e-ad93-f38076a1b855 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4be82751288641cc95cc628b88c41666', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как прекрасно все то, что Твое'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=84%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=84%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как сон уходят прочь года', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как сон уходят прочь года', 'Молитвенные', NULL, 'Куплет 1:
 Как сон уходят прочь года
 Мне не забыть лица моих друзей
 Несу в своих молитвах я
@@ -3847,16 +3847,16 @@ Cm G#
 Cm Gm
 Fm G#
 Cm Gm
-Fm G#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=85 | photo=notion-youth-songbook | notionPageId=7346db90-6079-44d8-a8e3-40ccbd7ca1ea | notionChordPageId=3492c609-af18-4990-ba67-851ebc203768 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7346db90607944d8a8e340ccbd7ca1ea', 'pending'
+Fm G#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=85 | photo=notion-youth-songbook | notionPageId=7346db90-6079-44d8-a8e3-40ccbd7ca1ea | notionChordPageId=3492c609-af18-4990-ba67-851ebc203768 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7346db90607944d8a8e340ccbd7ca1ea', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как сон уходят прочь года'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=85%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=85%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как часто мы блуждаем', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как часто мы блуждаем', 'Пасхальные', NULL, 'Куплет 1:
 Как часто мы блуждаем, и просто забываем,
 Что миром правит суета
 Порой в любовь играем, грехов не замечаем,
@@ -3890,16 +3890,16 @@ Dm G C
 C Em A7
 Dm
 G E Am Dm
-G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=86 | photo=notion-youth-songbook | notionPageId=1c7a5276-75f4-4719-8429-b98a72f8a2e3 | notionChordPageId=8a2cda02-2f11-4802-a702-5c262b51ce38 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1c7a527675f447198429b98a72f8a2e3', 'pending'
+G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=86 | photo=notion-youth-songbook | notionPageId=1c7a5276-75f4-4719-8429-b98a72f8a2e3 | notionChordPageId=8a2cda02-2f11-4802-a702-5c262b51ce38 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1c7a527675f447198429b98a72f8a2e3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как часто мы блуждаем'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=86%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=86%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Как-то получилось', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Как-то получилось', 'Божья любовь', NULL, 'Куплет 1:
 Как-то получилось, что сошлись дороги,
 Вовсе не похожи, но сошлись в одну.
 Если вдруг в дороге грусть тебя встревожит.
@@ -3947,16 +3947,16 @@ D H7
 Em Am
 H7 Em
 Em Am
-D H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=87 | photo=notion-youth-songbook | notionPageId=ae58ad4f-6c01-4e9b-a4ab-f203a9b40786 | notionChordPageId=484a0f6b-9ed8-4979-82ae-cb989bc1ccb6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae58ad4f6c014e9ba4abf203a9b40786', 'pending'
+D H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=87 | photo=notion-youth-songbook | notionPageId=ae58ad4f-6c01-4e9b-a4ab-f203a9b40786 | notionChordPageId=484a0f6b-9ed8-4979-82ae-cb989bc1ccb6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae58ad4f6c014e9ba4abf203a9b40786', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как-то получилось'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=87%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=87%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Кистью Творца', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Кистью Творца', 'Благодарение', NULL, 'Куплет 1:
 Кистью Творца созданы небеса,
 Небо и земля созданы Его рукой.
 Я благодарю Тебя, мой Господь,
@@ -3994,16 +3994,16 @@ Am F G
 C F G Am
 F G
 C F E
-Am F G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=88 | photo=notion-youth-songbook | notionPageId=8d23a531-e808-423a-af11-9c49075cac64 | notionChordPageId=abb3dd25-d704-4423-9786-3fa0aeb791cd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8d23a531e808423aaf119c49075cac64', 'pending'
+Am F G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=88 | photo=notion-youth-songbook | notionPageId=8d23a531-e808-423a-af11-9c49075cac64 | notionChordPageId=abb3dd25-d704-4423-9786-3fa0aeb791cd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8d23a531e808423aaf119c49075cac64', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кистью Творца'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=88%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=88%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Когда бушует жизнь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Когда бушует жизнь', 'Пасхальные', NULL, 'Куплет 1:
 Когда бушует жизнь, огнем меня крестя,
 Одно твержу всегда себе на память:
 Зачем же унывать? - Имею я Христа,
@@ -4043,16 +4043,16 @@ H7 Em
 G D H7 Em
 Am H7 E7
 Am Am Em C
-Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=89 | photo=notion-youth-songbook | notionPageId=27a4df2b-c294-44dd-88c8-b5aa91e09b52 | notionChordPageId=bdf06b8f-5b23-43af-b6a0-148d8b14de9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a4df2bc29444dd88c8b5aa91e09b52', 'pending'
+Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=89 | photo=notion-youth-songbook | notionPageId=27a4df2b-c294-44dd-88c8-b5aa91e09b52 | notionChordPageId=bdf06b8f-5b23-43af-b6a0-148d8b14de9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a4df2bc29444dd88c8b5aa91e09b52', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда бушует жизнь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=89%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=89%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Когда в пути душа утомляется', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Когда в пути душа утомляется', 'Молитвенные', NULL, 'Куплет 1:
 Когда в пути душа утомляется
 Под бременем борьбы и труда,
 ||: Спешу я в церковь, где не кончается
@@ -4090,16 +4090,16 @@ Dm E Am A
 Am Dm E Am
 Dm G C Am
 Dm7 Gm C Am
-Dm E Am A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=90 | photo=notion-youth-songbook | notionPageId=8debf778-d8a6-4a8a-b07a-be8fb4f2037d | notionChordPageId=634aabd3-0447-4155-9448-e730583ece65 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8debf778d8a64a8ab07abe8fb4f2037d', 'pending'
+Dm E Am A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=90 | photo=notion-youth-songbook | notionPageId=8debf778-d8a6-4a8a-b07a-be8fb4f2037d | notionChordPageId=634aabd3-0447-4155-9448-e730583ece65 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8debf778d8a64a8ab07abe8fb4f2037d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда в пути душа утомляется'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=90%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=90%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Когда в Твои слова вникаю', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Когда в Твои слова вникаю', 'Спасение', NULL, 'Куплет 1:
 Когда в Твои слова вникаю,
 Христос, Спаситель дивный мой,
 Тогда всё глубже понимаю,
@@ -4151,16 +4151,16 @@ Dm D
 A# C
 F A Dm
 Gm A
-Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=91 | photo=notion-youth-songbook | notionPageId=8719feb2-b87d-4f7d-b4d6-0f3076fc64a7 | notionChordPageId=ad7ec627-0068-4c39-a692-4502456640d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8719feb2b87d4f7db4d60f3076fc64a7', 'pending'
+Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=91 | photo=notion-youth-songbook | notionPageId=8719feb2-b87d-4f7d-b4d6-0f3076fc64a7 | notionChordPageId=ad7ec627-0068-4c39-a692-4502456640d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8719feb2b87d4f7db4d60f3076fc64a7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда в Твои слова вникаю'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=91%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=91%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Когда весенний ветерок', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Когда весенний ветерок', 'Утешение и ободрение', NULL, 'Куплет 1:
 Когда весенний ветерок колышет радостно цветок,
 Когда от розы аромат прольется на цветущий сад,
 Тогда волнуются сердца, тогда волнуются сердца,
@@ -4194,16 +4194,16 @@ Em A D D7
 Em A D Hm
 Em A D D7
 Em A D Hm
-Em A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=92 | photo=notion-youth-songbook | notionPageId=596ace4b-cf7c-4a74-82a3-f3ccca7ba6f7 | notionChordPageId=3e7337ef-a243-41fe-b0f7-679ebdb869d8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/596ace4bcf7c4a7482a3f3ccca7ba6f7', 'pending'
+Em A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=92 | photo=notion-youth-songbook | notionPageId=596ace4b-cf7c-4a74-82a3-f3ccca7ba6f7 | notionChordPageId=3e7337ef-a243-41fe-b0f7-679ebdb869d8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/596ace4bcf7c4a7482a3f3ccca7ba6f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда весенний ветерок'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=92%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=92%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Когда смолкнет всё', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Когда смолкнет всё', 'Прощение', NULL, 'Куплет 1:
 Когда смолкнет всё, в тиши утонет звук,
 Я к Тебе приду.
 Принести хочу, из сердца моего
@@ -4239,16 +4239,16 @@ Em G A D
 D A Em
 Em A
 D A Em
-A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=93 | photo=notion-youth-songbook | notionPageId=7d9a51e4-4f2b-4e8f-a7d9-3d4fd0c3d865 | notionChordPageId=e03188ed-d565-4e38-bfa5-69ef220b040e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7d9a51e44f2b4e8fa7d93d4fd0c3d865', 'pending'
+A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=93 | photo=notion-youth-songbook | notionPageId=7d9a51e4-4f2b-4e8f-a7d9-3d4fd0c3d865 | notionChordPageId=e03188ed-d565-4e38-bfa5-69ef220b040e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7d9a51e44f2b4e8fa7d93d4fd0c3d865', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда смолкнет всё'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=93%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=93%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Когда Христос меня простил', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Когда Христос меня простил', 'Прощение', NULL, 'Куплет 1:
 Когда Христос меня простил,
 Мне землю в небо превратил;
 Среди скорбей, борьбы земной
@@ -4286,16 +4286,16 @@ G E7
 C
 Am
 Dm
-G E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=94 | photo=notion-youth-songbook | notionPageId=f853a9a9-da34-4dfd-b103-7f39fc9aff34 | notionChordPageId=44e22363-c680-4349-a39e-117a4a2bfb67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f853a9a9da344dfdb1037f39fc9aff34', 'pending'
+G E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=94 | photo=notion-youth-songbook | notionPageId=f853a9a9-da34-4dfd-b103-7f39fc9aff34 | notionChordPageId=44e22363-c680-4349-a39e-117a4a2bfb67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f853a9a9da344dfdb1037f39fc9aff34', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда Христос меня простил'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=94%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=94%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Косари на лугу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Косари на лугу', 'Спасение', NULL, 'Куплет 1:
 Косари на лугу размахалися острыми косами,
 Что им Божий цветок, им бы кончить работу свою.
 Я на милость Твою уповаю, Спаситель мой, Господи,
@@ -4333,16 +4333,16 @@ Dm Gm
 Gm Cm
 Gm D Gm
 Cm Gm
-Dm Gm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=95 | photo=notion-youth-songbook | notionPageId=959ed66e-cce4-4cd3-8d5a-f21a5ee25aee | notionChordPageId=956903af-137d-47c4-9a34-db32bbbc0911 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/959ed66ecce44cd38d5af21a5ee25aee', 'pending'
+Dm Gm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=95 | photo=notion-youth-songbook | notionPageId=959ed66e-cce4-4cd3-8d5a-f21a5ee25aee | notionChordPageId=956903af-137d-47c4-9a34-db32bbbc0911 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/959ed66ecce44cd38d5af21a5ee25aee', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Косари на лугу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=95%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=95%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Крылья зари', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Крылья зари', 'Божья любовь', NULL, 'Куплет 1:
 Господи, Ты испытал меня
 И знаешь когда я сажусь,
 Когда встаю, иду я, или отдыхаю
@@ -4378,16 +4378,16 @@ Em
 Em D Em
 Em
 Em
-Em D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=96 | photo=notion-youth-songbook | notionPageId=805fe242-4406-4dd5-b54a-1e2b540c8c21 | notionChordPageId=1c421e05-8edf-4328-9c03-93c3aedae3f4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/805fe24244064dd5b54a1e2b540c8c21', 'pending'
+Em D Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=96 | photo=notion-youth-songbook | notionPageId=805fe242-4406-4dd5-b54a-1e2b540c8c21 | notionChordPageId=1c421e05-8edf-4328-9c03-93c3aedae3f4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/805fe24244064dd5b54a1e2b540c8c21', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Крылья зари'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=96%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=96%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Кто бы дал мне слезы сокрушенья', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Кто бы дал мне слезы сокрушенья', 'Дух Святой', NULL, 'Куплет 1:
 Кто бы дал мне слезы сокрушенья,
 Плакал бы я день и ночь.
 Где найти для сердца утешенье,
@@ -4445,16 +4445,16 @@ D7 A Gm
 Gm D7 Gm
 A# F A#
 Cm D7 Gm
-D7 A Gm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=97 | photo=notion-youth-songbook | notionPageId=c7cd5991-e6f8-4010-a124-f3fb2e28dab7 | notionChordPageId=289d433a-de7a-4b78-972d-fef87e75ab46 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c7cd5991e6f84010a124f3fb2e28dab7', 'pending'
+D7 A Gm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=97 | photo=notion-youth-songbook | notionPageId=c7cd5991-e6f8-4010-a124-f3fb2e28dab7 | notionChordPageId=289d433a-de7a-4b78-972d-fef87e75ab46 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c7cd5991e6f84010a124f3fb2e28dab7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто бы дал мне слезы сокрушенья'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=97%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=97%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Кто есть на небе у меня?', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Кто есть на небе у меня?', 'Спасение', NULL, 'Куплет 1:
 Кто есть на небе у меня? Только Ты!
 А в жизни только песнь моя: Мой Христос.
 ||: Он за меня в горниле был,
@@ -4512,16 +4512,16 @@ Em Am C H7
 Em Am C H7
 E7 Am D
 G Em
-Am H7 Em E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=98 | photo=notion-youth-songbook | notionPageId=9b33e469-2286-4527-95ad-32d10276884f | notionChordPageId=c2c656b6-5b04-4b31-8b47-148fc2298820 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b33e4692286452795ad32d10276884f', 'pending'
+Am H7 Em E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=98 | photo=notion-youth-songbook | notionPageId=9b33e469-2286-4527-95ad-32d10276884f | notionChordPageId=c2c656b6-5b04-4b31-8b47-148fc2298820 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b33e4692286452795ad32d10276884f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто есть на небе у меня?'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=98%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=98%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Кто же я', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Кто же я', 'Прощение', NULL, 'Куплет 1:
 Кто же я, что Царя Вселенной всей
 Волнует боль моя и мир в душе моей?
 Кто же я, что чудесный Божий свет
@@ -4553,16 +4553,16 @@ D C G C Em D
 G Em
 D C D C D
 G Em
-D C D C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=99 | photo=notion-youth-songbook | notionPageId=0a9d92ed-c6ad-4daa-9c61-1f33ed9bc666 | notionChordPageId=80d24c8f-4504-431b-a144-367f90353d58 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a9d92edc6ad4daa9c611f33ed9bc666', 'pending'
+D C D C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=99 | photo=notion-youth-songbook | notionPageId=0a9d92ed-c6ad-4daa-9c61-1f33ed9bc666 | notionChordPageId=80d24c8f-4504-431b-a144-367f90353d58 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a9d92edc6ad4daa9c611f33ed9bc666', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто же я'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=99%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=99%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Кто из царей', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Кто из царей', 'Пасхальные', NULL, 'Куплет 1:
 Идя за звездой в чужие края
 Мы так ожидали увидеть Царя
 Но не младенца…
@@ -4602,16 +4602,16 @@ F#m
 Hm
 A
 F#m
-Hm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=100 | photo=notion-youth-songbook | notionPageId=f28dacd5-5b98-4f02-b329-237f1b379241 | notionChordPageId=f4a80128-d732-40d1-b270-8d07eb9b5bab | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f28dacd55b984f02b329237f1b379241', 'pending'
+Hm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=100 | photo=notion-youth-songbook | notionPageId=f28dacd5-5b98-4f02-b329-237f1b379241 | notionChordPageId=f4a80128-d732-40d1-b270-8d07eb9b5bab | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f28dacd55b984f02b329237f1b379241', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто из царей'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=100%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=100%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Кто я без Тебя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Кто я без Тебя', 'Божья любовь', NULL, 'Куплет 1:
 Хочу я жить под кровом Твоим,
 Тонуть в Твоей великой любви,
 Смотреть лишь на Тебя.
@@ -4651,16 +4651,16 @@ C Dm C Gsus G
 C F
 C F
 Am C F
-C Dm C Gsus G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=101 | photo=notion-youth-songbook | notionPageId=7455ae64-42ed-41d4-9e5b-adc1e5634c0e | notionChordPageId=47b1f592-14ae-47a8-8d26-f4bcf495fc4a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7455ae6442ed41d49e5badc1e5634c0e', 'pending'
+C Dm C Gsus G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=101 | photo=notion-youth-songbook | notionPageId=7455ae64-42ed-41d4-9e5b-adc1e5634c0e | notionChordPageId=47b1f592-14ae-47a8-8d26-f4bcf495fc4a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7455ae6442ed41d49e5badc1e5634c0e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто я без Тебя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=101%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=101%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Куда б мы ни ехали', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Куда б мы ни ехали', 'Молитвенные', NULL, 'Куплет 1:
 Куда б мы ни ехали, куда б ни бежали,
 Везде есть проблемы, везде есть печали…
 А все потому, чтоб мы понимали -
@@ -4679,16 +4679,16 @@ SELECT 'Куда б мы ни ехали', 'Молодёжный сборник'
 ||: Так может, потому и приходят печали,
 Чтобы мы с тобой о небе скучали,
 Чтобы всей душой стремились в небеса
-Куда не постучится больше беда. :|| Больше беда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=102 | photo=notion-youth-songbook | notionPageId=4b9a8ff4-24bf-4fc6-a363-6a207efe645a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/4b9a8ff424bf4fc6a3636a207efe645a | Fill chords from an approved source before approval.', 'pending'
+Куда не постучится больше беда. :|| Больше беда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=102 | photo=notion-youth-songbook | notionPageId=4b9a8ff4-24bf-4fc6-a363-6a207efe645a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/4b9a8ff424bf4fc6a3636a207efe645a | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Куда б мы ни ехали'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=102%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=102%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Куда мы идем', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Куда мы идем', 'Пасхальные', NULL, 'Куплет 1:
 Куда мы идем, только Он знает.
 Падает снег, но Он растает.
 Жизнь скоро пройдет, а за ней вечность.
@@ -4726,16 +4726,16 @@ D A Hm G
 D A Hm G
 D A Hm G
 D A Hm G
-D A Hm G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=103 | photo=notion-youth-songbook | notionPageId=f751b98b-8c4d-4508-9d80-cb277bfcb2c8 | notionChordPageId=c932ccf2-242b-4f55-a180-365f81e37be9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f751b98b8c4d45089d80cb277bfcb2c8', 'pending'
+D A Hm G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=103 | photo=notion-youth-songbook | notionPageId=f751b98b-8c4d-4508-9d80-cb277bfcb2c8 | notionChordPageId=c932ccf2-242b-4f55-a180-365f81e37be9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f751b98b8c4d45089d80cb277bfcb2c8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Куда мы идем'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=103%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=103%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Лети', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Лети', 'Небо', NULL, 'Куплет 1:
 Каждый день смотрю на небеса
 Ожидая Твой ответ внутри
 Дал мне крылья словно паруса
@@ -4771,16 +4771,16 @@ F F E
 F G Am
 F G Dm
 F G Am
-F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=104 | photo=notion-youth-songbook | notionPageId=3d15e3cc-a2f3-41fb-a240-cd66d75d097d | notionChordPageId=ed356e62-d658-41ed-b4a0-cc1081ef573c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d15e3cca2f341fba240cd66d75d097d', 'pending'
+F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=104 | photo=notion-youth-songbook | notionPageId=3d15e3cc-a2f3-41fb-a240-cd66d75d097d | notionChordPageId=ed356e62-d658-41ed-b4a0-cc1081ef573c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d15e3cca2f341fba240cd66d75d097d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Лети'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=104%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=104%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Льются слёзы печали', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Льются слёзы печали', 'Пасхальные', NULL, 'Куплет 1:
 [братья]
 Льются слёзы печали
 На иссохшую землю
@@ -4821,16 +4821,16 @@ SELECT 'Льются слёзы печали', 'Молодёжный сборн�
 Благодатью Христовой
 От греха я спасаюсь
 Его царства святого
-Я наследником стал.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=105 | photo=notion-youth-songbook | notionPageId=f512fd68-5c85-4075-b74f-a8e6caa926fd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/f512fd685c854075b74fa8e6caa926fd | Fill chords from an approved source before approval.', 'pending'
+Я наследником стал.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=105 | photo=notion-youth-songbook | notionPageId=f512fd68-5c85-4075-b74f-a8e6caa926fd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/f512fd685c854075b74fa8e6caa926fd | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Льются слёзы печали'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=105%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=105%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Люби...', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Люби...', 'Божья любовь', NULL, 'Куплет 1:
 Люби, когда другой тебя толкает,
 Люби, когда другой не понимает,
 Люби, когда другой тебя подводит,
@@ -4870,16 +4870,16 @@ D H
 Em
 C
 Am
-D H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=106 | photo=notion-youth-songbook | notionPageId=9e83418b-a755-4e8c-9de7-9dfc438faf28 | notionChordPageId=e81368b3-7f28-419a-b57b-57cc81b48cc8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e83418ba7554e8c9de79dfc438faf28', 'pending'
+D H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=106 | photo=notion-youth-songbook | notionPageId=9e83418b-a755-4e8c-9de7-9dfc438faf28 | notionChordPageId=e81368b3-7f28-419a-b57b-57cc81b48cc8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e83418ba7554e8c9de79dfc438faf28', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Люби...'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=106%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=106%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Любит Иисус меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Любит Иисус меня', 'Призыв к покаянию', NULL, 'Куплет 1:
 Любит Иисус меня, любит меня,
 Песня об этом пусть будет моя.
 И не скрываю я, пусть знают все:
@@ -4919,16 +4919,16 @@ A D D7
 D Em
 A D
 D Em
-A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=107 | photo=notion-youth-songbook | notionPageId=0a5a9e84-2d57-4dbb-b9fd-5b790f223b2e | notionChordPageId=3fc8d47c-ae6d-43e6-9222-4d7c8d483337 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a5a9e842d574dbbb9fd5b790f223b2e', 'pending'
+A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=107 | photo=notion-youth-songbook | notionPageId=0a5a9e84-2d57-4dbb-b9fd-5b790f223b2e | notionChordPageId=3fc8d47c-ae6d-43e6-9222-4d7c8d483337 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a5a9e842d574dbbb9fd5b790f223b2e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любит Иисус меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=107%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=107%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Любовь - Евангельское слово', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Любовь - Евангельское слово', 'Спасение', NULL, 'Куплет 1:
 Любовь - Евангельское слово
 Превыше всех на свете слов!
 Оно - основа всех основ,
@@ -4974,16 +4974,16 @@ C#m A E H7
 C#m A H7
 G#m A E
 H7 C#m
-A H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=108 | photo=notion-youth-songbook | notionPageId=09da7197-572e-404a-be5a-066db2027166 | notionChordPageId=aa4306db-26a6-4665-bb52-e7cb46c283c5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/09da7197572e404abe5a066db2027166', 'pending'
+A H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=108 | photo=notion-youth-songbook | notionPageId=09da7197-572e-404a-be5a-066db2027166 | notionChordPageId=aa4306db-26a6-4665-bb52-e7cb46c283c5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/09da7197572e404abe5a066db2027166', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любовь - Евангельское слово'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=108%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=108%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Любовь Христа верна и чиста', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Любовь Христа верна и чиста', 'Спасение', NULL, 'Куплет 1:
 Мы каждый день встречаемся вновь
 С прекрасным словом, словом “любовь”,
 Мы каждый день за ней летим в мечтах своих,
@@ -5029,16 +5029,16 @@ H7 Em H7
 Em
 Am
 H7
-Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=109 | photo=notion-youth-songbook | notionPageId=085692d9-b323-4bf6-9ad1-33cb2fb0d77f | notionChordPageId=aa4eac71-981f-46ec-b1fd-3fd94c4f5b23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/085692d9b3234bf69ad133cb2fb0d77f', 'pending'
+Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=109 | photo=notion-youth-songbook | notionPageId=085692d9-b323-4bf6-9ad1-33cb2fb0d77f | notionChordPageId=aa4eac71-981f-46ec-b1fd-3fd94c4f5b23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/085692d9b3234bf69ad133cb2fb0d77f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любовь Христа верна и чиста'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=109%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=109%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Любоў Хрыстова', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Любоў Хрыстова', 'Спасение', NULL, 'Куплет 1:
 Любоў Хрыстова! Яна, як сонца,
 Што ззяе ў небе над усёй зямлёй.
 Любоў Хрыстова! Што параўнацца
@@ -5080,16 +5080,16 @@ Am H7 Em E
 Em C
 Am H7 Em H7
 Em C
-Am H7 Em E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=110 | photo=notion-youth-songbook | notionPageId=31d04827-dc7e-4e48-b9e2-d0301b994fce | notionChordPageId=78dab9b4-1ce5-47ac-a4c6-9c1ed12a935b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/31d04827dc7e4e48b9e2d0301b994fce', 'pending'
+Am H7 Em E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=110 | photo=notion-youth-songbook | notionPageId=31d04827-dc7e-4e48-b9e2-d0301b994fce | notionChordPageId=78dab9b4-1ce5-47ac-a4c6-9c1ed12a935b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/31d04827dc7e4e48b9e2d0301b994fce', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любоў Хрыстова'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=110%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=110%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Люди ищут вокруг', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Люди ищут вокруг', 'Разное', NULL, 'Куплет 1:
 Люди ищут вокруг днём и в полночь идут
 Страх наполнил глаза что принесёт им судьба
 С каждым днем жизнь идет одинаково всё
@@ -5117,16 +5117,16 @@ C#7 C7 Fm
 Fm A#m D# G# C
 Fm A#m C#7 C7
 Fm A#m D# G# C
-Fm A#m C#7 C7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=111 | photo=notion-youth-songbook | notionPageId=2c93ac07-50e9-4f83-ae56-77c2e25f67d1 | notionChordPageId=15350e0d-9d12-4465-90ea-0a59c03e9478 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2c93ac0750e94f83ae5677c2e25f67d1', 'pending'
+Fm A#m C#7 C7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=111 | photo=notion-youth-songbook | notionPageId=2c93ac07-50e9-4f83-ae56-77c2e25f67d1 | notionChordPageId=15350e0d-9d12-4465-90ea-0a59c03e9478 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2c93ac0750e94f83ae5677c2e25f67d1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Люди ищут вокруг'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=111%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=111%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Манит сердце мечтою', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Манит сердце мечтою', 'Прощение', NULL, 'Куплет 1:
 Манит сердце мечтою
 Высь небес голубая -
 Нашей общей мечтою
@@ -5164,16 +5164,16 @@ Dm
 Dm
 Gm
 A7
-Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=112 | photo=notion-youth-songbook | notionPageId=4722dbe8-a861-465c-adbc-9df5c1c19004 | notionChordPageId=0879f978-fc76-4930-9ff5-f3f21e4890f1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4722dbe8a861465cadbc9df5c1c19004', 'pending'
+Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=112 | photo=notion-youth-songbook | notionPageId=4722dbe8-a861-465c-adbc-9df5c1c19004 | notionChordPageId=0879f978-fc76-4930-9ff5-f3f21e4890f1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4722dbe8a861465cadbc9df5c1c19004', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Манит сердце мечтою'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=112%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=112%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мария спешила скорей', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мария спешила скорей', 'Пасхальные', NULL, 'Куплет 1:
 Мария спешила скорей
 В сиянье первых лучей
 Увидеть во гробе Христа
@@ -5211,16 +5211,16 @@ Am D
 G Em
 C D
 G E
-Am D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=113 | photo=notion-youth-songbook | notionPageId=aa530eb0-fc11-42ed-962e-88eb3e823995 | notionChordPageId=9968fdb4-7925-4589-818a-39beffe7f9ee | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/aa530eb0fc1142ed962e88eb3e823995', 'pending'
+Am D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=113 | photo=notion-youth-songbook | notionPageId=aa530eb0-fc11-42ed-962e-88eb3e823995 | notionChordPageId=9968fdb4-7925-4589-818a-39beffe7f9ee | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/aa530eb0fc1142ed962e88eb3e823995', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мария спешила скорей'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=113%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=113%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Милости Твоей полна вся земля', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Милости Твоей полна вся земля', 'Благодарение', NULL, 'Куплет 1:
 Милости Твоей полна вся земля,
 Милости Твоей полна жизнь моя,
 Милость Свою Ты превознёс над судом,
@@ -5238,16 +5238,16 @@ Hm A D
 Припев:
 Em A D Hm Em F# Hm
 Em A D Hm Em F# Hm
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=114 | photo=notion-youth-songbook | notionPageId=bd1b6653-b08d-4d46-babd-4db0d7abedc4 | notionChordPageId=3cee34b7-09e9-4f4b-9214-db0c5a0284b4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bd1b6653b08d4d46babd4db0d7abedc4', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=114 | photo=notion-youth-songbook | notionPageId=bd1b6653-b08d-4d46-babd-4db0d7abedc4 | notionChordPageId=3cee34b7-09e9-4f4b-9214-db0c5a0284b4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bd1b6653b08d4d46babd4db0d7abedc4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Милости Твоей полна вся земля'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=114%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=114%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Милость Божья', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Милость Божья', 'Дух Святой', NULL, 'Куплет 1:
 От погибели спасла меня милость Божья.
 В рве отчаянья нашла меня милость Божья.
 То, что я ещё живу, что я Господу служу, –
@@ -5285,16 +5285,16 @@ Gm A Dm D
 Dm Gm
 C A Dm D
 Cm D
-Gm A Dm D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=115 | photo=notion-youth-songbook | notionPageId=839d1652-dd17-4232-ada6-1718886f39cf | notionChordPageId=5b0d2a81-0409-4c7e-8e18-3a4c9a1547d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/839d1652dd174232ada61718886f39cf', 'pending'
+Gm A Dm D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=115 | photo=notion-youth-songbook | notionPageId=839d1652-dd17-4232-ada6-1718886f39cf | notionChordPageId=5b0d2a81-0409-4c7e-8e18-3a4c9a1547d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/839d1652dd174232ada61718886f39cf', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Милость Божья'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=115%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=115%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мимо текла, текла река', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мимо текла, текла река', 'Божья любовь', NULL, 'Куплет 1:
 Мимо текла, текла река, плыли куда-то облака,
 Шёл человек, была дорога нелегка
 И человек мечтал о том, чтобы построить себе дом
@@ -5332,16 +5332,16 @@ Gm A Dm D7
 Dm Gm Dm
 Gm C F D7
 Gm F Dm
-Gm A Dm D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=116 | photo=notion-youth-songbook | notionPageId=5b8315eb-8637-48bc-aaa6-c7f4805d9692 | notionChordPageId=c484cb2d-aee1-44bf-b729-7990e0227677 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b8315eb863748bcaaa6c7f4805d9692', 'pending'
+Gm A Dm D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=116 | photo=notion-youth-songbook | notionPageId=5b8315eb-8637-48bc-aaa6-c7f4805d9692 | notionChordPageId=c484cb2d-aee1-44bf-b729-7990e0227677 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b8315eb863748bcaaa6c7f4805d9692', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мимо текла, текла река'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=116%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=116%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мир вам', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мир вам', 'Божья любовь', NULL, 'Куплет 1:
 Мир вам, настал общения час,
 Мир вам, и мы приветствуем вас,
 Мир вам, пусть будет слышен смех детей,
@@ -5385,16 +5385,16 @@ Em G F#
 Hm Em F#
 Hm Em A
 D H7 Em
-Em F# Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=117 | photo=notion-youth-songbook | notionPageId=d0b87b98-9968-4a0c-af1b-f2442ec20186 | notionChordPageId=62b4cd56-7af4-468b-92fe-30f66d4ef10a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d0b87b9899684a0caf1bf2442ec20186', 'pending'
+Em F# Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=117 | photo=notion-youth-songbook | notionPageId=d0b87b98-9968-4a0c-af1b-f2442ec20186 | notionChordPageId=62b4cd56-7af4-468b-92fe-30f66d4ef10a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d0b87b9899684a0caf1bf2442ec20186', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мир вам'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=117%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=117%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мне есть за что благодарить', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мне есть за что благодарить', 'Пасхальные', NULL, 'Куплет 1:
 Мне есть за что благодарить Творца -
 Он снял с меня греховную проказу.
 О, пусть теперь польется без конца
@@ -5432,16 +5432,16 @@ Em F#7 Hm
 Hm F#m Hm
 Em F#7 Hm
 Hm F#7 G
-Em F#7 Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=118 | photo=notion-youth-songbook | notionPageId=e686c2cf-a797-47d2-a85e-ae90443349d3 | notionChordPageId=2f3ee12e-701a-406c-9ac1-19dff1c4a5e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e686c2cfa79747d2a85eae90443349d3', 'pending'
+Em F#7 Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=118 | photo=notion-youth-songbook | notionPageId=e686c2cf-a797-47d2-a85e-ae90443349d3 | notionChordPageId=2f3ee12e-701a-406c-9ac1-19dff1c4a5e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e686c2cfa79747d2a85eae90443349d3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мне есть за что благодарить'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=118%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=118%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мне кажется завтра', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мне кажется завтра', 'Спасение', NULL, 'Куплет 1:
 Нам кажется, завтра мы будем прилежней
 И лучше, полезней, добрей.
 Сегодня мы грубы, а завтра мы нежны,
@@ -5491,16 +5491,16 @@ C
 Am
 F Fm
 G
-F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=119 | photo=notion-youth-songbook | notionPageId=818b46da-8b2c-4cda-bfb8-852f25fd05fc | notionChordPageId=72b5f6c8-8976-4127-a6e4-51ebac8300a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/818b46da8b2c4cdabfb8852f25fd05fc', 'pending'
+F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=119 | photo=notion-youth-songbook | notionPageId=818b46da-8b2c-4cda-bfb8-852f25fd05fc | notionChordPageId=72b5f6c8-8976-4127-a6e4-51ebac8300a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/818b46da8b2c4cdabfb8852f25fd05fc', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мне кажется завтра'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=119%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=119%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Много лет прошло', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Много лет прошло', 'Пасхальные', NULL, 'Куплет 1:
 Много лет прошло с времен Голгофы,
 Но Христос оставил ее след,
 А душа все задает вопросы –
@@ -5544,16 +5544,16 @@ Em Am H
 Em Am
 C H Em
 G D H
-Em Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=120 | photo=notion-youth-songbook | notionPageId=8dbd4194-4d00-47be-8d1f-67ad6ead7f4a | notionChordPageId=711e4563-2420-4e6a-a225-7c5ebcb0b2ec | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8dbd41944d0047be8d1f67ad6ead7f4a', 'pending'
+Em Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=120 | photo=notion-youth-songbook | notionPageId=8dbd4194-4d00-47be-8d1f-67ad6ead7f4a | notionChordPageId=711e4563-2420-4e6a-a225-7c5ebcb0b2ec | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8dbd41944d0047be8d1f67ad6ead7f4a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Много лет прошло'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=120%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=120%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Много лет учили тебя и меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Много лет учили тебя и меня', 'Спасение', NULL, 'Куплет 1:
 Много лет учили тебя и меня:
 Чтобы лодка жизни удачно плыла,
 Главное - не бросить вёсла свои,
@@ -5591,16 +5591,16 @@ Am E Am
 Am Dm
 E Am E
 Am Dm
-Am E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=121 | photo=notion-youth-songbook | notionPageId=8536df5e-69fd-4e72-b768-a119bf69a1f9 | notionChordPageId=c0da7889-302f-4bc4-b518-bbd9d06808b0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8536df5e69fd4e72b768a119bf69a1f9', 'pending'
+Am E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=121 | photo=notion-youth-songbook | notionPageId=8536df5e-69fd-4e72-b768-a119bf69a1f9 | notionChordPageId=c0da7889-302f-4bc4-b518-bbd9d06808b0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8536df5e69fd4e72b768a119bf69a1f9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Много лет учили тебя и меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=121%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=121%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Много много километров', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Много много километров', 'Небо', NULL, 'Куплет 1:
 Много много километров земного пути
 Через бури, через ветры предстоит пройти.
 Нам светят в неба звезды, а мы роняем слезы,
@@ -5628,16 +5628,16 @@ G A D
 D Hm G A
 D Hm G A
 G A D Hm
-G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=122 | photo=notion-youth-songbook | notionPageId=53a99305-01b9-4f87-a971-89c12724b77b | notionChordPageId=54d723b6-7d5e-4319-acf1-d63a04fe6ed8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53a9930501b94f87a97189c12724b77b', 'pending'
+G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=122 | photo=notion-youth-songbook | notionPageId=53a99305-01b9-4f87-a971-89c12724b77b | notionChordPageId=54d723b6-7d5e-4319-acf1-d63a04fe6ed8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53a9930501b94f87a97189c12724b77b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Много много километров'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=122%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=122%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мой Господь, в этот час', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мой Господь, в этот час', 'Молитвенные', NULL, 'Куплет 1:
 Мой Господь, в этот час я склоняюсь в мольбе,
 И все нужды мои приношу я Тебе.
 В жизни бурь и тревог Ты укроешь меня.
@@ -5679,16 +5679,16 @@ Am H Em H
 Em C D H
 Em C D H
 Am H Em C
-Am H Em H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=123 | photo=notion-youth-songbook | notionPageId=6760712b-d2fc-4447-ac80-4164dc835bdd | notionChordPageId=8f33b773-49a6-412e-9f53-cee1179f537c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6760712bd2fc4447ac804164dc835bdd', 'pending'
+Am H Em H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=123 | photo=notion-youth-songbook | notionPageId=6760712b-d2fc-4447-ac80-4164dc835bdd | notionChordPageId=8f33b773-49a6-412e-9f53-cee1179f537c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6760712bd2fc4447ac804164dc835bdd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мой Господь, в этот час'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=123%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=123%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Молитва — это крик души', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Молитва — это крик души', 'Молитвенные', NULL, 'Куплет 1:
 Молитва — это крик души, чем искренней, тем тише
 И так легко когда в тиши, ее Господь услышит.
 Она, как самый громкий плач, не пред людьми, пред Богом,
@@ -5726,16 +5726,16 @@ Am Em Am H E
 Em C Am H
 Em C Am C H
 Am D G C
-Am Em Am H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=124 | photo=notion-youth-songbook | notionPageId=820d8394-a34b-4e3d-9b9f-21ee605b9856 | notionChordPageId=f5eb307b-f013-46d9-9227-281e8ec414ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/820d8394a34b4e3d9b9f21ee605b9856', 'pending'
+Am Em Am H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=124 | photo=notion-youth-songbook | notionPageId=820d8394-a34b-4e3d-9b9f-21ee605b9856 | notionChordPageId=f5eb307b-f013-46d9-9227-281e8ec414ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/820d8394a34b4e3d9b9f21ee605b9856', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Молитва — это крик души'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=124%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=124%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Молодые', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Молодые', 'Божья любовь', NULL, 'Куплет 1:
 Молодые, вы рождённы для Бога жить,
 Чтобы в мире Иисусу Христу служить;
 Молодые, перед вами Господь идёт.
@@ -5775,16 +5775,16 @@ F Dm E7
 Am Dm
 G C E7
 Am Dm
-F Dm E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=125 | photo=notion-youth-songbook | notionPageId=9842986c-3fae-4eb6-9ac7-4e858679250f | notionChordPageId=86be5c09-12ba-4850-98b3-b8bcaacd19c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9842986c3fae4eb69ac74e858679250f', 'pending'
+F Dm E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=125 | photo=notion-youth-songbook | notionPageId=9842986c-3fae-4eb6-9ac7-4e858679250f | notionChordPageId=86be5c09-12ba-4850-98b3-b8bcaacd19c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9842986c3fae4eb69ac74e858679250f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Молодые'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=125%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=125%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Моя молитва да стремится', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Моя молитва да стремится', 'Молитвенные', NULL, 'Куплет 1:
 Моя молитва да стремится
 К Тебе как-будто фимиам
 И мое сердце обратится
@@ -5832,16 +5832,16 @@ Am H7 Em
 Em C
 Am H7 Em
 Em C
-Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=126 | photo=notion-youth-songbook | notionPageId=108b6f4e-245e-401c-a789-4e3817dcfa08 | notionChordPageId=4de00650-657f-4805-8756-32424d9bb6e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/108b6f4e245e401ca7894e3817dcfa08', 'pending'
+Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=126 | photo=notion-youth-songbook | notionPageId=108b6f4e-245e-401c-a789-4e3817dcfa08 | notionChordPageId=4de00650-657f-4805-8756-32424d9bb6e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/108b6f4e245e401ca7894e3817dcfa08', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Моя молитва да стремится'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=126%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=126%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мы – лишь мгновенье', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мы – лишь мгновенье', 'Семья', NULL, 'Куплет 1:
 Мы – лишь мгновенье, Ты – сама вечность
 Мира Создатель, Царь всех сердец.
 Мы – дуновенье, Ты – бесконечность
@@ -5869,16 +5869,16 @@ Dm Am G Dm Am G
 C G Dm Am
 F C A# G
 C G Dm Am
-F C A# G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=127 | photo=notion-youth-songbook | notionPageId=8a626bb8-da3f-412e-bd66-062313494097 | notionChordPageId=b4f15d48-8526-441d-afb6-c7c7b053f8e4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8a626bb8da3f412ebd66062313494097', 'pending'
+F C A# G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=127 | photo=notion-youth-songbook | notionPageId=8a626bb8-da3f-412e-bd66-062313494097 | notionChordPageId=b4f15d48-8526-441d-afb6-c7c7b053f8e4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8a626bb8da3f412ebd66062313494097', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мы – лишь мгновенье'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=127%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=127%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Мы нужны друг другу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Мы нужны друг другу', 'Семья', NULL, 'Куплет 1:
 Мы нужны друг другу, Бог нас спас не зря,
 Чтобы с тобою были мы друзья.
 Так давай служить теперь ты мне, а я тебе,
@@ -5906,16 +5906,16 @@ A# C F
 F C Dm
 A# C F C
 F C Dm
-A# C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=128 | photo=notion-youth-songbook | notionPageId=52af40bc-a24f-4013-bb0f-3a2c2d35946a | notionChordPageId=7be2980c-5349-4114-bd20-7f88d8b1eaf3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/52af40bca24f4013bb0f3a2c2d35946a', 'pending'
+A# C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=128 | photo=notion-youth-songbook | notionPageId=52af40bc-a24f-4013-bb0f-3a2c2d35946a | notionChordPageId=7be2980c-5349-4114-bd20-7f88d8b1eaf3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/52af40bca24f4013bb0f3a2c2d35946a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мы нужны друг другу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=128%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=128%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'На всяком месте', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'На всяком месте', 'Семья', NULL, 'Куплет 1:
 На всяком месте до краёв земли
 Я знаю Ты всегда со мной.
 И каждый раз звучат слова Твои:
@@ -5977,16 +5977,16 @@ C D G
 G Em
 C D
 Hm Em
-C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=129 | photo=notion-youth-songbook | notionPageId=df2ac51d-54cf-41cd-bc79-d6cd6758e13b | notionChordPageId=a6353397-bc53-45fb-8fdf-06bc2655652e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/df2ac51d54cf41cdbc79d6cd6758e13b', 'pending'
+C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=129 | photo=notion-youth-songbook | notionPageId=df2ac51d-54cf-41cd-bc79-d6cd6758e13b | notionChordPageId=a6353397-bc53-45fb-8fdf-06bc2655652e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/df2ac51d54cf41cdbc79d6cd6758e13b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'На всяком месте'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=129%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=129%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'На Тебя мы уповаем', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'На Тебя мы уповаем', 'Пасхальные', NULL, 'Куплет 1:
 Наша надежда - Ты Христос.
 Ты наше счастье, наша любовь,
 Ты наша радость, Ты наша жизнь.
@@ -6010,16 +6010,16 @@ A Dm D7
 Dm F C
 A Dm
 Dm F C
-Gm A A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=130 | photo=notion-youth-songbook | notionPageId=dd1f40a0-db09-43b3-b071-be5afb61e341 | notionChordPageId=73213b9e-d8be-4ddb-a58e-b7ee09b7047a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/dd1f40a0db0943b3b071be5afb61e341', 'pending'
+Gm A A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=130 | photo=notion-youth-songbook | notionPageId=dd1f40a0-db09-43b3-b071-be5afb61e341 | notionChordPageId=73213b9e-d8be-4ddb-a58e-b7ee09b7047a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/dd1f40a0db0943b3b071be5afb61e341', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'На Тебя мы уповаем'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=130%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=130%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'На Христа взирая', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'На Христа взирая', 'Небо', NULL, 'Куплет 1:
 На Христа взирая, жизнь Ему отдай,
 Грешных призывая, даст им рай.
 За тебя страдая, взял Он грех твой Сам,
@@ -6057,16 +6057,16 @@ Am F#m H
 Em Hm C G
 Am F#m H
 Em Hm C G
-Am F#m H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=131 | photo=notion-youth-songbook | notionPageId=97616c5e-4b67-4abe-9cb9-5de77a5b1fa4 | notionChordPageId=79ceeb46-b66f-4116-991b-70921f831113 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97616c5e4b674abe9cb95de77a5b1fa4', 'pending'
+Am F#m H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=131 | photo=notion-youth-songbook | notionPageId=97616c5e-4b67-4abe-9cb9-5de77a5b1fa4 | notionChordPageId=79ceeb46-b66f-4116-991b-70921f831113 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97616c5e4b674abe9cb95de77a5b1fa4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'На Христа взирая'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=131%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=131%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Над церковными куполами', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Над церковными куполами', 'Спасение', NULL, 'Куплет 1:
 Над церковными куполами
 Небо синее-синее-синее.
 Я иду под моими ногами
@@ -6104,16 +6104,16 @@ Dm E7
 Am Dm
 E7 Am
 C
-Dm E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=132 | photo=notion-youth-songbook | notionPageId=7be648d7-8137-426d-a48a-f12168bec8ce | notionChordPageId=26167861-2047-48f8-87e1-695b0f85d6e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7be648d78137426da48af12168bec8ce', 'pending'
+Dm E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=132 | photo=notion-youth-songbook | notionPageId=7be648d7-8137-426d-a48a-f12168bec8ce | notionChordPageId=26167861-2047-48f8-87e1-695b0f85d6e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7be648d78137426da48af12168bec8ce', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Над церковными куполами'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=132%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=132%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Научи меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Научи меня', 'Спасение', NULL, 'Куплет 1:
 Научи меня, мой Господь, во всём
 Волю исполнять лишь Твою.
 Чтобы мне по слову Твоему доказать,
@@ -6151,16 +6151,16 @@ H Em
 Em Am
 H Em
 Em Am
-H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=133 | photo=notion-youth-songbook | notionPageId=ff3615bc-4736-4a6a-b8ca-11e83940df6e | notionChordPageId=3dd95900-f309-4719-a7ae-e195a83aa265 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ff3615bc47364a6ab8ca11e83940df6e', 'pending'
+H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=133 | photo=notion-youth-songbook | notionPageId=ff3615bc-4736-4a6a-b8ca-11e83940df6e | notionChordPageId=3dd95900-f309-4719-a7ae-e195a83aa265 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ff3615bc47364a6ab8ca11e83940df6e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Научи меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=133%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=133%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Начиная новый день', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Начиная новый день', 'Благодарение', NULL, 'Куплет 1:
 Начиная новый день, слышу голос Твой.
 Я смотрю на небеса, знаю - Ты со мной.
 Пусть, Иисус, Твоя рука поведёт меня.
@@ -6179,16 +6179,16 @@ SELECT 'Начиная новый день', 'Молодёжный сборни�
 Я хочу, чтоб сегодня горели сердца.
 Пусть сияет в них свет от великого Бога - Отца.
 Пусть ещё миллионы заблудших людей.
-Наконец-то поймут, Кто для них всех нужней.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=134 | photo=notion-youth-songbook | notionPageId=a388cd41-df97-4483-a8c2-70017e780b6a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a388cd41df974483a8c270017e780b6a | Fill chords from an approved source before approval.', 'pending'
+Наконец-то поймут, Кто для них всех нужней.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=134 | photo=notion-youth-songbook | notionPageId=a388cd41-df97-4483-a8c2-70017e780b6a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a388cd41df974483a8c270017e780b6a | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Начиная новый день'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=134%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=134%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Наш Бог Великий', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Наш Бог Великий', 'Величие Бога', NULL, 'Куплет 1:
 Воду в вино превратил,
 Слепые глаза Ты открыл:
 Нет таких Бог, нет как Ты!
@@ -6216,16 +6216,16 @@ G#m E
 H F#
 G#m E
 H F#
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=135 | photo=notion-youth-songbook | notionPageId=92d99b0c-c6c4-43e2-adb4-635ca3052558 | notionChordPageId=6b086cc3-d547-4da4-8032-bd956014a9eb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/92d99b0cc6c443e2adb4635ca3052558', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=135 | photo=notion-youth-songbook | notionPageId=92d99b0c-c6c4-43e2-adb4-635ca3052558 | notionChordPageId=6b086cc3-d547-4da4-8032-bd956014a9eb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/92d99b0cc6c443e2adb4635ca3052558', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Наш Бог Великий'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=135%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=135%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Наш Бог так велик', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Наш Бог так велик', 'Семья', NULL, 'Куплет 1:
 В сиянии Царя блеск величия
 Пусть вся земля поёт, в радости поёт
 Он в свет одел Себя и в страхе меркнет тьма
@@ -6257,16 +6257,16 @@ G Em7
 C D
 G Em7
 C D
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=136 | photo=notion-youth-songbook | notionPageId=4a33c3ab-85d1-4f5c-86f6-7a9322cedc36 | notionChordPageId=3972c2f1-c591-4621-90aa-87a703a29302 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a33c3ab85d14f5c86f67a9322cedc36', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=136 | photo=notion-youth-songbook | notionPageId=4a33c3ab-85d1-4f5c-86f6-7a9322cedc36 | notionChordPageId=3972c2f1-c591-4621-90aa-87a703a29302 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a33c3ab85d14f5c86f67a9322cedc36', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Наш Бог так велик'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=136%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=136%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Наша жизнь - это путь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Наша жизнь - это путь', 'Спасение', NULL, 'Куплет 1:
 Наша жизнь - это путь на небеса.
 День за днем устремляясь вдаль,
 Вспомни жизнь и Господни чудеса,
@@ -6336,16 +6336,16 @@ A# C Dm
 Gm Dm
 Gm A# F
 Dm Gm
-A# C Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=137 | photo=notion-youth-songbook | notionPageId=f758b27b-2b8d-448e-86ac-09b04363b8ea | notionChordPageId=3504de51-1336-4bdc-a379-5724e0d7ba31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f758b27b2b8d448e86ac09b04363b8ea', 'pending'
+A# C Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=137 | photo=notion-youth-songbook | notionPageId=f758b27b-2b8d-448e-86ac-09b04363b8ea | notionChordPageId=3504de51-1336-4bdc-a379-5724e0d7ba31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f758b27b2b8d448e86ac09b04363b8ea', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Наша жизнь - это путь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=137%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=137%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Небеса ожидают меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Небеса ожидают меня', 'Семья', NULL, 'Куплет 1:
 Небеса ожидают меня,
 Радость ждёт неземная меня,
 Будет встреча с Иисусом Христом,
@@ -6383,16 +6383,16 @@ H7 Em
 Em Am
 H7 Em
 Em Am
-H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=138 | photo=notion-youth-songbook | notionPageId=e62c064c-171b-41a2-a4ca-3fa2658e1106 | notionChordPageId=261a5d25-5baa-4d28-a005-5e812a7871cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e62c064c171b41a2a4ca3fa2658e1106', 'pending'
+H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=138 | photo=notion-youth-songbook | notionPageId=e62c064c-171b-41a2-a4ca-3fa2658e1106 | notionChordPageId=261a5d25-5baa-4d28-a005-5e812a7871cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e62c064c171b41a2a4ca3fa2658e1106', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Небеса ожидают меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=138%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=138%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Небесная родина', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Небесная родина', 'Семья', NULL, 'Куплет 1:
 Я иду туда, где царит весна,
 Где цветут сады и все поля.
 Птицы там поют и поет земля,
@@ -6409,16 +6409,16 @@ SELECT 'Небесная родина', 'Молодёжный сборник', N
 И пускай бывает жизнь трудна,
 И бушует море, бьет волна.
 Все же верю я, что придет весна,
-Я дойду туда, я дойду туда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=139 | photo=notion-youth-songbook | notionPageId=105ca539-dd6f-4d6d-ae67-16deee4076ba | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/105ca539dd6f4d6dae6716deee4076ba | Fill chords from an approved source before approval.', 'pending'
+Я дойду туда, я дойду туда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=139 | photo=notion-youth-songbook | notionPageId=105ca539-dd6f-4d6d-ae67-16deee4076ba | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/105ca539dd6f4d6dae6716deee4076ba | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Небесная родина'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=139%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=139%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Небо, небо, небес', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Небо, небо, небес', 'Пасхальные', NULL, 'Куплет 1:
 Поднимаю глаза и смотрю в небеса,
 Там я вижу Христа одесную Отца.
 Небо, небо, небес приготовил Он мне,
@@ -6460,16 +6460,16 @@ Am Dm E7 Am
 Am Dm E7 Am
 Am Dm G C Am
 Am Dm G C Am
-Am Dm E7 Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=140 | photo=notion-youth-songbook | notionPageId=21ec9972-c61d-4258-a0d8-6382d4c7d09c | notionChordPageId=66365aa4-c2a3-40cf-936c-b4909bcd752e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/21ec9972c61d4258a0d86382d4c7d09c', 'pending'
+Am Dm E7 Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=140 | photo=notion-youth-songbook | notionPageId=21ec9972-c61d-4258-a0d8-6382d4c7d09c | notionChordPageId=66365aa4-c2a3-40cf-936c-b4909bcd752e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/21ec9972c61d4258a0d86382d4c7d09c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Небо, небо, небес'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=140%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=140%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Нет другой истории', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Нет другой истории', 'Рождественские', NULL, 'Куплет 1:
 Нет другой истории прекрасной и знакомой
 Истории, проникнувшей в сердца
 Как мир был погружён в таинство неземное
@@ -6505,16 +6505,16 @@ D A
 Hm G
 D A
 Hm G
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=141 | photo=notion-youth-songbook | notionPageId=b22ec591-125f-4a3c-9ee1-fe699ef51e3c | notionChordPageId=02458177-3db1-4d18-b198-dc7edd88029f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b22ec591125f4a3c9ee1fe699ef51e3c', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=141 | photo=notion-youth-songbook | notionPageId=b22ec591-125f-4a3c-9ee1-fe699ef51e3c | notionChordPageId=02458177-3db1-4d18-b198-dc7edd88029f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b22ec591125f4a3c9ee1fe699ef51e3c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Нет другой истории'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=141%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=141%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Нет небу синему конца', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Нет небу синему конца', 'Божья любовь', NULL, 'Куплет 1:
 Нет небу синему конца,
 Везде видна рука Творца,
 Сияют звезды в голубой дали,
@@ -6552,16 +6552,16 @@ G Am H
 Em C G H
 Em H C
 G C
-G Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=142 | photo=notion-youth-songbook | notionPageId=4ff83597-1060-412b-9da9-4725ea41510e | notionChordPageId=9e8f9a46-d8cb-48c3-b6ba-5cde2cb6f3c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ff835971060412b9da94725ea41510e', 'pending'
+G Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=142 | photo=notion-youth-songbook | notionPageId=4ff83597-1060-412b-9da9-4725ea41510e | notionChordPageId=9e8f9a46-d8cb-48c3-b6ba-5cde2cb6f3c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ff835971060412b9da94725ea41510e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Нет небу синему конца'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=142%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=142%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Нет, не я, но Христос во мне', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Нет, не я, но Христос во мне', 'Прощение', NULL, 'Куплет 1:
 Бесценный дар, Иисус, мой Искупитель,
 Вся благодать небес сокрыта в Нём.
 Моя любовь, и праведность, и сила,
@@ -6596,16 +6596,16 @@ SELECT 'Нет, не я, но Христос во мне', 'Молодёжный
 ||: И я держусь надежды в Иисусе,
 Одному Ему хвала вовек!
 И свершив жизни путь, будет песнь моих уст:
-”Нет, не я, но Христос во мне!” :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=143 | photo=notion-youth-songbook | notionPageId=281b8b55-3bc3-4921-a368-f9b63eb539ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/281b8b553bc34921a368f9b63eb539ad | Fill chords from an approved source before approval.', 'pending'
+”Нет, не я, но Христос во мне!” :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=143 | photo=notion-youth-songbook | notionPageId=281b8b55-3bc3-4921-a368-f9b63eb539ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/281b8b553bc34921a368f9b63eb539ad | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Нет, не я, но Христос во мне'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=143%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=143%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Новый год', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Новый год', 'Утешение и ободрение', NULL, 'Куплет 1:
 Прошел незаметно весь год
 И новый встречаем мы снова
 Что новый нам год принесёт
@@ -6643,16 +6643,16 @@ F E
 Am H7
 Dm E Am
 A7 Dm
-F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=144 | photo=notion-youth-songbook | notionPageId=5b13d5e9-00af-4c99-a7fa-c727e156a53f | notionChordPageId=37668f59-7eb2-4805-907f-72cca1224a3a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b13d5e900af4c99a7fac727e156a53f', 'pending'
+F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=144 | photo=notion-youth-songbook | notionPageId=5b13d5e9-00af-4c99-a7fa-c727e156a53f | notionChordPageId=37668f59-7eb2-4805-907f-72cca1224a3a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b13d5e900af4c99a7fac727e156a53f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Новый год'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=144%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=144%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ныне поздравляют', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ныне поздравляют', 'Спасение', NULL, 'Куплет 1:
 Ныне поздравляют все друзья тебя,
 И тебе желают счастья и добра.
 Припев:
@@ -6678,16 +6678,16 @@ D Em
 A7 D
 Куплет 3:
 D Em
-A7 D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=145 | photo=notion-youth-songbook | notionPageId=3fa70b77-ec50-4332-a212-62ab54849d1b | notionChordPageId=a14c45f8-f422-4ff9-a017-2d95294848fd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3fa70b77ec504332a21262ab54849d1b', 'pending'
+A7 D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=145 | photo=notion-youth-songbook | notionPageId=3fa70b77-ec50-4332-a212-62ab54849d1b | notionChordPageId=a14c45f8-f422-4ff9-a017-2d95294848fd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3fa70b77ec504332a21262ab54849d1b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ныне поздравляют'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=145%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=145%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'О, молитва', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'О, молитва', 'Благодарение', NULL, 'Куплет 1:
 О молитва, о молитва! В жизни Богом ты дана.
 В скорбной жизни среди битвы Поднимала ты меня.
 Темной ночью я не спал, На коленях все стоял
@@ -6721,16 +6721,16 @@ Em Am Em H Em
 Em Am Em H Em
 E Am D G Em
 Am D G Am D
-G Em Am H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=146 | photo=notion-youth-songbook | notionPageId=a9a70757-1ce1-489f-ac5f-6fd776514549 | notionChordPageId=6f44cf5d-5996-487c-accc-b027c4a0ec3f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9a707571ce1489fac5f6fd776514549', 'pending'
+G Em Am H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=146 | photo=notion-youth-songbook | notionPageId=a9a70757-1ce1-489f-ac5f-6fd776514549 | notionChordPageId=6f44cf5d-5996-487c-accc-b027c4a0ec3f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9a707571ce1489fac5f6fd776514549', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'О, молитва'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=146%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=146%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'О, Ты велик', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'О, Ты велик', 'Божья любовь', NULL, 'Куплет 1:
 Прихожу к Тебе я с хвалою -
 Чудеса Твои велики
 И любовь Твоя сильна.
@@ -6746,16 +6746,16 @@ SELECT 'О, Ты велик', 'Молодёжный сборник', NULL, 'Ку
 Куплет 3:
 Ты один достоин всей хвалы,
 Превозносим к небу руки -
-В Тебе радуемся мы.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=147 | photo=notion-youth-songbook | notionPageId=fd57e227-e505-44b5-baca-5be1526fc133 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fd57e227e50544b5baca5be1526fc133 | Fill chords from an approved source before approval.', 'pending'
+В Тебе радуемся мы.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=147 | photo=notion-youth-songbook | notionPageId=fd57e227-e505-44b5-baca-5be1526fc133 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fd57e227e50544b5baca5be1526fc133 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'О, Ты велик'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=147%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=147%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Одиноко смотрят звезды', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Одиноко смотрят звезды', 'Пасхальные', NULL, 'Куплет 1:
 Одиноко смотрят звезды, Одиноко плачет небо,
 Одиноко ветер носит листья за окном.
 В сердце раненом обидой Навсегда уходит совесть.
@@ -6793,16 +6793,16 @@ Dm C A# A7
 Dm C A# A7
 Dm C A# A7
 Dm C A# A7
-Dm C A# A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=148 | photo=notion-youth-songbook | notionPageId=043847d8-b0cf-4c87-9c92-7c7ba2b90646 | notionChordPageId=6b3815bd-305a-4cd7-8f89-e4dfe8170c8c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043847d8b0cf4c879c927c7ba2b90646', 'pending'
+Dm C A# A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=148 | photo=notion-youth-songbook | notionPageId=043847d8-b0cf-4c87-9c92-7c7ba2b90646 | notionChordPageId=6b3815bd-305a-4cd7-8f89-e4dfe8170c8c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043847d8b0cf4c879c927c7ba2b90646', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Одиноко смотрят звезды'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=148%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=148%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Однажды я сказал', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Однажды я сказал', 'Божья любовь', NULL, 'Куплет 1:
 Однажды я сказал, что сохраню тебя,
 Однажды Я сказал – солгу ли Я?
 Горы содрогнутся и сгорит земля
@@ -6840,16 +6840,16 @@ Am F C G
 Am F C G
 Am F C G
 Am F C G
-Am F C G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=149 | photo=notion-youth-songbook | notionPageId=0422a625-287c-48ac-ad86-36d79ed84f9d | notionChordPageId=abc2bbd1-a1d8-4479-bbdb-5b9bafa64ea9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0422a625287c48acad8636d79ed84f9d', 'pending'
+Am F C G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=149 | photo=notion-youth-songbook | notionPageId=0422a625-287c-48ac-ad86-36d79ed84f9d | notionChordPageId=abc2bbd1-a1d8-4479-bbdb-5b9bafa64ea9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0422a625287c48acad8636d79ed84f9d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Однажды я сказал'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=149%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=149%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Он здесь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Он здесь', 'Величие Бога', NULL, 'Куплет 1:
 Он здесь, Он здесь,
 Хочет встретиться с тобой, Он здесь.
 Пред Тобою, мой Господь,
@@ -6883,16 +6883,16 @@ D Em A D D7
 G A D D7
 G A
 F#m Hm
-Em A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=150 | photo=notion-youth-songbook | notionPageId=6d2e759a-43aa-4976-b5e8-4176660c5b9e | notionChordPageId=f6296510-eeaf-4c61-87f9-077ac158e2a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6d2e759a43aa4976b5e84176660c5b9e', 'pending'
+Em A D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=150 | photo=notion-youth-songbook | notionPageId=6d2e759a-43aa-4976-b5e8-4176660c5b9e | notionChordPageId=f6296510-eeaf-4c61-87f9-077ac158e2a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6d2e759a43aa4976b5e84176660c5b9e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он здесь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=150%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=150%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Он не сошёл с креста', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Он не сошёл с креста', 'Пасхальные', NULL, 'Куплет 1:
 Тебя распяли, мой Господь, а Ты с креста благословлял,
 Тебя хулили и кляли, а Ты им, Боже, всё прощал.
 Они с Тобою на кресте свои надежды хоронили
@@ -6940,16 +6940,16 @@ A# Gm A
 Dm F Gm A
 Dm F A# C
 F Dm Gm A
-A# Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=151 | photo=notion-youth-songbook | notionPageId=76d33fe7-0549-424b-95bd-06c60b1ca59d | notionChordPageId=faa37a59-0ed6-47eb-bce1-609bca817dac | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76d33fe70549424b95bd06c60b1ca59d', 'pending'
+A# Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=151 | photo=notion-youth-songbook | notionPageId=76d33fe7-0549-424b-95bd-06c60b1ca59d | notionChordPageId=faa37a59-0ed6-47eb-bce1-609bca817dac | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76d33fe70549424b95bd06c60b1ca59d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он не сошёл с креста'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=151%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=151%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Он пришёл, спасая всех', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Он пришёл, спасая всех', 'Пасхальные', NULL, 'Куплет 1:
 Он пришёл, спасая всех от земных тревог
 Настоящий человек, настоящий Бог.
 Самарянкой найден свет у Христовых ног
@@ -6987,16 +6987,16 @@ Gm Dm Am Dm
 Dm C
 A# Am Dm
 A# F Gm Dm
-Gm Dm Am Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=152 | photo=notion-youth-songbook | notionPageId=ec59b91f-b8c2-44e4-856c-30ee2ee0f6a9 | notionChordPageId=a3f9a8eb-798e-48b2-8d34-ee455c91e990 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec59b91fb8c244e4856c30ee2ee0f6a9', 'pending'
+Gm Dm Am Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=152 | photo=notion-youth-songbook | notionPageId=ec59b91f-b8c2-44e4-856c-30ee2ee0f6a9 | notionChordPageId=a3f9a8eb-798e-48b2-8d34-ee455c91e990 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec59b91fb8c244e4856c30ee2ee0f6a9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он пришёл, спасая всех'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=152%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=152%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Он родился для меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Он родился для меня', 'Рождественские', NULL, 'Куплет 1:
 Тишина, ночное небо в домах тепло и светло
 Иисус, Сын неба родился и настало в сердцах торжество
 Вдруг Ангел явился с неба сказал всем “Радуйтесь”
@@ -7022,16 +7022,16 @@ G D Em A D
 D F# G D
 D A G
 D F# G D
-D A G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=153 | photo=notion-youth-songbook | notionPageId=7268a4f6-6fda-4f46-a595-c4a655e5dc61 | notionChordPageId=d822bc2e-9a68-427f-b7a8-6c2d99e9638b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7268a4f66fda4f46a595c4a655e5dc61', 'pending'
+D A G A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=153 | photo=notion-youth-songbook | notionPageId=7268a4f6-6fda-4f46-a595-c4a655e5dc61 | notionChordPageId=d822bc2e-9a68-427f-b7a8-6c2d99e9638b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7268a4f66fda4f46a595c4a655e5dc61', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он родился для меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=153%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=153%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Острое жало', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Острое жало', 'Пасхальные', NULL, 'Куплет 1:
 Острое жало коснулось ладони,
 Слился со стоном удар молотка.
 Брызнула кровь и мучительной болью
@@ -7075,16 +7075,16 @@ SELECT 'Острое жало', 'Молодёжный сборник', NULL, 'К
 Только не гнев был в ответ и не мщенье,
 Для искупленья лилась эта Кровь
 Кротко над миром звучало прощенье
-И обнимала планету Любовь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=154 | photo=notion-youth-songbook | notionPageId=50b8fefe-ed3b-4bdc-a7df-2102851374e9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50b8fefeed3b4bdca7df2102851374e9 | Fill chords from an approved source before approval.', 'pending'
+И обнимала планету Любовь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=154 | photo=notion-youth-songbook | notionPageId=50b8fefe-ed3b-4bdc-a7df-2102851374e9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50b8fefeed3b4bdca7df2102851374e9 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Острое жало'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=154%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=154%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Отец мой, я люблю Тебя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Отец мой, я люблю Тебя', 'Семья', NULL, 'Куплет 1:
 Отец мой, я люблю Тебя
 Сильней, Чем что-нибудь на свете,
 Ты нужен мне.
@@ -7128,16 +7128,16 @@ Dm
 A# F
 F C
 Gm A# C
-Gm A# C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=155 | photo=notion-youth-songbook | notionPageId=0c52815f-6bce-4f28-bb2d-ce29334b1efb | notionChordPageId=b2e3f74c-292c-4122-9be3-a675bca216da | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0c52815f6bce4f28bb2dce29334b1efb', 'pending'
+Gm A# C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=155 | photo=notion-youth-songbook | notionPageId=0c52815f-6bce-4f28-bb2d-ce29334b1efb | notionChordPageId=b2e3f74c-292c-4122-9be3-a675bca216da | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0c52815f6bce4f28bb2dce29334b1efb', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отец мой, я люблю Тебя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=155%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=155%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Откликнется душа моя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Откликнется душа моя', 'Божья любовь', NULL, 'Куплет 1:
 Снова по небу скучаю я,
 Но знаю, Ты видишь, что в сердце моём.
 Часто в мольбе призываю я
@@ -7158,16 +7158,16 @@ SELECT 'Откликнется душа моя', 'Молодёжный сбор�
 Буду я там, где любовь Твоя,
 С Тобой я останусь в раю навсегда!
 После последнего припева:
-Снова по небу скучаю я…', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=156 | photo=notion-youth-songbook | notionPageId=fcbea3f5-757c-4eaf-85d5-a8a0e2843e6e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fcbea3f5757c4eaf85d5a8a0e2843e6e | Fill chords from an approved source before approval.', 'pending'
+Снова по небу скучаю я…', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=156 | photo=notion-youth-songbook | notionPageId=fcbea3f5-757c-4eaf-85d5-a8a0e2843e6e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fcbea3f5757c4eaf85d5a8a0e2843e6e | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Откликнется душа моя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=156%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=156%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Отцы', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Отцы', 'Семья', NULL, 'Куплет 1:
 Отцы, вы надежды на нас возлагали.
 Отцы терпеливо детей наставляли.
 Отцы — это мужество веры и сила,
@@ -7215,16 +7215,16 @@ D Gm G
 Cm Dsus D
 Gm F D#
 Cm Dsus D
-D Gm G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=157 | photo=notion-youth-songbook | notionPageId=329487dc-7145-406f-8844-b570d39a2864 | notionChordPageId=9cb502dc-c50c-4f74-95fe-2f02720cd209 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/329487dc7145406f8844b570d39a2864', 'pending'
+D Gm G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=157 | photo=notion-youth-songbook | notionPageId=329487dc-7145-406f-8844-b570d39a2864 | notionChordPageId=9cb502dc-c50c-4f74-95fe-2f02720cd209 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/329487dc7145406f8844b570d39a2864', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отцы'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=157%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=157%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Отчаянья дожди', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Отчаянья дожди', 'Пасхальные', NULL, 'Куплет 1:
 Вновь дом Твой пуст, торжественный канон
 Сменился тихой утренней молитвой.
 Но сила вечных слов, что я Тобой спасён,
@@ -7243,16 +7243,16 @@ SELECT 'Отчаянья дожди', 'Молодёжный сборник', NUL
 Не властна смерть над светлою душой
 Хотя сквозь мрак ещё не видно солнца
 Мне и среди невзгод с Тобою хорошо
-Я буду петь доколе сердце бьётся', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=158 | photo=notion-youth-songbook | notionPageId=9f351ae4-3dae-4f2b-a819-a4871d37dd61 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f351ae43dae4f2ba819a4871d37dd61 | Fill chords from an approved source before approval.', 'pending'
+Я буду петь доколе сердце бьётся', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=158 | photo=notion-youth-songbook | notionPageId=9f351ae4-3dae-4f2b-a819-a4871d37dd61 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f351ae43dae4f2ba819a4871d37dd61 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отчаянья дожди'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=158%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=158%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Отче мы просим', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Отче мы просим', 'Исцеление', NULL, 'Куплет 1:
 Отче, мы просим: "Ты приди,
 Землю исцели" мы сердцами вместе,
 Пусть слава Твоя будет в нас,
@@ -7280,16 +7280,16 @@ Em A D
 D A F#m Hm
 G A G A
 F# Hm
-G Em A A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=159 | photo=notion-youth-songbook | notionPageId=fd30492e-8990-4a28-8317-413924d623db | notionChordPageId=ab6d4a31-6387-47dc-b57c-9a29d4e2c827 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fd30492e89904a288317413924d623db', 'pending'
+G Em A A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=159 | photo=notion-youth-songbook | notionPageId=fd30492e-8990-4a28-8317-413924d623db | notionChordPageId=ab6d4a31-6387-47dc-b57c-9a29d4e2c827 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fd30492e89904a288317413924d623db', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отче мы просим'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=159%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=159%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Отче Небесный, стою пред Тобою', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Отче Небесный, стою пред Тобою', 'Прощение', NULL, 'Куплет 1:
 Отче Небесный, стою пред Тобою
 Такой, как есть.
 Руки к Тебе возношу я покорно,
@@ -7311,16 +7311,16 @@ C G
 D C
 D G
 D C
-D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=160 | photo=notion-youth-songbook | notionPageId=c6ac7caa-5794-4add-937e-82c737cd400a | notionChordPageId=52042bff-a3ae-41f4-be24-42537b6a3c43 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c6ac7caa57944add937e82c737cd400a', 'pending'
+D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=160 | photo=notion-youth-songbook | notionPageId=c6ac7caa-5794-4add-937e-82c737cd400a | notionChordPageId=52042bff-a3ae-41f4-be24-42537b6a3c43 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c6ac7caa57944add937e82c737cd400a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отче Небесный, стою пред Тобою'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=160%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=160%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Первый вздох', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Первый вздох', 'Семья', NULL, 'Куплет 1:
 Первый вздох — ты родился, Я был там,
 Ты впервые плакал — Я внимал слезам,
 Хоть ты Меня не видел, но Я рядом был,
@@ -7348,16 +7348,16 @@ D A D
 D G D
 F#m G A
 D F# G
-D A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=161 | photo=notion-youth-songbook | notionPageId=5cad1add-0faf-4fa1-9c18-e814afe90e1f | notionChordPageId=5d4f8e27-8d2f-488d-acb4-44644fd3fc1e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5cad1add0faf4fa19c18e814afe90e1f', 'pending'
+D A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=161 | photo=notion-youth-songbook | notionPageId=5cad1add-0faf-4fa1-9c18-e814afe90e1f | notionChordPageId=5d4f8e27-8d2f-488d-acb4-44644fd3fc1e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5cad1add0faf4fa19c18e814afe90e1f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Первый вздох'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=161%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=161%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'По ночам', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'По ночам', 'Утешение и ободрение', NULL, 'Куплет 1:
 По ночам часто город мне снится,
 Пораженный его красотою,
 Начинаю я Богу молиться,
@@ -7405,16 +7405,16 @@ F G C
 C G C
 F G Em Am
 F G Em Am
-F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=162 | photo=notion-youth-songbook | notionPageId=e1657004-8cad-4361-bb19-8a8b18baeff6 | notionChordPageId=358a9ba2-8b3a-4328-bd02-92132210a073 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e16570048cad4361bb198a8b18baeff6', 'pending'
+F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=162 | photo=notion-youth-songbook | notionPageId=e1657004-8cad-4361-bb19-8a8b18baeff6 | notionChordPageId=358a9ba2-8b3a-4328-bd02-92132210a073 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e16570048cad4361bb198a8b18baeff6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'По ночам'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=162%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=162%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'По преданью отцов', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'По преданью отцов', 'Божья любовь', NULL, 'Куплет 1:
 По преданью отцов человек охранял
 На скрижалях Твое откровенье.
 Год за годом его ветер в пыль превращал,
@@ -7462,16 +7462,16 @@ Dm H E
 Am F
 Dm E Am
 Am F
-Dm H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=163 | photo=notion-youth-songbook | notionPageId=eed61b49-4dd3-4b6b-b089-0e9f831b50df | notionChordPageId=af3117d3-71a4-4180-bf54-7eb06124f8c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eed61b494dd34b6bb0890e9f831b50df', 'pending'
+Dm H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=163 | photo=notion-youth-songbook | notionPageId=eed61b49-4dd3-4b6b-b089-0e9f831b50df | notionChordPageId=af3117d3-71a4-4180-bf54-7eb06124f8c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eed61b494dd34b6bb0890e9f831b50df', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'По преданью отцов'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=163%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=163%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'По страницам Библии старой', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'По страницам Библии старой', 'Утешение и ободрение', NULL, 'Куплет 1:
 По страницам Библии старой я шагаю в город святой.
 И хотя мои ноги устали я по прежнему весел душой.
 Не смущают меня ураганы, даже сильные бури в пути.
@@ -7509,16 +7509,16 @@ C D G C Am C G
 G C G D
 G C Am D
 Em Hm C G
-C D G C Am C G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=164 | photo=notion-youth-songbook | notionPageId=40d20bab-087a-4054-b1a6-fc5b0cb530ba | notionChordPageId=5fd0db32-2e7d-4cb6-bc9e-77382a098842 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/40d20bab087a4054b1a6fc5b0cb530ba', 'pending'
+C D G C Am C G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=164 | photo=notion-youth-songbook | notionPageId=40d20bab-087a-4054-b1a6-fc5b0cb530ba | notionChordPageId=5fd0db32-2e7d-4cb6-bc9e-77382a098842 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/40d20bab087a4054b1a6fc5b0cb530ba', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'По страницам Библии старой'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=164%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=164%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Под защитой твоих крыл', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Под защитой твоих крыл', 'Спасение', NULL, 'Куплет 1:
 Буду жить под защитой Твоих крыл,
 Буду я в мире Божией любви,
 Ночь настанет, и я не убоюсь,
@@ -7532,16 +7532,16 @@ SELECT 'Под защитой твоих крыл', 'Молодёжный сбо
 Я спасен под защитой Твоих крыл,
 Мой покой под охраною Твоей
 Пусть летят стрелы, я не устрашусь,
-Когда я под защитой Твоих крыл.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=165 | photo=notion-youth-songbook | notionPageId=e12331b6-168b-4911-baf1-51c1961bccde | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e12331b6168b4911baf151c1961bccde | Fill chords from an approved source before approval.', 'pending'
+Когда я под защитой Твоих крыл.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=165 | photo=notion-youth-songbook | notionPageId=e12331b6-168b-4911-baf1-51c1961bccde | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e12331b6168b4911baf151c1961bccde | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Под защитой твоих крыл'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=165%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=165%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Подобно библейским пророкам', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Подобно библейским пророкам', 'Молитвенные', NULL, 'Куплет 1:
 Подобно библейским пророкам
 Хотим Слово Божье нести
 О праведности возвещая смело,
@@ -7585,16 +7585,16 @@ G D G
 H Em
 C D
 G C
-G D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=166 | photo=notion-youth-songbook | notionPageId=c467709d-106c-43a3-aec7-bb71ee2d3692 | notionChordPageId=62af9fe7-c025-4dce-b9a8-e8dba1d7cbcd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c467709d106c43a3aec7bb71ee2d3692', 'pending'
+G D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=166 | photo=notion-youth-songbook | notionPageId=c467709d-106c-43a3-aec7-bb71ee2d3692 | notionChordPageId=62af9fe7-c025-4dce-b9a8-e8dba1d7cbcd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c467709d106c43a3aec7bb71ee2d3692', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Подобно библейским пророкам'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=166%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=166%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Пока огонь любви чудесной', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Пока огонь любви чудесной', 'Исцеление', NULL, 'Куплет 1:
 Пока огонь любви чудесной
 Горит в груди волной живой,
 Мы силы юные совместно
@@ -7630,16 +7630,16 @@ F A#
 A#
 A# Cm
 F
-F A#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=167 | photo=notion-youth-songbook | notionPageId=68e26ee3-e791-4ada-81be-404afb9f3425 | notionChordPageId=0fa86bb3-03b2-4ff7-9934-2d8846208dd9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e26ee3e7914ada81be404afb9f3425', 'pending'
+F A#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=167 | photo=notion-youth-songbook | notionPageId=68e26ee3-e791-4ada-81be-404afb9f3425 | notionChordPageId=0fa86bb3-03b2-4ff7-9934-2d8846208dd9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e26ee3e7914ada81be404afb9f3425', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пока огонь любви чудесной'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=167%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=167%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Покажите мне любовь без Иисуса,', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Покажите мне любовь без Иисуса,', 'Пасхальные', NULL, 'Куплет 1:
 Покажите мне любовь без Иисуса,
 Где она бы на земле жила одна,
 Ведь любви на свете нет без Иисуса,
@@ -7677,16 +7677,16 @@ H7 Em H7
 Em Am
 H7 Em H7
 Em Am
-H7 Em H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=168 | photo=notion-youth-songbook | notionPageId=febf0039-214d-46a7-85e5-9a50152f5ef4 | notionChordPageId=951d6231-b295-4966-9d9b-e6b2db5d4ac9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/febf0039214d46a785e59a50152f5ef4', 'pending'
+H7 Em H7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=168 | photo=notion-youth-songbook | notionPageId=febf0039-214d-46a7-85e5-9a50152f5ef4 | notionChordPageId=951d6231-b295-4966-9d9b-e6b2db5d4ac9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/febf0039214d46a785e59a50152f5ef4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Покажите мне любовь без Иисуса,'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=168%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=168%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Полдороги в небо', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Полдороги в небо', 'Вера и упование', NULL, 'Куплет 1:
 Мы с вами столько вёрст уже прошли,
 Пусть мало было в них тепла и неги,
 Зато теперь осталось позади
@@ -7732,16 +7732,16 @@ Cm
 Fm G Cm
 D# C
 Fm Cm
-G Cm C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=169 | photo=notion-youth-songbook | notionPageId=e145283c-e29f-4d0f-a9aa-44c3a3e872bb | notionChordPageId=0debae40-6295-4e1e-98c5-2b4528a65466 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e145283ce29f4d0fa9aa44c3a3e872bb', 'pending'
+G Cm C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=169 | photo=notion-youth-songbook | notionPageId=e145283c-e29f-4d0f-a9aa-44c3a3e872bb | notionChordPageId=0debae40-6295-4e1e-98c5-2b4528a65466 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e145283ce29f4d0fa9aa44c3a3e872bb', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Полдороги в небо'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=169%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=169%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Помоги мне, Боже', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Помоги мне, Боже', 'Семья', NULL, 'Куплет 1:
 Помоги мне в этой жизни благодарной, Боже, быть,
 Даже если очень больно будут волны жизни бить,
 Если сердце истомится, переполненно скорбей,
@@ -7793,16 +7793,16 @@ Em Am
 H C H
 Am D G C
 Am G C H
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=170 | photo=notion-youth-songbook | notionPageId=2146b5d9-af09-4605-82b1-45af9dfbf5e2 | notionChordPageId=19c921c5-e2f9-4b87-a094-ad5e82439c32 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2146b5d9af09460582b145af9dfbf5e2', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=170 | photo=notion-youth-songbook | notionPageId=2146b5d9-af09-4605-82b1-45af9dfbf5e2 | notionChordPageId=19c921c5-e2f9-4b87-a094-ad5e82439c32 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2146b5d9af09460582b145af9dfbf5e2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Помоги мне, Боже'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=170%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=170%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Помолись обо мне', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Помолись обо мне', 'Пасхальные', NULL, 'Куплет 1:
 Помолись обо мне, мой друг.
 Помолись, когда я в дороге,
 Чтобы где-то когда-то вдруг
@@ -7854,16 +7854,16 @@ Gm A7
 F D
 Gm C
 F7 A#
-Gm A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=171 | photo=notion-youth-songbook | notionPageId=96544a04-5b5d-4860-9f7f-796008defdca | notionChordPageId=720aaecc-d5f4-47e3-bfff-1dad5d0236c2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/96544a045b5d48609f7f796008defdca', 'pending'
+Gm A7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=171 | photo=notion-youth-songbook | notionPageId=96544a04-5b5d-4860-9f7f-796008defdca | notionChordPageId=720aaecc-d5f4-47e3-bfff-1dad5d0236c2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/96544a045b5d48609f7f796008defdca', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Помолись обо мне'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=171%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=171%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Посмотри на Небо', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Посмотри на Небо', 'Пасхальные', NULL, 'Куплет 1:
 Если ты в пути продрог и не знаешь где ты.
 Если силы не сберёг и не видишь света
 Если страшен этот час и тревога гложит.
@@ -7909,16 +7909,16 @@ Am                              Dm
 Am Dm F E
 Am Dm F E
 Am                              Dm
-                       G             C  E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=172 | photo=notion-youth-songbook | notionPageId=6f7e1f3b-5265-49cb-a521-2b680f7931de | notionChordPageId=d7b5f494-b67f-4c84-ba31-74f181270666 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6f7e1f3b526549cba5212b680f7931de', 'pending'
+                       G             C  E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=172 | photo=notion-youth-songbook | notionPageId=6f7e1f3b-5265-49cb-a521-2b680f7931de | notionChordPageId=d7b5f494-b67f-4c84-ba31-74f181270666 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6f7e1f3b526549cba5212b680f7931de', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Посмотри на Небо'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=172%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=172%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Праздник жатвы', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Праздник жатвы', 'Благодарение', NULL, 'Куплет 1:
 Снова год пролетел, День Жатвы настал…
 Перед Богом Отцом ты снова предстал.
 Что ты скажешь Ему, как хвалу вознесешь?
@@ -7956,16 +7956,16 @@ E Am
 Am Dm
 E Am
 Am Dm
-E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=173 | photo=notion-youth-songbook | notionPageId=41247341-4f45-4b19-ac75-47474cadfce8 | notionChordPageId=120a32a3-2593-4b08-aed4-dadba12615fa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/412473414f454b19ac7547474cadfce8', 'pending'
+E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=173 | photo=notion-youth-songbook | notionPageId=41247341-4f45-4b19-ac75-47474cadfce8 | notionChordPageId=120a32a3-2593-4b08-aed4-dadba12615fa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/412473414f454b19ac7547474cadfce8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Праздник жатвы'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=173%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=173%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Превыше силы', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Превыше силы', 'Пасхальные', NULL, 'Куплет 1:
 Превыше силы, превыше царств,
 Превыше славы и всех земных богатств,
 Превыше мудрости и всех путей людских
@@ -8017,16 +8017,16 @@ Am C D
 C D G
 C D G
 C D Em
-Am C H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=174 | photo=notion-youth-songbook | notionPageId=816eec2e-d32e-4ab6-9d95-5cc789a99f4b | notionChordPageId=46733da3-a311-4747-bd57-feab7f1353e5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/816eec2ed32e4ab69d955cc789a99f4b', 'pending'
+Am C H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=174 | photo=notion-youth-songbook | notionPageId=816eec2e-d32e-4ab6-9d95-5cc789a99f4b | notionChordPageId=46733da3-a311-4747-bd57-feab7f1353e5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/816eec2ed32e4ab69d955cc789a99f4b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Превыше силы'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=174%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=174%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Придите к Иисусу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Придите к Иисусу', 'Рождественские', NULL, 'Куплет 1:
 Все вокруг заняты были своим, и только лишь три мудреца
 Пришли поклониться ребёнку в яслях, посланники Бога Отца.
 Милый малыш сладко дремал на материнских руках,
@@ -8060,16 +8060,16 @@ Em Hm C G C D G H
 Em Hm C G C D
 Em Hm C G C D G H
 Em Hm C G C D
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=175 | photo=notion-youth-songbook | notionPageId=fa205362-f23e-4d7e-8447-878f011f35a2 | notionChordPageId=b36a4fc3-f0e0-4c08-8a98-b54ef23d8cda | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fa205362f23e4d7e8447878f011f35a2', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=175 | photo=notion-youth-songbook | notionPageId=fa205362-f23e-4d7e-8447-878f011f35a2 | notionChordPageId=b36a4fc3-f0e0-4c08-8a98-b54ef23d8cda | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fa205362f23e4d7e8447878f011f35a2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Придите к Иисусу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=175%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=175%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Прославим Бога', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Прославим Бога', 'Семья', NULL, 'Куплет 1:
 Прославим Бога одной семьёю,
 Направим взор свой к небесам.
 Кто любит Господа, кто любит Господа
@@ -8107,16 +8107,16 @@ Am H Em E7
 Em Am H Em
 Am D G E
 Am Em
-Am H Em E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=176 | photo=notion-youth-songbook | notionPageId=1e114234-a094-4ed1-8550-b0b1278aac17 | notionChordPageId=00c7a531-8e05-4a0d-8874-e359fe287355 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1e114234a0944ed18550b0b1278aac17', 'pending'
+Am H Em E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=176 | photo=notion-youth-songbook | notionPageId=1e114234-a094-4ed1-8550-b0b1278aac17 | notionChordPageId=00c7a531-8e05-4a0d-8874-e359fe287355 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1e114234a0944ed18550b0b1278aac17', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Прославим Бога'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=176%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=176%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Прости меня, Боже', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Прости меня, Боже', 'Пасхальные', NULL, 'Куплет 1:
 Прости меня, Боже, прости, я молю,
 Прости, что так поздно к Тебе прихожу,
 Прости, что я раньше Тебя не познал
@@ -8184,16 +8184,16 @@ Em Am D G
 Am D G Em
 Am Em E7
 Am D G Em
-Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=177 | photo=notion-youth-songbook | notionPageId=82339dfc-6459-424d-92b3-5e3b1a229569 | notionChordPageId=1c990b02-96b4-4afb-b90b-66461f8e3a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/82339dfc6459424d92b35e3b1a229569', 'pending'
+Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=177 | photo=notion-youth-songbook | notionPageId=82339dfc-6459-424d-92b3-5e3b1a229569 | notionChordPageId=1c990b02-96b4-4afb-b90b-66461f8e3a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/82339dfc6459424d92b35e3b1a229569', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Прости меня, Боже'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=177%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=177%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Просыпаюсь на заре', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Просыпаюсь на заре', 'Вера и упование', NULL, 'Куплет 1:
 Просыпаюсь на заре
 И стремлюсь, мой Бог, к Тебе.
 Верю, слышишь Ты меня,
@@ -8217,16 +8217,16 @@ Em A D D7
 D G
 A D
 D G
-A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=178 | photo=notion-youth-songbook | notionPageId=7c9f5f35-ac63-43b3-a5f2-1d2218b65a7d | notionChordPageId=4ecb1b2d-63a7-4362-8f54-c5511181e0bb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c9f5f35ac6343b3a5f21d2218b65a7d', 'pending'
+A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=178 | photo=notion-youth-songbook | notionPageId=7c9f5f35-ac63-43b3-a5f2-1d2218b65a7d | notionChordPageId=4ecb1b2d-63a7-4362-8f54-c5511181e0bb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c9f5f35ac6343b3a5f21d2218b65a7d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Просыпаюсь на заре'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=178%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=178%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Пусть Он войдет', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Пусть Он войдет', 'Рождественские', NULL, 'Куплет 1:
 О взгляни! Открыты покровы небес —
 Детский плач, над девой звезды яркий блеск!
 И ожили пророка слова
@@ -8253,16 +8253,16 @@ SELECT 'Пусть Он войдет', 'Молодёжный сборник', NU
 Припев:
 ||: Пусть Он войдет, Христос войдет!
 Приготовьте место для Царя! :||
-Приготовьте место для Царя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=179 | photo=notion-youth-songbook | notionPageId=6b3d73a4-9721-4e20-bd6e-34aaa0c59f5e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/6b3d73a497214e20bd6e34aaa0c59f5e | Fill chords from an approved source before approval.', 'pending'
+Приготовьте место для Царя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=179 | photo=notion-youth-songbook | notionPageId=6b3d73a4-9721-4e20-bd6e-34aaa0c59f5e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/6b3d73a497214e20bd6e34aaa0c59f5e | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пусть Он войдет'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=179%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=179%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Пусть светит солнце', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Пусть светит солнце', 'Пасхальные', NULL, 'Куплет 1:
 Пусть светит солнце и дождь идёт,
 Душа моя дышит и сердце поёт.
 Меня любит Бог, Господь всей земли,
@@ -8298,16 +8298,16 @@ C F
 F C Dm
 A# C F
 C Dm
-A# C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=180 | photo=notion-youth-songbook | notionPageId=d4aac228-88d0-46a4-ace9-8828b3698426 | notionChordPageId=f36f0541-3003-494e-8c84-1bfe88ae81c7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4aac22888d046a4ace98828b3698426', 'pending'
+A# C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=180 | photo=notion-youth-songbook | notionPageId=d4aac228-88d0-46a4-ace9-8828b3698426 | notionChordPageId=f36f0541-3003-494e-8c84-1bfe88ae81c7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4aac22888d046a4ace98828b3698426', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пусть светит солнце'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=180%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=180%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Пусть угасло небо', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Пусть угасло небо', 'Божья любовь', NULL, 'Куплет 1:
 Пусть угасло небо, пусть померк рассвет.
 Пусть умолкли люди, пусть молчат в ответ
 На любовь Твою.
@@ -8339,16 +8339,16 @@ F G
 Куплет 3:
 Am F Am F
 Am F Am F
-F G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=181 | photo=notion-youth-songbook | notionPageId=5fb33616-75f9-4fd7-8bb2-e9d970b27972 | notionChordPageId=de9aec53-1aa8-4a46-9672-9840f794e074 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fb3361675f94fd78bb2e9d970b27972', 'pending'
+F G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=181 | photo=notion-youth-songbook | notionPageId=5fb33616-75f9-4fd7-8bb2-e9d970b27972 | notionChordPageId=de9aec53-1aa8-4a46-9672-9840f794e074 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fb3361675f94fd78bb2e9d970b27972', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пусть угасло небо'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=181%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=181%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Путь на Голгофу далёк', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Путь на Голгофу далёк', 'Пасхальные', NULL, 'Куплет 1:
 Путь на Голгофу далёк,
 Путь на Голгофу так труден
 Жаркое солнце печёт,
@@ -8371,16 +8371,16 @@ SELECT 'Путь на Голгофу далёк', 'Молодёжный сбор
 Люди в сердцах распинают
 [Припев - 2 раза]
 И кровь Его, святую, проливает,
-Хоть Он им всем прощение даёт...', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=182 | photo=notion-youth-songbook | notionPageId=8da57a79-957d-45c9-8c4e-39e4562c8cf6 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/8da57a79957d45c98c4e39e4562c8cf6 | Fill chords from an approved source before approval.', 'pending'
+Хоть Он им всем прощение даёт...', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=182 | photo=notion-youth-songbook | notionPageId=8da57a79-957d-45c9-8c4e-39e4562c8cf6 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/8da57a79957d45c98c4e39e4562c8cf6 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Путь на Голгофу далёк'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=182%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=182%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Пшеница и плевелы', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Пшеница и плевелы', 'Пасхальные', NULL, 'Куплет 1:
 Пшеница и плевелы, так мало времени
 Осталось вместе вам расти.
 Бог видит ваши сердца, ваши пути,
@@ -8428,16 +8428,16 @@ Dm
 A
 A# A
 A# Asus A
-A# Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=183 | photo=notion-youth-songbook | notionPageId=28b19b44-6364-4b0f-a2b5-c3c6994de10e | notionChordPageId=c71ec666-396c-4d27-8ba1-690b45eac365 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/28b19b4463644b0fa2b5c3c6994de10e', 'pending'
+A# Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=183 | photo=notion-youth-songbook | notionPageId=28b19b44-6364-4b0f-a2b5-c3c6994de10e | notionChordPageId=c71ec666-396c-4d27-8ba1-690b45eac365 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/28b19b4463644b0fa2b5c3c6994de10e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пшеница и плевелы'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=183%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=183%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Радость находится', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Радость находится', 'Спасение', NULL, 'Куплет 1:
 Радость находится в сердце у того,
 Чьим Спасителем стал Иисус.
 Истинный мир для души своей нашел
@@ -8453,16 +8453,16 @@ A H7
 Припев:
 E C#m
 A E
-A H7 E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=184 | photo=notion-youth-songbook | notionPageId=5fe8d04b-5701-466f-ba50-8f613ec53d78 | notionChordPageId=d5c83588-2a1b-49af-9c96-ad73ecbbed60 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fe8d04b5701466fba508f613ec53d78', 'pending'
+A H7 E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=184 | photo=notion-youth-songbook | notionPageId=5fe8d04b-5701-466f-ba50-8f613ec53d78 | notionChordPageId=d5c83588-2a1b-49af-9c96-ad73ecbbed60 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fe8d04b5701466fba508f613ec53d78', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Радость находится'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=184%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=184%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Раньше жил я во грехах', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Раньше жил я во грехах', 'Свадебные', NULL, 'Куплет 1:
 Раньше жил я во грехах, в горе, болях и скорбях,
 Никогда не думал я о вечности.
 Но Иисус нашел меня, разорвал все узы зла,
@@ -8524,16 +8524,16 @@ Dm Gm Dm
 Dm A Dm
 Dm Gm C F
 Dm Gm Dm
-Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=185 | photo=notion-youth-songbook | notionPageId=406c794c-b775-46d4-ba2d-e9c74ee5779c | notionChordPageId=4ba758a7-88d1-4b11-b03b-c787dbb40eb5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/406c794cb77546d4ba2de9c74ee5779c', 'pending'
+Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=185 | photo=notion-youth-songbook | notionPageId=406c794c-b775-46d4-ba2d-e9c74ee5779c | notionChordPageId=4ba758a7-88d1-4b11-b03b-c787dbb40eb5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/406c794cb77546d4ba2de9c74ee5779c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Раньше жил я во грехах'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=185%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=185%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Руки опущены', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Руки опущены', 'Пасхальные', NULL, 'Куплет 1:
 Руки опущены, слезы в очах
 Люди, прислушайтесь к свисту бича.
 Сбылось пророчество, лик Твой в крови,
@@ -8580,16 +8580,16 @@ C Dm E Am E
 Am C
 Dm E
 E Am G C
-C Dm E Am E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=186 | photo=notion-youth-songbook | notionPageId=bf23d7c5-03ed-48ee-aa30-b3df8bee2699 | notionChordPageId=122e541b-1450-4364-bc7d-7fe0fcc95211 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bf23d7c503ed48eeaa30b3df8bee2699', 'pending'
+C Dm E Am E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=186 | photo=notion-youth-songbook | notionPageId=bf23d7c5-03ed-48ee-aa30-b3df8bee2699 | notionChordPageId=122e541b-1450-4364-bc7d-7fe0fcc95211 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bf23d7c503ed48eeaa30b3df8bee2699', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Руки опущены'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=186%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=186%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'С детских лет стремились', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'С детских лет стремились', 'Божья любовь', NULL, 'Куплет 1:
 С детских лет стремились к небесам твои мечты,
 Про любовь Иисуса с колыбели знаешь ты
 Но совсем недавно стал ты чаще замечать,
@@ -8617,16 +8617,16 @@ Am H Em
 Em7 C
 D G H
 Em C
-D G H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=187 | photo=notion-youth-songbook | notionPageId=53b75fe0-383c-487d-b875-675dd13393e7 | notionChordPageId=5dbcc44e-9b40-4535-be22-4e70b1263fc9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53b75fe0383c487db875675dd13393e7', 'pending'
+D G H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=187 | photo=notion-youth-songbook | notionPageId=53b75fe0-383c-487d-b875-675dd13393e7 | notionChordPageId=5dbcc44e-9b40-4535-be22-4e70b1263fc9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53b75fe0383c487db875675dd13393e7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'С детских лет стремились'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=187%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=187%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Светом Своим', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Светом Своим', 'Пасхальные', NULL, 'Куплет 1:
 Светом Своим Ты прогнал сумрак ночи,
 И мне глаза Ты открыл.
 Всю свою жизнь я хочу быть с Тобою,
@@ -8658,16 +8658,16 @@ E H F#m
 E H A
 E H F#m
 E H A
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=188 | photo=notion-youth-songbook | notionPageId=b11f05a2-4868-4738-bc06-6c43d0d908cc | notionChordPageId=327200ae-5f8a-419b-963d-d73b88f0bbe8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b11f05a248684738bc066c43d0d908cc', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=188 | photo=notion-youth-songbook | notionPageId=b11f05a2-4868-4738-bc06-6c43d0d908cc | notionChordPageId=327200ae-5f8a-419b-963d-d73b88f0bbe8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b11f05a248684738bc066c43d0d908cc', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Светом Своим'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=188%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=188%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Свят Господь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Свят Господь', 'Пасхальные', NULL, 'Куплет 1:
 Ты ярче, чем солнца свет,
 Ты - бездна святой любви!
 Нет! Знаю, другого нет!
@@ -8705,16 +8705,16 @@ Am H Em
 Em D G
 Am H Em
 Em D G
-Am H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=189 | photo=notion-youth-songbook | notionPageId=e96c8783-fb9a-4c4f-8199-aa0f4b9443b1 | notionChordPageId=72a7817e-39ee-4139-82e2-8a96a230875e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96c8783fb9a4c4f8199aa0f4b9443b1', 'pending'
+Am H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=189 | photo=notion-youth-songbook | notionPageId=e96c8783-fb9a-4c4f-8199-aa0f4b9443b1 | notionChordPageId=72a7817e-39ee-4139-82e2-8a96a230875e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96c8783fb9a4c4f8199aa0f4b9443b1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Свят Господь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=189%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=189%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Святая ночь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Святая ночь', 'Рождественские', NULL, 'Куплет 1:
 Святая ночь! Сверкают ярко звезды.
 В тиши ночной нам родился Христос.
 Весь мир тонул в грехе и беззаконьи,
@@ -8772,16 +8772,16 @@ E A
 E A
 F#m C#m Hm F#m
 A E A D A E A
-E A Hm A E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=190 | photo=notion-youth-songbook | notionPageId=359db02d-da74-4cae-8cb7-ef4f0a0f535b | notionChordPageId=d0ad38f3-3a45-4ec5-af5f-cebba2c958fc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/359db02dda744cae8cb7ef4f0a0f535b', 'pending'
+E A Hm A E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=190 | photo=notion-youth-songbook | notionPageId=359db02d-da74-4cae-8cb7-ef4f0a0f535b | notionChordPageId=d0ad38f3-3a45-4ec5-af5f-cebba2c958fc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/359db02dda744cae8cb7ef4f0a0f535b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Святая ночь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=190%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=190%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Сердце благодарностью горит', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Сердце благодарностью горит', 'Благодарение', NULL, 'Куплет 1:
 Я благодарю Тебя, мой Бог,
 За год прожитый на земле,
 За то, что на развилках всех дорог
@@ -8819,16 +8819,16 @@ H Em
 Em Am
 H Em
 Em Am
-H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=191 | photo=notion-youth-songbook | notionPageId=b8328808-1568-4561-b5d4-97de3fd277f2 | notionChordPageId=851c60cc-aea1-408a-a27d-a5a1ea13ce23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b832880815684561b5d497de3fd277f2', 'pending'
+H Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=191 | photo=notion-youth-songbook | notionPageId=b8328808-1568-4561-b5d4-97de3fd277f2 | notionChordPageId=851c60cc-aea1-408a-a27d-a5a1ea13ce23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b832880815684561b5d497de3fd277f2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сердце благодарностью горит'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=191%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=191%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Сила моя в Тебе', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Сила моя в Тебе', 'Пасхальные', NULL, 'Куплет 1:
 Сила моя в Тебе Господь,
 Ты исцеляешь мою плоть,
 Мой всемогущий Бог.
@@ -8860,16 +8860,16 @@ G#m A
 H E H
 E H C#m
 G#m A
-H E H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=192 | photo=notion-youth-songbook | notionPageId=fcc8685f-ee59-4f6e-a2c9-d081be361c0a | notionChordPageId=85aa0fbd-c505-44da-aff3-cb28f409e1d9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fcc8685fee594f6ea2c9d081be361c0a', 'pending'
+H E H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=192 | photo=notion-youth-songbook | notionPageId=fcc8685f-ee59-4f6e-a2c9-d081be361c0a | notionChordPageId=85aa0fbd-c505-44da-aff3-cb28f409e1d9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fcc8685fee594f6ea2c9d081be361c0a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сила моя в Тебе'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=192%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=192%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Скоро рассвет', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Скоро рассвет', 'Небо', NULL, 'Куплет 1:
 Скоро рассвет нового дня: приходит весна,
 Увидим Его таким, как Он есть. Да Он встретит меня.
 Придёт во славе, мы ждем Его.
@@ -8897,16 +8897,16 @@ C D G
 G Em C D
 G Em C D
 G D G D
-C G C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=193 | photo=notion-youth-songbook | notionPageId=3a95baf7-c650-48de-b51d-e5c07b1af76c | notionChordPageId=466f6606-0153-4818-99d6-da76ac607477 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a95baf7c65048deb51de5c07b1af76c', 'pending'
+C G C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=193 | photo=notion-youth-songbook | notionPageId=3a95baf7-c650-48de-b51d-e5c07b1af76c | notionChordPageId=466f6606-0153-4818-99d6-da76ac607477 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a95baf7c65048deb51de5c07b1af76c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Скоро рассвет'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=193%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=193%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Скрой меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Скрой меня', 'Семья', NULL, 'Куплет 1:
 Скрой меня, Своим крылом,
 Сохрани, под сильною рукой!
 Припев:
@@ -8926,16 +8926,16 @@ F G C
 F G C
 Куплет 2:
 C G Am F D G
-C G Am F D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=194 | photo=notion-youth-songbook | notionPageId=9d60ddae-b369-4d9b-93f0-099359f8948c | notionChordPageId=df96f0cd-08d5-439e-bebf-8ca342bd7e4f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9d60ddaeb3694d9b93f0099359f8948c', 'pending'
+C G Am F D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=194 | photo=notion-youth-songbook | notionPageId=9d60ddae-b369-4d9b-93f0-099359f8948c | notionChordPageId=df96f0cd-08d5-439e-bebf-8ca342bd7e4f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9d60ddaeb3694d9b93f0099359f8948c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Скрой меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=194%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=194%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Слабый скажет: «Я силён!»', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Слабый скажет: «Я силён!»', 'Пасхальные', NULL, 'Куплет 1:
 Слабый скажет: «Я силён!»
 Бедный скажет: «Я богат!»
 Скажет: «Вижу» - тот, кто слеп,
@@ -8973,16 +8973,16 @@ F G C
 C G C
 Am Em
 C G C
-F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=195 | photo=notion-youth-songbook | notionPageId=0f98bded-646c-47a6-9c6d-afe6558bb7d8 | notionChordPageId=5c518a78-1ad9-4a0e-9563-fc49fb6f0e9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f98bded646c47a69c6dafe6558bb7d8', 'pending'
+F G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=195 | photo=notion-youth-songbook | notionPageId=0f98bded-646c-47a6-9c6d-afe6558bb7d8 | notionChordPageId=5c518a78-1ad9-4a0e-9563-fc49fb6f0e9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f98bded646c47a69c6dafe6558bb7d8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слабый скажет: «Я силён!»'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=195%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=195%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Слава Всемогущему Богу!', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Слава Всемогущему Богу!', 'Семья', NULL, 'Куплет 1:
 Отец Небесный мы с любовью,
 За все Тебя благодарим
 Мы Сына Твоего омыты кровью
@@ -9018,16 +9018,16 @@ D E A
 A Hm
 E A
 A Hm
-D E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=196 | photo=notion-youth-songbook | notionPageId=06795c30-3621-46ac-a6d6-9b68ff593896 | notionChordPageId=12ad2fe3-4acb-45ae-bc69-5256de65af9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/06795c30362146aca6d69b68ff593896', 'pending'
+D E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=196 | photo=notion-youth-songbook | notionPageId=06795c30-3621-46ac-a6d6-9b68ff593896 | notionChordPageId=12ad2fe3-4acb-45ae-bc69-5256de65af9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/06795c30362146aca6d69b68ff593896', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слава Всемогущему Богу!'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=196%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=196%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Слава Христу', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Слава Христу', 'Божья любовь', NULL, 'Куплет 1:
 Какой сегодня день чудесный:
 С друзьями встретились мы вновь.
 Давайте в этот час все вместе
@@ -9063,16 +9063,16 @@ E A
 A Hm
 E A
 A D
-E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=197 | photo=notion-youth-songbook | notionPageId=4088e091-7f29-428b-be53-3114c5dfd48a | notionChordPageId=22aa8792-536b-4320-9280-3c7714fa2dcb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4088e0917f29428bbe533114c5dfd48a', 'pending'
+E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=197 | photo=notion-youth-songbook | notionPageId=4088e091-7f29-428b-be53-3114c5dfd48a | notionChordPageId=22aa8792-536b-4320-9280-3c7714fa2dcb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4088e0917f29428bbe533114c5dfd48a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слава Христу'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=197%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=197%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Славлю Тебя, Господи', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Славлю Тебя, Господи', 'Вера и упование', NULL, 'Куплет 1:
 Славлю Тебя, Господи, всем сердцем своим
 В свете праведных, в собрании святых,
 Велики дела Господни, вожделенны для всех
@@ -9100,16 +9100,16 @@ E7 A
 A F#m C#m E
 A F#m C#m E
 D A C#7 F#m E
-D A E7 A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=198 | photo=notion-youth-songbook | notionPageId=68e13abb-e49d-4cdb-aaed-a64d9b191ba5 | notionChordPageId=3899d54d-8185-4a72-8da9-250da532a031 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e13abbe49d4cdbaaeda64d9b191ba5', 'pending'
+D A E7 A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=198 | photo=notion-youth-songbook | notionPageId=68e13abb-e49d-4cdb-aaed-a64d9b191ba5 | notionChordPageId=3899d54d-8185-4a72-8da9-250da532a031 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e13abbe49d4cdbaaeda64d9b191ba5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Славлю Тебя, Господи'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=198%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=198%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Славь, душа, Господа', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Славь, душа, Господа', 'Божья любовь', NULL, 'Куплет 1:
 Солнце встаёт, новый день приходит,
 Время опять хвалу воздать
 За всё, что Ты мне дал, и за каждый новый вдох мой
@@ -9147,16 +9147,16 @@ A E H E
 A E H C#m
 A E H C#m
 A E H C#m
-A E H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=199 | photo=notion-youth-songbook | notionPageId=0d7b62fb-e45a-44fb-a587-1b4c1387da15 | notionChordPageId=96d880b1-39fc-4bf7-9780-17897d2b2e9b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0d7b62fbe45a44fba5871b4c1387da15', 'pending'
+A E H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=199 | photo=notion-youth-songbook | notionPageId=0d7b62fb-e45a-44fb-a587-1b4c1387da15 | notionChordPageId=96d880b1-39fc-4bf7-9780-17897d2b2e9b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0d7b62fbe45a44fba5871b4c1387da15', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Славь, душа, Господа'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=199%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=199%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Слова те нельзя стереть', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Слова те нельзя стереть', 'Утешение и ободрение', NULL, 'Куплет 1:
 Напиши Свое Слово на сердце моем,
 Чтобы я мог исполнить Слово Твое.
 Ведь чернила с бумагой однажды сгорят,
@@ -9192,16 +9192,16 @@ Am H
 Em C D Hm
 C Am H
 Em C D Hm
-C Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=200 | photo=notion-youth-songbook | notionPageId=244f3179-eacd-4527-9a9a-7a6bb8383763 | notionChordPageId=a07d635e-4c21-4ed5-8c2b-b66080e08217 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/244f3179eacd45279a9a7a6bb8383763', 'pending'
+C Am H', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=200 | photo=notion-youth-songbook | notionPageId=244f3179-eacd-4527-9a9a-7a6bb8383763 | notionChordPageId=a07d635e-4c21-4ed5-8c2b-b66080e08217 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/244f3179eacd45279a9a7a6bb8383763', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слова те нельзя стереть'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=200%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=200%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Создатель всей Вселенной', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Создатель всей Вселенной', 'Молитвенные', NULL, 'Куплет 1:
 Создатель всей Вселенной - Всемогущий Бог,
 И жизнь мою другой лишь только Ты соделать смог.
 Я петь хочу о том, что подарил мне Ты,
@@ -9229,16 +9229,16 @@ F E Am
 Am Em Am Em
 F E
 Am Em Am Em
-F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=201 | photo=notion-youth-songbook | notionPageId=05b97727-f0ae-4cc8-9670-e4546b9eb1b0 | notionChordPageId=d5190bd8-d9f4-4280-8517-376efa62db8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/05b97727f0ae4cc89670e4546b9eb1b0', 'pending'
+F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=201 | photo=notion-youth-songbook | notionPageId=05b97727-f0ae-4cc8-9670-e4546b9eb1b0 | notionChordPageId=d5190bd8-d9f4-4280-8517-376efa62db8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/05b97727f0ae4cc89670e4546b9eb1b0', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Создатель всей Вселенной'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=201%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=201%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Солнца луч', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Солнца луч', 'Семья', NULL, 'Куплет 1:
 Солнца луч одарит теплом землю.
 Небеса возвестят Творцу славу.
 День и ночь о Нём говорят,
@@ -9257,16 +9257,16 @@ SELECT 'Солнца луч', 'Молодёжный сборник', NULL, 'Ку
 Суд Господень свят, охраняет нас.
 Пусть угодны будут Тебе
 Помышления наших сердец.
-Ты - твердыня для нас, наш Господь и Отец.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=202 | photo=notion-youth-songbook | notionPageId=9f0a8c98-450a-48a7-b0c0-23e676849a25 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f0a8c98450a48a7b0c023e676849a25 | Fill chords from an approved source before approval.', 'pending'
+Ты - твердыня для нас, наш Господь и Отец.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=202 | photo=notion-youth-songbook | notionPageId=9f0a8c98-450a-48a7-b0c0-23e676849a25 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f0a8c98450a48a7b0c023e676849a25 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Солнца луч'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=202%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=202%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'С‍‍олнца свет, за‍‍кат и рассвет', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'С‍‍олнца свет, за‍‍кат и рассвет', 'Семья', NULL, 'Куплет 1:
 Оглянись! Посмотри вок‍‍руг себя
 Как прекрасен этот мир, как краси‍‍ва вся земля
 Облака словно белый с‍‍нег белы
@@ -9304,16 +9304,16 @@ A# C
 F Dm
 A# C
 F Dm
-A# C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=203 | photo=notion-youth-songbook | notionPageId=c9264797-8200-4788-bd10-81a1a7f4c5f2 | notionChordPageId=9c23d8a3-00cf-406f-97f4-a547ae5629d0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c926479782004788bd1081a1a7f4c5f2', 'pending'
+A# C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=203 | photo=notion-youth-songbook | notionPageId=c9264797-8200-4788-bd10-81a1a7f4c5f2 | notionChordPageId=9c23d8a3-00cf-406f-97f4-a547ae5629d0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c926479782004788bd1081a1a7f4c5f2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'С‍‍олнца свет, за‍‍кат и рассвет'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=203%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=203%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Солнце простилось с землею', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Солнце простилось с землею', 'Прощение', NULL, 'Куплет 1:
 Солнце простилось с землею,
 Солнце сказало: “До встречи!”.
 С первой на небе звездою
@@ -9361,16 +9361,16 @@ A D
 D G
 A D
 D G
-A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=204 | photo=notion-youth-songbook | notionPageId=0a4ce734-0504-4532-a862-84c8ba65e984 | notionChordPageId=a4352688-3d81-4a1a-a38e-674ec3ffa2ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a4ce73405044532a86284c8ba65e984', 'pending'
+A D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=204 | photo=notion-youth-songbook | notionPageId=0a4ce734-0504-4532-a862-84c8ba65e984 | notionChordPageId=a4352688-3d81-4a1a-a38e-674ec3ffa2ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a4ce73405044532a86284c8ba65e984', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Солнце простилось с землею'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=204%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=204%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Спасенье моё, надежда моя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Спасенье моё, надежда моя', 'Спасение', NULL, 'Куплет 1:
 Спасенье моё, надежда моя,
 Лишь в Тебе источник моей жизни.
 Отрада любви, утешенье моё,
@@ -9388,16 +9388,16 @@ A H7
 E C#m F#m H7
 E C#m F#m H7
 E C#m F#m H7
-C#m A7 A E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=205 | photo=notion-youth-songbook | notionPageId=68e06d4f-bf93-4d58-b43a-ffd0bc8f0c27 | notionChordPageId=bf8e0b3c-cc25-4552-9446-9e0cd0782951 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e06d4fbf934d58b43affd0bc8f0c27', 'pending'
+C#m A7 A E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=205 | photo=notion-youth-songbook | notionPageId=68e06d4f-bf93-4d58-b43a-ffd0bc8f0c27 | notionChordPageId=bf8e0b3c-cc25-4552-9446-9e0cd0782951 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e06d4fbf934d58b43affd0bc8f0c27', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Спасенье моё, надежда моя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=205%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=205%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Спелых колосьев', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Спелых колосьев', 'Спасение', NULL, 'Куплет 1:
 Спелых колосьев, к жатве готовых, поле стоит.
 Серп ожидает, жнеца поджидает, душе говорит:
 “Годы уходят, даты проходят, спешат всё вперёд.
@@ -9435,16 +9435,16 @@ C D
 G Hm Am
 D G D
 G Hm Am
-C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=206 | photo=notion-youth-songbook | notionPageId=775b5c6d-a236-4c67-9991-16675261e00b | notionChordPageId=fdcc5f3a-747b-4a8b-bb5e-50c754ebc381 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/775b5c6da2364c67999116675261e00b', 'pending'
+C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=206 | photo=notion-youth-songbook | notionPageId=775b5c6d-a236-4c67-9991-16675261e00b | notionChordPageId=fdcc5f3a-747b-4a8b-bb5e-50c754ebc381 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/775b5c6da2364c67999116675261e00b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Спелых колосьев'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=206%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=206%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Старый крест', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Старый крест', 'Пасхальные', NULL, 'Куплет 1:
 На далеком холме, средь деревьев и скал
 Сквозь седые века старый крест простоял.
 Миллионы людей у подножья креста
@@ -9482,16 +9482,16 @@ Dm F E7
 Am Dm E7 Am
 Dm G C
 Am Dm E7 Am
-Dm F E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=207 | photo=notion-youth-songbook | notionPageId=16a95c9a-32e2-4e93-8296-f71dea423e57 | notionChordPageId=883dd778-fcf2-4bb7-9b8b-cb5a4c5cfb8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/16a95c9a32e24e938296f71dea423e57', 'pending'
+Dm F E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=207 | photo=notion-youth-songbook | notionPageId=16a95c9a-32e2-4e93-8296-f71dea423e57 | notionChordPageId=883dd778-fcf2-4bb7-9b8b-cb5a4c5cfb8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/16a95c9a32e24e938296f71dea423e57', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Старый крест'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=207%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=207%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Струн души', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Струн души', 'Спасение', NULL, 'Куплет 1:
 Струн души рука Христа касается,
 И она восторженно поет,
 Песнь еще одна на свет рождается,
@@ -9539,16 +9539,16 @@ Dm E Am
 Am
 Dm G C Am
 Dm G C Am
-Dm E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=208 | photo=notion-youth-songbook | notionPageId=76e761e9-4946-4bc6-b4eb-db32efa8e2a5 | notionChordPageId=602e6adc-e6fe-4357-bed2-efd0c82efaea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76e761e949464bc6b4ebdb32efa8e2a5', 'pending'
+Dm E Am', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=208 | photo=notion-youth-songbook | notionPageId=76e761e9-4946-4bc6-b4eb-db32efa8e2a5 | notionChordPageId=602e6adc-e6fe-4357-bed2-efd0c82efaea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76e761e949464bc6b4ebdb32efa8e2a5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Струн души'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=208%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=208%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Суть рождения Иисуса', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Суть рождения Иисуса', 'Рождественские', NULL, 'Куплет 1:
 Суть рождения Иисуса это дивный Божий план
 Он послал Его на землю, чтоб явить любовь всем нам,
 Чтобы грешников погибших от греха спасти навек,
@@ -9578,16 +9578,16 @@ C
 C G
 Dm C
 F G
-E G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=209 | photo=notion-youth-songbook | notionPageId=8836d91b-a95a-40cf-b411-8e0154848751 | notionChordPageId=6c6b1f2e-60c5-4a9b-92de-76d6fe07e53c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8836d91ba95a40cfb4118e0154848751', 'pending'
+E G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=209 | photo=notion-youth-songbook | notionPageId=8836d91b-a95a-40cf-b411-8e0154848751 | notionChordPageId=6c6b1f2e-60c5-4a9b-92de-76d6fe07e53c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8836d91ba95a40cfb4118e0154848751', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Суть рождения Иисуса'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=209%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=209%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Сущий', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Сущий', 'Прощение', NULL, 'Куплет 1:
 В начали был и есть, и нет тебе конца,
 Ты высота глубина.
 Ты словом делал всё, Ты словом мир создал,
@@ -9625,16 +9625,16 @@ Fm Cm
 C# Fm
 Fm Cm
 C# Fm
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=210 | photo=notion-youth-songbook | notionPageId=e1ee1e85-f183-44a7-a4fa-6408b4698367 | notionChordPageId=9ad98f15-e7f9-43bf-b494-b1e09bbf7cfa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e1ee1e85f18344a7a4fa6408b4698367', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=210 | photo=notion-youth-songbook | notionPageId=e1ee1e85-f183-44a7-a4fa-6408b4698367 | notionChordPageId=9ad98f15-e7f9-43bf-b494-b1e09bbf7cfa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e1ee1e85f18344a7a4fa6408b4698367', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сущий'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=210%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=210%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Сын Божий нам рождён', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Сын Божий нам рождён', 'Спасение', NULL, 'Куплет 1:
 Сын Божий нам рождён оставив власть и трон
 Без славы в мир пришёл Всесильный Царь
 Вся силы полнота вся славы красота
@@ -9666,16 +9666,16 @@ C F
 C G
 C F
 C G
-F G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=211 | photo=notion-youth-songbook | notionPageId=0ceab6ef-c520-4149-9f9e-d0f391e0430b | notionChordPageId=ed768b83-fbe8-43e9-940c-088902e8fa8b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceab6efc52041499f9ed0f391e0430b', 'pending'
+F G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=211 | photo=notion-youth-songbook | notionPageId=0ceab6ef-c520-4149-9f9e-d0f391e0430b | notionChordPageId=ed768b83-fbe8-43e9-940c-088902e8fa8b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceab6efc52041499f9ed0f391e0430b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сын Божий нам рождён'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=211%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=211%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Так уж бывает летней порой', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Так уж бывает летней порой', 'Небо', NULL, 'Куплет 1:
 Так уж бывает летней порой,
 Когда луч солнца радует нас -
 В час испытанья - чёрной будто рукой
@@ -9723,16 +9723,16 @@ C F
 Dm Gm
 A7 Dm
 Dm Gm
-C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=212 | photo=notion-youth-songbook | notionPageId=092d79d3-ded0-44f1-a951-9880bacf0c1b | notionChordPageId=6d831c9a-70d7-459d-8293-eb03dd45a49b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/092d79d3ded044f1a9519880bacf0c1b', 'pending'
+C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=212 | photo=notion-youth-songbook | notionPageId=092d79d3-ded0-44f1-a951-9880bacf0c1b | notionChordPageId=6d831c9a-70d7-459d-8293-eb03dd45a49b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/092d79d3ded044f1a9519880bacf0c1b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Так уж бывает летней порой'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=212%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=212%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Таков как есмь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Таков как есмь', 'Пасхальные', NULL, 'Куплет 1:
 Таков как есмь, во имя Крови,
 За нас пролитой на кресте,
 Во имя Божьих призываний,
@@ -9778,16 +9778,16 @@ D G Em
 G A D
 G Em
 G A Hm G
-A G D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=213 | photo=notion-youth-songbook | notionPageId=94d8b659-16e3-4e60-8443-3f9754e17a48 | notionChordPageId=225dbf1f-633a-47fc-a54f-9779950eed73 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/94d8b65916e34e6084433f9754e17a48', 'pending'
+A G D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=213 | photo=notion-youth-songbook | notionPageId=94d8b659-16e3-4e60-8443-3f9754e17a48 | notionChordPageId=225dbf1f-633a-47fc-a54f-9779950eed73 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/94d8b65916e34e6084433f9754e17a48', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Таков как есмь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=213%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=213%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Там, в вышине бесконечной', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Там, в вышине бесконечной', 'Небо', NULL, 'Куплет 1:
 Там, в вышине бесконечной,
 Между планет, город стоит, город вечный.
 Как я хочу там отдохнуть и дышать, дышать, дышать
@@ -9815,16 +9815,16 @@ Hm Em F# Hm
 Hm Em
 F# Hm
 Hm Em G
-Hm Em F# Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=214 | photo=notion-youth-songbook | notionPageId=efa099e1-42a4-4989-9152-e3be8f4af908 | notionChordPageId=10bcc95e-d349-40ef-ab93-29594957ad64 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/efa099e142a449899152e3be8f4af908', 'pending'
+Hm Em F# Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=214 | photo=notion-youth-songbook | notionPageId=efa099e1-42a4-4989-9152-e3be8f4af908 | notionChordPageId=10bcc95e-d349-40ef-ab93-29594957ad64 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/efa099e142a449899152e3be8f4af908', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Там, в вышине бесконечной'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=214%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=214%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Там, где Один', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Там, где Один', 'Прощение', NULL, 'Куплет 1:
 Там, где Один пострадал за всех,
 Там, где разбойник прощен за грех, -
 Там Своей кровью Он смыл мой грех,
@@ -9870,16 +9870,16 @@ E H7 E
 E A E
 E A H7
 E A E
-E H7 E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=215 | photo=notion-youth-songbook | notionPageId=9e9767a6-217a-4b8c-9570-2e7cfa0af56a | notionChordPageId=94d7ba42-0679-4611-92cd-13e12b37993e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e9767a6217a4b8c95702e7cfa0af56a', 'pending'
+E H7 E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=215 | photo=notion-youth-songbook | notionPageId=9e9767a6-217a-4b8c-9570-2e7cfa0af56a | notionChordPageId=94d7ba42-0679-4611-92cd-13e12b37993e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e9767a6217a4b8c95702e7cfa0af56a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Там, где Один'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=215%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=215%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Там, далеко, за облаками', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Там, далеко, за облаками', 'Вера и упование', NULL, 'Куплет 1:
 Там, далеко, за облаками,
 Встретит меня Иисус,
 Нежно обнимет своими руками,
@@ -9917,16 +9917,16 @@ C D
 G Em
 C D
 G Em
-C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=216 | photo=notion-youth-songbook | notionPageId=669d8c71-70f4-402b-abce-2d4e43049663 | notionChordPageId=a01613c0-eee6-44b8-988d-d92b98c6a229 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/669d8c7170f4402babce2d4e43049663', 'pending'
+C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=216 | photo=notion-youth-songbook | notionPageId=669d8c71-70f4-402b-abce-2d4e43049663 | notionChordPageId=a01613c0-eee6-44b8-988d-d92b98c6a229 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/669d8c7170f4402babce2d4e43049663', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Там, далеко, за облаками'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=216%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=216%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Творящий чудеса', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Творящий чудеса', 'Дух Святой', NULL, 'Куплет 1:
 Каждый миг и каждый час
 Ты царствуешь на небесах,
 Великий Бог, Великий Царь.
@@ -9960,16 +9960,16 @@ C#m A
 E H C#m E
 E H
 C#m A
-E H C#m E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=217 | photo=notion-youth-songbook | notionPageId=bffc3ed8-ea00-46ff-8ca5-190494925991 | notionChordPageId=f3b20c1a-ddf2-4356-8c54-b4815f01a767 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bffc3ed8ea0046ff8ca5190494925991', 'pending'
+E H C#m E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=217 | photo=notion-youth-songbook | notionPageId=bffc3ed8-ea00-46ff-8ca5-190494925991 | notionChordPageId=f3b20c1a-ddf2-4356-8c54-b4815f01a767 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bffc3ed8ea0046ff8ca5190494925991', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Творящий чудеса'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=217%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=217%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Твоя любовь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Твоя любовь', 'Спасение', NULL, 'Куплет 1:
 Твоя любовь границ не знает
 И ярче солнца свет Твой мне.
 В Твоем общеньи отдыхаю,
@@ -9999,16 +9999,16 @@ E D A
 A E F#m
 D A Hm E
 A E F#m
-D A Hm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=218 | photo=notion-youth-songbook | notionPageId=8ad13cfb-9d39-459e-9a01-8c4702992c48 | notionChordPageId=20d4bf9a-41a8-4e64-982f-57a2023221ff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8ad13cfb9d39459e9a018c4702992c48', 'pending'
+D A Hm E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=218 | photo=notion-youth-songbook | notionPageId=8ad13cfb-9d39-459e-9a01-8c4702992c48 | notionChordPageId=20d4bf9a-41a8-4e64-982f-57a2023221ff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8ad13cfb9d39459e9a018c4702992c48', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Твоя любовь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=218%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=218%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Тихо погас в ночи закат', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Тихо погас в ночи закат', 'Божья любовь', NULL, 'Куплет 1:
 Тихо погас в ночи закат,
 Сад Гефсиманский сном объят
 Всеми оставлен и забыт
@@ -10043,16 +10043,16 @@ Am Em C Em
 Am Em C D
 Am Em C Em
 Am G D Em
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=219 | photo=notion-youth-songbook | notionPageId=ae645ce9-004a-482c-b9e9-a32c2ae727e0 | notionChordPageId=00d6b202-3668-4e85-8ff4-5cd6bc86b025 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae645ce9004a482cb9e9a32c2ae727e0', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=219 | photo=notion-youth-songbook | notionPageId=ae645ce9-004a-482c-b9e9-a32c2ae727e0 | notionChordPageId=00d6b202-3668-4e85-8ff4-5cd6bc86b025 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae645ce9004a482cb9e9a32c2ae727e0', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Тихо погас в ночи закат'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=219%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=219%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Тихо у гроба, очень рано', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Тихо у гроба, очень рано', 'Пасхальные', NULL, 'Куплет 1:
 Тихо у гроба очень рано,
 Жены спешат, предваряя рассвет…
 Вдруг Ангел с неба, камень отвален,
@@ -10071,16 +10071,16 @@ SELECT 'Тихо у гроба, очень рано', 'Молодёжный сб
 Праздник спасенных, звуки восторга,
 Церкви Христовой Пасхальный привет!
 Радость Святая всех да наполнит
-Места тревогам в душе больше нет.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=220 | photo=notion-youth-songbook | notionPageId=69843e29-936e-4e0e-9781-2f4c9dfde2ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/69843e29936e4e0e97812f4c9dfde2ad | Fill chords from an approved source before approval.', 'pending'
+Места тревогам в душе больше нет.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=220 | photo=notion-youth-songbook | notionPageId=69843e29-936e-4e0e-9781-2f4c9dfde2ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/69843e29936e4e0e97812f4c9dfde2ad | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Тихо у гроба, очень рано'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=220%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=220%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Только Ты Один', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Только Ты Один', 'Пасхальные', NULL, 'Куплет 1:
 Только Ты Один
 Так коснулся сердца моего,
 Твоя милость, как живая река,
@@ -10118,16 +10118,16 @@ A# C F
 F C Dm
 A# C
 F C Dm
-A# C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=221 | photo=notion-youth-songbook | notionPageId=5275a87a-39a4-441d-b421-3bcd295baf4b | notionChordPageId=4104048d-2fbc-495b-af15-e54effc0ab83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5275a87a39a4441db4213bcd295baf4b', 'pending'
+A# C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=221 | photo=notion-youth-songbook | notionPageId=5275a87a-39a4-441d-b421-3bcd295baf4b | notionChordPageId=4104048d-2fbc-495b-af15-e54effc0ab83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5275a87a39a4441db4213bcd295baf4b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Только Ты Один'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=221%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=221%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты воскрес и дал нам жизнь', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты воскрес и дал нам жизнь', 'Пасхальные', NULL, 'Куплет 1:
 Торжествуют небеса, торжествует вся земля
 Свершилось и любовь Отца искупила нас
 Рано утром в третий день Иисус Христос воскрес,
@@ -10152,16 +10152,16 @@ D A
 Em Hm
 D A
 G A
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=222 | photo=notion-youth-songbook | notionPageId=86bc0568-47cc-407b-a978-20929b5cc17d | notionChordPageId=c897b374-3efe-4cb4-9457-3119560cea6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/86bc056847cc407ba97820929b5cc17d', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=222 | photo=notion-youth-songbook | notionPageId=86bc0568-47cc-407b-a978-20929b5cc17d | notionChordPageId=c897b374-3efe-4cb4-9457-3119560cea6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/86bc056847cc407ba97820929b5cc17d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты воскрес и дал нам жизнь'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=222%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=222%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты знаешь, Боже', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты знаешь, Боже', 'Молитвенные', NULL, 'Куплет 1:
 Ты знаешь, Боже, моё желанье,
 Мои молитвы слышишь Ты.
 Тебе известно мое страданье,
@@ -10209,16 +10209,16 @@ Dm A Dm
 Dm
 Dm Gm C F
 Gm Dm
-Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=223 | photo=notion-youth-songbook | notionPageId=019eaf94-0b3f-4fb5-aea5-7a313bd15430 | notionChordPageId=2163f79c-9666-42f9-b7a6-739a8db250d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/019eaf940b3f4fb5aea57a313bd15430', 'pending'
+Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=223 | photo=notion-youth-songbook | notionPageId=019eaf94-0b3f-4fb5-aea5-7a313bd15430 | notionChordPageId=2163f79c-9666-42f9-b7a6-739a8db250d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/019eaf940b3f4fb5aea57a313bd15430', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты знаешь, Боже'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=223%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=223%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты искупил мир от греха', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты искупил мир от греха', 'Семья', NULL, 'Куплет 1:
 Ты искупил мир от греха,
 Ты дал ему любовь и свет.
 Зажег потухшие сердца
@@ -10262,16 +10262,16 @@ Am D
 G D Em
 Em C
 C Am
-Am D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=224 | photo=notion-youth-songbook | notionPageId=2d868f4a-8345-407e-bb81-f7b33375971d | notionChordPageId=c851ae1d-2eb3-4638-a083-cf3c7f66fc77 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2d868f4a8345407ebb81f7b33375971d', 'pending'
+Am D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=224 | photo=notion-youth-songbook | notionPageId=2d868f4a-8345-407e-bb81-f7b33375971d | notionChordPageId=c851ae1d-2eb3-4638-a083-cf3c7f66fc77 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2d868f4a8345407ebb81f7b33375971d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты искупил мир от греха'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=224%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=224%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты куда идешь, скажи мне', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты куда идешь, скажи мне', 'Божья любовь', NULL, 'Куплет 1:
 "Ты куда идешь, скажи мне,
 Странник с посохом в руке?" -
 "Дивной милостью Господней
@@ -10325,16 +10325,16 @@ F G
 F G
 C
 F G C Am
-F G C G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=225 | photo=notion-youth-songbook | notionPageId=97253e46-0aba-4ab2-aefd-396654dad216 | notionChordPageId=4aef0575-93d9-4f54-9963-e4821c88fdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97253e460aba4ab2aefd396654dad216', 'pending'
+F G C G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=225 | photo=notion-youth-songbook | notionPageId=97253e46-0aba-4ab2-aefd-396654dad216 | notionChordPageId=4aef0575-93d9-4f54-9963-e4821c88fdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97253e460aba4ab2aefd396654dad216', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты куда идешь, скажи мне'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=225%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=225%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты любишь меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты любишь меня', 'Прославление', NULL, 'Куплет 1:
 Ты никогда не предашь меня,
 В тревожные дни не оставишь меня.
 Не вырвет никто из Твоей руки,
@@ -10378,16 +10378,16 @@ Hm F#7 Hm
 Hm Em
 F#7 Hm
 Hm Em
-Hm F#7 Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=226 | photo=notion-youth-songbook | notionPageId=f9143efd-b3e1-41d8-9c99-0fc766b9b23c | notionChordPageId=76450584-b4ce-4c02-a212-bd42460b6cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f9143efdb3e141d89c990fc766b9b23c', 'pending'
+Hm F#7 Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=226 | photo=notion-youth-songbook | notionPageId=f9143efd-b3e1-41d8-9c99-0fc766b9b23c | notionChordPageId=76450584-b4ce-4c02-a212-bd42460b6cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f9143efdb3e141d89c990fc766b9b23c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты любишь меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=226%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=226%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты меня наполни', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты меня наполни', 'Спасение', NULL, 'Куплет 1:
 Ты меня наполни святостью Твоей.
 Пусть меня исполнит Дух Твой как елей.
 Я всего лишь человек – словно пыль перед Тобой,
@@ -10448,16 +10448,16 @@ H E
 C#m A
 H E
 C#m A
-H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=227 | photo=notion-youth-songbook | notionPageId=b1c38c38-cad2-4e03-9a59-f3ef24fe5854 | notionChordPageId=2b6324e5-7922-4bbd-9e03-f62102630c70 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b1c38c38cad24e039a59f3ef24fe5854', 'pending'
+H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=227 | photo=notion-youth-songbook | notionPageId=b1c38c38-cad2-4e03-9a59-f3ef24fe5854 | notionChordPageId=2b6324e5-7922-4bbd-9e03-f62102630c70 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b1c38c38cad24e039a59f3ef24fe5854', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты меня наполни'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=227%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=227%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты мой Бог', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты мой Бог', 'Семья', NULL, 'Куплет 1:
 Тебя люблю, мой Бог, я всей душою,
 И с каждым новым днём хочу любить сильней,
 Люблю Тебя за то, что Ты со мною
@@ -10491,16 +10491,16 @@ A# Gm A Dm A
 Dm Gm A Dm
 Dm Gm C F
 D7 Gm A A#
-A# Gm A Dm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=228 | photo=notion-youth-songbook | notionPageId=29bc4497-0452-4b02-9bf9-e787b4160243 | notionChordPageId=434932f5-5d60-4285-97a0-8221c9eb3575 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/29bc449704524b029bf9e787b4160243', 'pending'
+A# Gm A Dm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=228 | photo=notion-youth-songbook | notionPageId=29bc4497-0452-4b02-9bf9-e787b4160243 | notionChordPageId=434932f5-5d60-4285-97a0-8221c9eb3575 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/29bc449704524b029bf9e787b4160243', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты мой Бог'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=228%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=228%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты моя скала', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты моя скала', 'Спасение', NULL, 'Куплет 1:
 Нет силы, Господи, не могу я так дальше жить,
 Когда враг на пути моем все время стоит.
 Я взываю к Тебе: помоги мне в земной борьбе
@@ -10532,16 +10532,16 @@ C D G
 G C D Hm
 Em C D G
 G C D Hm
-Em C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=229 | photo=notion-youth-songbook | notionPageId=d1da57c6-31c4-4f96-9965-6eb3712dddd7 | notionChordPageId=aa963a46-a46c-4d84-8ee2-7754a2e33890 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d1da57c631c44f9699656eb3712dddd7', 'pending'
+Em C D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=229 | photo=notion-youth-songbook | notionPageId=d1da57c6-31c4-4f96-9965-6eb3712dddd7 | notionChordPageId=aa963a46-a46c-4d84-8ee2-7754a2e33890 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d1da57c631c44f9699656eb3712dddd7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты моя скала'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=229%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=229%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты над городом этим', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты над городом этим', 'Спасение', NULL, 'Куплет 1:
 Ты над городом этим, и над этим народом,
 И над этой страною, Господь.
 Ты во тьме освешаешь, озаряешь надеждой,
@@ -10563,16 +10563,16 @@ Am G F G
 F
 G C F G
 F
-G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=230 | photo=notion-youth-songbook | notionPageId=1d693207-a395-4212-8ca5-e8a0e69b1d85 | notionChordPageId=f58af63e-aa0a-4fdc-9337-755a30b83dbd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1d693207a39542128ca5e8a0e69b1d85', 'pending'
+G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=230 | photo=notion-youth-songbook | notionPageId=1d693207-a395-4212-8ca5-e8a0e69b1d85 | notionChordPageId=f58af63e-aa0a-4fdc-9337-755a30b83dbd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1d693207a39542128ca5e8a0e69b1d85', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты над городом этим'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=230%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=230%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты не одинок', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты не одинок', 'Утешение и ободрение', NULL, 'Куплет 1:
 Ты идешь, в душе печаль,
 Ты идешь, не замечая никого вокруг.
 Утро снова сменит ночь,
@@ -10602,16 +10602,16 @@ F
 Dm A# C
 F
 Dm A#
-C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=231 | photo=notion-youth-songbook | notionPageId=1002d3ae-dd74-4365-8b81-5f24ff6080ab | notionChordPageId=e3c4559f-c0a4-4262-9625-964d257dd522 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1002d3aedd7443658b815f24ff6080ab', 'pending'
+C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=231 | photo=notion-youth-songbook | notionPageId=1002d3ae-dd74-4365-8b81-5f24ff6080ab | notionChordPageId=e3c4559f-c0a4-4262-9625-964d257dd522 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1002d3aedd7443658b815f24ff6080ab', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты не одинок'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=231%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=231%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты не печалься', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты не печалься', 'Пасхальные', NULL, 'Куплет 1:
 Я постигаю сквозь слезы и боль
 Радость встречи и горечь разлуки.
 Пью эту чашу, где сладость и соль,
@@ -10649,16 +10649,16 @@ C Am H7 Em
 Em C D G
 C Am H7 Em
 Em C D G
-C Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=232 | photo=notion-youth-songbook | notionPageId=1ae74b5e-451d-41db-80bb-6d34bae241e6 | notionChordPageId=1e6c4867-9636-43a9-b558-a7782400450e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1ae74b5e451d41db80bb6d34bae241e6', 'pending'
+C Am H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=232 | photo=notion-youth-songbook | notionPageId=1ae74b5e-451d-41db-80bb-6d34bae241e6 | notionChordPageId=1e6c4867-9636-43a9-b558-a7782400450e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1ae74b5e451d41db80bb6d34bae241e6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты не печалься'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=232%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=232%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты объемлешь меня', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты объемлешь меня', 'Небо', NULL, 'Куплет 1:
 Ты объемлешь меня позади, впереди,
 Полагаешь на мне руку.
 Куда б не пошел, лик Твой будет со мной,
@@ -10686,16 +10686,16 @@ Dm G Dm G
 C Am
 Dm G
 C Am
-Dm G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=233 | photo=notion-youth-songbook | notionPageId=944bb88a-3df9-4fd3-ae99-f1d6afc4a092 | notionChordPageId=ee67f966-fdde-48cb-a2ed-ed15dfba3abd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/944bb88a3df94fd3ae99f1d6afc4a092', 'pending'
+Dm G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=233 | photo=notion-youth-songbook | notionPageId=944bb88a-3df9-4fd3-ae99-f1d6afc4a092 | notionChordPageId=ee67f966-fdde-48cb-a2ed-ed15dfba3abd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/944bb88a3df94fd3ae99f1d6afc4a092', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты объемлешь меня'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=233%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=233%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты оплот моего спасенья', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты оплот моего спасенья', 'Спасение', NULL, 'Куплет 1:
 Ты оплот моего спасенья,
 Сила жизни моей.
 Свободу даешь Ты и вдохновенье.
@@ -10733,16 +10733,16 @@ Hm A Hm
 Em F#m Hm
 G A Hm
 Em F#m Hm
-Hm A Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=234 | photo=notion-youth-songbook | notionPageId=a45c3033-e8c8-4cc9-98d5-7313c1cc408b | notionChordPageId=adffa1bc-6992-48af-ba4d-85df9ac39128 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a45c3033e8c84cc998d57313c1cc408b', 'pending'
+Hm A Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=234 | photo=notion-youth-songbook | notionPageId=a45c3033-e8c8-4cc9-98d5-7313c1cc408b | notionChordPageId=adffa1bc-6992-48af-ba4d-85df9ac39128 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a45c3033e8c84cc998d57313c1cc408b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты оплот моего спасенья'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=234%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=234%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Ты с нами Бог', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Ты с нами Бог', 'Спасение', NULL, 'Куплет 1:
 Из глубин души моей льётся песня о Тебе,
 Ты - Господь, кто всех милей в судьбе моей
 Век проходит, время мчится, в сердце Божья благодать
@@ -10782,16 +10782,16 @@ Dm F E
 Am G
 Dm Am E
 Am G
-Dm F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=235 | photo=notion-youth-songbook | notionPageId=0983af7f-3542-4656-810a-c525e2795c9d | notionChordPageId=3dcc744f-9e52-4b03-8e51-f9967a458dff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0983af7f35424656810ac525e2795c9d', 'pending'
+Dm F E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=235 | photo=notion-youth-songbook | notionPageId=0983af7f-3542-4656-810a-c525e2795c9d | notionChordPageId=3dcc744f-9e52-4b03-8e51-f9967a458dff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0983af7f35424656810ac525e2795c9d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты с нами Бог'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=235%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=235%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Умчались безвозвратно', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Умчались безвозвратно', 'Утешение и ободрение', NULL, 'Куплет 1:
 Умчались безвозвратно дни вчерашние,
 Одни следы оставив за собой,
 А в них вопрос, звучащий без пристрастия:
@@ -10839,16 +10839,16 @@ D E7
 A E
 Hm E A
 A Hm
-D E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=236 | photo=notion-youth-songbook | notionPageId=de450ee5-ff11-4ae1-bb5d-efe54d24f146 | notionChordPageId=0b24df87-9d56-44c0-bde1-6e2a21c72bf5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/de450ee5ff114ae1bb5defe54d24f146', 'pending'
+D E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=236 | photo=notion-youth-songbook | notionPageId=de450ee5-ff11-4ae1-bb5d-efe54d24f146 | notionChordPageId=0b24df87-9d56-44c0-bde1-6e2a21c72bf5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/de450ee5ff114ae1bb5defe54d24f146', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Умчались безвозвратно'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=236%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=236%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Упала слеза', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Упала слеза', 'Пасхальные', NULL, 'Куплет 1:
 Упала слеза на горячий песок,
 И кровь на ланитах застыла.
 Полдневное солнце, как красный цветок,
@@ -10892,16 +10892,16 @@ Am E7 G D
 F C E
 Am E7 G D
 F C E
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=237 | photo=notion-youth-songbook | notionPageId=4b68d35b-cfe0-4fe2-9bda-d23c3c9b28bf | notionChordPageId=41cecc96-465d-4783-9812-545b17a079f6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4b68d35bcfe04fe29bdad23c3c9b28bf', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=237 | photo=notion-youth-songbook | notionPageId=4b68d35b-cfe0-4fe2-9bda-d23c3c9b28bf | notionChordPageId=41cecc96-465d-4783-9812-545b17a079f6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4b68d35bcfe04fe29bdad23c3c9b28bf', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Упала слеза'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=237%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=237%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Хвали Творца', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Хвали Творца', 'Пасхальные', NULL, 'Куплет 1:
 Хвали Творца лишь день начнётся,
 Хвали когда земля проснётся,
 С восходом солнечным хвали,
@@ -10939,16 +10939,16 @@ F C F
 F C
 D Gm C
 Dm A A#
-F C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=238 | photo=notion-youth-songbook | notionPageId=5c861015-5dd1-4060-b4ee-71fe10b7d1d9 | notionChordPageId=3b22852b-913b-4a56-b79d-c4b14195404c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5c8610155dd14060b4ee71fe10b7d1d9', 'pending'
+F C F', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=238 | photo=notion-youth-songbook | notionPageId=5c861015-5dd1-4060-b4ee-71fe10b7d1d9 | notionChordPageId=3b22852b-913b-4a56-b79d-c4b14195404c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5c8610155dd14060b4ee71fe10b7d1d9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Хвали Творца'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=238%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=238%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Храни своё сердце чистым', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Храни своё сердце чистым', 'Детские', NULL, 'Куплет 1:
 Много в мире искушений,
 Много разного того,
 Что предшествует паденью,
@@ -10967,16 +10967,16 @@ SELECT 'Храни своё сердце чистым', 'Молодёжный с
 Будем мы всегда во свете
 Слова Божьего ходить,
 Как Его святые дети,
-Под Его охраной жить.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=239 | photo=notion-youth-songbook | notionPageId=773042ed-874e-4ba6-a201-454235315956 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/773042ed874e4ba6a201454235315956 | Fill chords from an approved source before approval.', 'pending'
+Под Его охраной жить.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=239 | photo=notion-youth-songbook | notionPageId=773042ed-874e-4ba6-a201-454235315956 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/773042ed874e4ba6a201454235315956 | Fill chords from an approved source before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Храни своё сердце чистым'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=239%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=239%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Христос мой, как о Тебе молчать', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Христос мой, как о Тебе молчать', 'Благодарение', NULL, 'Куплет 1:
 Христос мой, как о Тебе молчать,
 Как Тебя не благодарить.
 Ведь Ты дал право Тебя познать
@@ -11014,16 +11014,16 @@ Dm G C
 C G
 Dm G C G
 C G
-Dm G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=240 | photo=notion-youth-songbook | notionPageId=0833d9f8-5398-4c05-9ea1-e36c0295c6db | notionChordPageId=82990700-4b26-4c79-b868-bd4b81463d79 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0833d9f853984c059ea1e36c0295c6db', 'pending'
+Dm G C', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=240 | photo=notion-youth-songbook | notionPageId=0833d9f8-5398-4c05-9ea1-e36c0295c6db | notionChordPageId=82990700-4b26-4c79-b868-bd4b81463d79 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0833d9f853984c059ea1e36c0295c6db', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Христос мой, как о Тебе молчать'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=240%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=240%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Христос, для многих', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Христос, для многих', 'Прощение', NULL, 'Куплет 1:
 Христос, для многих Ты людей - легенда,
 А для моей Ты жизни - идеал,
 Мне дорога священная минута,
@@ -11075,16 +11075,16 @@ D G
 G Am
 D G
 G Am
-D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=241 | photo=notion-youth-songbook | notionPageId=56a11c3b-b549-44ca-a830-9a437c070e38 | notionChordPageId=ad709fcb-3a85-4679-8997-7e6f7bdf7a67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/56a11c3bb54944caa8309a437c070e38', 'pending'
+D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=241 | photo=notion-youth-songbook | notionPageId=56a11c3b-b549-44ca-a830-9a437c070e38 | notionChordPageId=ad709fcb-3a85-4679-8997-7e6f7bdf7a67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/56a11c3bb54944caa8309a437c070e38', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Христос, для многих'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=241%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=241%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Христос, кто бы знал', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Христос, кто бы знал', 'Пасхальные', NULL, 'Куплет 1:
 Христос, кто бы знал Твое имя здесь,
 На этой планете печальной,
 Пришел, оказался Ты жертвою,
@@ -11122,16 +11122,16 @@ E E7
 Am Dm
 E Am
 F Dm
-E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=242 | photo=notion-youth-songbook | notionPageId=1a0ea6ba-ef18-4ab2-b7b3-b2c4612df49f | notionChordPageId=9caf2352-2b76-4e88-a32d-9d9727f5de92 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1a0ea6baef184ab2b7b3b2c4612df49f', 'pending'
+E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=242 | photo=notion-youth-songbook | notionPageId=1a0ea6ba-ef18-4ab2-b7b3-b2c4612df49f | notionChordPageId=9caf2352-2b76-4e88-a32d-9d9727f5de92 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1a0ea6baef184ab2b7b3b2c4612df49f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Христос, кто бы знал'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=242%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=242%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Чакаем Цябе, наш Ісус,', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Чакаем Цябе, наш Ісус,', 'Спасение', NULL, 'Куплет 1:
 Чакаем Цябе, наш Ісус,
 І молім: прыйдзі Ты да нас.
 Мы любім сваю Беларусь,
@@ -11179,16 +11179,16 @@ A# A
 Dm Gm
 A Dm
 F C
-A# A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=243 | photo=notion-youth-songbook | notionPageId=432af77c-3248-4865-8e62-7cf90a920340 | notionChordPageId=90bd82aa-5bca-4133-8dcb-5280d6604fea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/432af77c324848658e627cf90a920340', 'pending'
+A# A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=243 | photo=notion-youth-songbook | notionPageId=432af77c-3248-4865-8e62-7cf90a920340 | notionChordPageId=90bd82aa-5bca-4133-8dcb-5280d6604fea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/432af77c324848658e627cf90a920340', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Чакаем Цябе, наш Ісус,'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=243%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=243%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Что вера без дел?', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Что вера без дел?', 'Молитвенные', NULL, 'Куплет 1:
 Что вера без дел? Это звук лишь пустой,
 Цветок рукодельный, цветок не живой.
 То дерево с пышной листвой без плода,
@@ -11232,16 +11232,16 @@ Gm A
 Dm A
 F Dm
 A# F
-Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=244 | photo=notion-youth-songbook | notionPageId=15d38c9c-3ac4-4417-a84b-ac11e85b88ee | notionChordPageId=e1ada5b7-3f54-4baf-bdd8-1fba055cff6f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/15d38c9c3ac44417a84bac11e85b88ee', 'pending'
+Gm A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=244 | photo=notion-youth-songbook | notionPageId=15d38c9c-3ac4-4417-a84b-ac11e85b88ee | notionChordPageId=e1ada5b7-3f54-4baf-bdd8-1fba055cff6f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/15d38c9c3ac44417a84bac11e85b88ee', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Что вера без дел?'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=244%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=244%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Что этот свет', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Что этот свет', 'Семья', NULL, 'Куплет 1:
 Что этот свет – он созданье Всевышнего,
 Воля и разум Творца.
 Это ль не есть выражение Божьей любви?
@@ -11297,16 +11297,16 @@ D A F#
 Hm
 G
 Em
-A F#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=245 | photo=notion-youth-songbook | notionPageId=93a487f7-9f86-4705-99aa-7ff57bfc1943 | notionChordPageId=d8210e9b-9c22-4770-b515-034c6655697c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/93a487f79f86470599aa7ff57bfc1943', 'pending'
+A F#', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=245 | photo=notion-youth-songbook | notionPageId=93a487f7-9f86-4705-99aa-7ff57bfc1943 | notionChordPageId=d8210e9b-9c22-4770-b515-034c6655697c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/93a487f79f86470599aa7ff57bfc1943', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Что этот свет'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=245%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=245%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Чуден Он', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Чуден Он', 'Пасхальные', NULL, 'Куплет 1:
 Чуден Он, наш Господь,
 Наш Господь, чуден Он.
 Царь царей, Божий Сын
@@ -11344,16 +11344,16 @@ G D G
 G C
 G C
 G D Em
-G D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=246 | photo=notion-youth-songbook | notionPageId=72115a4b-ac44-423d-8b78-eab83ac6b643 | notionChordPageId=f612ca0f-c2bf-4506-b59d-a9a02f4789cc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/72115a4bac44423d8b78eab83ac6b643', 'pending'
+G D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=246 | photo=notion-youth-songbook | notionPageId=72115a4b-ac44-423d-8b78-eab83ac6b643 | notionChordPageId=f612ca0f-c2bf-4506-b59d-a9a02f4789cc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/72115a4bac44423d8b78eab83ac6b643', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Чуден Он'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=246%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=246%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Чудную книгу полюбил я', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Чудную книгу полюбил я', 'Спасение', NULL, 'Куплет 1:
 Чудную книгу полюбил я
 Среди многих книг,
 В ней нахожу я утешенье
@@ -11415,16 +11415,16 @@ C F
 Gm C
 F Dm
 Gm A
-Dm D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=247 | photo=notion-youth-songbook | notionPageId=bdd385cd-16d1-4af7-9f62-4359bf749dbe | notionChordPageId=6e540925-6a08-4fd9-a7a2-2c7a6d474c5b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd385cd16d14af79f624359bf749dbe', 'pending'
+Dm D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=247 | photo=notion-youth-songbook | notionPageId=bdd385cd-16d1-4af7-9f62-4359bf749dbe | notionChordPageId=6e540925-6a08-4fd9-a7a2-2c7a6d474c5b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd385cd16d14af79f624359bf749dbe', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Чудную книгу полюбил я'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=247%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=247%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Шалом, мои друзья', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Шалом, мои друзья', 'Небо', NULL, 'Куплет 1:
 Шалом, мои друзья, Храни, Господь, ваш дом!
 Пусть в сердце к вам войдет Шалом, шалом!
 :,:И хоть не прост порой Тот мир, где мы живем,
@@ -11462,16 +11462,16 @@ Em F# H7 Em D
 Em F# H7 Em
 Em F# H7 Em D
 G D Am Em
-Em F# H7 Em D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=248 | photo=notion-youth-songbook | notionPageId=77950ad4-3d34-4124-b334-0ddbda5ef95d | notionChordPageId=3182688e-d066-46d7-9c30-9bcbc963d4d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77950ad43d344124b3340ddbda5ef95d', 'pending'
+Em F# H7 Em D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=248 | photo=notion-youth-songbook | notionPageId=77950ad4-3d34-4124-b334-0ddbda5ef95d | notionChordPageId=3182688e-d066-46d7-9c30-9bcbc963d4d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77950ad43d344124b3340ddbda5ef95d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Шалом, мои друзья'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=248%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=248%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Это Бог наш', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Это Бог наш', 'Благодарение', NULL, 'Куплет 1:
 Ты вседержитель Бог и Царь
 В мире подобных нет Тебе
 Ты справедливый, верный, праведный вовек
@@ -11529,16 +11529,16 @@ C G
 D Em C
 G C
 G C
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=249 | photo=notion-youth-songbook | notionPageId=3c7d1d51-eac3-42cc-a699-286cd851a7d7 | notionChordPageId=40829b5c-b3ea-456c-a7fa-d67550e5bb7a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7d1d51eac342cca699286cd851a7d7', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=249 | photo=notion-youth-songbook | notionPageId=3c7d1d51-eac3-42cc-a699-286cd851a7d7 | notionChordPageId=40829b5c-b3ea-456c-a7fa-d67550e5bb7a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7d1d51eac342cca699286cd851a7d7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Это Бог наш'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=249%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=249%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Юность белоснежную', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Юность белоснежную', 'Спасение', NULL, 'Куплет 1:
 Юность белоснежную береги от зла.
 Как фиалку нежную пред собой неся.
 Миру тьмы лукавому власть не отдавай.
@@ -11566,16 +11566,16 @@ D G
 G Am
 D G
 H Em C
-D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=250 | photo=notion-youth-songbook | notionPageId=640cf3be-256d-4b0b-a805-8bfd719abf5d | notionChordPageId=44ba5401-b745-44d4-af83-e8ff353804df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/640cf3be256d4b0ba8058bfd719abf5d', 'pending'
+D G', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=250 | photo=notion-youth-songbook | notionPageId=640cf3be-256d-4b0b-a805-8bfd719abf5d | notionChordPageId=44ba5401-b745-44d4-af83-e8ff353804df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/640cf3be256d4b0ba8058bfd719abf5d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Юность белоснежную'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=250%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=250%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Юность пройдет', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Юность пройдет', 'Прославление', NULL, 'Куплет 1:
 Сегодня, друзья, мы вместе
 И нам юность дана,
 Но она пройдёт незаметно
@@ -11613,16 +11613,16 @@ E
 Am Dm
 G C
 F Dm
-E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=251 | photo=notion-youth-songbook | notionPageId=eb5c1d5f-aac1-43a4-b0f8-9a2367acc5e8 | notionChordPageId=dd4a151a-15b0-4f6a-90c0-b569523d0bf0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eb5c1d5faac143a4b0f89a2367acc5e8', 'pending'
+E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=251 | photo=notion-youth-songbook | notionPageId=eb5c1d5f-aac1-43a4-b0f8-9a2367acc5e8 | notionChordPageId=dd4a151a-15b0-4f6a-90c0-b569523d0bf0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eb5c1d5faac143a4b0f89a2367acc5e8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Юность пройдет'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=251%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=251%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Юность светлая', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Юность светлая', 'Вера и упование', NULL, 'Куплет 1:
 Юность светлая, весна ранняя -
 Мы её Христу принесём,
 Молодые мы в золотые дни
@@ -11670,16 +11670,16 @@ F# Hm
 Hm
 Em A D
 Em G
-F# Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=252 | photo=notion-youth-songbook | notionPageId=e96e6d81-5d9b-47ad-aae6-2ae46f0cdb84 | notionChordPageId=711123a2-73e0-433a-9d5a-dce0cedc20dc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96e6d815d9b47adaae62ae46f0cdb84', 'pending'
+F# Hm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=252 | photo=notion-youth-songbook | notionPageId=e96e6d81-5d9b-47ad-aae6-2ae46f0cdb84 | notionChordPageId=711123a2-73e0-433a-9d5a-dce0cedc20dc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96e6d815d9b47adaae62ae46f0cdb84', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Юность светлая'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=252%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=252%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я без Тебя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я без Тебя', 'Спасение', NULL, 'Куплет 1:
 Я без Тебя, как солнце без света.
 Я без Тебя, как парусник в море без ветра,
 Я, как дитя, без материнской ласки.
@@ -11717,16 +11717,16 @@ Em A
 D H
 Em A
 D Hm
-Em A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=253 | photo=notion-youth-songbook | notionPageId=77ce7c1b-1395-407f-9987-172f155fde48 | notionChordPageId=d26861eb-ecb8-4f86-9956-27e7290a96b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77ce7c1b1395407f9987172f155fde48', 'pending'
+Em A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=253 | photo=notion-youth-songbook | notionPageId=77ce7c1b-1395-407f-9987-172f155fde48 | notionChordPageId=d26861eb-ecb8-4f86-9956-27e7290a96b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77ce7c1b1395407f9987172f155fde48', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я без Тебя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=253%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=253%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я Бог неба', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я Бог неба', 'Спасение', NULL, 'Куплет 1:
 Я Бог неба и морей
 Я услышал плач людей.
 Всех, кого терзает грех,
@@ -11788,16 +11788,16 @@ C D
 G C G
 C G D
 Em C Am
-C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=254 | photo=notion-youth-songbook | notionPageId=41d8cc95-bea3-4efc-b589-422829c69bea | notionChordPageId=65d08502-46b6-4d4c-b6b1-70498102cdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/41d8cc95bea34efcb589422829c69bea', 'pending'
+C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=254 | photo=notion-youth-songbook | notionPageId=41d8cc95-bea3-4efc-b589-422829c69bea | notionChordPageId=65d08502-46b6-4d4c-b6b1-70498102cdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/41d8cc95bea34efcb589422829c69bea', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я Бог неба'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=254%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=254%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я в бессмертье иду', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я в бессмертье иду', 'Вера и упование', NULL, 'Куплет 1:
 Я в бессмертье иду, наступая на зло,
 Из скорбей и страданий дорога.
 На душе у меня и тепло и светло,
@@ -11845,16 +11845,16 @@ Dm A Dm
 Dm A Dm
 F C F
 A# F D Gm
-Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=255 | photo=notion-youth-songbook | notionPageId=4ba44c97-dcbf-4c96-8ea3-44676eaa4546 | notionChordPageId=8b4a6156-39b4-4f88-85bf-007b03302996 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ba44c97dcbf4c968ea344676eaa4546', 'pending'
+Dm A Dm', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=255 | photo=notion-youth-songbook | notionPageId=4ba44c97-dcbf-4c96-8ea3-44676eaa4546 | notionChordPageId=8b4a6156-39b4-4f88-85bf-007b03302996 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ba44c97dcbf4c968ea344676eaa4546', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я в бессмертье иду'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=255%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=255%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я жду Тебя', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я жду Тебя', 'Пасхальные', NULL, 'Куплет 1:
 Как земля без дождя в знойное лето
 Как весна без цветов иль рассвет без россы
 Без Тебя, мой Господь, нет жизни и света
@@ -11882,16 +11882,16 @@ F#m H E
 E C#m
 F#m A H
 E C#m
-F#m H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=256 | photo=notion-youth-songbook | notionPageId=043375d9-d2ea-42fd-9961-f22dfcd15ad6 | notionChordPageId=052f9f03-287d-446b-bd10-8bf1d4227230 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043375d9d2ea42fd9961f22dfcd15ad6', 'pending'
+F#m H E', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=256 | photo=notion-youth-songbook | notionPageId=043375d9-d2ea-42fd-9961-f22dfcd15ad6 | notionChordPageId=052f9f03-287d-446b-bd10-8bf1d4227230 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043375d9d2ea42fd9961f22dfcd15ad6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я жду Тебя'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=256%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=256%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я иду земными битвами', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я иду земными битвами', 'Рождественские', NULL, 'Куплет 1:
 Я иду земными битвами,
 Как в степи идет пастух,
 И сердечными молитвами
@@ -11943,16 +11943,16 @@ H7 Em
 E7 Am
 D G
 C Am
-H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=257 | photo=notion-youth-songbook | notionPageId=e00e3d8d-6a1d-47c6-822a-3263a7ea70cb | notionChordPageId=75f922f7-3578-4cce-a90f-fc8a055a576c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e00e3d8d6a1d47c6822a3263a7ea70cb', 'pending'
+H7 Em', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=257 | photo=notion-youth-songbook | notionPageId=e00e3d8d-6a1d-47c6-822a-3263a7ea70cb | notionChordPageId=75f922f7-3578-4cce-a90f-fc8a055a576c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e00e3d8d6a1d47c6822a3263a7ea70cb', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я иду земными битвами'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=257%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=257%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я один из тех', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я один из тех', 'Пасхальные', NULL, 'Куплет 1:
 Я один из тех, кого Ты заметил,
 Я один из тех, кого Ты не прошел,
 Я один из тех, кто зимой и летом
@@ -11990,16 +11990,16 @@ Dm E E7
 Am Dm E Am
 Dm E Am
 G C
-Dm E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=258 | photo=notion-youth-songbook | notionPageId=713a084d-45db-499b-968c-bf3fea6bf258 | notionChordPageId=88c28778-fe83-41e0-848f-af8770859a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/713a084d45db499b968cbf3fea6bf258', 'pending'
+Dm E E7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=258 | photo=notion-youth-songbook | notionPageId=713a084d-45db-499b-968c-bf3fea6bf258 | notionChordPageId=88c28778-fe83-41e0-848f-af8770859a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/713a084d45db499b968cbf3fea6bf258', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я один из тех'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=258%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=258%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я опускаюсь на колени', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я опускаюсь на колени', 'Молитвенные', NULL, 'Куплет 1:
 Я опускаюсь на колени,
 Перед Тобою мой Господь.
 И вот опять я в изумлении
@@ -12045,16 +12045,16 @@ C D
 C Em
 C D
 C Em
-C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=259 | photo=notion-youth-songbook | notionPageId=3a4c8fdb-e08b-4e51-8a34-123370179ddd | notionChordPageId=fc461e54-4a11-416a-b372-835f851bd020 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a4c8fdbe08b4e518a34123370179ddd', 'pending'
+C D', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=259 | photo=notion-youth-songbook | notionPageId=3a4c8fdb-e08b-4e51-8a34-123370179ddd | notionChordPageId=fc461e54-4a11-416a-b372-835f851bd020 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a4c8fdbe08b4e518a34123370179ddd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я опускаюсь на колени'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=259%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=259%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я прихожу к Тебе пустой', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я прихожу к Тебе пустой', 'Семья', NULL, 'Куплет 1:
 Я прихожу к Тебе пустой,
 Я прихожу к Тебе больной.
 Я знаю, Ты Своей рукой
@@ -12098,16 +12098,16 @@ Dm A# F
 Dm A# F
 Dm A# F
 Dm A# F
-Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=260 | photo=notion-youth-songbook | notionPageId=3752b018-f657-45d2-9ee4-6639e1e82625 | notionChordPageId=d3bafbf5-f4c1-4b77-838d-2aa13b48cd28 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3752b018f65745d29ee46639e1e82625', 'pending'
+Мост:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=260 | photo=notion-youth-songbook | notionPageId=3752b018-f657-45d2-9ee4-6639e1e82625 | notionChordPageId=d3bafbf5-f4c1-4b77-838d-2aa13b48cd28 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3752b018f65745d29ee46639e1e82625', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я прихожу к Тебе пустой'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=260%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=260%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я радуюсь всесильно', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я радуюсь всесильно', 'Благодарение', NULL, 'Куплет 1:
 Я радуюсь, что ты живёшь на свете:
 Поёшь, мечтаешь также, как и я,
 Что нас не сломит самый сильный ветер,
@@ -12135,16 +12135,16 @@ G A7 D D7
 D A7 D
 G A7 D
 G A7 D Hm
-G A7 D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=261 | photo=notion-youth-songbook | notionPageId=cc753c23-79ce-4509-9d32-d93d442724d7 | notionChordPageId=df35be22-da46-47ba-afa0-9669d16ad936 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/cc753c2379ce45099d32d93d442724d7', 'pending'
+G A7 D D7', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=261 | photo=notion-youth-songbook | notionPageId=cc753c23-79ce-4509-9d32-d93d442724d7 | notionChordPageId=df35be22-da46-47ba-afa0-9669d16ad936 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/cc753c2379ce45099d32d93d442724d7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я радуюсь всесильно'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=261%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=261%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я радуюсь, что Бог...', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я радуюсь, что Бог...', 'Спасение', NULL, 'Куплет 1:
 Я радуюсь, что Бог мимо не прошёл
 И спас меня.
 И Он теперь ведёт в Свой небесный дом
@@ -12172,16 +12172,16 @@ D E A
 A F#m D
 E A
 A F#m D
-E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=262 | photo=notion-youth-songbook | notionPageId=99cdcddf-751e-4dfb-b345-3effe94ac2b9 | notionChordPageId=5c444f08-554f-4658-a6f8-ef8340891e42 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/99cdcddf751e4dfbb3453effe94ac2b9', 'pending'
+E A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=262 | photo=notion-youth-songbook | notionPageId=99cdcddf-751e-4dfb-b345-3effe94ac2b9 | notionChordPageId=5c444f08-554f-4658-a6f8-ef8340891e42 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/99cdcddf751e4dfbb3453effe94ac2b9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я радуюсь, что Бог...'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=262%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=262%'
   LIMIT 1
 );
 
 INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
-SELECT 'Я смотрю на крест', 'Молодёжный сборник', NULL, 'Куплет 1:
+SELECT 'Я смотрю на крест', 'Пасхальные', NULL, 'Куплет 1:
 Я смотрю на крест, на нём страдал Господь.
 Он умер и воскрес, в Его глазах любовь.
 Я подойду к Нему в Его глаза взгляну, и поклонюсь всем сердцем.
@@ -12213,11 +12213,11 @@ Hm A G Hm A G
 Hm A G Hm A G
 Em G Hm
 Em G Hm
-A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:notion-youth-songbook-2026-08-14] oldNumber=263 | photo=notion-youth-songbook | notionPageId=f54327d3-9978-4c3f-86a7-b95dfde28dc4 | notionChordPageId=0a13753a-6a1e-4a2d-81b3-ada61d2ef309 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f54327d399784c3f86a7b95dfde28dc4', 'pending'
+A', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=263 | photo=notion-youth-songbook | notionPageId=f54327d3-9978-4c3f-86a7-b95dfde28dc4 | notionChordPageId=0a13753a-6a1e-4a2d-81b3-ada61d2ef309 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f54327d399784c3f86a7b95dfde28dc4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я смотрю на крест'
-    AND note LIKE '[staging:notion-youth-songbook-2026-08-14] oldNumber=263%'
+    AND note LIKE '[staging:songbook-staging-2026-08-14] oldNumber=263%'
   LIMIT 1
 );
 

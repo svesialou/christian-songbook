@@ -117,7 +117,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - `scripts/generate-sw.mjs` после `vite build` подставляет в `dist/sw.js` реальные hashed assets из сборки.
 - `scripts/send-telegram-screenshots.sh` отправляет screenshot-файлы в Telegram task chat, если настроены `CODEX_TELEGRAM_BOT_TOKEN` и `CODEX_TELEGRAM_CHAT_ID`.
 - API-запросы не кэшируются service worker-ом: каталог сохраняется отдельно в IndexedDB.
-- Bundled offline-каталог генерируется командой `npm run seed:notion-youth:bundled-catalog` из `seed/notion-youth-songbook/songs.staging.json`.
+- Bundled offline-каталог генерируется командой `npm run seed:songbook:bundled-catalog` из staging-манифеста; песни получают самодостаточные slug-id из названий, а категории распределяются локальными правилами по темам Holychords.
 - Static assets в production-контейнере отдаются Go web runtime с long-cache, а `sw.js` и manifest — без долгого кэша.
 
 ## Запуск как production через Docker

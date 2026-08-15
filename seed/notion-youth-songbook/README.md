@@ -6,8 +6,9 @@ This directory contains a staging manifest extracted from the public Notion page
 
 ## Files
 
-- `songs.staging.json` - staging manifest for the Notion "Молодёжный сборник" page.
+- `songs.staging.json` - staging manifest for the imported songbook.
 - `submissions.generated.sql` - generated MySQL seed for pending admin submissions.
+- App song ids are generated from song titles and do not expose the original import source.
 
 ## Current coverage
 
@@ -21,7 +22,7 @@ This directory contains a staging manifest extracted from the public Notion page
 ## Refresh Notion content
 
 ```bash
-npm run seed:notion-youth:extract
+npm run seed:songbook:extract
 ```
 
 The extractor uses Notion's public page chunk endpoint and does not require credentials.
@@ -29,7 +30,7 @@ The extractor uses Notion's public page chunk endpoint and does not require cred
 ## Generate pending admin submissions
 
 ```bash
-npm run seed:notion-youth:submissions-sql
+npm run seed:songbook:submissions-sql
 ```
 
 Apply to local MySQL:
