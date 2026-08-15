@@ -21,6 +21,8 @@
 - Do not add public API routes, admin mutation behavior, auth/security changes, schema changes, migrations, or production deployment changes without explicit user confirmation.
 - Keep song IDs/slugs self-contained and derived from song titles; do not encode external source names in public routes or bundled catalog IDs.
 - Store canonical song content as one `lead_sheet` text block with section headings and chord lines above lyric lines. Treat section arrays as derived render data, not as the editing source of truth.
+- Store edit proposals in `song_submissions` with nullable source song fields; admin approval is the only path that mutates published song rows from public edits.
+- Hide songs with soft delete by changing `songs.status` away from `published`; do not physically delete song rows in normal admin flows.
 - Keep transposition, BPM, playback, and view settings scoped to the current song when the UI behavior is song-specific.
 - Keep live collections separate from normal user collections unless the user explicitly asks to merge those concepts.
 

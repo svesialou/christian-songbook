@@ -30,6 +30,9 @@ export type SongSubmissionPayload = {
 
 export type SongSubmission = SongSubmissionPayload & {
   id: number;
+  sourceSongId?: string;
+  sourceTitle?: string;
+  sourceLeadSheet?: string;
   status: string;
   createdAt: string;
 };
@@ -268,6 +271,12 @@ export const submitSongSubmission = (payload: SongSubmissionPayload): Promise<So
     body: JSON.stringify(payload),
   });
 
+export const submitSongEditSubmission = (songId: string, payload: SongSubmissionPayload): Promise<SongSubmissionCreated> =>
+  requestJSON<SongSubmissionCreated>(`/api/songs/${encodeURIComponent(songId)}/edit-submissions`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
 export const fetchPendingSongSubmissions = (adminKey: string): Promise<SongSubmission[]> =>
   requestJSON<SongSubmission[]>('/api/admin/song-submissions', {
     method: 'GET',
@@ -336,6 +345,17 @@ export const updateAdminSong = (
       'X-Admin-Key': adminKey.trim(),
     },
     body: JSON.stringify(payload),
+  });
+
+export const deleteAdminSong = (
+  songId: string,
+  adminKey: string,
+): Promise<CreateAdminSongResult> =>
+  requestJSON<CreateAdminSongResult>(`/api/admin/songs/${encodeURIComponent(songId)}`, {
+    method: 'DELETE',
+    headers: {
+      'X-Admin-Key': adminKey.trim(),
+    },
   });
 
 export const uploadSheetMusicFile = async (file: File, adminKey: string): Promise<SheetMusicUploadResult> => {

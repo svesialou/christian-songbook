@@ -1,5 +1,6 @@
 import { FormEvent, useMemo, useState } from 'react';
 import { submitSongSubmission } from '../lib/catalogApi';
+import { fillMissingVerseChords } from '../lib/leadSheetTools';
 
 type Props = {
   categories: string[];
@@ -109,6 +110,11 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
               rows={12}
             />
           </label>
+          <div className="admin-inline-actions">
+            <button type="button" className="sheet-secondary" onClick={() => setLeadSheet(fillMissingVerseChords(leadSheet))}>
+              Дополнить аккорды из первого куплета
+            </button>
+          </div>
           <p className="submission-help">
             Вставляй песню как на Holychords: заголовок секции, строка аккордов над строкой текста. Аккорды можно скрыть в просмотре.
           </p>

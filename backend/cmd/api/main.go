@@ -163,22 +163,25 @@ type songSubmissionCreatedResponse struct {
 }
 
 type songSubmissionListItem struct {
-	ID             int64     `json:"id"`
-	Title          string    `json:"title"`
-	Category       string    `json:"category"`
-	DefaultKey     string    `json:"defaultKey"`
-	LeadSheet      string    `json:"leadSheet"`
-	SheetMusicURL  string    `json:"sheetMusicUrl,omitempty"`
-	Lyrics         string    `json:"lyrics,omitempty"`
-	Chords         string    `json:"chords,omitempty"`
-	BPM            *int      `json:"bpm,omitempty"`
-	BeatsPerLine   *int      `json:"beatsPerLine,omitempty"`
-	IntroBeats     *int      `json:"introBeats,omitempty"`
-	SubmitterName  string    `json:"submitterName"`
-	SubmitterEmail string    `json:"submitterEmail"`
-	Note           string    `json:"note"`
-	Status         string    `json:"status"`
-	CreatedAt      time.Time `json:"createdAt"`
+	ID              int64     `json:"id"`
+	SourceSongID    string    `json:"sourceSongId,omitempty"`
+	SourceTitle     string    `json:"sourceTitle,omitempty"`
+	SourceLeadSheet string    `json:"sourceLeadSheet,omitempty"`
+	Title           string    `json:"title"`
+	Category        string    `json:"category"`
+	DefaultKey      string    `json:"defaultKey"`
+	LeadSheet       string    `json:"leadSheet"`
+	SheetMusicURL   string    `json:"sheetMusicUrl,omitempty"`
+	Lyrics          string    `json:"lyrics,omitempty"`
+	Chords          string    `json:"chords,omitempty"`
+	BPM             *int      `json:"bpm,omitempty"`
+	BeatsPerLine    *int      `json:"beatsPerLine,omitempty"`
+	IntroBeats      *int      `json:"introBeats,omitempty"`
+	SubmitterName   string    `json:"submitterName"`
+	SubmitterEmail  string    `json:"submitterEmail"`
+	Note            string    `json:"note"`
+	Status          string    `json:"status"`
+	CreatedAt       time.Time `json:"createdAt"`
 }
 
 type approveSubmissionResponse struct {
@@ -527,6 +530,36 @@ func main() {
 
 		writeJSON(w, http.StatusCreated, songSubmissionCreatedResponse{ID: id, Status: "pending"})
 	})
+	mux.HandleFunc("POST /api/songs/{id}/edit-submissions", func(w http.ResponseWriter, r *http.Request) {
+		songID := strings.TrimSpace(r.PathValue("id"))
+		if songID == "" {
+			writeError(w, http.StatusBadRequest, "song id is required")
+			return
+		}
+
+		var payload songSubmissionRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid edit submission payload")
+			return
+		}
+
+		id, err := createSongEditSubmission(r.Context(), db, songID, payload)
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "song not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("create song edit submission failed", "error", err, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to create song edit submission")
+			return
+		}
+
+		writeJSON(w, http.StatusCreated, songSubmissionCreatedResponse{ID: id, Status: "pending"})
+	})
 	mux.HandleFunc("GET /api/admin/song-submissions", func(w http.ResponseWriter, r *http.Request) {
 		if !requireAdmin(w, r, cfg) {
 			return
@@ -628,6 +661,34 @@ func main() {
 		if err != nil {
 			logger.Error("update admin song failed", "error", err, "song_id", songID)
 			writeError(w, http.StatusInternalServerError, "failed to update song")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, result)
+	})
+	mux.HandleFunc("DELETE /api/admin/songs/{id}", func(w http.ResponseWriter, r *http.Request) {
+		if !requireAdmin(w, r, cfg) {
+			return
+		}
+
+		songID := strings.TrimSpace(r.PathValue("id"))
+		if songID == "" {
+			writeError(w, http.StatusBadRequest, "song id is required")
+			return
+		}
+
+		result, err := softDeletePublishedSong(r.Context(), db, songID)
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "published song not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("delete admin song failed", "error", err, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to delete song")
 			return
 		}
 
@@ -1649,6 +1710,86 @@ INSERT INTO song_submissions (
 	return result.LastInsertId()
 }
 
+func createSongEditSubmission(ctx context.Context, db *sql.DB, songID string, payload songSubmissionRequest) (int64, error) {
+	sourceSong, err := getSong(ctx, db, songID)
+	if err != nil {
+		return 0, err
+	}
+
+	if strings.TrimSpace(payload.Title) == "" {
+		payload.Title = sourceSong.Title
+	}
+	if strings.TrimSpace(payload.Category) == "" {
+		payload.Category = sourceSong.Category
+	}
+	if strings.TrimSpace(payload.DefaultKey) == "" {
+		payload.DefaultKey = sourceSong.DefaultKey
+	}
+	if strings.TrimSpace(payload.SheetMusicURL) == "" {
+		payload.SheetMusicURL = sourceSong.SheetMusicURL
+	}
+	if payload.BPM == nil && sourceSong.Playback != nil {
+		payload.BPM = &sourceSong.Playback.BPM
+	}
+	if payload.BeatsPerLine == nil && sourceSong.Playback != nil {
+		payload.BeatsPerLine = &sourceSong.Playback.BeatsPerLine
+	}
+	if payload.IntroBeats == nil && sourceSong.Playback != nil {
+		payload.IntroBeats = sourceSong.Playback.IntroBeats
+	}
+
+	normalized, err := normalizeSongSubmission(payload)
+	if err != nil {
+		return 0, err
+	}
+	normalizedSourceSongID, err := normalizeSongID(sourceSong.ID)
+	if err != nil {
+		return 0, err
+	}
+
+	const query = `
+INSERT INTO song_submissions (
+  title,
+  category,
+  default_key,
+  lead_sheet,
+  sheet_music_url,
+  bpm,
+  beats_per_line,
+  intro_beats,
+  submitter_name,
+  submitter_email,
+  note,
+  source_song_id,
+  source_title,
+  source_lead_sheet
+) VALUES (?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''), ?, ?, ?)`
+
+	result, err := db.ExecContext(
+		ctx,
+		query,
+		normalized.Title,
+		normalized.Category,
+		normalized.DefaultKey,
+		normalized.LeadSheet,
+		normalized.SheetMusicURL,
+		optionalIntParam(normalized.BPM),
+		optionalIntParam(normalized.BeatsPerLine),
+		optionalIntParam(normalized.IntroBeats),
+		normalized.SubmitterName,
+		normalized.SubmitterEmail,
+		normalized.Note,
+		normalizedSourceSongID,
+		sourceSong.Title,
+		sourceSong.LeadSheet,
+	)
+	if err != nil {
+		return 0, err
+	}
+
+	return result.LastInsertId()
+}
+
 func updateSongSubmission(ctx context.Context, db *sql.DB, submissionID int64, payload songSubmissionRequest) (songSubmissionCreatedResponse, error) {
 	normalized, err := normalizeSongSubmission(payload)
 	if err != nil {
@@ -1702,6 +1843,9 @@ func listSongSubmissions(ctx context.Context, db *sql.DB) ([]songSubmissionListI
 	const query = `
 SELECT
   id,
+  COALESCE(source_song_id, ''),
+  COALESCE(source_title, ''),
+  COALESCE(source_lead_sheet, ''),
   title,
   category,
   COALESCE(default_key, ''),
@@ -1734,6 +1878,9 @@ LIMIT 100`
 		var introBeats sql.NullInt64
 		if err := rows.Scan(
 			&item.ID,
+			&item.SourceSongID,
+			&item.SourceTitle,
+			&item.SourceLeadSheet,
 			&item.Title,
 			&item.Category,
 			&item.DefaultKey,
@@ -1863,6 +2010,60 @@ WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
 	return approveSubmissionResponse{SongID: songID, CatalogVersion: nextVersion}, nil
 }
 
+func softDeletePublishedSong(ctx context.Context, db *sql.DB, songID string) (approveSubmissionResponse, error) {
+	normalizedSongID, err := normalizeSongID(songID)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	defer tx.Rollback()
+
+	version, err := lockCurrentCatalogVersion(ctx, tx)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	result, err := tx.ExecContext(
+		ctx,
+		`UPDATE songs
+SET status = 'deleted'
+WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
+		normalizedSongID,
+		version.ID,
+	)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
+	if affected == 0 {
+		return approveSubmissionResponse{}, sql.ErrNoRows
+	}
+
+	nextVersion := fmt.Sprintf("admin-delete-%s", time.Now().UTC().Format("20060102150405"))
+	if _, err := tx.ExecContext(
+		ctx,
+		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
+		nextVersion,
+		fmt.Sprintf("Admin deleted song %s", normalizedSongID),
+		version.ID,
+	); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return approveSubmissionResponse{}, err
+	}
+
+	return approveSubmissionResponse{SongID: normalizedSongID, CatalogVersion: nextVersion}, nil
+}
+
 func rejectSongSubmission(ctx context.Context, db *sql.DB, submissionID int64, reason string) (songSubmissionCreatedResponse, error) {
 	normalizedReason := strings.TrimSpace(reason)
 	if tooLong(normalizedReason, 500) {
@@ -1900,13 +2101,23 @@ func approveSongSubmission(ctx context.Context, db *sql.DB, submissionID int64) 
 
 	var submission songSubmissionRequest
 	const submissionQuery = `
-SELECT title, category, COALESCE(default_key, ''), lead_sheet, COALESCE(sheet_music_url, ''), bpm, beats_per_line, intro_beats
+SELECT
+  title,
+  category,
+  COALESCE(default_key, ''),
+  lead_sheet,
+  COALESCE(sheet_music_url, ''),
+  bpm,
+  beats_per_line,
+  intro_beats,
+  COALESCE(source_song_id, '')
 FROM song_submissions
 WHERE id = ? AND status = 'pending'
 FOR UPDATE`
 	var bpm sql.NullInt64
 	var beatsPerLine sql.NullInt64
 	var introBeats sql.NullInt64
+	var sourceSongID string
 	if err := tx.QueryRowContext(ctx, submissionQuery, submissionID).Scan(
 		&submission.Title,
 		&submission.Category,
@@ -1916,6 +2127,7 @@ FOR UPDATE`
 		&bpm,
 		&beatsPerLine,
 		&introBeats,
+		&sourceSongID,
 	); err != nil {
 		return approveSubmissionResponse{}, err
 	}
@@ -1928,27 +2140,14 @@ FOR UPDATE`
 		return approveSubmissionResponse{}, err
 	}
 
-	version, nextNumber, err := lockCurrentCatalogVersionAndNextNumber(ctx, tx)
+	var songID string
+	var nextVersion string
+	if strings.TrimSpace(sourceSongID) != "" {
+		songID, nextVersion, err = approveSongEditSubmissionTx(ctx, tx, submissionID, sourceSongID, normalized)
+	} else {
+		songID, nextVersion, err = approveNewSongSubmissionTx(ctx, tx, submissionID, normalized)
+	}
 	if err != nil {
-		return approveSubmissionResponse{}, err
-	}
-
-	songID, err := uniqueSongID(ctx, tx, version.ID, normalized.Title, fmt.Sprintf("song-%d", nextNumber))
-	if err != nil {
-		return approveSubmissionResponse{}, err
-	}
-	if err := insertPublishedSongTx(ctx, tx, version.ID, songID, nextNumber, normalized); err != nil {
-		return approveSubmissionResponse{}, err
-	}
-
-	nextVersion := fmt.Sprintf("submission-%d-%s", submissionID, time.Now().UTC().Format("20060102150405"))
-	if _, err := tx.ExecContext(
-		ctx,
-		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
-		nextVersion,
-		fmt.Sprintf("Approved song submission #%d", submissionID),
-		version.ID,
-	); err != nil {
 		return approveSubmissionResponse{}, err
 	}
 
@@ -1966,6 +2165,99 @@ FOR UPDATE`
 	}
 
 	return approveSubmissionResponse{SongID: songID, CatalogVersion: nextVersion}, nil
+}
+
+func approveNewSongSubmissionTx(
+	ctx context.Context,
+	tx *sql.Tx,
+	submissionID int64,
+	normalized songSubmissionRequest,
+) (string, string, error) {
+	version, nextNumber, err := lockCurrentCatalogVersionAndNextNumber(ctx, tx)
+	if err != nil {
+		return "", "", err
+	}
+
+	songID, err := uniqueSongID(ctx, tx, version.ID, normalized.Title, fmt.Sprintf("song-%d", nextNumber))
+	if err != nil {
+		return "", "", err
+	}
+	if err := insertPublishedSongTx(ctx, tx, version.ID, songID, nextNumber, normalized); err != nil {
+		return "", "", err
+	}
+
+	nextVersion := fmt.Sprintf("submission-%d-%s", submissionID, time.Now().UTC().Format("20060102150405"))
+	if _, err := tx.ExecContext(
+		ctx,
+		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
+		nextVersion,
+		fmt.Sprintf("Approved song submission #%d", submissionID),
+		version.ID,
+	); err != nil {
+		return "", "", err
+	}
+
+	return songID, nextVersion, nil
+}
+
+func approveSongEditSubmissionTx(
+	ctx context.Context,
+	tx *sql.Tx,
+	submissionID int64,
+	sourceSongID string,
+	normalized songSubmissionRequest,
+) (string, string, error) {
+	songID, err := normalizeSongID(sourceSongID)
+	if err != nil {
+		return "", "", err
+	}
+	version, err := lockCurrentCatalogVersion(ctx, tx)
+	if err != nil {
+		return "", "", err
+	}
+
+	result, err := tx.ExecContext(
+		ctx,
+		`UPDATE songs
+SET title = ?, category = ?, default_key = NULLIF(?, ''), lead_sheet = ?, sheet_music_url = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
+WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
+		normalized.Title,
+		normalized.Category,
+		normalized.DefaultKey,
+		normalized.LeadSheet,
+		normalized.SheetMusicURL,
+		optionalIntParam(normalized.BPM),
+		optionalIntParam(normalized.BeatsPerLine),
+		optionalIntParam(normalized.IntroBeats),
+		songID,
+		version.ID,
+	)
+	if err != nil {
+		return "", "", err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return "", "", err
+	}
+	if affected == 0 {
+		return "", "", sql.ErrNoRows
+	}
+	if _, err := parseLeadSheetSections(normalized.LeadSheet); err != nil {
+		return "", "", err
+	}
+
+	nextVersion := fmt.Sprintf("submission-edit-%d-%s", submissionID, time.Now().UTC().Format("20060102150405"))
+	if _, err := tx.ExecContext(
+		ctx,
+		`UPDATE catalog_versions SET version = ?, published_at = UTC_TIMESTAMP(), notes = ? WHERE id = ?`,
+		nextVersion,
+		fmt.Sprintf("Approved song edit submission #%d for %s", submissionID, songID),
+		version.ID,
+	); err != nil {
+		return "", "", err
+	}
+
+	return songID, nextVersion, nil
 }
 
 func lockCurrentCatalogVersionAndNextNumber(ctx context.Context, tx *sql.Tx) (catalogVersion, int, error) {

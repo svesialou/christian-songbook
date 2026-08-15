@@ -1,4 +1,4 @@
-import { type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, type FormEvent, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Song, SongOrderedSection } from '../types/song';
 import {
   findPreferredKeyTransposition,
@@ -7,7 +7,8 @@ import {
   transposeKeyLabel,
   transposeSongRows,
 } from '../lib/chords';
-import { UserPreferences } from '../lib/catalogApi';
+import { SongSubmissionPayload, UserPreferences } from '../lib/catalogApi';
+import { fillMissingVerseChords, fillMissingVerseSectionChords } from '../lib/leadSheetTools';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
 
 type SongViewProps = {
@@ -20,6 +21,7 @@ type SongViewProps = {
   onShare: (song: Song) => void;
   onTranspositionChange: (songId: string, transposition: number) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
+  onSubmitEdit: (song: Song, payload: SongSubmissionPayload) => Promise<void>;
 };
 
 type PlaybackLine = {
@@ -38,6 +40,10 @@ const DEFAULT_PLAYBACK = {
 const MIN_BPM = 40;
 const MAX_BPM = 220;
 
+type SongEditDraft = SongSubmissionPayload & {
+  leadSheet: string;
+};
+
 const lineKey = (sectionId: string, lineIndex: number) => `${sectionId}:${lineIndex}`;
 
 const playbackLineToPosition = (line: PlaybackLine): SongPlaybackPosition => ({
@@ -49,7 +55,7 @@ const playbackLineToPosition = (line: PlaybackLine): SongPlaybackPosition => ({
 });
 
 const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSection[] => {
-  if (song.sections?.length) return song.sections;
+  if (song.sections?.length) return fillMissingVerseSectionChords(song.sections);
   const sections: SongOrderedSection[] = [];
   song.verses.forEach((verse, index) => {
     sections.push({ ...verse, sectionType: 'verse', title: index === 0 ? 'Куплет 1' : `Куплет ${index + 1}` });
@@ -58,8 +64,33 @@ const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSe
     }
   });
   if (song.bridge) sections.push({ ...song.bridge, sectionType: 'bridge', title: 'Мост' });
-  return sections;
+  return fillMissingVerseSectionChords(sections);
 };
+
+const sectionsToLeadSheet = (song: Song): string =>
+  getRenderableSections(song, false)
+    .map((section) => {
+      const rows = section.rows.flatMap((line, index) => {
+        const chordLine = section.chords[index]?.join(' ').trim();
+        return chordLine ? [chordLine, line] : [line];
+      });
+      return [`[${section.title}]`, ...rows].join('\n');
+    })
+    .join('\n\n');
+
+const buildEditDraft = (song: Song): SongEditDraft => ({
+  title: song.title,
+  category: song.category,
+  defaultKey: song.defaultKey || '',
+  leadSheet: song.leadSheet || sectionsToLeadSheet(song),
+  sheetMusicUrl: song.sheetMusicUrl || '',
+  bpm: song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm,
+  beatsPerLine: song.playback?.beatsPerLine ?? DEFAULT_PLAYBACK.beatsPerLine,
+  introBeats: song.playback?.introBeats ?? DEFAULT_PLAYBACK.introBeats,
+  submitterName: '',
+  submitterEmail: '',
+  note: '',
+});
 
 const sectionStableId = (section: SongOrderedSection, index: number) => `${section.sectionType}-${index}`;
 
@@ -186,6 +217,7 @@ const SongView = ({
   onShare,
   onTranspositionChange,
   onPlaybackPositionChange,
+  onSubmitEdit,
 }: SongViewProps) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(initialAutoPlay);
   const [isIntroActive, setIsIntroActive] = useState(initialAutoPlay);
@@ -193,6 +225,10 @@ const SongView = ({
   const [playbackBpm, setPlaybackBpm] = useState(() => song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
   const [bpmInputValue, setBpmInputValue] = useState(() => String(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm));
   const [contentMode, setContentMode] = useState<'song' | 'sheet'>('song');
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editDraft, setEditDraft] = useState<SongEditDraft>(() => buildEditDraft(song));
+  const [editError, setEditError] = useState<string | null>(null);
+  const [isEditSubmitting, setIsEditSubmitting] = useState(false);
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const tapTempoTimes = useRef<number[]>([]);
@@ -290,6 +326,9 @@ const SongView = ({
 
   useEffect(() => {
     setContentMode('song');
+    setIsEditOpen(false);
+    setEditDraft(buildEditDraft(song));
+    setEditError(null);
   }, [song.id]);
 
   const registerLine = (key: string, element: HTMLButtonElement | null) => {
@@ -444,6 +483,44 @@ const SongView = ({
   const setTransposition = (nextTransposition: number) =>
     onTranspositionChange(song.id, normalizeTransposition(nextTransposition));
 
+  const updateEditDraft = (key: keyof SongEditDraft, value: string | number) => {
+    setEditDraft((current) => ({ ...current, [key]: value }));
+  };
+
+  const fillEditDraftChords = () => {
+    const nextLeadSheet = fillMissingVerseChords(editDraft.leadSheet);
+    setEditDraft((current) => ({ ...current, leadSheet: nextLeadSheet }));
+  };
+
+  const submitEdit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!editDraft.title.trim() || !editDraft.leadSheet.trim()) {
+      setEditError('Название и текст обязательны.');
+      return;
+    }
+
+    setIsEditSubmitting(true);
+    setEditError(null);
+    try {
+      await onSubmitEdit(song, {
+        ...editDraft,
+        title: editDraft.title.trim(),
+        category: editDraft.category.trim() || song.category,
+        defaultKey: editDraft.defaultKey.trim(),
+        leadSheet: editDraft.leadSheet.trim(),
+        sheetMusicUrl: editDraft.sheetMusicUrl?.trim(),
+        submitterName: editDraft.submitterName.trim(),
+        submitterEmail: editDraft.submitterEmail.trim(),
+        note: editDraft.note.trim(),
+      });
+      setIsEditOpen(false);
+    } catch (err) {
+      setEditError(err instanceof Error ? err.message : 'Не удалось отправить правку.');
+    } finally {
+      setIsEditSubmitting(false);
+    }
+  };
+
   const advancePlaybackLine = () => {
     if (playbackLines.length === 0) return;
     const nextLine =
@@ -490,7 +567,10 @@ const SongView = ({
       }}
     >
       <div className="song-header">
-        <button type="button" onClick={() => onShare(song)} className="toolbar-button">Поделиться</button>
+        <div className="song-header-actions">
+          <button type="button" onClick={() => onShare(song)} className="toolbar-button">Поделиться</button>
+          <button type="button" onClick={() => setIsEditOpen(true)} className="toolbar-button">Править</button>
+        </div>
         <div>
           <p className="eyebrow">Песня №{song.number}</p>
           <h1>{song.title}</h1>
@@ -592,6 +672,96 @@ const SongView = ({
           ))}
         </div>
       )}
+
+      {isEditOpen ? (
+        <div
+          className="sheet-backdrop"
+          onClick={(event) => {
+            if (event.target === event.currentTarget && !isEditSubmitting) setIsEditOpen(false);
+          }}
+        >
+          <section className="bottom-sheet submission-sheet song-edit-sheet" role="dialog" aria-modal="true" aria-labelledby="song-edit-title">
+            <div className="sheet-header">
+              <h2 id="song-edit-title">Предложить правку</h2>
+              <button type="button" className="sheet-close" onClick={() => setIsEditOpen(false)} disabled={isEditSubmitting}>
+                Закрыть
+              </button>
+            </div>
+            {editError ? <div className="error">{editError}</div> : null}
+            <form className="submission-form" onSubmit={submitEdit}>
+              <label className="submission-field">
+                <span>Название</span>
+                <input value={editDraft.title} onChange={(event) => updateEditDraft('title', event.target.value)} disabled={isEditSubmitting} />
+              </label>
+              <div className="submission-grid">
+                <label className="submission-field">
+                  <span>Категория</span>
+                  <input value={editDraft.category} onChange={(event) => updateEditDraft('category', event.target.value)} disabled={isEditSubmitting} />
+                </label>
+                <label className="submission-field">
+                  <span>Тональность</span>
+                  <input value={editDraft.defaultKey} onChange={(event) => updateEditDraft('defaultKey', event.target.value)} disabled={isEditSubmitting} placeholder="G, Am..." />
+                </label>
+              </div>
+              <div className="admin-inline-actions">
+                <button type="button" className="sheet-secondary" onClick={fillEditDraftChords} disabled={isEditSubmitting}>
+                  Дополнить аккорды из первого куплета
+                </button>
+              </div>
+              <label className="submission-field">
+                <span>Текст с аккордами</span>
+                <textarea
+                  value={editDraft.leadSheet}
+                  onChange={(event) => updateEditDraft('leadSheet', event.target.value)}
+                  disabled={isEditSubmitting}
+                  rows={14}
+                />
+              </label>
+              <label className="submission-field">
+                <span>Ссылка на ноты</span>
+                <input value={editDraft.sheetMusicUrl || ''} onChange={(event) => updateEditDraft('sheetMusicUrl', event.target.value)} disabled={isEditSubmitting} placeholder="https://...pdf или https://...jpg" />
+              </label>
+              <div className="submission-grid submission-grid-three">
+                <label className="submission-field">
+                  <span>BPM</span>
+                  <input type="number" min={40} max={220} value={editDraft.bpm} onChange={(event) => updateEditDraft('bpm', Number(event.target.value))} disabled={isEditSubmitting} />
+                </label>
+                <label className="submission-field">
+                  <span>Долей на строку</span>
+                  <input type="number" min={1} max={16} value={editDraft.beatsPerLine} onChange={(event) => updateEditDraft('beatsPerLine', Number(event.target.value))} disabled={isEditSubmitting} />
+                </label>
+                <label className="submission-field">
+                  <span>Вступление</span>
+                  <input type="number" min={0} max={64} value={editDraft.introBeats} onChange={(event) => updateEditDraft('introBeats', Number(event.target.value))} disabled={isEditSubmitting} />
+                </label>
+              </div>
+              <div className="submission-grid">
+                <label className="submission-field">
+                  <span>Имя</span>
+                  <input value={editDraft.submitterName} onChange={(event) => updateEditDraft('submitterName', event.target.value)} disabled={isEditSubmitting} />
+                </label>
+                <label className="submission-field">
+                  <span>Email</span>
+                  <input type="email" value={editDraft.submitterEmail} onChange={(event) => updateEditDraft('submitterEmail', event.target.value)} disabled={isEditSubmitting} />
+                </label>
+              </div>
+              <label className="submission-field">
+                <span>Комментарий</span>
+                <textarea value={editDraft.note} onChange={(event) => updateEditDraft('note', event.target.value)} disabled={isEditSubmitting} rows={3} />
+              </label>
+              <p className="submission-help">Правка попадёт в заявки админки. В каталоге она появится только после апрува.</p>
+              <div className="sheet-actions">
+                <button type="button" className="sheet-secondary" onClick={() => setIsEditOpen(false)} disabled={isEditSubmitting}>
+                  Отмена
+                </button>
+                <button type="submit" className="sheet-primary" disabled={isEditSubmitting}>
+                  {isEditSubmitting ? 'Отправка...' : 'Отправить правку'}
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      ) : null}
 
       {settings.showPlaybackDock && !isSheetMode ? (
         <div className={`song-playback-dock ${isAutoPlaying ? 'is-running' : ''}`} style={playbackProgressStyle}>

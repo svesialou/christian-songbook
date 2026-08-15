@@ -33,6 +33,7 @@ import {
   SongSubmissionPayload,
   UserPreferences,
   approveSongSubmission,
+  deleteAdminSong,
   fetchCatalogSnapshot,
   fetchCurrentUser,
   fetchPendingSongSubmissions,
@@ -40,6 +41,7 @@ import {
   logoutCurrentUser,
   rejectSongSubmission,
   saveUserPreferences,
+  submitSongEditSubmission,
   updateAdminSong,
   updateSongSubmission,
 } from './lib/catalogApi';
@@ -491,6 +493,7 @@ function App() {
   const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
   const [rejectingSubmissionId, setRejectingSubmissionId] = useState<number | null>(null);
   const [savingAdminSongId, setSavingAdminSongId] = useState<string | null>(null);
+  const [deletingAdminSongId, setDeletingAdminSongId] = useState<string | null>(null);
   const [adminApiKey, setAdminApiKey] = useState(() =>
     isAdminMode && shouldPrefillDefaultAdminKey() ? DEFAULT_ADMIN_API_KEY : '',
   );
@@ -729,6 +732,41 @@ function App() {
     } finally {
       setSavingAdminSongId(null);
     }
+  };
+
+  const handleDeleteAdminSong = async (song: Song) => {
+    if (!isAdminAuthenticated) {
+      setError('Нужно войти в админку.');
+      return;
+    }
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для удаления.');
+      return;
+    }
+
+    const confirmed = window.confirm(`Скрыть песню "${song.title}"? Она исчезнет из каталога, но останется в базе со статусом deleted.`);
+    if (!confirmed) return;
+
+    setDeletingAdminSongId(song.id);
+    try {
+      const result = await deleteAdminSong(song.id, adminApiKey);
+      setSongs((current) => current.filter((item) => item.id !== song.id));
+      const snapshot = await fetchCatalogSnapshot();
+      await applyCatalogSnapshot(snapshot);
+      setNotice(`Песня скрыта: ${result.songId}`);
+      setError(null);
+      navigateAdmin({ page: 'songs' });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось скрыть песню.');
+    } finally {
+      setDeletingAdminSongId(null);
+    }
+  };
+
+  const handleSubmitSongEdit = async (song: Song, payload: SongSubmissionPayload) => {
+    await submitSongEditSubmission(song.id, payload);
+    setNotice('Правка отправлена на проверку в админку.');
+    setError(null);
   };
 
   const handleAdminLogin = async (event: FormEvent<HTMLFormElement>) => {
@@ -1643,6 +1681,7 @@ function App() {
               approvingSubmissionId={approvingSubmissionId}
               rejectingSubmissionId={rejectingSubmissionId}
               savingSongId={savingAdminSongId}
+              deletingSongId={deletingAdminSongId}
               onNavigate={navigateAdmin}
               onRefreshCatalog={() => void refreshCatalog(true)}
               onRefreshSubmissions={() => void loadPendingSubmissions()}
@@ -1653,6 +1692,7 @@ function App() {
                 navigateAdmin({ page: 'songs' });
               }}
               onSaveSong={(songId, payload) => void handleSaveAdminSong(songId, payload)}
+              onDeleteSong={(song) => void handleDeleteAdminSong(song)}
               onSaveSubmission={(submissionId, payload) => void handleSaveSubmission(submissionId, payload)}
               onApproveSubmission={(submissionId) => void handleApproveSubmission(submissionId)}
               onRejectSubmission={(submissionId) => void handleRejectSubmission(submissionId)}
@@ -1670,6 +1710,7 @@ function App() {
               onShare={shareSong}
               onTranspositionChange={onSongTranspositionChange}
               onPlaybackPositionChange={setPlaybackPosition}
+              onSubmitEdit={handleSubmitSongEdit}
             />
           ) : (
             <>
