@@ -139,6 +139,9 @@ const normalizeUserLiveStateForCatalog = (state: UserLiveState, catalogSongs: So
 
 const liveStateSnapshot = (state: UserLiveState): string => JSON.stringify(state);
 
+const areSongIdListsEqual = (left: string[], right: string[]): boolean =>
+  left.length === right.length && left.every((songId, index) => songId === right[index]);
+
 const readAdminRoute = (): AdminRoute => {
   if (typeof window === 'undefined') return { page: 'home' };
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/admin';
@@ -1019,7 +1022,7 @@ function App() {
     return () => {
       cancelled = true;
     };
-  }, [account?.authenticated, account?.user?.id, isLiveListPreview, songs]);
+  }, [account?.authenticated, account?.user?.id, isLiveListPreview]);
 
   useEffect(() => {
     if (isLiveListPreview || !account?.authenticated || !isUserLiveStateReady) return;
@@ -1102,11 +1105,12 @@ function App() {
   useEffect(() => {
     if (isLiveListPreview || listMode !== 'live' || !liveCollectionId) return;
     setLiveCollections((current) =>
-      current.map((collection) =>
-        collection.id === liveCollectionId
-          ? { ...collection, songIds: liveSongIds, updatedAt: new Date().toISOString() }
-          : collection,
-      ),
+      current.map((collection) => {
+        if (collection.id !== liveCollectionId) return collection;
+        if (areSongIdListsEqual(collection.songIds, liveSongIds)) return collection;
+
+        return { ...collection, songIds: liveSongIds, updatedAt: new Date().toISOString() };
+      }),
     );
   }, [isLiveListPreview, listMode, liveCollectionId, liveSongIds]);
 
@@ -1252,6 +1256,19 @@ function App() {
   );
   const liveSourceSongs = songs;
 
+  const syncActiveLiveCollectionSongs = (nextSongIds: string[]) => {
+    if (!liveCollectionId) return;
+
+    setLiveCollections((current) =>
+      current.map((collection) => {
+        if (collection.id !== liveCollectionId) return collection;
+        if (areSongIdListsEqual(collection.songIds, nextSongIds)) return collection;
+
+        return { ...collection, songIds: nextSongIds, updatedAt: new Date().toISOString() };
+      }),
+    );
+  };
+
   const requireLiveAccount = () => {
     if (isLiveListPreview) return true;
     if (account?.authenticated && isUserLiveStateReady) return true;
@@ -1320,19 +1337,26 @@ function App() {
     if (!requireLiveAccount()) return;
     if (!liveSourceSongs.some((song) => song.id === songId)) return;
 
-    setLiveSongIds((current) => (current.includes(songId) ? current : [...current, songId]));
+    setLiveSongIds((current) => {
+      if (current.includes(songId)) return current;
+      const next = [...current, songId];
+      syncActiveLiveCollectionSongs(next);
+      return next;
+    });
     setLiveSongId((current) => current ?? songId);
   };
 
   const removeLiveSong = (songId: string) => {
     if (!requireLiveAccount()) return;
     const nextLiveSongIds = liveSongIds.filter((item) => item !== songId);
+    syncActiveLiveCollectionSongs(nextLiveSongIds);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId((current) => (current === songId ? nextLiveSongIds[0] ?? null : current));
   };
 
   const resetLiveSongs = () => {
     if (!requireLiveAccount()) return;
+    syncActiveLiveCollectionSongs([]);
     setLiveSongIds([]);
     setLiveSongId(null);
   };
@@ -1377,6 +1401,7 @@ function App() {
 
       const next = [...current];
       [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+      syncActiveLiveCollectionSongs(next);
       return next;
     });
   };
