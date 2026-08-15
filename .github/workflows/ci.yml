@@ -35,3 +35,6 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t christian-songbook:ci .
+
+      - name: Build backend Docker image
+        run: docker build -f backend/Dockerfile -t christian-songbook-api:ci .

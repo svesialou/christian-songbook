@@ -145,9 +145,12 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
   - `npm run lint`
   - `npm test`
   - `npm run build`
-  - `docker build`
+  - `docker build` для web image
+  - `docker build -f backend/Dockerfile` для backend API image
 - Deploy workflow: `.github/workflows/deploy.yml`
-  - публикует image в `ghcr.io/<owner>/christian-songbook`;
+  - публикует web image в `ghcr.io/<owner>/christian-songbook`;
+  - публикует backend API image в `ghcr.io/<owner>/christian-songbook-api`;
+  - собирает и пушит web/backend images отдельными параллельными jobs после quality gate;
   - после merge/push в `main` автоматически выполняет deploy через SSH;
   - manual `workflow_dispatch` тоже может выполнить deploy через SSH, если выбрать `restart_server=true`;
   - нужны GitHub secrets:
