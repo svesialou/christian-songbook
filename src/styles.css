@@ -2746,3 +2746,125 @@ textarea.admin-large-textarea {
     transition: none;
   }
 }
+
+/* Admin overflow guard: keep wide forms and cards inside the viewport. */
+.app-shell:has(.admin-shell),
+.app-shell:has(.admin-shell) .content-panel,
+.admin-shell,
+.admin-page,
+.admin-editor-form,
+.admin-form-block,
+.admin-section-card,
+.admin-list,
+.admin-list-card,
+.admin-page-header,
+.admin-nav {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.app-shell:has(.admin-shell) {
+  overflow-x: hidden;
+}
+
+.app-shell:has(.admin-shell) .content-panel {
+  width: 100%;
+  max-width: min(1180px, calc(100vw - 24px));
+  margin-inline: auto;
+  overflow-x: hidden;
+}
+
+.admin-shell *,
+.admin-shell *::before,
+.admin-shell *::after {
+  box-sizing: border-box;
+}
+
+.admin-nav {
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+.admin-page-header {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.admin-page-header > *,
+.admin-inline-actions,
+.admin-list-actions,
+.admin-sticky-actions,
+.admin-form-block .submission-field,
+.admin-form-block .select-row,
+.admin-section-card .toolbar {
+  min-width: 0;
+}
+
+.admin-form-block input,
+.admin-form-block select,
+.admin-form-block textarea,
+.admin-large-textarea textarea,
+textarea.admin-large-textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.admin-list-card,
+.admin-action-card,
+.admin-form-block,
+.admin-section-card {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .app-shell:has(.admin-shell) .content-panel {
+    max-width: calc(100vw - 12px);
+    padding: 10px;
+  }
+
+  .admin-shell {
+    gap: 14px;
+  }
+
+  .admin-nav {
+    gap: 6px;
+    padding: 6px;
+    border-radius: 18px;
+  }
+
+  .admin-nav button,
+  .admin-inline-actions .toolbar-button,
+  .admin-list-actions .toolbar-button,
+  .admin-sticky-actions .toolbar-button,
+  .admin-back {
+    width: 100%;
+  }
+
+  .admin-page-header,
+  .admin-form-block,
+  .admin-section-card,
+  .admin-action-card,
+  .admin-list-card {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .admin-page-header h2 {
+    font-size: clamp(1.35rem, 8vw, 1.8rem);
+  }
+
+  .admin-section-card .toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sticky-actions {
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+}
