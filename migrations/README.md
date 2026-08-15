@@ -1,7 +1,7 @@
 # MySQL Migrations
 
 Current migrations:
-- `001_catalog.up.sql` - creates the read-only catalog schema and seeds the initial published catalog.
+- `001_catalog.up.sql` - creates the catalog schema with canonical `songs.lead_sheet` content and seeds the initial empty published catalog version.
 - `001_catalog.down.sql` - drops the catalog schema and removes the initial seed catalog.
 - `002_song_categories.up.sql` - adds song categories and seed category values.
 - `002_song_categories.down.sql` - removes the song category index and column.
@@ -23,4 +23,5 @@ Rules before adding more migrations:
 - Add indexes for real access patterns.
 - Use `EXPLAIN` for list/search/song detail queries once data volume becomes representative.
 - Do not add destructive migrations without explicit approval.
+- During the current development reset, old normalized section tables are intentionally removed; refill published songs from `lead_sheet` seed/import SQL.
 - User/auth schema is allowed only through the approved OAuth and personal preferences foundation; avoid password storage.

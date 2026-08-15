@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS song_submissions (
   title VARCHAR(255) NOT NULL,
   category VARCHAR(128) NOT NULL DEFAULT 'Общее',
   default_key VARCHAR(16) NULL,
-  lyrics MEDIUMTEXT NOT NULL,
-  chords MEDIUMTEXT NULL,
+  lead_sheet MEDIUMTEXT NOT NULL,
   submitter_name VARCHAR(128) NULL,
   submitter_email VARCHAR(255) NULL,
   note VARCHAR(1000) NULL,
@@ -17,5 +16,6 @@ CREATE TABLE IF NOT EXISTS song_submissions (
   reviewed_at DATETIME NULL,
   PRIMARY KEY (id),
   KEY idx_song_submissions_status_created (status, created_at),
-  KEY idx_song_submissions_title (title)
+  KEY idx_song_submissions_title (title),
+  FULLTEXT KEY ft_song_submissions_lead_sheet (title, lead_sheet)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

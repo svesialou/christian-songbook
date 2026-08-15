@@ -1,4 +1,4 @@
-import { Song, SongPlayback, SongSection } from '../types/song';
+import { Song, SongOrderedSection, SongPlayback, SongSection } from '../types/song';
 
 type CatalogSnapshotResponse = {
   version: string;
@@ -16,8 +16,9 @@ export type SongSubmissionPayload = {
   title: string;
   category: string;
   defaultKey: string;
-  lyrics: string;
-  chords: string;
+  leadSheet?: string;
+  lyrics?: string;
+  chords?: string;
   bpm: number;
   beatsPerLine: number;
   introBeats: number;
@@ -51,6 +52,7 @@ export type AdminSongUpdatePayload = {
   title: string;
   category: string;
   defaultKey: string;
+  leadSheet?: string;
   bpm: number;
   beatsPerLine: number;
   introBeats: number;
@@ -148,6 +150,18 @@ const isSongSection = (value: unknown): value is SongSection => {
 const isOptionalSongSection = (value: unknown): value is SongSection | undefined =>
   value === undefined || isSongSection(value);
 
+const isSongOrderedSection = (value: unknown): value is SongOrderedSection => {
+  const section = value as SongOrderedSection;
+  return (
+    isSongSection(value) &&
+    typeof section.title === 'string' &&
+    (section.sectionType === 'verse' || section.sectionType === 'chorus' || section.sectionType === 'bridge')
+  );
+};
+
+const isOptionalSongOrderedSections = (value: unknown): value is SongOrderedSection[] | undefined =>
+  value === undefined || (Array.isArray(value) && value.every(isSongOrderedSection));
+
 const isOptionalString = (value: unknown): value is string | undefined =>
   value === undefined || typeof value === 'string';
 
@@ -175,7 +189,9 @@ const isSong = (value: unknown): value is Song => {
     Array.isArray(song.verses) &&
     song.verses.every(isSongSection) &&
     isOptionalString(song.defaultKey) &&
+    isOptionalString(song.leadSheet) &&
     isOptionalSongPlayback(song.playback) &&
+    isOptionalSongOrderedSections(song.sections) &&
     isOptionalSongSection(song.chorus) &&
     isOptionalSongSection(song.bridge)
   );

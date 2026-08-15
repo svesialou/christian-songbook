@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS songs (
   title VARCHAR(255) NOT NULL,
   category VARCHAR(128) NOT NULL DEFAULT 'Общее',
   default_key VARCHAR(16) NULL,
+  lead_sheet MEDIUMTEXT NOT NULL,
+  bpm SMALLINT UNSIGNED NULL,
+  beats_per_line TINYINT UNSIGNED NULL,
+  intro_beats TINYINT UNSIGNED NULL,
   status VARCHAR(32) NOT NULL DEFAULT 'published',
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -27,73 +31,8 @@ CREATE TABLE IF NOT EXISTS songs (
   KEY idx_songs_catalog_number (catalog_version_id, number),
   KEY idx_songs_catalog_status_number (catalog_version_id, status, number),
   KEY idx_songs_catalog_status_category_number (catalog_version_id, status, category, number),
-  KEY idx_songs_title (title)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-SET @category_column_exists := (
-  SELECT COUNT(*)
-  FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE TABLE_SCHEMA = DATABASE()
-    AND TABLE_NAME = 'songs'
-    AND COLUMN_NAME = 'category'
-);
-SET @add_category_column := IF(
-  @category_column_exists = 0,
-  'ALTER TABLE songs ADD COLUMN category VARCHAR(128) NOT NULL DEFAULT ''Общее'' AFTER title',
-  'DO 0'
-);
-PREPARE add_category_column_stmt FROM @add_category_column;
-EXECUTE add_category_column_stmt;
-DEALLOCATE PREPARE add_category_column_stmt;
-
-SET @category_index_exists := (
-  SELECT COUNT(*)
-  FROM INFORMATION_SCHEMA.STATISTICS
-  WHERE TABLE_SCHEMA = DATABASE()
-    AND TABLE_NAME = 'songs'
-    AND INDEX_NAME = 'idx_songs_catalog_status_category_number'
-);
-SET @add_category_index := IF(
-  @category_index_exists = 0,
-  'ALTER TABLE songs ADD INDEX idx_songs_catalog_status_category_number (catalog_version_id, status, category, number)',
-  'DO 0'
-);
-PREPARE add_category_index_stmt FROM @add_category_index;
-EXECUTE add_category_index_stmt;
-DEALLOCATE PREPARE add_category_index_stmt;
-
-CREATE TABLE IF NOT EXISTS song_sections (
-  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  song_id VARCHAR(64) NOT NULL,
-  section_type VARCHAR(32) NOT NULL,
-  position INT NOT NULL,
-  title VARCHAR(128) NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_song_sections_song FOREIGN KEY (song_id) REFERENCES songs(id) ON DELETE CASCADE,
-  UNIQUE KEY uq_song_sections_song_position (song_id, position),
-  KEY idx_song_sections_song_type_position (song_id, section_type, position)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS song_lines (
-  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  section_id BIGINT UNSIGNED NOT NULL,
-  position INT NOT NULL,
-  text VARCHAR(500) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_song_lines_section FOREIGN KEY (section_id) REFERENCES song_sections(id) ON DELETE CASCADE,
-  UNIQUE KEY uq_song_lines_section_position (section_id, position),
-  KEY idx_song_lines_text (text(120))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS song_line_chords (
-  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  line_id BIGINT UNSIGNED NOT NULL,
-  position INT NOT NULL,
-  chord VARCHAR(32) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_song_line_chords_line FOREIGN KEY (line_id) REFERENCES song_lines(id) ON DELETE CASCADE,
-  UNIQUE KEY uq_song_line_chords_line_position (line_id, position),
-  KEY idx_song_line_chords_chord (chord)
+  KEY idx_songs_title (title),
+  FULLTEXT KEY ft_songs_lead_sheet (title, lead_sheet)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 START TRANSACTION;
@@ -107,9 +46,6 @@ ON DUPLICATE KEY UPDATE
 
 SET @catalog_version_id := (SELECT id FROM catalog_versions WHERE version = '2026.08.12.1' LIMIT 1);
 UPDATE catalog_versions SET is_current = 0 WHERE id <> @catalog_version_id;
-
-DELETE FROM songs WHERE catalog_version_id = @catalog_version_id AND id IN ('song-1', 'song-2');
-
 
 -- Initial demo songs are intentionally not seeded.
 -- The PWA ships a bundled catalog and MySQL should be populated through approved admin/import seed flows.

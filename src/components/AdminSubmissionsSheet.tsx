@@ -52,8 +52,9 @@ const AdminSubmissionsSheet = ({
       title: submission.title,
       category: submission.category,
       defaultKey: submission.defaultKey,
-      lyrics: submission.lyrics,
-      chords: submission.chords,
+      leadSheet: submission.leadSheet || submission.lyrics || '',
+      lyrics: submission.lyrics || '',
+      chords: submission.chords || '', 
       bpm: submission.bpm ?? DEFAULT_BPM,
       beatsPerLine: submission.beatsPerLine ?? DEFAULT_BEATS_PER_LINE,
       introBeats: submission.introBeats ?? DEFAULT_INTRO_BEATS,
@@ -77,7 +78,7 @@ const AdminSubmissionsSheet = ({
   const saveDraft = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!draft || editingId === null) return;
-    if (!draft.title.trim() || !draft.lyrics.trim()) {
+    if (!draft.title.trim() || !(draft.leadSheet || draft.lyrics || '').trim()) {
       setError('Название и текст обязательны перед сохранением.');
       return;
     }
@@ -208,7 +209,7 @@ const AdminSubmissionsSheet = ({
                     </form>
                   ) : (
                     <>
-                      <pre className="submission-preview">{submission.lyrics.split('\n').slice(0, 5).join('\n')}</pre>
+                      <pre className="submission-preview">{(submission.leadSheet || submission.lyrics || '').split('\n').slice(0, 5).join('\n')}</pre>
                       <div className="submission-card-actions">
                         <button type="button" className="sheet-secondary" onClick={() => startEdit(submission)} disabled={isBusy}>
                           Редактировать

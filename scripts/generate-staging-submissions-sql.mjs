@@ -4,7 +4,7 @@ import { categorizeSong } from './lib/song-category-rules.mjs';
 
 const DEFAULT_INPUT = 'seed/holychords/songs.from-photos.staging.json';
 const DEFAULT_MARKER = 'songbook-staging-2026-08-14';
-const PLACEHOLDER_LYRICS = '[Текст песни нужно добавить вручную перед апрувом]';
+const PLACEHOLDER_LEAD_SHEET = '[Текст песни нужно добавить вручную перед апрувом]';
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -68,11 +68,51 @@ function normalizeSongs(payload) {
       bpm: nullableNumber(song.bpm),
       beatsPerLine: nullableNumber(song.beatsPerLine),
       introBeats: nullableNumber(song.introBeats),
-      lyrics: nullableString(song.lyrics) || PLACEHOLDER_LYRICS,
-      chords: nullableString(song.chords),
+      leadSheet: buildLeadSheet(nullableString(song.lyrics), nullableString(song.chords)) || PLACEHOLDER_LEAD_SHEET,
       note: buildNote(song),
     };
   });
+}
+
+function buildLeadSheet(lyrics, chords) {
+  if (!lyrics) return '';
+  const lyricLines = splitRawLines(lyrics);
+  const chordLines = splitRawLines(chords);
+  const chordState = { index: 0 };
+  const lines = [];
+  for (const lyricLine of lyricLines) {
+    if (isSectionHeading(lyricLine)) {
+      if (lines.length > 0 && lines[lines.length - 1] !== '') lines.push('');
+      lines.push(`[${lyricLine.replace(/:$/, '').trim()}]`);
+      continue;
+    }
+    if (!lyricLine.trim()) {
+      if (lines.length > 0 && lines[lines.length - 1] !== '') lines.push('');
+      continue;
+    }
+    const chordLine = nextChordLine(chordLines, chordState);
+    if (chordLine) lines.push(chordLine);
+    lines.push(lyricLine.trim());
+  }
+  return lines.join('\n').trim();
+}
+
+function nextChordLine(chordLines, state) {
+  while (state.index < chordLines.length) {
+    const line = chordLines[state.index].trim();
+    state.index += 1;
+    if (!line || isSectionHeading(line)) continue;
+    return line;
+  }
+  return '';
+}
+
+function splitRawLines(value) {
+  return typeof value === 'string' ? value.split(/\r?\n/) : [];
+}
+
+function isSectionHeading(value) {
+  return /^(\[)?(куплет|припев|бридж|мост|verse|chorus|refrain|bridge)(\s+\d+)?(:|\])?$/i.test(String(value || '').trim());
 }
 
 function nullableString(value) {
@@ -103,8 +143,8 @@ function buildNote(song) {
     `status=${song.status || 'pending'}`,
     `confidence=${song.confidence || 'unknown'}`,
     ...sources,
-    song.lyrics ? null : 'Fill lyrics from an approved source before approval.',
-    song.chords ? null : 'Fill chords from an approved source before approval.',
+    song.lyrics ? null : 'Fill lead sheet text from an approved source before approval.',
+    song.chords ? null : 'Fill chord lines in the lead sheet before approval.', 
   ].filter(Boolean);
 
   return parts.join(' | ').slice(0, 1000);
@@ -120,8 +160,8 @@ function buildSQL(songs, marker) {
   for (const song of songs) {
     const note = `[staging:${marker}] ${song.note}`;
     lines.push(
-      'INSERT INTO song_submissions (title, category, default_key, lyrics, chords, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)',
-      `SELECT ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.lyrics)}, ${sql(song.chords)}, ${sql(song.bpm)}, ${sql(song.beatsPerLine)}, ${sql(song.introBeats)}, 'Seed import', NULL, ${sql(note)}, 'pending'`,
+      'INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)',
+      `SELECT ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, ${sql(song.bpm)}, ${sql(song.beatsPerLine)}, ${sql(song.introBeats)}, 'Seed import', NULL, ${sql(note)}, 'pending'`,
       'WHERE NOT EXISTS (',
       '  SELECT 1 FROM song_submissions',
       `  WHERE title = ${sql(song.title)}`,

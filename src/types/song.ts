@@ -3,6 +3,11 @@ export type SongSection = {
   chords: string[][];
 };
 
+export type SongOrderedSection = SongSection & {
+  sectionType: 'verse' | 'chorus' | 'bridge';
+  title: string;
+};
+
 export type SongPlayback = {
   bpm: number;
   beatsPerLine: number;
@@ -15,7 +20,9 @@ export type Song = {
   title: string;
   category: string;
   defaultKey?: string;
+  leadSheet?: string;
   playback?: SongPlayback;
+  sections?: SongOrderedSection[];
   verses: SongSection[];
   chorus?: SongSection;
   bridge?: SongSection;

@@ -20,8 +20,7 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [defaultKey, setDefaultKey] = useState('');
-  const [lyrics, setLyrics] = useState('');
-  const [chords, setChords] = useState('');
+  const [leadSheet, setLeadSheet] = useState('');
   const [bpm, setBpm] = useState(DEFAULT_BPM);
   const [beatsPerLine, setBeatsPerLine] = useState(DEFAULT_BEATS_PER_LINE);
   const [introBeats, setIntroBeats] = useState(DEFAULT_INTRO_BEATS);
@@ -33,7 +32,7 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!title.trim() || !lyrics.trim()) {
+    if (!title.trim() || !leadSheet.trim()) {
       setError('Нужно заполнить название и текст песни.');
       return;
     }
@@ -45,8 +44,7 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
         title,
         category,
         defaultKey,
-        lyrics,
-        chords,
+        leadSheet,
         bpm,
         beatsPerLine,
         introBeats,
@@ -102,29 +100,18 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
             </label>
           </div>
 
-	          <label className="submission-field">
-	            <span>Текст</span>
-	            <textarea
-	              value={lyrics}
-	              onChange={(event) => setLyrics(event.target.value)}
-	              placeholder="Каждая строка песни с новой строки"
-	              rows={8}
-	            />
-	          </label>
-	          <p className="submission-help">
-	            Можно разделять песню заголовками: [Куплет 1], [Припев], [Бридж]. Аккорды можно писать с такими же
-	            заголовками или строками в том же порядке.
-	          </p>
-
-	          <label className="submission-field">
-	            <span>Аккорды</span>
+          <label className="submission-field">
+            <span>Текст с аккордами</span>
             <textarea
-              value={chords}
-              onChange={(event) => setChords(event.target.value)}
-              placeholder="Опционально: строки аккордов в том же порядке"
-              rows={5}
+              value={leadSheet}
+              onChange={(event) => setLeadSheet(event.target.value)}
+              placeholder={'[Куплет 1]\nG      D\nБог твой Царь...\n\n[Припев]\nEm     C\nСлава Тебе...'}
+              rows={12}
             />
           </label>
+          <p className="submission-help">
+            Вставляй песню как на Holychords: заголовок секции, строка аккордов над строкой текста. Аккорды можно скрыть в просмотре.
+          </p>
 
           <div className="submission-grid submission-grid-three">
             <label className="submission-field">

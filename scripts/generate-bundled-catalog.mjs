@@ -47,15 +47,18 @@ function parseArgs(items) {
 function toSong(song, index) {
   const number = positiveInteger(song.oldNumber) || index + 1;
   const title = stringValue(song.resolvedTitle) || stringValue(song.observedTitle) || `Песня ${number}`;
-  const sections = buildSongSections(song.lyrics, song.chords);
+  const leadSheet = buildLeadSheet(song.lyrics, song.chords);
+  const sections = buildSongSections(leadSheet);
 
   return {
     id: uniqueSongSlug(title, usedSlugs, `song-${number}`),
     number,
     title,
     category: categorizeSong(song, stringValue(song.category) || 'Разное'),
-    defaultKey: stringValue(song.defaultKey) || undefined,
+    defaultKey: stringValue(song.defaultKey) || inferDefaultKey(leadSheet) || undefined,
+    leadSheet,
     playback: undefined,
+    sections: sections.ordered,
     verses: sections.verses,
     chorus: sections.chorus,
     bridge: sections.bridge,
@@ -71,134 +74,135 @@ function stringValue(value) {
   return typeof value === 'string' && value.trim().length > 0 ? value.trim() : '';
 }
 
-function buildSongSections(lyrics, chords) {
-  const lyricSections = splitLyricSections(lyrics);
-  const chordSections = splitChordSections(chords);
-  const flatChordRows = splitTextLines(chords).map(splitChordLine);
+function buildLeadSheet(lyrics, chords) {
+  const lyricLines = splitRawLines(lyrics);
+  const chordLines = splitRawLines(chords);
+  const chordState = { index: 0 };
+  const lines = [];
 
-  let flatChordIndex = 0;
-  const sections = lyricSections.length > 0 ? lyricSections : [{ type: 'verse', rows: splitTextLines(lyrics) }];
-  const prepared = sections.map((section, index) => {
-    const matchingChordSection = chordSections[index];
-    const sectionChords = matchingChordSection
-      ? matchingChordSection.chords
-      : section.rows.map(() => flatChordRows[flatChordIndex++] || []);
+  for (const rawLyricLine of lyricLines) {
+    const lyricLine = rawLyricLine.trim();
+    const lyricHeading = parseSectionHeading(lyricLine);
+    if (lyricHeading) {
+      if (lines.length > 0 && lines[lines.length - 1] !== '') lines.push('');
+      lines.push(`[${lyricHeading.title}]`);
+      continue;
+    }
+    if (!lyricLine) {
+      if (lines.length > 0 && lines[lines.length - 1] !== '') lines.push('');
+      continue;
+    }
 
-    return {
-      type: section.type,
-      rows: section.rows,
-      chords: section.rows.map((_, rowIndex) => sectionChords[rowIndex] || []),
-    };
-  });
+    const chordLine = nextChordLine(chordLines, chordState);
+    if (chordLine) lines.push(chordLine);
+    lines.push(lyricLine);
+  }
 
+  return lines.join('\n').trim();
+}
+
+function nextChordLine(chordLines, state) {
+  while (state.index < chordLines.length) {
+    const line = chordLines[state.index].trim();
+    state.index += 1;
+    if (!line || parseSectionHeading(line)) continue;
+    return line;
+  }
+  return '';
+}
+
+function buildSongSections(leadSheet) {
+  const ordered = parseLeadSheetSections(leadSheet);
   const verses = [];
   let chorus;
   let bridge;
 
-  for (const section of prepared) {
+  for (const section of ordered) {
     const songSection = { rows: section.rows, chords: section.chords };
-    if (section.type === 'chorus') {
-      chorus = mergeSections(chorus, songSection);
-    } else if (section.type === 'bridge') {
-      bridge = mergeSections(bridge, songSection);
-    } else {
-      verses.push(songSection);
-    }
+    if (section.sectionType === 'chorus' && !chorus) chorus = songSection;
+    else if (section.sectionType === 'bridge' && !bridge) bridge = songSection;
+    else if (section.sectionType === 'verse') verses.push(songSection);
   }
 
   return {
+    ordered,
     verses: verses.length > 0 ? verses : [{ rows: [], chords: [] }],
     chorus,
     bridge,
   };
 }
 
-function splitLyricSections(value) {
+function parseLeadSheetSections(value) {
   const sections = [];
   let current = null;
+  let pendingChords = [];
+
+  const ensureSection = (heading) => {
+    if (heading || !current) {
+      const verseNumber = sections.filter((section) => section.sectionType === 'verse').length + 1;
+      current = {
+        sectionType: heading?.type || 'verse',
+        title: heading?.title || `Куплет ${verseNumber}`,
+        rows: [],
+        chords: [],
+      };
+      sections.push(current);
+    }
+    return current;
+  };
 
   for (const rawLine of splitRawLines(value)) {
     const line = rawLine.trim();
     const heading = parseSectionHeading(line);
     if (heading) {
-      if (current && current.rows.length > 0) sections.push(current);
-      current = { type: heading.type, rows: [] };
+      pendingChords = [];
+      ensureSection(heading);
       continue;
     }
-
     if (!line) {
-      if (current && current.rows.length > 0) {
-        sections.push(current);
-        current = null;
-      }
+      pendingChords = [];
       continue;
     }
-
-    if (!current) current = { type: 'verse', rows: [] };
-    current.rows.push(line);
+    if (isChordLine(line)) {
+      pendingChords = splitChordLine(line);
+      continue;
+    }
+    const section = ensureSection();
+    section.rows.push(line);
+    section.chords.push(pendingChords);
+    pendingChords = [];
   }
 
-  if (current && current.rows.length > 0) sections.push(current);
-  return sections;
-}
-
-function splitChordSections(value) {
-  const sections = [];
-  let current = null;
-  let hasSectionBreak = false;
-
-  for (const rawLine of splitRawLines(value)) {
-    const line = rawLine.trim();
-    const heading = parseSectionHeading(line);
-    if (heading) {
-      if (current && current.chords.length > 0) sections.push(current);
-      current = { type: heading.type, chords: [] };
-      hasSectionBreak = true;
-      continue;
-    }
-
-    if (!line) {
-      if (current && current.chords.length > 0) {
-        sections.push(current);
-        current = null;
-        hasSectionBreak = true;
-      }
-      continue;
-    }
-
-    if (!current) current = { type: 'verse', chords: [] };
-    current.chords.push(splitChordLine(line));
-  }
-
-  if (current && current.chords.length > 0) sections.push(current);
-  return hasSectionBreak ? sections : [];
+  return sections.filter((section) => section.rows.length > 0);
 }
 
 function parseSectionHeading(value) {
-  const title = value.replace(/^[\[\s]+|[\]\s:]+$/g, '').trim().toLowerCase();
-  if (/^(куплет|verse)(\s+\d+)?$/.test(title)) return { type: 'verse' };
-  if (/^(припев|chorus|refrain)(\s+\d+)?$/.test(title)) return { type: 'chorus' };
-  if (/^(бридж|мост|bridge)(\s+\d+)?$/.test(title)) return { type: 'bridge' };
+  const title = String(value || '').replace(/^[\[\s]+|[\]\s:]+$/g, '').trim();
+  const lower = title.toLowerCase();
+  if (/^(куплет|verse)(\s+\d+)?$/.test(lower)) return { type: 'verse', title };
+  if (/^(припев|chorus|refrain)(\s+\d+)?$/.test(lower)) return { type: 'chorus', title };
+  if (/^(бридж|мост|bridge)(\s+\d+)?$/.test(lower)) return { type: 'bridge', title };
   return null;
 }
 
-function mergeSections(current, next) {
-  if (!current) return next;
-  return {
-    rows: [...current.rows, ...next.rows],
-    chords: [...current.chords, ...next.chords],
-  };
-}
-
-function splitTextLines(value) {
-  return splitRawLines(value).map((line) => line.trim()).filter(Boolean);
-}
-
 function splitRawLines(value) {
-  if (typeof value !== 'string') return [];
-  return value.split(/\r?\n/);
+  return typeof value === 'string' ? value.split(/\r?\n/) : [];
+}
+
+function isChordLine(line) {
+  const tokens = line.trim().split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return false;
+  const chordTokens = tokens.filter((token) =>
+    /^[A-Ha-h][#b]?(m|maj|min|sus|dim|aug|add)?[0-9]*(\/[A-Ha-h][#b]?)?$/.test(token.replace(/[|,]/g, '')),
+  );
+  return chordTokens.length > 0 && chordTokens.length / tokens.length >= 0.65;
 }
 
 function splitChordLine(line) {
-  return line.split(/\s+/).map((chord) => chord.trim()).filter(Boolean);
+  return line.split(/\s+/).map((chord) => chord.replace(/[|,]/g, '').trim()).filter(Boolean);
+}
+
+function inferDefaultKey(leadSheet) {
+  const token = leadSheet.split(/\s+/).find((item) => /^[A-Ha-h][#b]?m?$/.test(item.replace(/[|,]/g, '')));
+  return token ? token.replace(/[|,]/g, '') : '';
 }

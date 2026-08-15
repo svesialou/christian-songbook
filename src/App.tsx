@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { CatalogSnapshotMeta, Song, SongCollection, SongPlayback, SongPlaybackPosition, SongSettings } from './types/song';
+import { CatalogSnapshotMeta, Song, SongCollection, SongOrderedSection, SongPlayback, SongPlaybackPosition, SongSettings } from './types/song';
 import {
   defaultSettings,
   hydrateLegacyState,
@@ -305,6 +305,19 @@ const parseCatalogImport = (
       };
     };
 
+    const sections = Array.isArray(song.sections)
+      ? song.sections
+          .map((section): SongOrderedSection | undefined => {
+            const normalizedSection = normalizeSection(section);
+            const rawSection = section as Record<string, unknown>;
+            if (!normalizedSection || typeof rawSection.title !== 'string') return undefined;
+            const sectionType: SongOrderedSection['sectionType'] =
+              rawSection.sectionType === 'chorus' || rawSection.sectionType === 'bridge' ? rawSection.sectionType : 'verse';
+            return { ...normalizedSection, sectionType, title: rawSection.title };
+          })
+          .filter((section): section is SongOrderedSection => Boolean(section))
+      : undefined;
+
     if (verses.length === 0) return null;
     return {
       id,
@@ -312,6 +325,8 @@ const parseCatalogImport = (
       title,
       category: normalizeCategory(song.category),
       defaultKey: typeof song.defaultKey === 'string' && song.defaultKey.trim().length > 0 ? song.defaultKey.trim() : undefined,
+      leadSheet: typeof song.leadSheet === 'string' && song.leadSheet.trim().length > 0 ? song.leadSheet : undefined,
+      sections,
       playback: normalizeSongPlayback(song.playback),
       verses,
       chorus: normalizeSection(song.chorus),
@@ -1250,6 +1265,8 @@ function App() {
         song.title,
         normalizeCategory(song.category),
         String(song.number),
+        ...(song.leadSheet ? [song.leadSheet] : []),
+        ...(song.sections?.flatMap((section) => [...section.rows, ...section.chords.flat()]) ?? []),
         ...song.verses.flatMap((verse) => [...verse.rows, ...verse.chords.flat()]),
         ...(song.chorus ? [...song.chorus.rows, ...song.chorus.chords.flat()] : []),
         ...(song.bridge ? [...song.bridge.rows, ...song.bridge.chords.flat()] : []),

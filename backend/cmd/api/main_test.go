@@ -6,79 +6,58 @@ import (
 	"testing"
 )
 
-func TestParsePublishedSongSectionsFlatInput(t *testing.T) {
-	sections, err := parsePublishedSongSections("Line one\nLine two", "C G\nAm")
+func TestParseLeadSheetSectionsFlatInput(t *testing.T) {
+	sections, err := parseLeadSheetSections("C G\nLine one\nAm\nLine two")
 	if err != nil {
-		t.Fatalf("parsePublishedSongSections returned error: %v", err)
+		t.Fatalf("parseLeadSheetSections returned error: %v", err)
 	}
 	if len(sections) != 1 {
 		t.Fatalf("expected 1 section, got %d", len(sections))
 	}
 
-	section := sections[0]
-	if section.SectionType != "verse" || section.Title != "Куплет 1" {
-		t.Fatalf("unexpected section metadata: %#v", section)
-	}
-	if !reflect.DeepEqual(section.Lines, []string{"Line one", "Line two"}) {
-		t.Fatalf("unexpected lines: %#v", section.Lines)
-	}
-	if !reflect.DeepEqual(section.Chords, [][]string{{"C", "G"}, {"Am"}}) {
-		t.Fatalf("unexpected chords: %#v", section.Chords)
-	}
+	assertParsedSection(t, sections[0], "verse", "Куплет 1", []string{"Line one", "Line two"}, [][]string{{"C", "G"}, {"Am"}})
 }
 
-func TestParsePublishedSongSectionsWithLyricsAndChordHeadings(t *testing.T) {
-	lyrics := `[Куплет 1]
-Line one
-Line two
-[Припев]
-Chorus line
-[Бридж]
-Bridge line`
-	chords := `[Куплет 1]
+func TestParseLeadSheetSectionsKeepsWrittenOrder(t *testing.T) {
+	leadSheet := `[Куплет 1]
 C
-G
+Line one
 [Припев]
 F G
-[Бридж]
-Am`
-
-	sections, err := parsePublishedSongSections(lyrics, chords)
-	if err != nil {
-		t.Fatalf("parsePublishedSongSections returned error: %v", err)
-	}
-	if len(sections) != 3 {
-		t.Fatalf("expected 3 sections, got %d", len(sections))
-	}
-
-	assertParsedSection(t, sections[0], "verse", "Куплет 1", []string{"Line one", "Line two"}, [][]string{{"C"}, {"G"}})
-	assertParsedSection(t, sections[1], "chorus", "Припев", []string{"Chorus line"}, [][]string{{"F", "G"}})
-	assertParsedSection(t, sections[2], "bridge", "Бридж", []string{"Bridge line"}, [][]string{{"Am"}})
-}
-
-func TestParsePublishedSongSectionsDistributesFlatChords(t *testing.T) {
-	lyrics := `Куплет 1
-Line one
+Chorus line
+[Куплет 2]
+Am
 Line two
-Припев
-Chorus line`
+[Припев]
+F G
+Chorus line repeat`
 
-	sections, err := parsePublishedSongSections(lyrics, "C\nG\nF")
+	sections, err := parseLeadSheetSections(leadSheet)
 	if err != nil {
-		t.Fatalf("parsePublishedSongSections returned error: %v", err)
+		t.Fatalf("parseLeadSheetSections returned error: %v", err)
 	}
-	if len(sections) != 2 {
-		t.Fatalf("expected 2 sections, got %d", len(sections))
+	if len(sections) != 4 {
+		t.Fatalf("expected 4 sections, got %d", len(sections))
 	}
 
-	assertParsedSection(t, sections[0], "verse", "Куплет 1", []string{"Line one", "Line two"}, [][]string{{"C"}, {"G"}})
-	assertParsedSection(t, sections[1], "chorus", "Припев", []string{"Chorus line"}, [][]string{{"F"}})
+	assertParsedSection(t, sections[0], "verse", "Куплет 1", []string{"Line one"}, [][]string{{"C"}})
+	assertParsedSection(t, sections[1], "chorus", "Припев", []string{"Chorus line"}, [][]string{{"F", "G"}})
+	assertParsedSection(t, sections[2], "verse", "Куплет 2", []string{"Line two"}, [][]string{{"Am"}})
+	assertParsedSection(t, sections[3], "chorus", "Припев", []string{"Chorus line repeat"}, [][]string{{"F", "G"}})
 }
 
-func TestParsePublishedSongSectionsRejectsHeadingsWithoutLyrics(t *testing.T) {
-	_, err := parsePublishedSongSections("[Припев]", "")
+func TestParseLeadSheetSectionsRejectsHeadingsWithoutLyrics(t *testing.T) {
+	_, err := parseLeadSheetSections("[Припев]")
 	if !errors.Is(err, errValidation) {
 		t.Fatalf("expected validation error, got %v", err)
+	}
+}
+
+func TestMergeLegacyLeadSheet(t *testing.T) {
+	leadSheet := mergeLegacyLeadSheet("[Куплет 1]\nLine one\nLine two", "C G\nAm")
+	expected := "[Куплет 1]\nC G\nLine one\nAm\nLine two"
+	if leadSheet != expected {
+		t.Fatalf("unexpected lead sheet:\n%s", leadSheet)
 	}
 }
 

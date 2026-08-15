@@ -1,5 +1,5 @@
-import { Fragment, type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { Song } from '../types/song';
+import { type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { Song, SongOrderedSection } from '../types/song';
 import {
   findPreferredKeyTransposition,
   normalizeTransposition,
@@ -48,31 +48,35 @@ const playbackLineToPosition = (line: PlaybackLine): SongPlaybackPosition => ({
   updatedAt: new Date().toISOString(),
 });
 
+const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSection[] => {
+  if (song.sections?.length) return song.sections;
+  const sections: SongOrderedSection[] = [];
+  song.verses.forEach((verse, index) => {
+    sections.push({ ...verse, sectionType: 'verse', title: index === 0 ? 'Куплет 1' : `Куплет ${index + 1}` });
+    if (song.chorus && (index === 0 || repeatChorus)) {
+      sections.push({ ...song.chorus, sectionType: 'chorus', title: 'Припев' });
+    }
+  });
+  if (song.bridge) sections.push({ ...song.bridge, sectionType: 'bridge', title: 'Мост' });
+  return sections;
+};
+
+const sectionStableId = (section: SongOrderedSection, index: number) => `${section.sectionType}-${index}`;
+
 const buildPlaybackLines = (song: Song, repeatChorus: boolean): PlaybackLine[] => {
   const lines: PlaybackLine[] = [];
-  const pushSection = (sectionId: string, sectionTitle: string, rows: string[]) => {
-    rows.forEach((_, lineIndex) => {
+  getRenderableSections(song, repeatChorus).forEach((section, sectionIndex) => {
+    const sectionId = sectionStableId(section, sectionIndex);
+    section.rows.forEach((_, lineIndex) => {
       lines.push({
         sequenceIndex: lines.length,
         songId: song.id,
         sectionId,
-        sectionTitle,
+        sectionTitle: section.title,
         lineIndex,
       });
     });
-  };
-
-  song.verses.forEach((verse, index) => {
-    pushSection(`verse-${index}`, index === 0 ? 'Куплет 1' : `Куплет ${index + 1}`, verse.rows);
-    if (song.chorus && (index === 0 || repeatChorus)) {
-      pushSection(index === 0 ? 'chorus' : `repeat-chorus-${index - 1}`, 'Припев', song.chorus.rows);
-    }
   });
-
-  if (song.bridge) {
-    pushSection('bridge', 'Мост', song.bridge.rows);
-  }
-
   return lines;
 };
 
@@ -83,7 +87,7 @@ const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
 };
 
 const inferKeyFromChords = (song: Song): string | undefined => {
-  const sections = [...song.verses, song.chorus, song.bridge].filter(Boolean) as NonNullable<Song['chorus']>[];
+  const sections = getRenderableSections(song, false);
   for (const section of sections) {
     for (const row of section.chords) {
       for (const chord of row) {
@@ -544,52 +548,21 @@ const SongView = ({
       </div>
 
       <div className="song-sections">
-        {song.verses.map((verse, index) => (
-          <Fragment key={`verse-${index}`}>
-            <Section
-              sectionId={`verse-${index}`}
-              songId={song.id}
-              title={index === 0 ? 'Куплет 1' : `Куплет ${index + 1}`}
-              rows={verse.rows}
-              chords={verse.chords}
-              settings={settings}
-              playbackPosition={activePosition}
-              effectiveTransposition={effectiveTransposition}
-              registerLine={registerLine}
-              onPlaybackPositionChange={onPlaybackPositionChange}
-            />
-
-            {song.chorus && (index === 0 || settings.repeatChorus) ? (
-              <Section
-                sectionId={index === 0 ? 'chorus' : `repeat-chorus-${index - 1}`}
-                songId={song.id}
-                title="Припев"
-                rows={song.chorus.rows}
-                chords={song.chorus.chords}
-                settings={settings}
-                playbackPosition={activePosition}
-                effectiveTransposition={effectiveTransposition}
-                registerLine={registerLine}
-                onPlaybackPositionChange={onPlaybackPositionChange}
-              />
-            ) : null}
-          </Fragment>
-        ))}
-
-        {song.bridge ? (
+        {getRenderableSections(song, settings.repeatChorus).map((section, index) => (
           <Section
-            sectionId="bridge"
+            key={`${section.title}-${index}`}
+            sectionId={sectionStableId(section, index)}
             songId={song.id}
-            title="Мост"
-            rows={song.bridge.rows}
-            chords={song.bridge.chords}
+            title={section.title}
+            rows={section.rows}
+            chords={section.chords}
             settings={settings}
             playbackPosition={activePosition}
             effectiveTransposition={effectiveTransposition}
             registerLine={registerLine}
             onPlaybackPositionChange={onPlaybackPositionChange}
           />
-        ) : null}
+        ))}
       </div>
 
       {settings.showPlaybackDock ? (

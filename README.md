@@ -108,7 +108,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - Отдельная админка открывается по `/admin`.
 - Для входа нужен `ADMIN_API_KEY`; frontend проверяет ключ через admin API и не сохраняет его между запусками. В production поле ключа пустое, `123456` подставляется только локально на `localhost`/`127.0.0.1`.
 - `/admin` использует отдельный `manifest-admin.webmanifest`, поэтому админку можно установить как отдельную PWA с `start_url=/admin`.
-- Сейчас реализован admin slice: просмотр и редактирование pending заявок, approve в текущий MySQL-каталог, прямое добавление песни, редактирование опубликованных песен и playback-параметров. Полноценные пользователи, роли и audit log остаются отдельными задачами.
+- Сейчас реализован admin slice: просмотр и редактирование pending заявок, approve в текущий MySQL-каталог, прямое добавление песни, редактирование опубликованных песен, единого `leadSheet` и playback-параметров. Полноценные пользователи, роли и audit log остаются отдельными задачами.
 
 ## PWA / offline
 
@@ -120,6 +120,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - `scripts/send-telegram-screenshots.sh` отправляет screenshot-файлы в Telegram task chat, если настроены `CODEX_TELEGRAM_BOT_TOKEN` и `CODEX_TELEGRAM_CHAT_ID`.
 - API-запросы не кэшируются service worker-ом: каталог сохраняется отдельно в IndexedDB.
 - Bundled offline-каталог генерируется командой `npm run seed:songbook:bundled-catalog` из staging-манифеста; песни получают самодостаточные slug-id из названий, а категории распределяются локальными правилами по темам Holychords.
+- Канонический формат песни — единый `leadSheet`: заголовки секций и строки аккордов над строками текста, как в Holychords. `sections`, `verses`, `chorus` и `bridge` генерируются из него для чтения.
 - Static assets в production-контейнере отдаются Go web runtime с long-cache, а `sw.js` и manifest — без долгого кэша.
 
 ## Запуск как production через Docker

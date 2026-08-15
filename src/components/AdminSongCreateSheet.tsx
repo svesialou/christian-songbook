@@ -49,6 +49,7 @@ const AdminSongCreateSheet = ({ adminKey, categories, onClose, onCreated }: Prop
           title,
           category,
           defaultKey,
+          leadSheet: lyrics,
           lyrics,
           chords,
           bpm,

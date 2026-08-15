@@ -2,7 +2,6 @@ SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 START TRANSACTION;
 
-DELETE FROM songs WHERE id IN ('song-1', 'song-2');
 DELETE FROM catalog_versions WHERE version = '2026.08.12.1';
 
 DROP TABLE IF EXISTS song_line_chords;

@@ -9,7 +9,7 @@ SET @songs_bpm_exists := (
 );
 SET @add_songs_bpm := IF(
   @songs_bpm_exists = 0,
-  'ALTER TABLE songs ADD COLUMN bpm SMALLINT UNSIGNED NULL AFTER default_key',
+  'ALTER TABLE songs ADD COLUMN bpm SMALLINT UNSIGNED NULL AFTER lead_sheet',
   'DO 0'
 );
 PREPARE add_songs_bpm_stmt FROM @add_songs_bpm;
@@ -57,7 +57,7 @@ SET @submissions_bpm_exists := (
 );
 SET @add_submissions_bpm := IF(
   @submissions_bpm_exists = 0,
-  'ALTER TABLE song_submissions ADD COLUMN bpm SMALLINT UNSIGNED NULL AFTER chords',
+  'ALTER TABLE song_submissions ADD COLUMN bpm SMALLINT UNSIGNED NULL AFTER lead_sheet',
   'DO 0'
 );
 PREPARE add_submissions_bpm_stmt FROM @add_submissions_bpm;

@@ -247,21 +247,8 @@ function buildSeedSQL(songs, version) {
 
   for (const song of songs) {
     lines.push(
-      `INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, status) VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, NULL, 'published');`,
+      `INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, status) VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, NULL, ${sql(songLeadSheet(song))}, 'published');`,
     );
-
-    let position = 1;
-    for (const verse of song.verses) {
-      appendSectionSQL(lines, song.id, 'verse', position, `Куплет ${position}`, verse);
-      position += 1;
-    }
-    if (song.chorus) {
-      appendSectionSQL(lines, song.id, 'chorus', position, 'Припев', song.chorus);
-      position += 1;
-    }
-    if (song.bridge) {
-      appendSectionSQL(lines, song.id, 'bridge', position, 'Мост', song.bridge);
-    }
     lines.push('');
   }
 
@@ -269,18 +256,22 @@ function buildSeedSQL(songs, version) {
   return lines.join('\n');
 }
 
-function appendSectionSQL(lines, songId, type, position, title, section) {
-  lines.push(`INSERT INTO song_sections (song_id, section_type, position, title) VALUES (${sql(songId)}, ${sql(type)}, ${position}, ${sql(title)});`);
-  lines.push('SET @section_id := LAST_INSERT_ID();');
+function songLeadSheet(song) {
+  const parts = [];
+  song.verses.forEach((section, index) => parts.push(sectionLeadSheet(`Куплет ${index + 1}`, section)));
+  if (song.chorus) parts.push(sectionLeadSheet('Припев', song.chorus));
+  if (song.bridge) parts.push(sectionLeadSheet('Мост', song.bridge));
+  return parts.filter(Boolean).join('\n\n');
+}
 
-  section.rows.forEach((row, rowIndex) => {
-    lines.push(`INSERT INTO song_lines (section_id, position, text) VALUES (@section_id, ${rowIndex + 1}, ${sql(row)});`);
-    lines.push('SET @line_id := LAST_INSERT_ID();');
-    const chords = section.chords[rowIndex] || [];
-    chords.forEach((chord, chordIndex) => {
-      lines.push(`INSERT INTO song_line_chords (line_id, position, chord) VALUES (@line_id, ${chordIndex + 1}, ${sql(chord)});`);
-    });
+function sectionLeadSheet(title, section) {
+  const lines = [`[${title}]`];
+  section.rows.forEach((row, index) => {
+    const chordLine = (section.chords[index] || []).join(' ').trim();
+    if (chordLine) lines.push(chordLine);
+    lines.push(row);
   });
+  return lines.join('\n');
 }
 
 function sql(value) {

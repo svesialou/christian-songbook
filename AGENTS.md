@@ -20,12 +20,13 @@
 - Do not expose admin import/export/editing controls in the regular user UI.
 - Do not add public API routes, admin mutation behavior, auth/security changes, schema changes, migrations, or production deployment changes without explicit user confirmation.
 - Keep song IDs/slugs self-contained and derived from song titles; do not encode external source names in public routes or bundled catalog IDs.
+- Store canonical song content as one `lead_sheet` text block with section headings and chord lines above lyric lines. Treat section arrays as derived render data, not as the editing source of truth.
 - Keep transposition, BPM, playback, and view settings scoped to the current song when the UI behavior is song-specific.
 - Keep live collections separate from normal user collections unless the user explicitly asks to merge those concepts.
 
 ## UI style
 - Style direction: calm, readable, service-ready, mobile-first.
-- Lyrics and chords are the highest priority visual layer.
+- Lyrics and correctly positioned chords are the highest priority visual layer.
 - Use semantic CSS variables/tokens for colors, spacing, radius, elevation, typography, and states.
 - Do not introduce one-off raw colors in components.
 - Keep the main catalog focused on search, categories, recent songs, collections, and song reading.

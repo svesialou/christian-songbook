@@ -8,6 +8,7 @@ Current scope:
 - Initial catalog schema and seed data via `migrations/001_catalog.up.sql`.
 - Admin-key protected minimal catalog management endpoints.
 - Optional song playback fields: `bpm`, `beatsPerLine`, `introBeats`.
+- Canonical song content field: `lead_sheet`; ordered display sections are derived from it for API responses.
 
 Endpoints:
 - `GET /healthz` - service liveness.
@@ -45,6 +46,7 @@ Rules:
 - Admin catalog mutation is protected by `X-Admin-Key`; keep a non-default `ADMIN_API_KEY` in production and replace this with a stronger auth/security design before broader team access.
 - Frontend offline reading must not depend on backend availability.
 - Playback fields are optional; clients keep local defaults when a song has no stored playback settings.
+- Song text and chords should be edited as one lead sheet block; do not add new canonical `lyrics` + `chords` split flows.
 
 User account foundation:
 - Users authenticate through external OAuth providers only; the app does not store passwords.
