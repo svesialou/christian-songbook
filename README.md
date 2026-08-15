@@ -109,6 +109,8 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - Для входа нужен `ADMIN_API_KEY`; frontend проверяет ключ через admin API и не сохраняет его между запусками. В production поле ключа пустое, `123456` подставляется только локально на `localhost`/`127.0.0.1`.
 - `/admin` использует отдельный `manifest-admin.webmanifest`, поэтому админку можно установить как отдельную PWA с `start_url=/admin`.
 - Сейчас реализован admin slice: просмотр и редактирование pending заявок, approve в текущий MySQL-каталог, прямое добавление песни, редактирование опубликованных песен, единого `leadSheet` и playback-параметров. Полноценные пользователи, роли и audit log остаются отдельными задачами.
+- Ноты можно указать ссылкой или загрузить из админки как файл. Backend принимает PDF/JPG/PNG/WebP/GIF до 12 MB через admin-only endpoint, сохраняет файл в `SHEET_MUSIC_UPLOAD_DIR` и записывает полученный URL в существующее поле `sheet_music_url`.
+- Для production у `SHEET_MUSIC_UPLOAD_DIR` должен быть persistent volume; иначе загруженные файлы нот могут потеряться при пересоздании контейнера.
 
 ## PWA / offline
 

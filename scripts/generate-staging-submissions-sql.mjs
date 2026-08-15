@@ -113,7 +113,7 @@ function splitRawLines(value) {
 }
 
 function isSectionHeading(value) {
-  return /^(\[)?(куплет|припев|бридж|мост|verse|chorus|refrain|bridge)(\s+\d+)?(:|\])?$/i.test(String(value || '').trim());
+  return /^(\[)?(вступление|интро|куплет|запев|пред[\s-]*припев|предприпев|припев|бридж|мост|проигрыш|инструментал|концовка|окончание|аутро|тэг|тег|intro|verse|pre[\s-]*chorus|prechorus|chorus|refrain|bridge|instrumental|interlude|outro|ending|tag)(\s+\d+)?(:|\])?$/i.test(String(value || '').trim());
 }
 
 function nullableString(value) {

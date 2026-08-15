@@ -188,9 +188,14 @@ function parseLeadSheetSections(value) {
 function parseSectionHeading(value) {
   const title = String(value || '').replace(/^[\[\s]+|[\]\s:]+$/g, '').trim();
   const lower = title.toLowerCase();
-  if (/^(куплет|verse)(\s+\d+)?$/.test(lower)) return { type: 'verse', title };
+  if (/^(вступление|интро|intro)(\s+\d+)?$/.test(lower)) return { type: 'intro', title };
+  if (/^(куплет|запев|verse)(\s+\d+)?$/.test(lower)) return { type: 'verse', title };
+  if (/^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)(\s+\d+)?$/.test(lower)) return { type: 'prechorus', title };
   if (/^(припев|chorus|refrain)(\s+\d+)?$/.test(lower)) return { type: 'chorus', title };
   if (/^(бридж|мост|bridge)(\s+\d+)?$/.test(lower)) return { type: 'bridge', title };
+  if (/^(проигрыш|инструментал|instrumental|interlude)(\s+\d+)?$/.test(lower)) return { type: 'instrumental', title };
+  if (/^(концовка|окончание|аутро|outro|ending)(\s+\d+)?$/.test(lower)) return { type: 'outro', title };
+  if (/^(тэг|тег|tag)(\s+\d+)?$/.test(lower)) return { type: 'tag', title };
   return null;
 }
 

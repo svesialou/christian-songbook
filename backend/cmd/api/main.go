@@ -16,6 +16,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -39,6 +40,7 @@ type config struct {
 	OAuthRedirectBaseURL    string
 	GoogleOAuthClientID     string
 	GoogleOAuthClientSecret string
+	SheetMusicUploadDir     string
 }
 
 type healthResponse struct {
@@ -182,6 +184,10 @@ type songSubmissionListItem struct {
 type approveSubmissionResponse struct {
 	SongID         string `json:"songId"`
 	CatalogVersion string `json:"catalogVersion"`
+}
+
+type sheetMusicUploadResponse struct {
+	URL string `json:"url"`
 }
 
 type meResponse struct {
@@ -627,6 +633,24 @@ func main() {
 
 		writeJSON(w, http.StatusOK, result)
 	})
+	mux.HandleFunc("POST /api/admin/uploads/sheet-music", func(w http.ResponseWriter, r *http.Request) {
+		if !requireAdmin(w, r, cfg) {
+			return
+		}
+
+		result, err := saveSheetMusicUpload(w, r, cfg)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("upload sheet music failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to upload sheet music")
+			return
+		}
+
+		writeJSON(w, http.StatusCreated, result)
+	})
 	mux.HandleFunc("POST /api/admin/song-submissions/{id}/approve", func(w http.ResponseWriter, r *http.Request) {
 		if !requireAdmin(w, r, cfg) {
 			return
@@ -689,6 +713,7 @@ func main() {
 
 		writeJSON(w, http.StatusOK, result)
 	})
+	mux.Handle("GET /uploads/sheet-music/", http.StripPrefix("/uploads/sheet-music/", http.FileServer(http.Dir(cfg.SheetMusicUploadDir))))
 
 	server := &http.Server{
 		Addr:              cfg.HTTPAddr,
@@ -733,6 +758,7 @@ func loadConfig() config {
 		OAuthRedirectBaseURL:    strings.TrimRight(getenv("OAUTH_REDIRECT_BASE_URL", "http://localhost:8083"), "/"),
 		GoogleOAuthClientID:     getenv("GOOGLE_OAUTH_CLIENT_ID", ""),
 		GoogleOAuthClientSecret: getenv("GOOGLE_OAUTH_CLIENT_SECRET", ""),
+		SheetMusicUploadDir:     getenv("SHEET_MUSIC_UPLOAD_DIR", "uploads/sheet-music"),
 	}
 }
 
@@ -2352,12 +2378,22 @@ func parseSectionHeading(value string) (string, string, bool) {
 
 	lower := strings.ToLower(title)
 	switch {
-	case isSectionHeading(lower, "куплет") || isSectionHeading(lower, "verse"):
+	case isSectionHeading(lower, "вступление") || isSectionHeading(lower, "интро") || isSectionHeading(lower, "intro"):
+		return "intro", title, true
+	case isSectionHeading(lower, "куплет") || isSectionHeading(lower, "запев") || isSectionHeading(lower, "verse"):
 		return "verse", title, true
+	case isSectionHeading(lower, "предприпев") || isSectionHeading(lower, "пред припев") || isSectionHeading(lower, "пред-припев") || isSectionHeading(lower, "prechorus") || isSectionHeading(lower, "pre chorus") || isSectionHeading(lower, "pre-chorus"):
+		return "prechorus", title, true
 	case isSectionHeading(lower, "припев") || isSectionHeading(lower, "chorus") || isSectionHeading(lower, "refrain"):
 		return "chorus", title, true
 	case isSectionHeading(lower, "бридж") || isSectionHeading(lower, "мост") || isSectionHeading(lower, "bridge"):
 		return "bridge", title, true
+	case isSectionHeading(lower, "проигрыш") || isSectionHeading(lower, "инструментал") || isSectionHeading(lower, "instrumental") || isSectionHeading(lower, "interlude"):
+		return "instrumental", title, true
+	case isSectionHeading(lower, "концовка") || isSectionHeading(lower, "окончание") || isSectionHeading(lower, "аутро") || isSectionHeading(lower, "outro") || isSectionHeading(lower, "ending"):
+		return "outro", title, true
+	case isSectionHeading(lower, "тэг") || isSectionHeading(lower, "тег") || isSectionHeading(lower, "tag"):
+		return "tag", title, true
 	default:
 		return "", "", false
 	}
@@ -2510,6 +2546,97 @@ func normalizeOptionalHTTPURL(value string, field string) (string, error) {
 		return "", validationError(field + " must use http or https")
 	}
 	return trimmed, nil
+}
+
+const maxSheetMusicUploadBytes = 12 << 20
+
+func saveSheetMusicUpload(w http.ResponseWriter, r *http.Request, cfg config) (sheetMusicUploadResponse, error) {
+	r.Body = http.MaxBytesReader(w, r.Body, maxSheetMusicUploadBytes)
+	if err := r.ParseMultipartForm(maxSheetMusicUploadBytes); err != nil {
+		return sheetMusicUploadResponse{}, validationError("sheet music file must be a multipart upload up to 12 MB")
+	}
+
+	file, header, err := r.FormFile("file")
+	if err != nil {
+		return sheetMusicUploadResponse{}, validationError("sheet music file is required")
+	}
+	defer file.Close()
+
+	buffer := make([]byte, 512)
+	n, readErr := io.ReadFull(file, buffer)
+	if readErr != nil && !errors.Is(readErr, io.ErrUnexpectedEOF) && !errors.Is(readErr, io.EOF) {
+		return sheetMusicUploadResponse{}, readErr
+	}
+	buffer = buffer[:n]
+
+	contentType := strings.ToLower(strings.TrimSpace(header.Header.Get("Content-Type")))
+	if contentType == "" || contentType == "application/octet-stream" {
+		contentType = http.DetectContentType(buffer)
+	}
+	extension, ok := sheetMusicExtension(contentType)
+	if !ok {
+		return sheetMusicUploadResponse{}, validationError("sheet music file must be PDF, JPG, PNG, WebP, or GIF")
+	}
+
+	if err := os.MkdirAll(cfg.SheetMusicUploadDir, 0o755); err != nil {
+		return sheetMusicUploadResponse{}, err
+	}
+
+	token, err := randomURLToken(16)
+	if err != nil {
+		return sheetMusicUploadResponse{}, err
+	}
+	fileName := fmt.Sprintf("sheet-music-%d-%s%s", time.Now().UTC().Unix(), token, extension)
+	filePath := filepath.Join(cfg.SheetMusicUploadDir, fileName)
+	out, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
+	if err != nil {
+		return sheetMusicUploadResponse{}, err
+	}
+	defer out.Close()
+
+	if len(buffer) > 0 {
+		if _, err := out.Write(buffer); err != nil {
+			return sheetMusicUploadResponse{}, err
+		}
+	}
+	if _, err := io.Copy(out, file); err != nil {
+		return sheetMusicUploadResponse{}, err
+	}
+
+	return sheetMusicUploadResponse{URL: uploadPublicURL(r, "/uploads/sheet-music/"+url.PathEscape(fileName))}, nil
+}
+
+func sheetMusicExtension(contentType string) (string, bool) {
+	switch strings.ToLower(strings.TrimSpace(contentType)) {
+	case "application/pdf":
+		return ".pdf", true
+	case "image/jpeg":
+		return ".jpg", true
+	case "image/png":
+		return ".png", true
+	case "image/webp":
+		return ".webp", true
+	case "image/gif":
+		return ".gif", true
+	default:
+		return "", false
+	}
+}
+
+func uploadPublicURL(r *http.Request, path string) string {
+	proto := strings.TrimSpace(r.Header.Get("X-Forwarded-Proto"))
+	if proto == "" {
+		if r.TLS != nil {
+			proto = "https"
+		} else {
+			proto = "http"
+		}
+	}
+	host := strings.TrimSpace(r.Header.Get("X-Forwarded-Host"))
+	if host == "" {
+		host = r.Host
+	}
+	return proto + "://" + host + path
 }
 
 func optionalIntParam(value *int) any {

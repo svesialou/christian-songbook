@@ -44,6 +44,10 @@ export type ApproveSongSubmissionResult = {
   catalogVersion: string;
 };
 
+export type SheetMusicUploadResult = {
+  url: string;
+};
+
 export type CreateAdminSongResult = {
   songId: string;
   catalogVersion: string;
@@ -62,7 +66,7 @@ export type AdminSongUpdatePayload = {
 };
 
 export type AdminSongSectionUpdatePayload = {
-  sectionType: 'verse' | 'chorus' | 'bridge';
+  sectionType: 'intro' | 'verse' | 'prechorus' | 'chorus' | 'bridge' | 'instrumental' | 'outro' | 'tag';
   title: string;
   lyrics: string;
   chords: string;
@@ -91,6 +95,7 @@ export type CurrentUserState = {
 };
 
 const API_TIMEOUT_MS = 3500;
+const UPLOAD_TIMEOUT_MS = 30000;
 
 const resolveApiBaseUrl = (): string => {
   const configured = import.meta.env.VITE_API_BASE_URL?.trim();
@@ -154,10 +159,11 @@ const isOptionalSongSection = (value: unknown): value is SongSection | undefined
 
 const isSongOrderedSection = (value: unknown): value is SongOrderedSection => {
   const section = value as SongOrderedSection;
+  const knownSectionTypes = ['intro', 'verse', 'prechorus', 'chorus', 'bridge', 'instrumental', 'outro', 'tag'];
   return (
     isSongSection(value) &&
     typeof section.title === 'string' &&
-    (section.sectionType === 'verse' || section.sectionType === 'chorus' || section.sectionType === 'bridge')
+    knownSectionTypes.includes(section.sectionType)
   );
 };
 
@@ -331,3 +337,31 @@ export const updateAdminSong = (
     },
     body: JSON.stringify(payload),
   });
+
+export const uploadSheetMusicFile = async (file: File, adminKey: string): Promise<SheetMusicUploadResult> => {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), UPLOAD_TIMEOUT_MS);
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const response = await fetch(apiUrl('/api/admin/uploads/sheet-music'), {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'X-Admin-Key': adminKey.trim(),
+      },
+      body: formData,
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      throw new Error(payload?.error || `API request failed: ${response.status}`);
+    }
+
+    return (await response.json()) as SheetMusicUploadResult;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+};

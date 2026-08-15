@@ -4,7 +4,7 @@ export type SongSection = {
 };
 
 export type SongOrderedSection = SongSection & {
-  sectionType: 'verse' | 'chorus' | 'bridge';
+  sectionType: 'intro' | 'verse' | 'prechorus' | 'chorus' | 'bridge' | 'instrumental' | 'outro' | 'tag';
   title: string;
 };
 

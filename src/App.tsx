@@ -77,6 +77,16 @@ const MIN_BEATS_PER_LINE = 1;
 const MAX_BEATS_PER_LINE = 16;
 const MAX_INTRO_BEATS = 64;
 const DEFAULT_ADMIN_API_KEY = '123456';
+const KNOWN_SECTION_TYPES: SongOrderedSection['sectionType'][] = [
+  'intro',
+  'verse',
+  'prechorus',
+  'chorus',
+  'bridge',
+  'instrumental',
+  'outro',
+  'tag',
+];
 
 const shouldPrefillDefaultAdminKey = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -312,7 +322,10 @@ const parseCatalogImport = (
             const rawSection = section as Record<string, unknown>;
             if (!normalizedSection || typeof rawSection.title !== 'string') return undefined;
             const sectionType: SongOrderedSection['sectionType'] =
-              rawSection.sectionType === 'chorus' || rawSection.sectionType === 'bridge' ? rawSection.sectionType : 'verse';
+              typeof rawSection.sectionType === 'string' &&
+              KNOWN_SECTION_TYPES.includes(rawSection.sectionType as SongOrderedSection['sectionType'])
+                ? (rawSection.sectionType as SongOrderedSection['sectionType'])
+                : 'verse';
             return { ...normalizedSection, sectionType, title: rawSection.title };
           })
           .filter((section): section is SongOrderedSection => Boolean(section))
@@ -696,6 +709,8 @@ function App() {
                 title: normalizedPayload.title,
                 category: normalizedPayload.category,
                 defaultKey: normalizedPayload.defaultKey || undefined,
+                leadSheet: normalizedPayload.leadSheet || undefined,
+                sheetMusicUrl: normalizedPayload.sheetMusicUrl || undefined,
                 playback: {
                   bpm: normalizedPayload.bpm,
                   beatsPerLine: normalizedPayload.beatsPerLine,

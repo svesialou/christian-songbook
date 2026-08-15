@@ -27,7 +27,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("invalid API_UPSTREAM: %v", err)
 	}
-	mux.Handle("/api/", httputil.NewSingleHostReverseProxy(proxyURL))
+	apiProxy := httputil.NewSingleHostReverseProxy(proxyURL)
+	mux.Handle("/api/", apiProxy)
+	mux.Handle("/uploads/", apiProxy)
 
 	mux.Handle("/", spaHandler{
 		staticDir: staticDir,

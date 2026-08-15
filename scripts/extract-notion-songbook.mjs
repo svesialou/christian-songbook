@@ -252,7 +252,7 @@ function extractChordTextLines(lines) {
 }
 
 function isSectionHeading(line) {
-  return /^(?:куплет|припев|бридж|мост|verse|chorus|bridge)(?:\\s+\\d+)?\\s*:?$/i.test(line.trim());
+  return /^(?:вступление|интро|куплет|запев|пред[\s-]*припев|предприпев|припев|бридж|мост|проигрыш|инструментал|концовка|окончание|аутро|тэг|тег|intro|verse|pre[\s-]*chorus|prechorus|chorus|refrain|bridge|instrumental|interlude|outro|ending|tag)(?:\s+\d+)?\s*:?$/i.test(line.trim());
 }
 
 function isChordLine(line) {

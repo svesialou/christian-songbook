@@ -9,6 +9,7 @@ dist/
 *.log
 coverage/
 tmp/
+uploads/
 
 # Generated seed artifacts
 seed/holychords/submissions.generated.sql
