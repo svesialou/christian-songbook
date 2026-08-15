@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode, useMemo, useState } from 'react';
+import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AdminSongSectionUpdatePayload,
   AdminSongUpdatePayload,
@@ -6,6 +6,7 @@ import {
   SongSubmissionPayload,
   createAdminSong,
 } from '../lib/catalogApi';
+import { parseSongKey } from '../lib/chords';
 import { Song, SongSection } from '../types/song';
 
 export type AdminRoute =
@@ -42,6 +43,7 @@ type SongDraft = AdminSongUpdatePayload;
 type SubmissionDraft = SongSubmissionPayload;
 type MetaKey = 'title' | 'category' | 'defaultKey' | 'bpm' | 'beatsPerLine' | 'introBeats';
 type MetaDraft = Pick<SongDraft, MetaKey>;
+type SongListFilter = 'all' | 'missing-chords';
 
 const DEFAULT_CATEGORY = 'Общее';
 const DEFAULT_BPM = 72;
@@ -66,6 +68,24 @@ const sectionText = (section: SongSection) => section.rows.join('\n');
 
 const sectionChords = (section: SongSection) =>
   section.chords.map((line) => line.join(' ')).join('\n');
+
+const inferKeyFromSections = (sections: AdminSongSectionUpdatePayload[]): string => {
+  for (const section of sections) {
+    for (const line of section.chords.split('\n')) {
+      for (const token of line.trim().split(/\s+/)) {
+        const key = parseSongKey(token.replace(/[|,]/g, ''));
+        if (key) return key.label;
+      }
+    }
+  }
+
+  return '';
+};
+
+const songHasChords = (song: Song): boolean => {
+  const sections = [...song.verses, song.chorus, song.bridge].filter(Boolean) as SongSection[];
+  return sections.some((section) => section.chords.some((line) => line.some((chord) => chord.trim().length > 0)));
+};
 
 const buildSongSections = (song: Song): AdminSongSectionUpdatePayload[] => [
   ...song.verses.map((section, index) => ({
@@ -96,15 +116,18 @@ const buildSongSections = (song: Song): AdminSongSectionUpdatePayload[] => [
     : []),
 ];
 
-const buildSongDraft = (song: Song): SongDraft => ({
-  title: song.title,
-  category: song.category || DEFAULT_CATEGORY,
-  defaultKey: song.defaultKey ?? '',
-  bpm: song.playback?.bpm ?? DEFAULT_BPM,
-  beatsPerLine: song.playback?.beatsPerLine ?? DEFAULT_BEATS_PER_LINE,
-  introBeats: song.playback?.introBeats ?? DEFAULT_INTRO_BEATS,
-  sections: buildSongSections(song),
-});
+const buildSongDraft = (song: Song): SongDraft => {
+  const sections = buildSongSections(song);
+  return {
+    title: song.title,
+    category: song.category || DEFAULT_CATEGORY,
+    defaultKey: song.defaultKey || inferKeyFromSections(sections),
+    bpm: song.playback?.bpm ?? DEFAULT_BPM,
+    beatsPerLine: song.playback?.beatsPerLine ?? DEFAULT_BEATS_PER_LINE,
+    introBeats: song.playback?.introBeats ?? DEFAULT_INTRO_BEATS,
+    sections,
+  };
+};
 
 const sectionLabel = (section: AdminSongSectionUpdatePayload) => {
   if (section.title.trim()) return section.title.trim();
@@ -185,6 +208,19 @@ const sectionsToFlatPayload = (sections: AdminSongSectionUpdatePayload[]) => ({
   chords: sections.map((section) => `[${sectionLabel(section)}]\n${section.chords}`).join('\n\n'),
 });
 
+const sectionsToLeadSheet = (sections: AdminSongSectionUpdatePayload[]) =>
+  sections
+    .map((section) => {
+      const lyricLines = section.lyrics.split('\n');
+      const chordLines = section.chords.split('\n');
+      const rows = lyricLines.flatMap((line, index) => {
+        const chordLine = chordLines[index]?.trim();
+        return chordLine ? [chordLine, line] : [line];
+      });
+      return [`[${sectionLabel(section)}]`, ...rows].join('\n');
+    })
+    .join('\n\n');
+
 const formatSubmissionDate = (value: string) => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return 'дата неизвестна';
@@ -259,6 +295,57 @@ const QuickPaste = ({ onApply }: { onApply: (sections: AdminSongSectionUpdatePay
         </button>
         <button type="button" className="sheet-secondary" onClick={() => setText('')}>
           Очистить вставку
+        </button>
+      </div>
+    </FieldBlock>
+  );
+};
+
+const LeadSheetEditor = ({
+  sections,
+  disabled,
+  onApply,
+}: {
+  sections: AdminSongSectionUpdatePayload[];
+  disabled: boolean;
+  onApply: (sections: AdminSongSectionUpdatePayload[]) => void;
+}) => {
+  const [text, setText] = useState(() => sectionsToLeadSheet(sections));
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setText(sectionsToLeadSheet(sections));
+  }, [sections]);
+
+  const apply = () => {
+    const parsed = parseLeadSheet(text);
+    if (parsed.length === 0) {
+      setError('Не удалось разобрать блок. Проверьте заголовки секций и строки текста.');
+      return;
+    }
+    setError(null);
+    onApply(parsed);
+  };
+
+  return (
+    <FieldBlock
+      title="Единый блок Holychords"
+      hint="Основной рабочий формат: заголовки секций, строка аккордов над строкой текста. После применения ниже обновятся секции."
+    >
+      {error ? <div className="error">{error}</div> : null}
+      <label className="submission-field">
+        <span>Полный текст с аккордами</span>
+        <textarea
+          className="admin-large-textarea"
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          disabled={disabled}
+          rows={16}
+        />
+      </label>
+      <div className="admin-inline-actions">
+        <button type="button" className="sheet-primary" onClick={apply} disabled={disabled}>
+          Применить к секциям
         </button>
       </div>
     </FieldBlock>
@@ -411,12 +498,12 @@ const SongMetaFields = ({
   </>
 );
 
-const AdminSongPage = ({ song, categories, savingId, onSave, onNavigate }: {
+const AdminSongPage = ({ song, categories, savingId, onSave, onBackToSongs }: {
   song: Song | undefined;
   categories: string[];
   savingId: string | null;
   onSave: Props['onSaveSong'];
-  onNavigate: Props['onNavigate'];
+  onBackToSongs: () => void;
 }) => {
   const [draft, setDraft] = useState<SongDraft | null>(() => (song ? buildSongDraft(song) : null));
   const [error, setError] = useState<string | null>(null);
@@ -425,7 +512,7 @@ const AdminSongPage = ({ song, categories, savingId, onSave, onNavigate }: {
   if (!song || !draft) {
     return (
       <section className="admin-page">
-        <button type="button" className="sheet-secondary admin-back" onClick={() => onNavigate({ page: 'songs' })}>
+        <button type="button" className="sheet-secondary admin-back" onClick={onBackToSongs}>
           Назад к песням
         </button>
         <p className="empty">Песня не найдена.</p>
@@ -435,6 +522,25 @@ const AdminSongPage = ({ song, categories, savingId, onSave, onNavigate }: {
 
   const updateDraft = (key: keyof SongDraft, value: string | number) => {
     setDraft((current) => (current ? { ...current, [key]: value } : current));
+  };
+  const updateSections = (sections: AdminSongSectionUpdatePayload[]) => {
+    setDraft((current) => {
+      if (!current) return current;
+      const inferredKey = inferKeyFromSections(sections);
+      return {
+        ...current,
+        sections,
+        defaultKey: current.defaultKey || inferredKey,
+      };
+    });
+  };
+  const inferDefaultKey = () => {
+    const inferredKey = inferKeyFromSections(draft.sections ?? []);
+    if (inferredKey) {
+      updateDraft('defaultKey', inferredKey);
+      return;
+    }
+    setError('Не удалось определить тональность: в секциях нет распознанных аккордов.');
   };
 
   const save = (event: FormEvent<HTMLFormElement>) => {
@@ -453,7 +559,7 @@ const AdminSongPage = ({ song, categories, savingId, onSave, onNavigate }: {
 
   return (
     <section className="admin-page">
-      <button type="button" className="sheet-secondary admin-back" onClick={() => onNavigate({ page: 'songs' })}>
+      <button type="button" className="sheet-secondary admin-back" onClick={onBackToSongs}>
         Назад к песням
       </button>
       <div className="admin-page-header">
@@ -463,11 +569,16 @@ const AdminSongPage = ({ song, categories, savingId, onSave, onNavigate }: {
       {error ? <div className="error">{error}</div> : null}
       <form className="admin-editor-form" onSubmit={save}>
         <SongMetaFields draft={draft} categories={categories} disabled={isSaving} onChange={updateDraft} />
-        <QuickPaste onApply={(sections) => setDraft((current) => (current ? { ...current, sections } : current))} />
+        <div className="admin-inline-actions">
+          <button type="button" className="sheet-secondary" onClick={inferDefaultKey} disabled={isSaving}>
+            Определить тональность по аккордам
+          </button>
+        </div>
+        <LeadSheetEditor sections={draft.sections ?? []} disabled={isSaving} onApply={updateSections} />
         <SongSectionsEditor
           sections={draft.sections ?? []}
           disabled={isSaving}
-          onChange={(sections) => setDraft((current) => (current ? { ...current, sections } : current))}
+          onChange={updateSections}
         />
         <div className="admin-sticky-actions">
           <button type="submit" className="sheet-primary" disabled={isSaving}>
@@ -725,17 +836,31 @@ const AdminPanel = ({
   onLogout,
 }: Props) => {
   const [query, setQuery] = useState('');
+  const [songListFilter, setSongListFilter] = useState<SongListFilter>('all');
+  const songListScrollY = useRef(0);
   const categoryOptions = useMemo(() => {
     const unique = new Set([DEFAULT_CATEGORY, ...categories.filter((category) => category.trim().length > 0)]);
     return Array.from(unique);
   }, [categories]);
   const filteredSongs = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    if (!normalized) return songs;
-    return songs.filter((song) =>
-      [song.title, song.category, song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized),
-    );
-  }, [query, songs]);
+    return songs.filter((song) => {
+      if (songListFilter === 'missing-chords' && songHasChords(song)) return false;
+      if (!normalized) return true;
+      return [song.title, song.category, song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized);
+    });
+  }, [query, songListFilter, songs]);
+  const missingChordCount = useMemo(() => songs.filter((song) => !songHasChords(song)).length, [songs]);
+  const openSongEditor = (songId: string) => {
+    songListScrollY.current = typeof window === 'undefined' ? 0 : window.scrollY;
+    onNavigate({ page: 'song', songId });
+  };
+  const backToSongs = () => {
+    onNavigate({ page: 'songs' });
+    if (typeof window !== 'undefined') {
+      window.requestAnimationFrame(() => window.scrollTo({ top: songListScrollY.current, left: 0, behavior: 'auto' }));
+    }
+  };
 
   const page = route.page;
   const activeSong = page === 'song' ? songs.find((song) => song.id === route.songId) : undefined;
@@ -787,6 +912,24 @@ const AdminPanel = ({
             <span>Поиск</span>
             <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Название, категория, номер" />
           </label>
+          <div className="admin-filter-row" role="group" aria-label="Фильтр песен">
+            <button
+              type="button"
+              className={songListFilter === 'all' ? 'is-active' : ''}
+              onClick={() => setSongListFilter('all')}
+              aria-pressed={songListFilter === 'all'}
+            >
+              Все песни <span>{songs.length}</span>
+            </button>
+            <button
+              type="button"
+              className={songListFilter === 'missing-chords' ? 'is-active' : ''}
+              onClick={() => setSongListFilter('missing-chords')}
+              aria-pressed={songListFilter === 'missing-chords'}
+            >
+              Без аккордов <span>{missingChordCount}</span>
+            </button>
+          </div>
           <div className="admin-inline-actions">
             <button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>
               Обновить из БД
@@ -796,13 +939,14 @@ const AdminPanel = ({
             </button>
           </div>
           <div className="admin-list">
+            {filteredSongs.length === 0 ? <p className="empty">По текущему фильтру песен нет.</p> : null}
             {filteredSongs.slice(0, 180).map((song) => (
               <article key={song.id} className="admin-list-card">
-                <button type="button" className="admin-list-main" onClick={() => onNavigate({ page: 'song', songId: song.id })}>
+                <button type="button" className="admin-list-main" onClick={() => openSongEditor(song.id)}>
                   <strong>{song.title}</strong>
                   <small>
                     №{song.number} · {song.category}
-                    {song.playback ? ` · ${song.playback.bpm} BPM` : ''}
+                    {song.playback ? ` · ${song.playback.bpm} BPM` : ''} · {songHasChords(song) ? 'есть аккорды' : 'нет аккордов'}
                   </small>
                 </button>
                 <b className="admin-key-badge">{song.defaultKey || '-'}</b>
@@ -813,7 +957,7 @@ const AdminPanel = ({
       ) : null}
 
       {page === 'song' ? (
-        <AdminSongPage song={activeSong} categories={categoryOptions} savingId={savingSongId} onSave={onSaveSong} onNavigate={onNavigate} />
+        <AdminSongPage song={activeSong} categories={categoryOptions} savingId={savingSongId} onSave={onSaveSong} onBackToSongs={backToSongs} />
       ) : null}
 
       {page === 'new' ? <AdminNewSongPage adminKey={adminKey} categories={categoryOptions} onCreateSong={onCreateSong} /> : null}

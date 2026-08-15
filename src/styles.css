@@ -2868,3 +2868,59 @@ textarea.admin-large-textarea {
     width: auto;
   }
 }
+
+.admin-filter-row {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: min(520px, 100%);
+  padding: 6px;
+  border: 1px solid var(--admin-border, var(--border));
+  border-radius: 18px;
+  background: var(--admin-surface-soft, var(--surface-soft));
+}
+
+.admin-filter-row button {
+  min-height: 46px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--admin-muted, var(--text-muted));
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.admin-filter-row button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 24px;
+  margin-left: 6px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--admin-accent, var(--accent)) 12%, transparent);
+  color: var(--admin-accent-strong, var(--accent-strong));
+  font-size: 0.78rem;
+}
+
+.admin-filter-row button.is-active {
+  border-color: color-mix(in srgb, var(--admin-accent, var(--accent)) 42%, var(--admin-border, var(--border)));
+  background: var(--admin-surface, var(--surface));
+  color: var(--admin-accent-strong, var(--accent-strong));
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--admin-accent, var(--accent)) 14%, transparent);
+}
+
+.admin-filter-row button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--admin-accent, var(--accent)) 58%, transparent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .admin-filter-row {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+}
