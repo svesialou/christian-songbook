@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ENV_FILE="${CODEX_TELEGRAM_ENV_FILE:-${HOME}/.codex/secrets/telegram.env}"
-CAPTION="Christian Songbook screenshots"
+CAPTION="Христианский сборник песен screenshots"
 DRY_RUN=0
 
 usage() {

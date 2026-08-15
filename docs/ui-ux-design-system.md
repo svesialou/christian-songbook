@@ -1,7 +1,7 @@
 # UI/UX Design System
 
 ## Direction
-Christian Songbook is a practical worship tool, not a landing page.
+The product display name is `Христианский сборник песен`. It is a practical worship tool, not a landing page.
 
 The interface should feel calm, readable, and reliable during rehearsal or service. The first screen must stay focused on search, catalog, collections, recent songs, and song reading.
 

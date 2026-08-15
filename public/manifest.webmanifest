@@ -1,6 +1,6 @@
 {
-  "name": "Christian Songbook",
-  "short_name": "Songbook",
+  "name": "Христианский сборник песен",
+  "short_name": "Сборник песен",
   "description": "Сборник песен с аккордами для прославления",
   "start_url": "/",
   "scope": "/",

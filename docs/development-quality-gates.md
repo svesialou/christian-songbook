@@ -67,6 +67,6 @@ Forbidden:
 For Telegram-driven frontend cycles, send screenshots back to the chat before the final response when Telegram credentials are configured.
 
 Use:
-- `scripts/send-telegram-screenshots.sh --caption "Christian Songbook viewport check" <png...>`
+- `scripts/send-telegram-screenshots.sh --caption "Христианский сборник песен viewport check" <png...>`
 
 If screenshots were generated but could not be sent, the final response must say why. Do not claim "sent" unless the command succeeded.

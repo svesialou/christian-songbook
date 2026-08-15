@@ -1,4 +1,4 @@
-# Christian Songbook Backend
+# Христианский сборник песен Backend
 
 Local backend foundation for Phase 1.5.
 

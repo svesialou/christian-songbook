@@ -1,7 +1,7 @@
 {
-  "name": "Christian Songbook Admin",
-  "short_name": "Songbook Admin",
-  "description": "Админка сборника песен Christian Songbook",
+  "name": "Админка | Христианский сборник песен",
+  "short_name": "Админка",
+  "description": "Админка христианского сборника песен",
   "start_url": "/admin",
   "scope": "/",
   "display": "standalone",

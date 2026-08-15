@@ -1,7 +1,7 @@
 # Frontend Guardrails
 
 ## Product direction
-Christian Songbook is a working songbook and worship tool. The UI must prioritize fast reading, search, statuses, and reliable offline behavior over decorative presentation.
+The product display name is `Христианский сборник песен`. It is a working songbook and worship tool. The UI must prioritize fast reading, search, statuses, and reliable offline behavior over decorative presentation.
 
 ## Required patterns
 - Open directly into the useful catalog experience, not a marketing hero.
