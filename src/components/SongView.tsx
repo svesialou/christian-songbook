@@ -3,6 +3,7 @@ import { Song } from '../types/song';
 import {
   findPreferredKeyTransposition,
   normalizeTransposition,
+  parseSongKey,
   transposeKeyLabel,
   transposeSongRows,
 } from '../lib/chords';
@@ -79,6 +80,20 @@ const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
   lead: 'Lead: текст и аккорды',
   singer: 'Singer: крупный текст',
   chords: 'Chords: аккорды в фокусе',
+};
+
+const inferKeyFromChords = (song: Song): string | undefined => {
+  const sections = [...song.verses, song.chorus, song.bridge].filter(Boolean) as NonNullable<Song['chorus']>[];
+  for (const section of sections) {
+    for (const row of section.chords) {
+      for (const chord of row) {
+        const key = parseSongKey(chord);
+        if (key) return key.label;
+      }
+    }
+  }
+
+  return undefined;
 };
 
 const Section = ({
@@ -207,16 +222,18 @@ const SongView = ({
   const lineProgress = lineDurationMs > 0 ? Math.min(100, (lineElapsedMs / lineDurationMs) * 100) : 0;
   const playbackProgress = isAutoPlaying ? (isIntroActive ? introProgress : lineProgress) : 0;
   const playbackProgressStyle = { '--playback-progress': `${playbackProgress}%` } as CSSProperties;
+  const inferredKey = useMemo(() => inferKeyFromChords(song), [song]);
+  const sourceKey = song.defaultKey || inferredKey;
   const preferredTransposition = useMemo(
     () =>
       preferences?.preferredKeys?.length
-        ? findPreferredKeyTransposition(song.defaultKey, preferences.preferredKeys)
+        ? findPreferredKeyTransposition(sourceKey, preferences.preferredKeys)
         : null,
-    [preferences?.preferredKeys, song.defaultKey],
+    [preferences?.preferredKeys, sourceKey],
   );
   const personalTransposition = preferredTransposition?.shift ?? 0;
   const effectiveTransposition = normalizeTransposition(personalTransposition + settings.transposition);
-  const renderedKey = transposeKeyLabel(song.defaultKey, effectiveTransposition);
+  const renderedKey = transposeKeyLabel(sourceKey, effectiveTransposition);
   const inverseTransposition = normalizeTransposition(-effectiveTransposition);
   const capoValue =
     preferences?.capoEnabled && effectiveTransposition < 0 && Math.abs(effectiveTransposition) <= preferences.maxCapo
@@ -225,6 +242,7 @@ const SongView = ({
   const personalKeyAdvice = preferredTransposition
     ? [
         preferences?.showOriginalKey ? `Оригинал: ${preferredTransposition.originalKey}` : null,
+        !song.defaultKey && inferredKey ? `Определено по аккордам: ${inferredKey}` : null,
         renderedKey ? `Сейчас: ${renderedKey}` : `Удобно: ${preferredTransposition.targetKey}`,
         `Сдвиг: ${effectiveTransposition > 0 ? `+${effectiveTransposition}` : effectiveTransposition}`,
         capoValue !== null ? `Capo ${capoValue} для оригинальной высоты` : null,
@@ -234,7 +252,11 @@ const SongView = ({
       ]
         .filter(Boolean)
         .join(' · ')
-    : null;
+    : sourceKey
+      ? [`Тональность: ${sourceKey}`, !song.defaultKey && inferredKey ? 'определена по аккордам' : null]
+          .filter(Boolean)
+          .join(' · ')
+      : null;
   const playbackStatus = isIntroActive
     ? `Вступление: ${introBeats} долей`
     : isAutoPlaying
