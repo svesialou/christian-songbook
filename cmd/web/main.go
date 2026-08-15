@@ -22,13 +22,12 @@ func main() {
 	httpAddr := getenv("HTTP_ADDR", ":8080")
 
 	mux := http.NewServeMux()
-	if upstream := strings.TrimSpace(os.Getenv("API_UPSTREAM")); upstream != "" {
-		proxyURL, err := url.Parse(upstream)
-		if err != nil {
-			log.Fatalf("invalid API_UPSTREAM: %v", err)
-		}
-		mux.Handle("/api/", httputil.NewSingleHostReverseProxy(proxyURL))
+	upstream := getenv("API_UPSTREAM", "http://christian-songbook-api:8082")
+	proxyURL, err := url.Parse(upstream)
+	if err != nil {
+		log.Fatalf("invalid API_UPSTREAM: %v", err)
 	}
+	mux.Handle("/api/", httputil.NewSingleHostReverseProxy(proxyURL))
 
 	mux.Handle("/", spaHandler{
 		staticDir: staticDir,
