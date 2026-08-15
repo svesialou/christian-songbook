@@ -1141,12 +1141,7 @@ function App() {
         <div className="admin-login-shell">
           <section className="admin-login-card" aria-labelledby="admin-login-title">
             <div>
-              <p className="eyebrow">Admin</p>
               <h1 id="admin-login-title">Вход в админку</h1>
-              <p className="admin-login-note">
-                Панель доступна отдельно по адресу /admin. Если ADMIN_API_KEY на backend не задан, используется
-                dev-ключ 123456.
-              </p>
             </div>
 
             {error ? <div className="error">{error}</div> : null}
@@ -1154,26 +1149,16 @@ function App() {
 
             <form className="admin-login-form" onSubmit={handleAdminLogin}>
               <label className="submission-field">
-                <span>Admin key</span>
+                <span>Ключ доступа</span>
                 <input
                   type="password"
                   value={adminApiKey}
                   onChange={(event) => setAdminApiKey(event.target.value)}
-                  placeholder={DEFAULT_ADMIN_API_KEY}
+                  placeholder="Ключ доступа"
                   autoComplete="off"
                   autoFocus
                 />
               </label>
-              <div className="admin-login-shortcuts">
-                <button
-                  type="button"
-                  className="sheet-secondary"
-                  onClick={() => setAdminApiKey(DEFAULT_ADMIN_API_KEY)}
-                  disabled={adminApiKey.trim() === DEFAULT_ADMIN_API_KEY}
-                >
-                  Использовать 123456
-                </button>
-              </div>
               <button type="submit" className="sheet-primary" disabled={isAdminLoginLoading || !adminApiKey.trim()}>
                 {isAdminLoginLoading ? 'Проверка...' : 'Войти'}
               </button>
