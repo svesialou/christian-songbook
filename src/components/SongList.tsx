@@ -41,6 +41,7 @@ type SongListProps = {
   onResetLiveSongs: () => void;
   onShareLive: () => void;
   onToggleSongCollection: (songId: string) => void;
+  onRequireAccount: () => void;
 };
 
 const QUICK_CATEGORY_LIMIT = 1;
@@ -96,6 +97,7 @@ const SongList = ({
   onResetLiveSongs,
   onShareLive,
   onToggleSongCollection,
+  onRequireAccount,
 }: SongListProps) => {
   const [isCategoryPickerOpen, setIsCategoryPickerOpen] = useState(initialCategoryPickerOpen);
   const [categoryQuery, setCategoryQuery] = useState('');
@@ -243,6 +245,17 @@ const SongList = ({
               <span>{recentCount}</span>
             </button>
           </div>
+          {!canUseCollections ? (
+            <div className="account-benefits-card">
+              <span>
+                <strong>Войдите, чтобы собрать свои песни</strong>
+                <small>Личные сборники, подписки по ссылке и live сохраняются в аккаунте и открываются на другом телефоне.</small>
+              </span>
+              <button type="button" onClick={onRequireAccount}>
+                Что дает вход
+              </button>
+            </div>
+          ) : null}
           {mode === 'collection' && activeCollection ? (
             <div className="live-list-card">
               <span>

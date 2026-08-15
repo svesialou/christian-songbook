@@ -579,6 +579,13 @@ function App() {
     window.location.assign(googleAuthStartUrl(redirectPath));
   };
 
+  const openAccountBenefitsSheet = () => {
+    setCollectionSheet(null);
+    setNotice(null);
+    setError(null);
+    setIsCollectionAuthSheetOpen(true);
+  };
+
   const handleLogout = async () => {
     setIsAccountLoading(true);
     try {
@@ -1874,6 +1881,16 @@ function App() {
             <h1>{activeSong ? activeSong.title : isAdminMode ? 'Админка' : 'Песни'}</h1>
           </div>
           <div className="top-actions">
+            {!account?.authenticated ? (
+              <button
+                className="top-login-button"
+                type="button"
+                onClick={openAccountBenefitsSheet}
+                disabled={isAccountLoading}
+              >
+                {isAccountLoading ? 'Проверка...' : 'Войти'}
+              </button>
+            ) : null}
             {canShowLiveButton ? (
               <button className="top-live-button" type="button" onClick={openLiveMode} aria-pressed={listMode === 'live'}>
                 Live
@@ -2090,6 +2107,7 @@ function App() {
                 onResetLiveSongs={resetLiveSongs}
                 onShareLive={shareLive}
                 onToggleSongCollection={toggleSongCollection}
+                onRequireAccount={openAccountBenefitsSheet}
               />
               <SearchHint query={query} count={filteredSongs.length} />
             </>
@@ -2113,7 +2131,7 @@ function App() {
             aria-labelledby="collection-auth-title"
           >
             <div className="sheet-header">
-              <h2 id="collection-auth-title">Войдите, чтобы пользоваться сборниками</h2>
+              <h2 id="collection-auth-title">Войдите, чтобы сохранить свой сборник</h2>
               <button
                 className="sheet-close"
                 onClick={() => setIsCollectionAuthSheetOpen(false)}
@@ -2123,8 +2141,13 @@ function App() {
               </button>
             </div>
             <p>
-              Для личных сборников и live нужен аккаунт. Без входа можно пользоваться только базовым сборником песен.
+              Без входа доступен базовый каталог. Аккаунт нужен для личной работы со сборником на любом телефоне.
             </p>
+            <ul className="auth-benefits-list">
+              <li>Личные сборники сохраняются в аккаунте и не пропадают после перезахода.</li>
+              <li>Можно подписываться на сборники других авторов по ссылке.</li>
+              <li>Live-сборник и очередь служения доступны только после входа.</li>
+            </ul>
             <div className="sheet-actions">
               <button type="button" className="sheet-secondary" onClick={() => setIsCollectionAuthSheetOpen(false)}>
                 Только базовый сборник

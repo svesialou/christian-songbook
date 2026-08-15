@@ -302,6 +302,19 @@ button:disabled {
   padding: 8px 12px;
 }
 
+.top-login-button {
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--accent) 44%, var(--border));
+  border-radius: 14px;
+  background: var(--surface-strong);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 8px 12px;
+}
+
 .app-menu {
   position: relative;
 }
@@ -625,6 +638,57 @@ button:disabled {
   border-radius: 18px;
   background: var(--surface-soft);
   padding: 9px 10px 9px 13px;
+}
+
+.account-benefits-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -2px 0 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--surface-strong), var(--surface-soft));
+  padding: 12px 13px;
+}
+
+.account-benefits-card span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.account-benefits-card strong,
+.account-benefits-card small,
+.account-benefits-card button,
+.auth-benefits-list {
+  font-family: Aptos, "Segoe UI", sans-serif;
+}
+
+.account-benefits-card strong {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.account-benefits-card small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.account-benefits-card button {
+  min-height: 40px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 9px 12px;
 }
 
 .live-list-card span {
@@ -1809,6 +1873,17 @@ button:disabled {
   font-size: 15px;
   font-weight: 720;
   line-height: 1.5;
+}
+
+.auth-benefits-list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-left: 19px;
+  color: var(--text);
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .sheet-header {
