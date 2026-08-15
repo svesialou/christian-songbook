@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS song_submissions (
   category VARCHAR(128) NOT NULL DEFAULT 'Общее',
   default_key VARCHAR(16) NULL,
   lead_sheet MEDIUMTEXT NOT NULL,
+  sheet_music_url VARCHAR(1000) NULL,
   submitter_name VARCHAR(128) NULL,
   submitter_email VARCHAR(255) NULL,
   note VARCHAR(1000) NULL,

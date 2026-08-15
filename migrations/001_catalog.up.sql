@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS songs (
   category VARCHAR(128) NOT NULL DEFAULT 'Общее',
   default_key VARCHAR(16) NULL,
   lead_sheet MEDIUMTEXT NOT NULL,
+  sheet_music_url VARCHAR(1000) NULL,
   bpm SMALLINT UNSIGNED NULL,
   beats_per_line TINYINT UNSIGNED NULL,
   intro_beats TINYINT UNSIGNED NULL,

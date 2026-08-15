@@ -17,6 +17,7 @@ export type SongSubmissionPayload = {
   category: string;
   defaultKey: string;
   leadSheet?: string;
+  sheetMusicUrl?: string;
   lyrics?: string;
   chords?: string;
   bpm: number;
@@ -53,6 +54,7 @@ export type AdminSongUpdatePayload = {
   category: string;
   defaultKey: string;
   leadSheet?: string;
+  sheetMusicUrl?: string;
   bpm: number;
   beatsPerLine: number;
   introBeats: number;
@@ -190,6 +192,7 @@ const isSong = (value: unknown): value is Song => {
     song.verses.every(isSongSection) &&
     isOptionalString(song.defaultKey) &&
     isOptionalString(song.leadSheet) &&
+    isOptionalString(song.sheetMusicUrl) &&
     isOptionalSongPlayback(song.playback) &&
     isOptionalSongOrderedSections(song.sections) &&
     isOptionalSongSection(song.chorus) &&

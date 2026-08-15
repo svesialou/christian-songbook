@@ -11,6 +11,8 @@ Current migrations:
 - `004_song_playback.down.sql` - removes optional playback fields.
 - `005_user_preferences.up.sql` - adds users, OAuth identities, sessions, OAuth state, global preferences, and per-song preferences.
 - `005_user_preferences.down.sql` - removes user account and preference tables.
+- `006_sheet_music_url.up.sql` - adds optional sheet music URL fields for piano-friendly song view.
+- `006_sheet_music_url.down.sql` - removes optional sheet music URL fields.
 
 Apply locally:
 - `make db-migrate`

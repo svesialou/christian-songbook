@@ -1,7 +1,7 @@
 SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 START TRANSACTION;
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'А ты не думай', 'Прощение', NULL, '[Куплет 1]
 D Hm
 А ты не думай, что тебе тяжело,
@@ -36,7 +36,7 @@ Em A
 D Hm
 Помни, что другому тяжело.
 Em G A
-Подставь ему своё плечо.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=1 | photo=notion-youth-songbook | notionPageId=b7e923e9-208c-423f-9f0c-ab265a5b8983 | notionChordPageId=adb7c20c-b77a-4da4-8491-706696cbd589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b7e923e9208c423f9f0cab265a5b8983', 'pending'
+Подставь ему своё плечо.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=1 | photo=notion-youth-songbook | notionPageId=b7e923e9-208c-423f-9f0c-ab265a5b8983 | notionChordPageId=adb7c20c-b77a-4da4-8491-706696cbd589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b7e923e9208c423f9f0cab265a5b8983', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'А ты не думай'
@@ -44,7 +44,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Агнец Пасхальный', 'Пасхальные', NULL, '[Куплет 1]
 Am Dm Am Dm
 Над Голгофою тьма нависла, тучи солнце закрыли быстро,
@@ -85,7 +85,7 @@ F Am F C Dm E
 
 [Мост]
 Он наш Агнец Пасхальный, заклан за нас, заклан за нас.
-Претерпел Он страданья, Кровью нас спас, Кровью нас спас!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=2 | photo=notion-youth-songbook | notionPageId=7576a9df-f607-4039-936f-bd591ac41938 | notionChordPageId=b0522ea3-c67c-4e0d-a40e-917d56defe31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7576a9dff6074039936fbd591ac41938', 'pending'
+Претерпел Он страданья, Кровью нас спас, Кровью нас спас!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=2 | photo=notion-youth-songbook | notionPageId=7576a9df-f607-4039-936f-bd591ac41938 | notionChordPageId=b0522ea3-c67c-4e0d-a40e-917d56defe31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7576a9dff6074039936fbd591ac41938', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Агнец Пасхальный'
@@ -93,7 +93,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ангелы в небе', 'Свадебные', NULL, '[Куплет 1]
 Em H
 Ангелы в небе Господа славят,
@@ -140,7 +140,7 @@ Am D G C
 Am H Em
 Христу Спасителю славу поёт.
 E
-Славу поет!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=3 | photo=notion-youth-songbook | notionPageId=e83a746c-21f0-4488-8166-90a56a931022 | notionChordPageId=e6f8ae5a-f3dc-4e42-a89f-e3f5198e90ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e83a746c21f04488816690a56a931022', 'pending'
+Славу поет!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=3 | photo=notion-youth-songbook | notionPageId=e83a746c-21f0-4488-8166-90a56a931022 | notionChordPageId=e6f8ae5a-f3dc-4e42-a89f-e3f5198e90ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e83a746c21f04488816690a56a931022', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ангелы в небе'
@@ -148,7 +148,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Баллада о трёх сыновьях', 'Семья', NULL, '[Куплет 1]
 Em Am D Em
 В краю средь гор и цветущих долин
@@ -224,7 +224,7 @@ Am D Em
 Я тебе свой престол отдаю!
 И звучало в ответ эхо горных вершин
 Кроток сердцем и духом смирен
-Верный сын унаследовал трон.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=4 | photo=notion-youth-songbook | notionPageId=3d2948d7-632e-4578-86ef-c6a2868837c4 | notionChordPageId=e32e8382-3297-4dc6-a61f-b5957e61851b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d2948d7632e457886efc6a2868837c4', 'pending'
+Верный сын унаследовал трон.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=4 | photo=notion-youth-songbook | notionPageId=3d2948d7-632e-4578-86ef-c6a2868837c4 | notionChordPageId=e32e8382-3297-4dc6-a61f-b5957e61851b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d2948d7632e457886efc6a2868837c4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Баллада о трёх сыновьях'
@@ -232,7 +232,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Благо есть славить Господа', 'Семья', NULL, '[Куплет 1]
 Благо есть славить Господа
 И петь имени Твоему, Спаситель,
@@ -255,7 +255,7 @@ SELECT 'Благо есть славить Господа', 'Семья', NULL, 
 Ты укажешь мне жизни путь,
 Да не постыжусь, что к Тебе взываю,
 На Тебя уповаю я,
-Благослови, Господь, меня.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=5 | photo=notion-youth-songbook | notionPageId=a03f83e5-cf38-433d-b124-01a999feb4e8 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a03f83e5cf38433db12401a999feb4e8 | Fill chord lines in the lead sheet before approval.', 'pending'
+Благослови, Господь, меня.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=5 | photo=notion-youth-songbook | notionPageId=a03f83e5-cf38-433d-b124-01a999feb4e8 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a03f83e5cf38433db12401a999feb4e8 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благо есть славить Господа'
@@ -263,7 +263,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Благодарные сердца', 'Благодарение', NULL, '[Куплет 1]
 A F#m D E
 Благодарные сердца, поспешите в дом Отца!
@@ -302,7 +302,7 @@ A F#m D E
 F#m D E C#
 Обновленные душой вечно будем жить с Тобой.
 D E E7
-Боже, Боже, поспеши, в мире жатву соверши!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=6 | photo=notion-youth-songbook | notionPageId=8321e7f6-2cec-4848-8c04-5e1254def079 | notionChordPageId=c894bf77-0f2c-4bba-bc8c-3b35ac25a1cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8321e7f62cec48488c045e1254def079', 'pending'
+Боже, Боже, поспеши, в мире жатву соверши!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=6 | photo=notion-youth-songbook | notionPageId=8321e7f6-2cec-4848-8c04-5e1254def079 | notionChordPageId=c894bf77-0f2c-4bba-bc8c-3b35ac25a1cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8321e7f62cec48488c045e1254def079', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благодарные сердца'
@@ -310,7 +310,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Благословен тот дом', 'Семья', NULL, '[Куплет 1]
 Hm Em F# Hm
 Благословен тот дом, где в каждом чистом сердце
@@ -345,7 +345,7 @@ Hm Em F#
 H Em A D
 Славят Творца и Библию читают,
 G Em F#
-И возрастают в мудрости из года в год.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=7 | photo=notion-youth-songbook | notionPageId=600a0575-0dff-4805-ae68-4735de5f94e3 | notionChordPageId=1d55b8b7-5ada-42c9-8916-e8859b4c92f0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/600a05750dff4805ae684735de5f94e3', 'pending'
+И возрастают в мудрости из года в год.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=7 | photo=notion-youth-songbook | notionPageId=600a0575-0dff-4805-ae68-4735de5f94e3 | notionChordPageId=1d55b8b7-5ada-42c9-8916-e8859b4c92f0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/600a05750dff4805ae684735de5f94e3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благословен тот дом'
@@ -353,7 +353,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Благослови Господа, душа моя', 'Благодарение', NULL, '[Куплет 1]
 D G D
 Буду петь Господу всю жизнь мою.
@@ -388,7 +388,7 @@ A7 D A7
 D G D
 Как далеко восток от запада,
 Em A D D7
-Так удалил Он от нас наши грехи.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=8 | photo=notion-youth-songbook | notionPageId=8be04214-b121-45b3-8fab-27b76d4da3c5 | notionChordPageId=621d0c72-5f08-4881-b7d4-a052e3b5a250 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8be04214b12145b38fab27b76d4da3c5', 'pending'
+Так удалил Он от нас наши грехи.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=8 | photo=notion-youth-songbook | notionPageId=8be04214-b121-45b3-8fab-27b76d4da3c5 | notionChordPageId=621d0c72-5f08-4881-b7d4-a052e3b5a250 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8be04214b12145b38fab27b76d4da3c5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Благослови Господа, душа моя'
@@ -396,7 +396,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Бог избрал нас', 'Спасение', NULL, '[Куплет 1]
 Бог избрал нас из разных народов,
 Дал нам имя Свое.
@@ -413,7 +413,7 @@ SELECT 'Бог избрал нас', 'Спасение', NULL, '[Куплет 1]
 Мы есть Церковь – Мы есть Тело Христа,
 Мы искуплены кровью Его!
 Врата ада не одолеют нас,
-Потому, что с нами Господь!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=9 | photo=notion-youth-songbook | notionPageId=53aa0387-82b2-4766-948b-9dc62c83227f | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/53aa038782b24766948b9dc62c83227f | Fill chord lines in the lead sheet before approval.', 'pending'
+Потому, что с нами Господь!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=9 | photo=notion-youth-songbook | notionPageId=53aa0387-82b2-4766-948b-9dc62c83227f | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/53aa038782b24766948b9dc62c83227f | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог избрал нас'
@@ -421,7 +421,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Бог мой, во мне Ты', 'Утешение и ободрение', NULL, '[Куплет 1]
 G Am
 Бог мой, во мне Ты,
@@ -450,7 +450,7 @@ C D G
 G Am
 О счастье мечтали
 C D G
-И вот оно навеки к нам пришло.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=10 | photo=notion-youth-songbook | notionPageId=4681f5ad-a334-4151-8380-096cf70d345c | notionChordPageId=6c393284-7517-4c77-847a-bd996b81e7d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4681f5ada33441518380096cf70d345c', 'pending'
+И вот оно навеки к нам пришло.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=10 | photo=notion-youth-songbook | notionPageId=4681f5ad-a334-4151-8380-096cf70d345c | notionChordPageId=6c393284-7517-4c77-847a-bd996b81e7d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4681f5ada33441518380096cf70d345c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог мой, во мне Ты'
@@ -458,7 +458,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Бог пришел и умер за меня', 'Пасхальные', NULL, '[Куплет 1]
 Dm A# F C
 Бог пришел и умер за меня, аминь, аминь
@@ -493,7 +493,7 @@ Dm A# F C
 Ты вечный и Святой, Сущий вовек веков
 Ты был и есть и вновь грядешь
 Ты вечный и Святой, Сущий вовек веков
-Ты был и есть и вновь грядешь', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=11 | photo=notion-youth-songbook | notionPageId=1fd3c678-3c1d-4219-b603-1ff73359baa5 | notionChordPageId=dcbbacaf-614e-42da-8855-a04a7f6e93a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1fd3c6783c1d4219b6031ff73359baa5', 'pending'
+Ты был и есть и вновь грядешь', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=11 | photo=notion-youth-songbook | notionPageId=1fd3c678-3c1d-4219-b603-1ff73359baa5 | notionChordPageId=dcbbacaf-614e-42da-8855-a04a7f6e93a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1fd3c6783c1d4219b6031ff73359baa5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог пришел и умер за меня'
@@ -501,7 +501,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Бог с нами в долине удачи', 'Спасение', NULL, '[Куплет 1]
 Em
 Бог с нами в долине удачи,
@@ -578,7 +578,7 @@ D
 C
 Исполнятся наши желания
 H7
-В назначенный Господом час', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=12 | photo=notion-youth-songbook | notionPageId=569dac52-3c7e-45f5-b957-fbc45b8bc88b | notionChordPageId=9cb3dac6-12b9-4772-b093-19f8d1c9ee51 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/569dac523c7e45f5b957fbc45b8bc88b', 'pending'
+В назначенный Господом час', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=12 | photo=notion-youth-songbook | notionPageId=569dac52-3c7e-45f5-b957-fbc45b8bc88b | notionChordPageId=9cb3dac6-12b9-4772-b093-19f8d1c9ee51 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/569dac523c7e45f5b957fbc45b8bc88b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Бог с нами в долине удачи'
@@ -586,7 +586,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Боже, Ты мой Бог', 'Божья любовь', NULL, '[Куплет 1]
 Em C Am Hm
 Боже, Ты мой Бог!
@@ -625,7 +625,7 @@ Em C Am D7
 G7 C7 Am H7
 Тебя жаждет душа моя.
 Em Hm Em
-Аллилуйя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=13 | photo=notion-youth-songbook | notionPageId=baff265b-85b9-425e-bf2e-d3db75cbd481 | notionChordPageId=71772f51-511b-4035-b4e5-3bcf3dd2dd09 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/baff265b85b9425ebf2ed3db75cbd481', 'pending'
+Аллилуйя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=13 | photo=notion-youth-songbook | notionPageId=baff265b-85b9-425e-bf2e-d3db75cbd481 | notionChordPageId=71772f51-511b-4035-b4e5-3bcf3dd2dd09 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/baff265b85b9425ebf2ed3db75cbd481', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Боже, Ты мой Бог'
@@ -633,7 +633,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Божья любовь', 'Божья любовь', NULL, '[Куплет 1]
 Dm Gm
 Скажи, ну что тебя сюда ведет?
@@ -672,7 +672,7 @@ C F
 A# Gm
 Он помогает в этом мире жить,
 A7
-Он дает силы верить и любить.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=14 | photo=notion-youth-songbook | notionPageId=d4d96011-4899-45a0-be4c-55ebf6bb14d9 | notionChordPageId=75d65a49-0948-4675-95e8-a786bcc4937f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4d96011489945a0be4c55ebf6bb14d9', 'pending'
+Он дает силы верить и любить.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=14 | photo=notion-youth-songbook | notionPageId=d4d96011-4899-45a0-be4c-55ebf6bb14d9 | notionChordPageId=75d65a49-0948-4675-95e8-a786bcc4937f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4d96011489945a0be4c55ebf6bb14d9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Божья любовь'
@@ -680,7 +680,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Буду Бога хвалить', 'Спасение', NULL, '[Куплет 1]
 A
 Буду Бога хвалить доколе жив,
@@ -725,7 +725,7 @@ C#m
 Hm
 Божьей милости я не заслужил,
 E
-А в ответ на любовь из сердца песнь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=15 | photo=notion-youth-songbook | notionPageId=42266a6a-3f58-46b3-a978-38f5d1e4f8be | notionChordPageId=f47930e4-c4af-4e12-900f-b9549c46048b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/42266a6a3f5846b3a97838f5d1e4f8be', 'pending'
+А в ответ на любовь из сердца песнь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=15 | photo=notion-youth-songbook | notionPageId=42266a6a-3f58-46b3-a978-38f5d1e4f8be | notionChordPageId=f47930e4-c4af-4e12-900f-b9549c46048b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/42266a6a3f5846b3a97838f5d1e4f8be', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Буду Бога хвалить'
@@ -733,7 +733,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Будь благословен', 'Утешение и ободрение', NULL, '[Куплет 1]
 A E F#m D
 Будь благословен на земле изобилия,
@@ -776,7 +776,7 @@ A E D
 Лишь Ты имеешь власть
 Всё дать и всё отнять.
 Я выберу за всё
-Тебя благословлять!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=16 | photo=notion-youth-songbook | notionPageId=c3e51ec0-6ec5-4e0b-bca2-d6073cefb8b4 | notionChordPageId=3f183d9c-b131-47d1-ad9d-8037658a4390 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c3e51ec06ec54e0bbca2d6073cefb8b4', 'pending'
+Тебя благословлять!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=16 | photo=notion-youth-songbook | notionPageId=c3e51ec0-6ec5-4e0b-bca2-d6073cefb8b4 | notionChordPageId=3f183d9c-b131-47d1-ad9d-8037658a4390 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c3e51ec06ec54e0bbca2d6073cefb8b4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Будь благословен'
@@ -784,7 +784,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Будь храброй, душа', 'Вера и упование', NULL, '[Куплет 1]
 G D
 Спокойно стой, прими покой:
@@ -819,7 +819,7 @@ Em C
 Все звезды держишь Ты,
 В Твоих руках весь мир,
 Исполнишь все, что Ты обещал.
-В победе я вновь поднимусь!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=17 | photo=notion-youth-songbook | notionPageId=7fe4ca5e-360b-4bd6-a14a-f3bb688882f7 | notionChordPageId=efb3acd5-4c31-4184-8ae8-1c0b4a04beb2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7fe4ca5e360b4bd6a14af3bb688882f7', 'pending'
+В победе я вновь поднимусь!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=17 | photo=notion-youth-songbook | notionPageId=7fe4ca5e-360b-4bd6-a14a-f3bb688882f7 | notionChordPageId=efb3acd5-4c31-4184-8ae8-1c0b4a04beb2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7fe4ca5e360b4bd6a14af3bb688882f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Будь храброй, душа'
@@ -827,7 +827,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'В городе тихая осень', 'Прославление', NULL, '[Куплет 1]
 F#m D E F#m
 В городе тихая осень, первые дни октября.
@@ -852,7 +852,7 @@ Hm C#m F#m
 Бог так одевает лилию, цветущую несколько дней,
 Что Соломон великий меркнет при славе своей,
 Но верных одел Бог лучше в праведной жизни своей,
-Чтоб просветлели души рядом идущих людей.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=18 | photo=notion-youth-songbook | notionPageId=0dad6474-e94f-4fc2-ac5a-7f7769693401 | notionChordPageId=8a79ea7d-ec3c-45a1-b779-6ebe46af68b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0dad6474e94f4fc2ac5a7f7769693401', 'pending'
+Чтоб просветлели души рядом идущих людей.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=18 | photo=notion-youth-songbook | notionPageId=0dad6474-e94f-4fc2-ac5a-7f7769693401 | notionChordPageId=8a79ea7d-ec3c-45a1-b779-6ebe46af68b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0dad6474e94f4fc2ac5a7f7769693401', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В городе тихая осень'
@@ -860,7 +860,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'В жизни земной', 'Призыв к покаянию', NULL, '[Куплет 1]
 Dm A# C Dm
 В жизни земной всё приходит к концу,
@@ -919,7 +919,7 @@ Gm A Dm
 Только однажды даётся нам жизнь,
 Ну, а затем начинается вечность.
 Хочешь ли в вечности с Господом быть,
-Ныне оставь роковую беспечность.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=19 | photo=notion-youth-songbook | notionPageId=98bd3076-7070-4051-9253-1e2dd32426f1 | notionChordPageId=e723f2fd-e546-4df5-883a-ec6ff49347a0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/98bd30767070405192531e2dd32426f1', 'pending'
+Ныне оставь роковую беспечность.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=19 | photo=notion-youth-songbook | notionPageId=98bd3076-7070-4051-9253-1e2dd32426f1 | notionChordPageId=e723f2fd-e546-4df5-883a-ec6ff49347a0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/98bd30767070405192531e2dd32426f1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В жизни земной'
@@ -927,7 +927,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'В мир греха', 'Спасение', NULL, '[Куплет 1]
 Em Hm Em Hm
 В мир греха, мерзости и зла
@@ -974,7 +974,7 @@ C D Em
 Em Hm Em Hm
 С нами рос Иисус Христос,
 C D Em
-В мир спасение нёс.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=20 | photo=notion-youth-songbook | notionPageId=bcdfa534-ff65-429e-ba79-269919f4a603 | notionChordPageId=f3b64da8-fa68-4868-a30f-68e3adf88682 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bcdfa534ff65429eba79269919f4a603', 'pending'
+В мир спасение нёс.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=20 | photo=notion-youth-songbook | notionPageId=bcdfa534-ff65-429e-ba79-269919f4a603 | notionChordPageId=f3b64da8-fa68-4868-a30f-68e3adf88682 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bcdfa534ff65429eba79269919f4a603', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В мир греха'
@@ -982,7 +982,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'В Палестине Царь родился в те далекие года', 'Рождественские', NULL, '[Куплет 1]
 F Dm
 В Палестине Царь родился в те далекие года,
@@ -1021,7 +1021,7 @@ A# Gm C
 F Dm
 И когда печаль на сердце, подними глаза туда,
 A# Gm C
-Где сияет вечным светом Вифлеемская звезда', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=21 | photo=notion-youth-songbook | notionPageId=27a9f73a-2e3a-448a-acda-8f5b7da5c5ee | notionChordPageId=8597f944-d10c-4992-928f-23dc0246a8ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a9f73a2e3a448aacda8f5b7da5c5ee', 'pending'
+Где сияет вечным светом Вифлеемская звезда', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=21 | photo=notion-youth-songbook | notionPageId=27a9f73a-2e3a-448a-acda-8f5b7da5c5ee | notionChordPageId=8597f944-d10c-4992-928f-23dc0246a8ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a9f73a2e3a448aacda8f5b7da5c5ee', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В Палестине Царь родился в те далекие года'
@@ -1029,7 +1029,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'В Христе одном', 'Пасхальные', NULL, '[Куплет 1]
 G D G A
 В Христе одном надежда есть,
@@ -1100,7 +1100,7 @@ D G D A
 G D G A
 Он приведёт меня в Свой дом,
 D G A D
-Моя опора только в Нём. :||', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=22 | photo=notion-youth-songbook | notionPageId=5e3a733d-3c37-4297-888a-dbbbb4e61262 | notionChordPageId=8c753842-be45-4628-a9ec-3161c94f3eca | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5e3a733d3c374297888adbbbb4e61262', 'pending'
+Моя опора только в Нём. :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=22 | photo=notion-youth-songbook | notionPageId=5e3a733d-3c37-4297-888a-dbbbb4e61262 | notionChordPageId=8c753842-be45-4628-a9ec-3161c94f3eca | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5e3a733d3c374297888adbbbb4e61262', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В Христе одном'
@@ -1108,7 +1108,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'В часы тревог, унынья и сомненья', 'Пасхальные', NULL, '[Куплет 1]
 Gm D7 Gm
 В часы тревог, унынья и сомненья,
@@ -1157,7 +1157,7 @@ F A# D7
 Gm Cm
 Но вновь душа словам Твоим внимает:
 Gm D7 Gm
-“Я не оставлю, Я люблю тебя”.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=23 | photo=notion-youth-songbook | notionPageId=9679d4e0-6d39-4931-a4b2-83ebd31669f7 | notionChordPageId=9699cc71-2d60-4427-b73e-1f75244dd9d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9679d4e06d394931a4b283ebd31669f7', 'pending'
+“Я не оставлю, Я люблю тебя”.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=23 | photo=notion-youth-songbook | notionPageId=9679d4e0-6d39-4931-a4b2-83ebd31669f7 | notionChordPageId=9699cc71-2d60-4427-b73e-1f75244dd9d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9679d4e06d394931a4b283ebd31669f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'В часы тревог, унынья и сомненья'
@@ -1165,7 +1165,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Велики и чудны', 'Прославление', NULL, '[Куплет 1]
 Em Am D Em
 Велики и чудны дела Твои,
@@ -1208,7 +1208,7 @@ C D G H
 Em Am D Em
 Аллилуйя и осанна лишь Тебе,
 C D Em
-Царь Святый.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=24 | photo=notion-youth-songbook | notionPageId=03e7b7e1-9b25-415f-8096-8a24b71729f4 | notionChordPageId=83fda083-a002-4dcd-af25-341796f18a56 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/03e7b7e19b25415f80968a24b71729f4', 'pending'
+Царь Святый.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=24 | photo=notion-youth-songbook | notionPageId=03e7b7e1-9b25-415f-8096-8a24b71729f4 | notionChordPageId=83fda083-a002-4dcd-af25-341796f18a56 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/03e7b7e19b25415f80968a24b71729f4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Велики и чудны'
@@ -1216,7 +1216,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Величит душа моя Бога', 'Молитвенные', NULL, '[Куплет 1]
 G
 Величит душа моя Бога,
@@ -1257,7 +1257,7 @@ Em
 Am D
 И громко Его прославляю
 C D
-Сердечной хвалою. Аминь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=25 | photo=notion-youth-songbook | notionPageId=5d8e0053-b0cd-41e0-9d85-e38d00a0ad5c | notionChordPageId=24b8d158-9139-4216-9303-c36ce1b4ca3b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5d8e0053b0cd41e09d85e38d00a0ad5c', 'pending'
+Сердечной хвалою. Аминь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=25 | photo=notion-youth-songbook | notionPageId=5d8e0053-b0cd-41e0-9d85-e38d00a0ad5c | notionChordPageId=24b8d158-9139-4216-9303-c36ce1b4ca3b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5d8e0053b0cd41e09d85e38d00a0ad5c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Величит душа моя Бога'
@@ -1265,7 +1265,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Верим мы', 'Пасхальные', NULL, '[Куплет 1]
 C Csus
 В час когда вокруг сомненье,
@@ -1310,7 +1310,7 @@ C F
 Кто потерян был выход найдёт пусть в сердца людей ворвется любовь
 Церковь громко скажет чтоб слышал Ты, верим мы! Верим мы!
 Нас не одолеют ада врата сила Божья завесу разорвала
-Не пройдет Его любовь никогда верим мы! Верим мы!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=26 | photo=notion-youth-songbook | notionPageId=4ebcd920-7b2d-4c4f-b6eb-027a123e92de | notionChordPageId=b2f0e304-20bc-4522-99d0-bc7cc073a44d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ebcd9207b2d4c4fb6eb027a123e92de', 'pending'
+Не пройдет Его любовь никогда верим мы! Верим мы!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=26 | photo=notion-youth-songbook | notionPageId=4ebcd920-7b2d-4c4f-b6eb-027a123e92de | notionChordPageId=b2f0e304-20bc-4522-99d0-bc7cc073a44d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ebcd9207b2d4c4fb6eb027a123e92de', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Верим мы'
@@ -1318,7 +1318,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Верую, Господи', 'Небо', NULL, '[Куплет 1]
 Dm Gm A A7
 Верую, Господи, истинно верую в Слово святое Твое.
@@ -1357,7 +1357,7 @@ Dm Gm A
 Dm Gm C F
 Перед Тобою никто не осмелится чтобы неправду сказать.
 Dm Gm A
-Чистое небо святыми заселится, грешникам там не бывать.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=27 | photo=notion-youth-songbook | notionPageId=3c7a9694-04dc-4538-a11a-5eeeb7b573f4 | notionChordPageId=9e3d2855-c14e-43bc-89fb-e8a081d52c2d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7a969404dc4538a11a5eeeb7b573f4', 'pending'
+Чистое небо святыми заселится, грешникам там не бывать.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=27 | photo=notion-youth-songbook | notionPageId=3c7a9694-04dc-4538-a11a-5eeeb7b573f4 | notionChordPageId=9e3d2855-c14e-43bc-89fb-e8a081d52c2d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7a969404dc4538a11a5eeeb7b573f4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Верую, Господи'
@@ -1365,7 +1365,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ветры холодные', 'Семья', NULL, '[Куплет 1]
 Am E
 Ещё будет зима, ещё ветры подуют холодные,
@@ -1436,7 +1436,7 @@ F E
 Am Dm
 А пока время есть благодатного лета Господнего
 Am E Am
-О котором когда-то потом будем лишь вспоминать.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=28 | photo=notion-youth-songbook | notionPageId=08a5f372-3fcb-472f-978b-5f7b37b1ea88 | notionChordPageId=b5cd00a6-a782-4d6a-a293-c9b0339fdc3e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/08a5f3723fcb472f978b5f7b37b1ea88', 'pending'
+О котором когда-то потом будем лишь вспоминать.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=28 | photo=notion-youth-songbook | notionPageId=08a5f372-3fcb-472f-978b-5f7b37b1ea88 | notionChordPageId=b5cd00a6-a782-4d6a-a293-c9b0339fdc3e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/08a5f3723fcb472f978b5f7b37b1ea88', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ветры холодные'
@@ -1444,7 +1444,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Взор поднимаю к лазурному небу', 'Спасение', NULL, '[Куплет 1]
 Em C
 Взор поднимаю к лазурному небу
@@ -1485,7 +1485,7 @@ Am H7
 Em C
 Ты неизменный о слава за это!
 Am H7 Em
-Пусть в моем сердце надежда живёт.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=29 | photo=notion-youth-songbook | notionPageId=14be1917-0dc6-42c8-86f4-d39cf573f73d | notionChordPageId=67402743-2ca0-4960-a85b-cb65d71241a6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/14be19170dc642c886f4d39cf573f73d', 'pending'
+Пусть в моем сердце надежда живёт.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=29 | photo=notion-youth-songbook | notionPageId=14be1917-0dc6-42c8-86f4-d39cf573f73d | notionChordPageId=67402743-2ca0-4960-a85b-cb65d71241a6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/14be19170dc642c886f4d39cf573f73d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Взор поднимаю к лазурному небу'
@@ -1493,7 +1493,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Вот наш Бог', 'Пасхальные', NULL, '[Куплет 1]
 Кто моря все горстью исчерпал?
 Кто песок земли пересчитал?
@@ -1516,7 +1516,7 @@ SELECT 'Вот наш Бог', 'Пасхальные', NULL, '[Куплет 1]
 Кто был свят, но взял вину людей?
 Кто подставил руки для гвоздей?
 Кто в смиреньи умер на кресте?
-Кто воскрес, чтоб грешников спасти?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=30 | photo=notion-youth-songbook | notionPageId=e4c919de-4ab6-496d-8f82-42548f63e1dd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e4c919de4ab6496d8f8242548f63e1dd | Fill chord lines in the lead sheet before approval.', 'pending'
+Кто воскрес, чтоб грешников спасти?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=30 | photo=notion-youth-songbook | notionPageId=e4c919de-4ab6-496d-8f82-42548f63e1dd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e4c919de4ab6496d8f8242548f63e1dd | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вот наш Бог'
@@ -1524,7 +1524,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Вот он я', 'Пасхальные', NULL, '[Куплет 1]
 Am G F C F
 Вот он я. Твоим величием смирён,
@@ -1555,7 +1555,7 @@ C G
 Am G F C F
 Вот он я. Знаю, что я нужен Тебе.
 C G
-Освящён, очищен, в огне.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=31 | photo=notion-youth-songbook | notionPageId=fc08ad30-2c85-4dab-9175-985f389071f0 | notionChordPageId=06494446-b0dd-429f-8167-d093294bbfae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fc08ad302c854dab9175985f389071f0', 'pending'
+Освящён, очищен, в огне.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=31 | photo=notion-youth-songbook | notionPageId=fc08ad30-2c85-4dab-9175-985f389071f0 | notionChordPageId=06494446-b0dd-429f-8167-d093294bbfae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fc08ad302c854dab9175985f389071f0', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вот он я'
@@ -1563,7 +1563,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Вот прошли тысячелетья...', 'Пасхальные', NULL, '[Куплет 1]
 C
 Вот прошли тысячелетья…
@@ -1614,7 +1614,7 @@ C
 Am
 Бог не завтра обещает,
 Dm G C
-Но сегодня предлагает для души.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=32 | photo=notion-youth-songbook | notionPageId=a21255a5-82ca-4a2c-b393-ac7dd3837ddd | notionChordPageId=cf02ed42-7772-4933-a227-de2e8defa95c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a21255a582ca4a2cb393ac7dd3837ddd', 'pending'
+Но сегодня предлагает для души.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=32 | photo=notion-youth-songbook | notionPageId=a21255a5-82ca-4a2c-b393-ac7dd3837ddd | notionChordPageId=cf02ed42-7772-4933-a227-de2e8defa95c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a21255a582ca4a2cb393ac7dd3837ddd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вот прошли тысячелетья...'
@@ -1622,7 +1622,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Все небеса да хвалят Воскресшего', 'Пасхальные', NULL, '[Куплет 1]
 G C D G
 Все небеса да хвалят Воскресшего
@@ -1641,7 +1641,7 @@ G C D G
 G C G Em
 Отец всё дал Ему, а мы чем воздадим?
 C D G
-Колени преклоню я только перед Ним.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=33 | photo=notion-youth-songbook | notionPageId=19bf4e19-c6d7-41bd-a001-35e1c0dfca8a | notionChordPageId=155ab88a-5ec0-41dc-9300-1e769bc80efe | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/19bf4e19c6d741bda00135e1c0dfca8a', 'pending'
+Колени преклоню я только перед Ним.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=33 | photo=notion-youth-songbook | notionPageId=19bf4e19-c6d7-41bd-a001-35e1c0dfca8a | notionChordPageId=155ab88a-5ec0-41dc-9300-1e769bc80efe | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/19bf4e19c6d741bda00135e1c0dfca8a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Все небеса да хвалят Воскресшего'
@@ -1649,7 +1649,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Встает заря', 'Прощение', NULL, '[Куплет 1]
 Em D
 Встает заря, и солнца луч на небо всходит,
@@ -1688,7 +1688,7 @@ Am H7 Em
 Em D
 И нас омыл Он Кровию Своей Пречистой,
 Am H7 Em
-Будем вечно славить мы Его.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=34 | photo=notion-youth-songbook | notionPageId=bdd0ce16-c2ed-42db-9412-57022a5604f7 | notionChordPageId=024e644e-0d6b-4ba1-ab76-5c83e6d025c6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd0ce16c2ed42db941257022a5604f7', 'pending'
+Будем вечно славить мы Его.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=34 | photo=notion-youth-songbook | notionPageId=bdd0ce16-c2ed-42db-9412-57022a5604f7 | notionChordPageId=024e644e-0d6b-4ba1-ab76-5c83e6d025c6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd0ce16c2ed42db941257022a5604f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Встает заря'
@@ -1696,7 +1696,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Вся земля полна славы', 'Рождественские', NULL, '[Куплет 1]
 Вся земля полна славы и хвалы
 Любовь Отца нам явилась в Сыне
@@ -1717,7 +1717,7 @@ SELECT 'Вся земля полна славы', 'Рождественские'
 Подними к небу руки и тогда,
 Льется пусть слава и хвала Иисусу,
 Ликуй Земля, ведь открыты Небеса,
-Родился Царь и грех мира разрушен', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=35 | photo=notion-youth-songbook | notionPageId=50dfd8c1-a23f-4321-9906-b39cc217a6b2 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50dfd8c1a23f43219906b39cc217a6b2 | Fill chord lines in the lead sheet before approval.', 'pending'
+Родился Царь и грех мира разрушен', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=35 | photo=notion-youth-songbook | notionPageId=50dfd8c1-a23f-4321-9906-b39cc217a6b2 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50dfd8c1a23f43219906b39cc217a6b2 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вся земля полна славы'
@@ -1725,7 +1725,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Вся земля хвалу поет', 'Небо', NULL, '[Куплет 1]
 D A Hm G
 Вся земля хвалу поет лишь Тебе, наш чудный Бог.
@@ -1766,7 +1766,7 @@ G A
 Em D
 И все народы преклонят колени,
 G A
-И воспоют хвалу Тебе!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=36 | photo=notion-youth-songbook | notionPageId=13b70973-e9ba-4e1d-bfaa-f10aaf895bfe | notionChordPageId=022bac89-cb62-49a1-a83f-b96d429f6f8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/13b70973e9ba4e1dbfaaf10aaf895bfe', 'pending'
+И воспоют хвалу Тебе!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=36 | photo=notion-youth-songbook | notionPageId=13b70973-e9ba-4e1d-bfaa-f10aaf895bfe | notionChordPageId=022bac89-cb62-49a1-a83f-b96d429f6f8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/13b70973e9ba4e1dbfaaf10aaf895bfe', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Вся земля хвалу поет'
@@ -1774,7 +1774,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Выбрали мы узкую дорогу', 'Божья любовь', NULL, '[Куплет 1]
 Em C D G
 Выбрали мы узкую дорогу
@@ -1815,7 +1815,7 @@ C Am H
 Em C D G
 День придёт, расстанемся с землёю,
 C Am H7
-Чтобы нам там в небе отдохнуть.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=37 | photo=notion-youth-songbook | notionPageId=47d1d217-afd3-48f8-b014-f4c7e0b80172 | notionChordPageId=bc5f9fed-e4e0-4a8c-aaeb-46e71dc39feb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/47d1d217afd348f8b014f4c7e0b80172', 'pending'
+Чтобы нам там в небе отдохнуть.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=37 | photo=notion-youth-songbook | notionPageId=47d1d217-afd3-48f8-b014-f4c7e0b80172 | notionChordPageId=bc5f9fed-e4e0-4a8c-aaeb-46e71dc39feb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/47d1d217afd348f8b014f4c7e0b80172', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Выбрали мы узкую дорогу'
@@ -1823,7 +1823,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Где вы, друзья мои', 'Небо', NULL, '[Куплет 1]
 Em Am H
 Где вы, друзья мои? Я вас люблю.
@@ -1852,7 +1852,7 @@ Am D Am H
 Em Am H
 Пусть Твои Ангелы друзей моих хранят,
 Am D Am H
-Да не преткнутся, не дай им обернуться назад»', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=38 | photo=notion-youth-songbook | notionPageId=2e598b1d-3f98-4122-af63-9aa553cfaefd | notionChordPageId=dc7f8357-5762-47a8-bb9c-02d84129c1e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2e598b1d3f984122af639aa553cfaefd', 'pending'
+Да не преткнутся, не дай им обернуться назад»', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=38 | photo=notion-youth-songbook | notionPageId=2e598b1d-3f98-4122-af63-9aa553cfaefd | notionChordPageId=dc7f8357-5762-47a8-bb9c-02d84129c1e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2e598b1d3f984122af639aa553cfaefd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Где вы, друзья мои'
@@ -1860,7 +1860,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Где ты прекрасная', 'Молитвенные', NULL, '[Куплет 1]
 A Dm Gm
 Где ты прекрасная, светлая, ясная,
@@ -1909,7 +1909,7 @@ A Dm A
 Dm Gm
 Прими моё сердце, цвет моей юности,
 A Dm
-В руки Иисуса отдаюсь навсегда.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=39 | photo=notion-youth-songbook | notionPageId=239c968f-827d-490e-857d-8b5dc5205d78 | notionChordPageId=1249248b-9315-41ac-8d2e-9a2ff5bd626d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/239c968f827d490e857d8b5dc5205d78', 'pending'
+В руки Иисуса отдаюсь навсегда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=39 | photo=notion-youth-songbook | notionPageId=239c968f-827d-490e-857d-8b5dc5205d78 | notionChordPageId=1249248b-9315-41ac-8d2e-9a2ff5bd626d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/239c968f827d490e857d8b5dc5205d78', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Где ты прекрасная'
@@ -1917,7 +1917,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Гефсиманский сад', 'Пасхальные', NULL, '[Куплет 1]
 Dm
 Гефсиманский сад, Гефсиманский сад…
@@ -1962,7 +1962,7 @@ Gm A# A
 И в молитве я, и в молитве я
 Говорю: Господь, научи меня
 ||: На коленях так, как Твой Сын, стоять,
-Побеждать, побеждать!!! :||', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=40 | photo=notion-youth-songbook | notionPageId=b705466a-8e38-4cf9-9f56-6d51a42cb061 | notionChordPageId=406c0e71-5f5d-431c-abee-1a1ff19cd366 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b705466a8e384cf99f566d51a42cb061', 'pending'
+Побеждать, побеждать!!! :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=40 | photo=notion-youth-songbook | notionPageId=b705466a-8e38-4cf9-9f56-6d51a42cb061 | notionChordPageId=406c0e71-5f5d-431c-abee-1a1ff19cd366 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b705466a8e384cf99f566d51a42cb061', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Гефсиманский сад'
@@ -1970,7 +1970,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Глубока, подобно морю', 'Пасхальные', NULL, '[Куплет 1]
 D G D A
 Глубока, подобно морю, совершенная Любовь
@@ -1999,7 +1999,7 @@ D G D A D
 D Em A D
 Царь вселенной, Искупитель, умирал за нас с тобой.
 Hm G D A D
-Там была Любовь излита, где пролита Божья Кровь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=41 | photo=notion-youth-songbook | notionPageId=262ed320-85b7-41da-9de6-8402c2e9f769 | notionChordPageId=0025d45d-d12d-4c58-b4c0-39e43104f4db | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/262ed32085b741da9de68402c2e9f769', 'pending'
+Там была Любовь излита, где пролита Божья Кровь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=41 | photo=notion-youth-songbook | notionPageId=262ed320-85b7-41da-9de6-8402c2e9f769 | notionChordPageId=0025d45d-d12d-4c58-b4c0-39e43104f4db | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/262ed32085b741da9de68402c2e9f769', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Глубока, подобно морю'
@@ -2007,7 +2007,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Говори ко мне', 'Разное', NULL, '[Куплет 1]
 C#m H
 От гласа Твоего содрогаются горы
@@ -2034,7 +2034,7 @@ A G#
 C#m H
 О! Говори! Говори ко мне! Говори! Говори ко мне!
 A G#m C#m
-Говори! Говори ко мне, мой Господь!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=42 | photo=notion-youth-songbook | notionPageId=229ce5db-c8bb-4814-b49b-b392f378c2e4 | notionChordPageId=4259388c-05cc-4fc3-ac3b-e236200e8cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/229ce5dbc8bb4814b49bb392f378c2e4', 'pending'
+Говори! Говори ко мне, мой Господь!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=42 | photo=notion-youth-songbook | notionPageId=229ce5db-c8bb-4814-b49b-b392f378c2e4 | notionChordPageId=4259388c-05cc-4fc3-ac3b-e236200e8cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/229ce5dbc8bb4814b49bb392f378c2e4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Говори ко мне'
@@ -2042,7 +2042,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Горы сдвинутся', 'Молитвенные', NULL, '[Куплет 1]
 Dm Am
 Его мысли не наши мысли, и пути Его не наши пути.
@@ -2071,7 +2071,7 @@ Gm A
 Gm A Dm Gm A Dm
 А надеющиеся на Господа обновятся в силе всегда.
 A#m Dm Gm A Dm A
-О, душа успокойся, рядом Бог, не бойся.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=43 | photo=notion-youth-songbook | notionPageId=d40e4798-8cc4-47c6-9b45-b797ec40493d | notionChordPageId=97643278-8dca-4b0e-98fd-1cb92cdbee9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d40e47988cc447c69b45b797ec40493d', 'pending'
+О, душа успокойся, рядом Бог, не бойся.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=43 | photo=notion-youth-songbook | notionPageId=d40e4798-8cc4-47c6-9b45-b797ec40493d | notionChordPageId=97643278-8dca-4b0e-98fd-1cb92cdbee9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d40e47988cc447c69b45b797ec40493d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Горы сдвинутся'
@@ -2079,7 +2079,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Господи, как странно', 'Благодарение', NULL, '[Куплет 1]
 Em D
 Господи, как странно, что я жил Тебя не зная
@@ -2128,7 +2128,7 @@ C D H7
 Em D
 С Ним сумею сделать всё, снесу я трудности любые
 C D H7
-Потому что славлюБога и Его люблю.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=44 | photo=notion-youth-songbook | notionPageId=acdea7df-dc0a-47af-8985-fea2661be7f6 | notionChordPageId=4a659e20-7b01-4605-af41-a93f93962de3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/acdea7dfdc0a47af8985fea2661be7f6', 'pending'
+Потому что славлюБога и Его люблю.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=44 | photo=notion-youth-songbook | notionPageId=acdea7df-dc0a-47af-8985-fea2661be7f6 | notionChordPageId=4a659e20-7b01-4605-af41-a93f93962de3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/acdea7dfdc0a47af8985fea2661be7f6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господи, как странно'
@@ -2136,7 +2136,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Господь - пастырь мой', 'Хлебопреломление', NULL, '[Куплет 1]
 Em D G C
 На злачных пажитях меня покоит Он,
@@ -2171,7 +2171,7 @@ G D Em
 Em D G C
 Пребывать вечно буду я в доме Твоем,
 G D Em
-В чудный образ Твой преображаться.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=45 | photo=notion-youth-songbook | notionPageId=843f43e7-9f21-40b6-a40b-d2ce1d54d550 | notionChordPageId=cec5a1fd-09b9-48f2-b55a-7624bbfab7a1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/843f43e79f2140b6a40bd2ce1d54d550', 'pending'
+В чудный образ Твой преображаться.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=45 | photo=notion-youth-songbook | notionPageId=843f43e7-9f21-40b6-a40b-d2ce1d54d550 | notionChordPageId=cec5a1fd-09b9-48f2-b55a-7624bbfab7a1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/843f43e79f2140b6a40bd2ce1d54d550', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господь - пастырь мой'
@@ -2179,7 +2179,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Господь есть мой Пастырь', 'Божья любовь', NULL, '[Куплет 1]
 G C
 Господь есть мой Пастырь, не буду тужить,
@@ -2218,7 +2218,7 @@ D G
 G C
 Храни меня в мире могучей рукой
 D G
-Пока не прибуду к Тебе.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=46 | photo=notion-youth-songbook | notionPageId=0f92c987-641d-493b-9b2c-2be4ddf1e083 | notionChordPageId=81dfa1fb-a39c-4fe3-93f4-72df8159ca78 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f92c987641d493b9b2c2be4ddf1e083', 'pending'
+Пока не прибуду к Тебе.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=46 | photo=notion-youth-songbook | notionPageId=0f92c987-641d-493b-9b2c-2be4ddf1e083 | notionChordPageId=81dfa1fb-a39c-4fe3-93f4-72df8159ca78 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f92c987641d493b9b2c2be4ddf1e083', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господь есть мой Пастырь'
@@ -2226,7 +2226,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Господь моя сила', 'Вера и упование', NULL, '[Куплет 1]
 // Господь моя сила и щит. //
 Господь упованье моё и помощь мне.
@@ -2238,7 +2238,7 @@ SELECT 'Господь моя сила', 'Вера и упование', NULL, '
 
 [Куплет 2]
 // Господь моя радость и мир //
-Господь утешенье мое и мой покой.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=47 | photo=notion-youth-songbook | notionPageId=5499f738-a54a-41ec-bfa5-1c1b5e5444fa | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/5499f738a54a41ecbfa51c1b5e5444fa | Fill chord lines in the lead sheet before approval.', 'pending'
+Господь утешенье мое и мой покой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=47 | photo=notion-youth-songbook | notionPageId=5499f738-a54a-41ec-bfa5-1c1b5e5444fa | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/5499f738a54a41ecbfa51c1b5e5444fa | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Господь моя сила'
@@ -2246,7 +2246,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Давно погасли огни', 'Спасение', NULL, '[Куплет 1]
 Am F C E Am
 Давно погасли огни туманных надежд
@@ -2287,7 +2287,7 @@ Am F C E Am
 Am F C E Am
 Где звуки арф и труб, где ангелы поют
 Am F C E Am
-Где Богу и Христу хвалу все воздают.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=48 | photo=notion-youth-songbook | notionPageId=4d1f7889-d830-4444-b112-3da7ba50f7ac | notionChordPageId=4d3c5c81-6216-4bca-910b-438fffada889 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4d1f7889d8304444b1123da7ba50f7ac', 'pending'
+Где Богу и Христу хвалу все воздают.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=48 | photo=notion-youth-songbook | notionPageId=4d1f7889-d830-4444-b112-3da7ba50f7ac | notionChordPageId=4d3c5c81-6216-4bca-910b-438fffada889 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4d1f7889d8304444b1123da7ba50f7ac', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Давно погасли огни'
@@ -2295,7 +2295,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Далеко, далеко', 'Спасение', NULL, '[Куплет 1]
 Cm G#
 Далеко, далеко, далеко, далеко,
@@ -2334,7 +2334,7 @@ A# D#
 Fm Cm
 Побеждать этот мир лишь любовью Твоей,
 Fm G Cm
-Ожидая отрадных тех дней!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=49 | photo=notion-youth-songbook | notionPageId=e2c47307-d972-49d1-9de9-d830c376234d | notionChordPageId=73f55c34-d77a-4901-932d-e0b6c0c88869 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e2c47307d97249d19de9d830c376234d', 'pending'
+Ожидая отрадных тех дней!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=49 | photo=notion-youth-songbook | notionPageId=e2c47307-d972-49d1-9de9-d830c376234d | notionChordPageId=73f55c34-d77a-4901-932d-e0b6c0c88869 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e2c47307d97249d19de9d830c376234d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Далеко, далеко'
@@ -2342,7 +2342,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Держит Он меня!', 'Пасхальные', NULL, '[Куплет 1]
 G C D G
 Если грех меня страшит, Держит Он меня!
@@ -2381,7 +2381,7 @@ G C D G
 C D G C H Em
 Я воскресну к жизни с Ним Держит Он меня
 C D G C D G
-Знаю, буду Им храним До Благого Дня.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=50 | photo=notion-youth-songbook | notionPageId=991ed6ab-0e7b-47ae-ba03-63b4f21634af | notionChordPageId=399ee036-70b3-4efe-959e-7f12ba4c2a22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/991ed6ab0e7b47aeba0363b4f21634af', 'pending'
+Знаю, буду Им храним До Благого Дня.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=50 | photo=notion-youth-songbook | notionPageId=991ed6ab-0e7b-47ae-ba03-63b4f21634af | notionChordPageId=399ee036-70b3-4efe-959e-7f12ba4c2a22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/991ed6ab0e7b47aeba0363b4f21634af', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Держит Он меня!'
@@ -2389,7 +2389,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Дивный Спаситель, прекрасный', 'Пасхальные', NULL, '[Куплет 1]
 C F C
 Дивный Спаситель, прекрасный,
@@ -2436,7 +2436,7 @@ Am F Fm
 C G Am
 Чтобы у ног пасть Твоих,
 F C G C E
-О, чтобы у ног пасть Твоих.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=51 | photo=notion-youth-songbook | notionPageId=7c4040ad-8119-4299-8431-941e770f4eaa | notionChordPageId=de777582-6048-43d7-89ab-2259b9b10eef | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c4040ad811942998431941e770f4eaa', 'pending'
+О, чтобы у ног пасть Твоих.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=51 | photo=notion-youth-songbook | notionPageId=7c4040ad-8119-4299-8431-941e770f4eaa | notionChordPageId=de777582-6048-43d7-89ab-2259b9b10eef | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c4040ad811942998431941e770f4eaa', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Дивный Спаситель, прекрасный'
@@ -2444,7 +2444,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Для тебя, о человек', 'Небо', NULL, '[Куплет 1]
 Am Dm
 Для тебя, о человек, Бог создал небо и поля,
@@ -2473,7 +2473,7 @@ E Am
 A Dm
 Для тебя моря и горы, все живое – для тебя,
 Am E Am
-Для тебя все это создала Его рука.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=52 | photo=notion-youth-songbook | notionPageId=0aee615f-f9a3-4135-8066-2599b0ee10e9 | notionChordPageId=ae1489c5-0a4c-4165-b600-e3fce2d53577 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0aee615ff9a3413580662599b0ee10e9', 'pending'
+Для тебя все это создала Его рука.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=52 | photo=notion-youth-songbook | notionPageId=0aee615f-f9a3-4135-8066-2599b0ee10e9 | notionChordPageId=ae1489c5-0a4c-4165-b600-e3fce2d53577 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0aee615ff9a3413580662599b0ee10e9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Для тебя, о человек'
@@ -2481,7 +2481,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Дни, как звук, отшумят', 'Жизнь христианина', NULL, '[Куплет 1]
 Am E Am
 Дни, как звук, отшумят и исчезнут вдали.
@@ -2516,7 +2516,7 @@ C Dm G C
 Dm Am E
 И оставишь ли ты, и оставишь ли
 E Am
-На земле добрый след.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=53 | photo=notion-youth-songbook | notionPageId=7052ee21-45bc-4abd-993e-d28480e1c62b | notionChordPageId=eb817dd6-9104-4a25-9e39-def5ec966797 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7052ee2145bc4abd993ed28480e1c62b', 'pending'
+На земле добрый след.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=53 | photo=notion-youth-songbook | notionPageId=7052ee21-45bc-4abd-993e-d28480e1c62b | notionChordPageId=eb817dd6-9104-4a25-9e39-def5ec966797 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7052ee2145bc4abd993ed28480e1c62b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Дни, как звук, отшумят'
@@ -2524,7 +2524,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Долго в сумраке скитался', 'Пасхальные', NULL, '[Куплет 1]
 Am Dm G C
 Долго в сумраке скитался, на путях греховных я
@@ -2569,7 +2569,7 @@ F Dm E E7
 Am Dm G C
 Если искренно покаясь, в сердце примешь ты Его
 F Dm E E7
-Непременно ты услышишь: «Я люблю Тебя давно»', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=54 | photo=notion-youth-songbook | notionPageId=9b8eb47a-2e74-430a-8d4c-701c377553dd | notionChordPageId=76f4e9b7-97d0-4272-955a-50a4a4f73d1b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b8eb47a2e74430a8d4c701c377553dd', 'pending'
+Непременно ты услышишь: «Я люблю Тебя давно»', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=54 | photo=notion-youth-songbook | notionPageId=9b8eb47a-2e74-430a-8d4c-701c377553dd | notionChordPageId=76f4e9b7-97d0-4272-955a-50a4a4f73d1b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b8eb47a2e74430a8d4c701c377553dd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Долго в сумраке скитался'
@@ -2577,7 +2577,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Дорога смерти в Иерусалиме', 'Пасхальные', NULL, '[Куплет 1]
 Dm A#
 Дорога смерти в Иерусалиме,
@@ -2616,7 +2616,7 @@ Gm C Dm
 Dm A#
 Идет, чтоб вечность дать нам с тобою,
 Gm C F
-Путь в бесконечность проложить Своею Кровью.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=55 | photo=notion-youth-songbook | notionPageId=a9294273-b26d-4350-b251-b59638ed0bff | notionChordPageId=a8ff8072-3286-4859-a7d0-e044ef134294 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9294273b26d4350b251b59638ed0bff', 'pending'
+Путь в бесконечность проложить Своею Кровью.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=55 | photo=notion-youth-songbook | notionPageId=a9294273-b26d-4350-b251-b59638ed0bff | notionChordPageId=a8ff8072-3286-4859-a7d0-e044ef134294 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9294273b26d4350b251b59638ed0bff', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Дорога смерти в Иерусалиме'
@@ -2624,7 +2624,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Душу мою к Тебе возношу', 'Божья любовь', NULL, '[Куплет 1]
 D A Em Hm
 Душу мою к Тебе возношу -
@@ -2653,7 +2653,7 @@ G A
 D A Em Hm
 Боже, прошу, приблизся ко мне.
 G A
-В святости нежной любовью.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=56 | photo=notion-youth-songbook | notionPageId=404959d9-81ef-483d-8e34-336f40e9cc4b | notionChordPageId=169b3e7e-d29a-45fe-ae1e-b8017926ac6d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/404959d981ef483d8e34336f40e9cc4b', 'pending'
+В святости нежной любовью.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=56 | photo=notion-youth-songbook | notionPageId=404959d9-81ef-483d-8e34-336f40e9cc4b | notionChordPageId=169b3e7e-d29a-45fe-ae1e-b8017926ac6d | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/404959d981ef483d8e34336f40e9cc4b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Душу мою к Тебе возношу'
@@ -2661,7 +2661,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Если ждет тебя дорога', 'Небо', NULL, '[Куплет 1]
 Если ждет тебя дорога в неизвестный край,
 На прощанье у порога думы не гадай,
@@ -2684,7 +2684,7 @@ SELECT 'Если ждет тебя дорога', 'Небо', NULL, '[Купле
 Жизнь кипит вокруг, как море, бьет тебя волной,
 И в твоем огромном горе ты для всех чужой.
 Помощь есть для всех у Бога, ты к Нему взывай,
-Если ждет тебя дорога в неизвестный край.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=57 | photo=notion-youth-songbook | notionPageId=a39f5d5d-7b8c-4ece-ac49-ab32d3ce250a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a39f5d5d7b8c4eceac49ab32d3ce250a | Fill chord lines in the lead sheet before approval.', 'pending'
+Если ждет тебя дорога в неизвестный край.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=57 | photo=notion-youth-songbook | notionPageId=a39f5d5d-7b8c-4ece-ac49-ab32d3ce250a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a39f5d5d7b8c4eceac49ab32d3ce250a | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Если ждет тебя дорога'
@@ -2692,7 +2692,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Есть на небе город', 'Небо', NULL, '[Куплет 1]
 Am Dm E Am
 Есть на небе город, чудный город света,
@@ -2731,7 +2731,7 @@ Am F G C
 Am Dm G C
 Так давайте ж на земле вместе славить Бога,
 Am E
-Чтобы стала нам светлей в небеса дорога.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=58 | photo=notion-youth-songbook | notionPageId=4a650950-ebfc-4e24-a91f-2209a5ae6962 | notionChordPageId=09204246-e0b9-4199-92d6-7ffbd20f9321 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a650950ebfc4e24a91f2209a5ae6962', 'pending'
+Чтобы стала нам светлей в небеса дорога.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=58 | photo=notion-youth-songbook | notionPageId=4a650950-ebfc-4e24-a91f-2209a5ae6962 | notionChordPageId=09204246-e0b9-4199-92d6-7ffbd20f9321 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a650950ebfc4e24a91f2209a5ae6962', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Есть на небе город'
@@ -2739,7 +2739,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Живущий под кровом Твоим', 'Вера и упование', NULL, '[Куплет 1]
 E H
 Живущий под кровом Твоим
@@ -2758,7 +2758,7 @@ E G#m A H
 E H A
 Потому что уповаю на Творца,
 A H E
-Потому что я говорю: “Бог мой щит”.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=59 | photo=notion-youth-songbook | notionPageId=4977a864-2386-44a9-8e79-08c7f1b40e41 | notionChordPageId=0aa2b9c6-803b-4326-a72a-0b23ac58f952 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4977a864238644a98e7908c7f1b40e41', 'pending'
+Потому что я говорю: “Бог мой щит”.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=59 | photo=notion-youth-songbook | notionPageId=4977a864-2386-44a9-8e79-08c7f1b40e41 | notionChordPageId=0aa2b9c6-803b-4326-a72a-0b23ac58f952 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4977a864238644a98e7908c7f1b40e41', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Живущий под кровом Твоим'
@@ -2766,7 +2766,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Жизни река бежит', 'Спасение', NULL, '[Куплет 1]
 Dm A7 Dm Gm
 Жизни река бежит, в вечность она ведёт,
@@ -2795,7 +2795,7 @@ A7 Dm C7 F
 D7 Gm
 Верю, что день тот придет, примешь меня Иисус.
 Dm A7 Dm
-Верю, Ты мой Господь, верю не постыжусь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=60 | photo=notion-youth-songbook | notionPageId=1785e4eb-f62f-4b08-9197-92145fca5797 | notionChordPageId=82ea0cfb-0b2e-4737-bcc0-8a3fd1774da2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1785e4ebf62f4b08919792145fca5797', 'pending'
+Верю, Ты мой Господь, верю не постыжусь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=60 | photo=notion-youth-songbook | notionPageId=1785e4eb-f62f-4b08-9197-92145fca5797 | notionChordPageId=82ea0cfb-0b2e-4737-bcc0-8a3fd1774da2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1785e4ebf62f4b08919792145fca5797', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Жизни река бежит'
@@ -2803,7 +2803,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Жизнь – борьба', 'Прославление', NULL, '[Куплет 1]
 Am F
 Жизнь – борьба Света с тьмой,
@@ -2848,7 +2848,7 @@ Dm Am
 F C
 Мы, рожденные в пустыне,
 Dm E
-Прославляем Его Имя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=61 | photo=notion-youth-songbook | notionPageId=0ceae948-d008-4a32-8b8e-f2928cb0fc2b | notionChordPageId=eaae2921-1742-411d-b3ef-089ea93ec398 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceae948d0084a328b8ef2928cb0fc2b', 'pending'
+Прославляем Его Имя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=61 | photo=notion-youth-songbook | notionPageId=0ceae948-d008-4a32-8b8e-f2928cb0fc2b | notionChordPageId=eaae2921-1742-411d-b3ef-089ea93ec398 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceae948d0084a328b8ef2928cb0fc2b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Жизнь – борьба'
@@ -2856,7 +2856,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Жизнь это поле', 'Пасхальные', NULL, '[Куплет 1]
 Am G
 Ты устал в этой жизни от горя и слез,
@@ -2901,7 +2901,7 @@ Dm Am
 F Am
 Он страдал на кресте, Он людей возлюбил,
 Dm E
-Хочет Он, чтоб обиды свои ты простил!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=62 | photo=notion-youth-songbook | notionPageId=07af1246-82a6-4ae9-b3ed-32089f1b4d0e | notionChordPageId=f52dc671-4ade-45d7-a9f2-38da46c10594 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/07af124682a64ae9b3ed32089f1b4d0e', 'pending'
+Хочет Он, чтоб обиды свои ты простил!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=62 | photo=notion-youth-songbook | notionPageId=07af1246-82a6-4ae9-b3ed-32089f1b4d0e | notionChordPageId=f52dc671-4ade-45d7-a9f2-38da46c10594 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/07af124682a64ae9b3ed32089f1b4d0e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Жизнь это поле'
@@ -2909,7 +2909,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'За всё благодарите', 'Благодарение', NULL, '[Куплет 1]
 Праздник жатвы наступил как ты этот год прожил?
 Сердце благодарное ли ты Богу принес?
@@ -2927,7 +2927,7 @@ SELECT 'За всё благодарите', 'Благодарение', NULL, '
 Все здесь проходящее, ветром уносящее,
 Как песок рассыпется и все уйдет в никуда.
 Только милость вечная, Божья бесконечная
-На Земле останется, ведь Он Бог Спаситель твой.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=63 | photo=notion-youth-songbook | notionPageId=15e8794a-cda0-42c9-9ba1-ad76d1e99860 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/15e8794acda042c99ba1ad76d1e99860 | Fill chord lines in the lead sheet before approval.', 'pending'
+На Земле останется, ведь Он Бог Спаситель твой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=63 | photo=notion-youth-songbook | notionPageId=15e8794a-cda0-42c9-9ba1-ad76d1e99860 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/15e8794acda042c99ba1ad76d1e99860 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За всё благодарите'
@@ -2935,7 +2935,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'За все я благодарю', 'Пасхальные', NULL, '[Куплет 1]
 F A Dm
 За все Тебя, Господь, я благодарю
@@ -2974,7 +2974,7 @@ F A Dm
 Gm D Gm C
 Одежду правды мне Иисус подарил,
 F C A# C
-Простил, очистил и меня искупил.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=64 | photo=notion-youth-songbook | notionPageId=f8279bc8-ed20-4386-baf3-b4f5203bfde3 | notionChordPageId=95889e28-768f-4110-a9bf-8d34961148bd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f8279bc8ed204386baf3b4f5203bfde3', 'pending'
+Простил, очистил и меня искупил.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=64 | photo=notion-youth-songbook | notionPageId=f8279bc8-ed20-4386-baf3-b4f5203bfde3 | notionChordPageId=95889e28-768f-4110-a9bf-8d34961148bd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f8279bc8ed204386baf3b4f5203bfde3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За все я благодарю'
@@ -2982,7 +2982,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'За Голгофу, за кровь', 'Пасхальные', NULL, '[Куплет 1]
 D A Hm G D A
 За Голгофу, за кровь я Тебя благодарю.
@@ -3011,7 +3011,7 @@ D A Hm G A D
 D A Hm G D A
 За чистый воздух с небес, светлый солнечный лес.
 D A Hm G A D
-За ликование птиц, за Слово с вечных страниц.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=65 | photo=notion-youth-songbook | notionPageId=9f1f4d29-1193-4a45-be7c-a33d604a699a | notionChordPageId=3c55ef66-c092-478e-895e-3506f17ab82a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9f1f4d2911934a45be7ca33d604a699a', 'pending'
+За ликование птиц, за Слово с вечных страниц.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=65 | photo=notion-youth-songbook | notionPageId=9f1f4d29-1193-4a45-be7c-a33d604a699a | notionChordPageId=3c55ef66-c092-478e-895e-3506f17ab82a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9f1f4d2911934a45be7ca33d604a699a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За Голгофу, за кровь'
@@ -3019,7 +3019,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Зажечь лесной пожар', 'Спасение', NULL, '[Куплет 1]
 D F#m G A
 Зажечь лесной пожар одной довольно искры,
@@ -3038,7 +3038,7 @@ D F#m G A
 G D G D Hm
 //: Вот так и Божия любовь и Божья благодать,
 G Hm G A D
-Ты хочешь петь, ты хочешь их другому передать. ://', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=66 | photo=notion-youth-songbook | notionPageId=602272fe-28a7-45f4-a9d1-716993d8dee1 | notionChordPageId=956365a3-fc26-4568-bc9f-bb8d8cde7a75 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/602272fe28a745f4a9d1716993d8dee1', 'pending'
+Ты хочешь петь, ты хочешь их другому передать. ://', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=66 | photo=notion-youth-songbook | notionPageId=602272fe-28a7-45f4-a9d1-716993d8dee1 | notionChordPageId=956365a3-fc26-4568-bc9f-bb8d8cde7a75 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/602272fe28a745f4a9d1716993d8dee1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Зажечь лесной пожар'
@@ -3046,7 +3046,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Зачем мой Господь', 'Пасхальные', NULL, '[Куплет 1]
 Dm                          F                             Gm              A
 Зачем, мой Господь, Ты оставил всех ангелов в небе?
@@ -3110,7 +3110,7 @@ Dm
 Пусть будут слова просты, но искренние от сердца.
 Ведь Ты для меня так дорог, мой Господь.
 
-[Припев]', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=67 | photo=notion-youth-songbook | notionPageId=ec38bccd-02be-4ad8-bc8e-215bb9d1909e | notionChordPageId=6a86c4c9-d546-469b-b1fb-7769645e1f22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec38bccd02be4ad8bc8e215bb9d1909e', 'pending'
+[Припев]', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=67 | photo=notion-youth-songbook | notionPageId=ec38bccd-02be-4ad8-bc8e-215bb9d1909e | notionChordPageId=6a86c4c9-d546-469b-b1fb-7769645e1f22 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec38bccd02be4ad8bc8e215bb9d1909e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Зачем мой Господь'
@@ -3118,7 +3118,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'За шагом шаг', 'Божья любовь', NULL, '[Куплет 1]
 Мы пытаемся найти в жизни разные пути.
 Кто укажет нам дорогу в светлый мир?
@@ -3137,7 +3137,7 @@ SELECT 'За шагом шаг', 'Божья любовь', NULL, '[Куплет
 Церковь станет нам мостом в замок веры, в светлый дом,
 Где надежда и уверенность в грядущем.
 Пусть сияет свет Христа. В нём любовь и доброта
-И святая неземная красота.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=68 | photo=notion-youth-songbook | notionPageId=c8f0c7b5-eabb-4975-8baf-e16a80148656 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/c8f0c7b5eabb49758bafe16a80148656 | Fill chord lines in the lead sheet before approval.', 'pending'
+И святая неземная красота.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=68 | photo=notion-youth-songbook | notionPageId=c8f0c7b5-eabb-4975-8baf-e16a80148656 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/c8f0c7b5eabb49758bafe16a80148656 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'За шагом шаг'
@@ -3145,7 +3145,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Здесь, на земле, мы только странники', 'Спасение', NULL, '[Куплет 1]
 Am Dm
 Здесь, на земле, мы только странники
@@ -3184,7 +3184,7 @@ E Am
 Am Dm
 Как велика любовь Спасителя Христа,
 F E
-Что в небе Родина нас ждет!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=69 | photo=notion-youth-songbook | notionPageId=e110d31d-3257-4c3f-bf07-3c438e9cabac | notionChordPageId=e563d8eb-790e-4ff9-9f2e-19caa761abc7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e110d31d32574c3fbf073c438e9cabac', 'pending'
+Что в небе Родина нас ждет!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=69 | photo=notion-youth-songbook | notionPageId=e110d31d-3257-4c3f-bf07-3c438e9cabac | notionChordPageId=e563d8eb-790e-4ff9-9f2e-19caa761abc7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e110d31d32574c3fbf073c438e9cabac', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Здесь, на земле, мы только странники'
@@ -3192,7 +3192,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Знаешь, в жизни всё проходит', 'Божья любовь', NULL, '[Куплет 1]
 Dm A#
 Знаешь, в жизни всё проходит и уходит, уплывает как вода,
@@ -3227,7 +3227,7 @@ C A
 Dm
 :: Есть смысл твоей жизни,
 A# Gm A
-Лишь с Христом, лишь с Христом, счастье будет только в нём. ::', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=70 | photo=notion-youth-songbook | notionPageId=b9682b7b-50ae-4f80-9457-6d0865157e15 | notionChordPageId=18b335cf-250e-4d40-9662-b3bacb20db83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b9682b7b50ae4f8094576d0865157e15', 'pending'
+Лишь с Христом, лишь с Христом, счастье будет только в нём. ::', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=70 | photo=notion-youth-songbook | notionPageId=b9682b7b-50ae-4f80-9457-6d0865157e15 | notionChordPageId=18b335cf-250e-4d40-9662-b3bacb20db83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b9682b7b50ae4f8094576d0865157e15', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Знаешь, в жизни всё проходит'
@@ -3235,7 +3235,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Измени меня', 'Прославление', NULL, '[Куплет 1]
 E H7 E
 Измени меня, измени меня
@@ -3284,7 +3284,7 @@ A H7
 E C#m
 Для чего ты меня призвал.
 A H7 E
-Освяти меня!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=71 | photo=notion-youth-songbook | notionPageId=b4d218a9-2acc-4547-b627-614fb0f57bd7 | notionChordPageId=64d67bf2-fa7b-4d2e-b3e2-d8d577ff81df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b4d218a92acc4547b627614fb0f57bd7', 'pending'
+Освяти меня!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=71 | photo=notion-youth-songbook | notionPageId=b4d218a9-2acc-4547-b627-614fb0f57bd7 | notionChordPageId=64d67bf2-fa7b-4d2e-b3e2-d8d577ff81df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b4d218a92acc4547b627614fb0f57bd7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Измени меня'
@@ -3292,7 +3292,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Иисус, как Ты дорог для меня', 'Молитвенные', NULL, '[Куплет 1]
 D Em
 Иисус, как Ты дорог для меня
@@ -3321,7 +3321,7 @@ A7 D
 Hm Em
 О, Иисус, услышь Ты наши голоса;
 A7 D
-Как Ты дорог, дорог для меня.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=72 | photo=notion-youth-songbook | notionPageId=480318d0-5895-42f8-8cdc-6c6900672ece | notionChordPageId=9f2d6af7-a499-4b02-a80e-c1a5f96d0f16 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/480318d0589542f88cdc6c6900672ece', 'pending'
+Как Ты дорог, дорог для меня.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=72 | photo=notion-youth-songbook | notionPageId=480318d0-5895-42f8-8cdc-6c6900672ece | notionChordPageId=9f2d6af7-a499-4b02-a80e-c1a5f96d0f16 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/480318d0589542f88cdc6c6900672ece', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, как Ты дорог для меня'
@@ -3329,7 +3329,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Иисус, превозносим', 'Прославление', NULL, '[Куплет 1]
 G Em
 Иисус, превозносим
@@ -3368,7 +3368,7 @@ C Am D
 G Em
 Прими славу, величие
 C D G
-И восхваление без конца', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=73 | photo=notion-youth-songbook | notionPageId=3aa33724-4ed5-4258-8131-3e98e0ecfd38 | notionChordPageId=c597f442-2c74-4549-9f20-4c28124d5a6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3aa337244ed5425881313e98e0ecfd38', 'pending'
+И восхваление без конца', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=73 | photo=notion-youth-songbook | notionPageId=3aa33724-4ed5-4258-8131-3e98e0ecfd38 | notionChordPageId=c597f442-2c74-4549-9f20-4c28124d5a6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3aa337244ed5425881313e98e0ecfd38', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, превозносим'
@@ -3376,7 +3376,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Иисус, Ты любовь моя', 'Спасение', NULL, '[Куплет 1]
 D A F#
 Иисус, Ты любовь моя,
@@ -3405,7 +3405,7 @@ Hm G A
 D A F#
 Даришь ты жизни полноту,
 Hm G A
-Ты скала моя и я к тебе иду!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=74 | photo=notion-youth-songbook | notionPageId=49f7d329-452f-440f-9568-e23cf3c8d18d | notionChordPageId=4bc2fdbc-0c46-485f-abc7-b31da83b8f00 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/49f7d329452f440f9568e23cf3c8d18d', 'pending'
+Ты скала моя и я к тебе иду!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=74 | photo=notion-youth-songbook | notionPageId=49f7d329-452f-440f-9568-e23cf3c8d18d | notionChordPageId=4bc2fdbc-0c46-485f-abc7-b31da83b8f00 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/49f7d329452f440f9568e23cf3c8d18d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, Ты любовь моя'
@@ -3413,7 +3413,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Иисус, Ты моя скала', 'Пасхальные', NULL, '[Куплет 1]
 Am E Am
 Когда в море бушует волна,
@@ -3460,7 +3460,7 @@ G C
 Dm Am
 Силой Духа Святого всегда
 E
-Пой слова.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=75 | photo=notion-youth-songbook | notionPageId=48be6208-3700-44ae-a808-8afb39ab9ac2 | notionChordPageId=15a3479b-d150-4dd7-89c0-539b9a95b589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/48be6208370044aea8088afb39ab9ac2', 'pending'
+Пой слова.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=75 | photo=notion-youth-songbook | notionPageId=48be6208-3700-44ae-a808-8afb39ab9ac2 | notionChordPageId=15a3479b-d150-4dd7-89c0-539b9a95b589 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/48be6208370044aea8088afb39ab9ac2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, Ты моя скала'
@@ -3468,7 +3468,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Иисус, Ты умер на кресте', 'Пасхальные', NULL, '[Куплет 1]
 D A Hm
 Иисус, Ты умер на кресте
@@ -3487,7 +3487,7 @@ G D A D
 G A Hm
 Измени меня, прошу,
 G D A D
-Ведь я Тебе служить хочу.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=76 | photo=notion-youth-songbook | notionPageId=101d044d-0291-4a41-a204-b6f0ca7601f1 | notionChordPageId=a072921f-55c7-447d-8f13-73621ff833a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/101d044d02914a41a204b6f0ca7601f1', 'pending'
+Ведь я Тебе служить хочу.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=76 | photo=notion-youth-songbook | notionPageId=101d044d-0291-4a41-a204-b6f0ca7601f1 | notionChordPageId=a072921f-55c7-447d-8f13-73621ff833a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/101d044d02914a41a204b6f0ca7601f1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Иисус, Ты умер на кресте'
@@ -3495,7 +3495,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ищите Бога', 'Утешение и ободрение', NULL, '[Куплет 1]
 Cm Fm G Cm
 Ищите Бога, ищите слёзно,
@@ -3514,7 +3514,7 @@ Fm G Cm C
 Fm A# Cm
 И будет радость превыше неба,
 Fm G Cm
-Но так ищите, как нищий — хлеба!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=77 | photo=notion-youth-songbook | notionPageId=5a9ca282-7ae7-4255-b6e2-86df7ffc65c3 | notionChordPageId=c4ffd83c-7861-4625-a80a-99d6610c392f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5a9ca2827ae74255b6e286df7ffc65c3', 'pending'
+Но так ищите, как нищий — хлеба!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=77 | photo=notion-youth-songbook | notionPageId=5a9ca282-7ae7-4255-b6e2-86df7ffc65c3 | notionChordPageId=c4ffd83c-7861-4625-a80a-99d6610c392f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5a9ca2827ae74255b6e286df7ffc65c3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ищите Бога'
@@ -3522,7 +3522,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ищите прежде Царства', 'Прославление', NULL, '[Куплет 1]
 Ищите прежде Царства Божия
 И правды Его,
@@ -3539,7 +3539,7 @@ SELECT 'Ищите прежде Царства', 'Прославление', NUL
 Просите и дано будет вам,
 Ищите и найдете,
 Стучите и отворят вам,
-Аллилуйя, аллилуйя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=78 | photo=notion-youth-songbook | notionPageId=214a2ef2-ad6b-4881-bb4b-5fbdd34400ec | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/214a2ef2ad6b4881bb4b5fbdd34400ec | Fill chord lines in the lead sheet before approval.', 'pending'
+Аллилуйя, аллилуйя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=78 | photo=notion-youth-songbook | notionPageId=214a2ef2-ad6b-4881-bb4b-5fbdd34400ec | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/214a2ef2ad6b4881bb4b5fbdd34400ec | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ищите прежде Царства'
@@ -3547,7 +3547,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Каждый день улетают самолёты', 'Вера и упование', NULL, '[Припев]
 Каждый день улетают самолёты,
 Каждый час уезжают поезда,
@@ -3570,7 +3570,7 @@ SELECT 'Каждый день улетают самолёты', 'Вера и у�
 Никогда не унывай,
 Небо есть заветный край.
 Ты в него всегда смотри,
-Помощь Господа прими.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=79 | photo=notion-youth-songbook | notionPageId=263c0a1a-4df3-4525-94be-259bd75020d9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/263c0a1a4df3452594be259bd75020d9 | Fill chord lines in the lead sheet before approval.', 'pending'
+Помощь Господа прими.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=79 | photo=notion-youth-songbook | notionPageId=263c0a1a-4df3-4525-94be-259bd75020d9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/263c0a1a4df3452594be259bd75020d9 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Каждый день улетают самолёты'
@@ -3578,7 +3578,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как вожделенны жилища Твои', 'Дух Святой', NULL, '[Куплет 1]
 C G Am7 F
 Как вожделенны жилища Твои,
@@ -3613,7 +3613,7 @@ E Am
 Dm G Em Am
 Ибо день один во дворах Твоих
 Dm G C
-Лучше тысячи.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=80 | photo=notion-youth-songbook | notionPageId=3ad616da-f2ce-41f7-99f2-8353184afa37 | notionChordPageId=d13aeb49-5f33-47d4-8ce7-40c62f3c3723 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3ad616daf2ce41f799f28353184afa37', 'pending'
+Лучше тысячи.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=80 | photo=notion-youth-songbook | notionPageId=3ad616da-f2ce-41f7-99f2-8353184afa37 | notionChordPageId=d13aeb49-5f33-47d4-8ce7-40c62f3c3723 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3ad616daf2ce41f799f28353184afa37', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как вожделенны жилища Твои'
@@ -3621,7 +3621,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как вожделенны', 'Дух Святой', NULL, '[Куплет 1]
 D Hm
 Как вожделенны жилища Твои,
@@ -3666,7 +3666,7 @@ Hm D A
 Я верю в Тебя, мой Бог!
 Я верю в Тебя, мой Бог!
 Имя Твое всегда будет в сердце моем.
-Я верю в Тебя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=81 | photo=notion-youth-songbook | notionPageId=0908f372-f2b8-4852-88e1-4ec8011709f8 | notionChordPageId=dfe5f973-7603-423a-af9e-efc789140af5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0908f372f2b8485288e14ec8011709f8', 'pending'
+Я верю в Тебя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=81 | photo=notion-youth-songbook | notionPageId=0908f372-f2b8-4852-88e1-4ec8011709f8 | notionChordPageId=dfe5f973-7603-423a-af9e-efc789140af5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0908f372f2b8485288e14ec8011709f8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как вожделенны'
@@ -3674,7 +3674,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как глубока Твоя любовь', 'Дух Святой', NULL, '[Куплет 1]
 Em C
 Как глубока Твоя любовь,
@@ -3701,7 +3701,7 @@ Am D
 G C
 Драгоценный Дух Святой,
 Am H7 Em
-Освещай и веди за Собой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=82 | photo=notion-youth-songbook | notionPageId=35ea72ae-290c-42bd-a4dc-7893b8391526 | notionChordPageId=051b1862-1405-464c-96e1-c855e08c0134 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/35ea72ae290c42bda4dc7893b8391526', 'pending'
+Освещай и веди за Собой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=82 | photo=notion-youth-songbook | notionPageId=35ea72ae-290c-42bd-a4dc-7893b8391526 | notionChordPageId=051b1862-1405-464c-96e1-c855e08c0134 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/35ea72ae290c42bda4dc7893b8391526', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как глубока Твоя любовь'
@@ -3709,7 +3709,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как олень стремится к водам', 'Молитвенные', NULL, '[Куплет 1]
 C Em Am
 Как олень стремится к водам,
@@ -3748,7 +3748,7 @@ F G C F G
 C G Am
 Прославляю Тебя, мой Боже,
 F G C
-Всей душой любя Тебя.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=83 | photo=notion-youth-songbook | notionPageId=3f531f6f-3751-40cf-8209-c5eb82c98dcf | notionChordPageId=06a709db-8663-461f-92bd-249545d180ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3f531f6f375140cf8209c5eb82c98dcf', 'pending'
+Всей душой любя Тебя.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=83 | photo=notion-youth-songbook | notionPageId=3f531f6f-3751-40cf-8209-c5eb82c98dcf | notionChordPageId=06a709db-8663-461f-92bd-249545d180ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3f531f6f375140cf8209c5eb82c98dcf', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как олень стремится к водам'
@@ -3756,7 +3756,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как прекрасно все то, что Твое', 'Спасение', NULL, '[Куплет 1]
 Am
 Как прекрасно все то, что Твое,
@@ -3819,7 +3819,7 @@ Dm
 F
 Это Ты мне, Спаситель, даешь
 E7
-Все то доброе, что я имею.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=84 | photo=notion-youth-songbook | notionPageId=4be82751-2886-41cc-95cc-628b88c41666 | notionChordPageId=85309b48-1a65-4b3e-ad93-f38076a1b855 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4be82751288641cc95cc628b88c41666', 'pending'
+Все то доброе, что я имею.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=84 | photo=notion-youth-songbook | notionPageId=4be82751-2886-41cc-95cc-628b88c41666 | notionChordPageId=85309b48-1a65-4b3e-ad93-f38076a1b855 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4be82751288641cc95cc628b88c41666', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как прекрасно все то, что Твое'
@@ -3827,7 +3827,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как сон уходят прочь года', 'Молитвенные', NULL, '[Куплет 1]
 Cm Gm
 Как сон уходят прочь года
@@ -3856,7 +3856,7 @@ Fm G#
 Cm Gm
 Альбом листая в тишине
 Fm G#
-Прошу: “Господь, друзей моих храни”', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=85 | photo=notion-youth-songbook | notionPageId=7346db90-6079-44d8-a8e3-40ccbd7ca1ea | notionChordPageId=3492c609-af18-4990-ba67-851ebc203768 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7346db90607944d8a8e340ccbd7ca1ea', 'pending'
+Прошу: “Господь, друзей моих храни”', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=85 | photo=notion-youth-songbook | notionPageId=7346db90-6079-44d8-a8e3-40ccbd7ca1ea | notionChordPageId=3492c609-af18-4990-ba67-851ebc203768 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7346db90607944d8a8e340ccbd7ca1ea', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как сон уходят прочь года'
@@ -3864,7 +3864,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как часто мы блуждаем', 'Пасхальные', NULL, '[Куплет 1]
 C Em A7
 Как часто мы блуждаем, и просто забываем,
@@ -3899,7 +3899,7 @@ Dm
 G E Am Dm
 Любовь его святая живёт и побеждает,
 G C
-Приносит радость и покой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=86 | photo=notion-youth-songbook | notionPageId=1c7a5276-75f4-4719-8429-b98a72f8a2e3 | notionChordPageId=8a2cda02-2f11-4802-a702-5c262b51ce38 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1c7a527675f447198429b98a72f8a2e3', 'pending'
+Приносит радость и покой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=86 | photo=notion-youth-songbook | notionPageId=1c7a5276-75f4-4719-8429-b98a72f8a2e3 | notionChordPageId=8a2cda02-2f11-4802-a702-5c262b51ce38 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1c7a527675f447198429b98a72f8a2e3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как часто мы блуждаем'
@@ -3907,7 +3907,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Как-то получилось', 'Божья любовь', NULL, '[Куплет 1]
 Em Am
 Как-то получилось, что сошлись дороги,
@@ -3956,7 +3956,7 @@ H7 Em
 Em Am
 Ты придешь, я знаю, и склонишься низко,
 D H7
-Скажешь нежно слово в утешенье мне.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=87 | photo=notion-youth-songbook | notionPageId=ae58ad4f-6c01-4e9b-a4ab-f203a9b40786 | notionChordPageId=484a0f6b-9ed8-4979-82ae-cb989bc1ccb6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae58ad4f6c014e9ba4abf203a9b40786', 'pending'
+Скажешь нежно слово в утешенье мне.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=87 | photo=notion-youth-songbook | notionPageId=ae58ad4f-6c01-4e9b-a4ab-f203a9b40786 | notionChordPageId=484a0f6b-9ed8-4979-82ae-cb989bc1ccb6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae58ad4f6c014e9ba4abf203a9b40786', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Как-то получилось'
@@ -3964,7 +3964,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Кистью Творца', 'Благодарение', NULL, '[Куплет 1]
 C F G Am
 Кистью Творца созданы небеса,
@@ -4003,7 +4003,7 @@ F G
 C F E
 Я благодарю Тебя, мой Господь,
 Am F G
-Мой Господь и славлю я Тебя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=88 | photo=notion-youth-songbook | notionPageId=8d23a531-e808-423a-af11-9c49075cac64 | notionChordPageId=abb3dd25-d704-4423-9786-3fa0aeb791cd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8d23a531e808423aaf119c49075cac64', 'pending'
+Мой Господь и славлю я Тебя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=88 | photo=notion-youth-songbook | notionPageId=8d23a531-e808-423a-af11-9c49075cac64 | notionChordPageId=abb3dd25-d704-4423-9786-3fa0aeb791cd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8d23a531e808423aaf119c49075cac64', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кистью Творца'
@@ -4011,7 +4011,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Когда бушует жизнь', 'Пасхальные', NULL, '[Куплет 1]
 Em Am
 Когда бушует жизнь, огнем меня крестя,
@@ -4052,7 +4052,7 @@ Am H7 E7
 Am Am Em C
 Но мне ли унывать - имею я Христа,
 Am H7 Em
-Что может у меня Его отнять?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=89 | photo=notion-youth-songbook | notionPageId=27a4df2b-c294-44dd-88c8-b5aa91e09b52 | notionChordPageId=bdf06b8f-5b23-43af-b6a0-148d8b14de9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a4df2bc29444dd88c8b5aa91e09b52', 'pending'
+Что может у меня Его отнять?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=89 | photo=notion-youth-songbook | notionPageId=27a4df2b-c294-44dd-88c8-b5aa91e09b52 | notionChordPageId=bdf06b8f-5b23-43af-b6a0-148d8b14de9c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/27a4df2bc29444dd88c8b5aa91e09b52', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда бушует жизнь'
@@ -4060,7 +4060,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Когда в пути душа утомляется', 'Молитвенные', NULL, '[Куплет 1]
 Am Dm E Am
 Когда в пути душа утомляется
@@ -4099,7 +4099,7 @@ Dm G C Am
 Dm7 Gm C Am
 ||: Прими спасенье в день этот памятный
 Dm E Am A
-И вместе с нами радостно в путь пойдём! :||', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=90 | photo=notion-youth-songbook | notionPageId=8debf778-d8a6-4a8a-b07a-be8fb4f2037d | notionChordPageId=634aabd3-0447-4155-9448-e730583ece65 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8debf778d8a64a8ab07abe8fb4f2037d', 'pending'
+И вместе с нами радостно в путь пойдём! :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=90 | photo=notion-youth-songbook | notionPageId=8debf778-d8a6-4a8a-b07a-be8fb4f2037d | notionChordPageId=634aabd3-0447-4155-9448-e730583ece65 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8debf778d8a64a8ab07abe8fb4f2037d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда в пути душа утомляется'
@@ -4107,7 +4107,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Когда в Твои слова вникаю', 'Спасение', NULL, '[Куплет 1]
 Dm
 Когда в Твои слова вникаю,
@@ -4160,7 +4160,7 @@ F A Dm
 Gm A
 Твоими соками питаясь,
 Dm A Dm
-Дай пребывать в Тебе всегда.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=91 | photo=notion-youth-songbook | notionPageId=8719feb2-b87d-4f7d-b4d6-0f3076fc64a7 | notionChordPageId=ad7ec627-0068-4c39-a692-4502456640d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8719feb2b87d4f7db4d60f3076fc64a7', 'pending'
+Дай пребывать в Тебе всегда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=91 | photo=notion-youth-songbook | notionPageId=8719feb2-b87d-4f7d-b4d6-0f3076fc64a7 | notionChordPageId=ad7ec627-0068-4c39-a692-4502456640d7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8719feb2b87d4f7db4d60f3076fc64a7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда в Твои слова вникаю'
@@ -4168,7 +4168,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Когда весенний ветерок', 'Утешение и ободрение', NULL, '[Куплет 1]
 Em A D Hm
 Когда весенний ветерок колышет радостно цветок,
@@ -4203,7 +4203,7 @@ Em A D D7
 Em A D Hm
 Зимой, в метель, в глухую ночь, зимой, в метель, в глухую ночь
 Em A D D7
-Мы прославляем Божью мощь, да Божью мощь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=92 | photo=notion-youth-songbook | notionPageId=596ace4b-cf7c-4a74-82a3-f3ccca7ba6f7 | notionChordPageId=3e7337ef-a243-41fe-b0f7-679ebdb869d8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/596ace4bcf7c4a7482a3f3ccca7ba6f7', 'pending'
+Мы прославляем Божью мощь, да Божью мощь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=92 | photo=notion-youth-songbook | notionPageId=596ace4b-cf7c-4a74-82a3-f3ccca7ba6f7 | notionChordPageId=3e7337ef-a243-41fe-b0f7-679ebdb869d8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/596ace4bcf7c4a7482a3f3ccca7ba6f7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда весенний ветерок'
@@ -4211,7 +4211,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Когда смолкнет всё', 'Прощение', NULL, '[Куплет 1]
 D A Em
 Когда смолкнет всё, в тиши утонет звук,
@@ -4248,7 +4248,7 @@ Em A
 D A Em
 Беден я и нищ, и все, что есть -Твоё,
 A
-Даже просто вздох.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=93 | photo=notion-youth-songbook | notionPageId=7d9a51e4-4f2b-4e8f-a7d9-3d4fd0c3d865 | notionChordPageId=e03188ed-d565-4e38-bfa5-69ef220b040e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7d9a51e44f2b4e8fa7d93d4fd0c3d865', 'pending'
+Даже просто вздох.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=93 | photo=notion-youth-songbook | notionPageId=7d9a51e4-4f2b-4e8f-a7d9-3d4fd0c3d865 | notionChordPageId=e03188ed-d565-4e38-bfa5-69ef220b040e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7d9a51e44f2b4e8fa7d93d4fd0c3d865', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда смолкнет всё'
@@ -4256,7 +4256,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Когда Христос меня простил', 'Прощение', NULL, '[Куплет 1]
 C
 Когда Христос меня простил,
@@ -4295,7 +4295,7 @@ Am
 Dm
 В стране родной, в стране чужой,-
 G E7
-Там небо, где Христос со мной.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=94 | photo=notion-youth-songbook | notionPageId=f853a9a9-da34-4dfd-b103-7f39fc9aff34 | notionChordPageId=44e22363-c680-4349-a39e-117a4a2bfb67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f853a9a9da344dfdb1037f39fc9aff34', 'pending'
+Там небо, где Христос со мной.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=94 | photo=notion-youth-songbook | notionPageId=f853a9a9-da34-4dfd-b103-7f39fc9aff34 | notionChordPageId=44e22363-c680-4349-a39e-117a4a2bfb67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f853a9a9da344dfdb1037f39fc9aff34', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Когда Христос меня простил'
@@ -4303,7 +4303,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Косари на лугу', 'Спасение', NULL, '[Куплет 1]
 Gm Cm
 Косари на лугу размахалися острыми косами,
@@ -4342,7 +4342,7 @@ Gm D Gm
 Cm Gm
 И как в прежние дни, упиваясь небесными росами,
 Dm Gm
-Прославляю Тебя за любовь и за милость Твою.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=95 | photo=notion-youth-songbook | notionPageId=959ed66e-cce4-4cd3-8d5a-f21a5ee25aee | notionChordPageId=956903af-137d-47c4-9a34-db32bbbc0911 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/959ed66ecce44cd38d5af21a5ee25aee', 'pending'
+Прославляю Тебя за любовь и за милость Твою.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=95 | photo=notion-youth-songbook | notionPageId=959ed66e-cce4-4cd3-8d5a-f21a5ee25aee | notionChordPageId=956903af-137d-47c4-9a34-db32bbbc0911 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/959ed66ecce44cd38d5af21a5ee25aee', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Косари на лугу'
@@ -4350,7 +4350,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Крылья зари', 'Божья любовь', NULL, '[Куплет 1]
 Em
 Господи, Ты испытал меня
@@ -4387,7 +4387,7 @@ Em
 Em
 И веденье Твое мне не постичь,
 Em D Em
-Как высоки Твои все, Боже, помышления', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=96 | photo=notion-youth-songbook | notionPageId=805fe242-4406-4dd5-b54a-1e2b540c8c21 | notionChordPageId=1c421e05-8edf-4328-9c03-93c3aedae3f4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/805fe24244064dd5b54a1e2b540c8c21', 'pending'
+Как высоки Твои все, Боже, помышления', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=96 | photo=notion-youth-songbook | notionPageId=805fe242-4406-4dd5-b54a-1e2b540c8c21 | notionChordPageId=1c421e05-8edf-4328-9c03-93c3aedae3f4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/805fe24244064dd5b54a1e2b540c8c21', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Крылья зари'
@@ -4395,7 +4395,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Кто бы дал мне слезы сокрушенья', 'Дух Святой', NULL, '[Куплет 1]
 Gm D7 Gm
 Кто бы дал мне слезы сокрушенья,
@@ -4454,7 +4454,7 @@ A# F A#
 Cm D7 Gm
 Чтобы я не плакал за дверями,
 D7 A Gm
-Где слеза уж больше не нужна.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=97 | photo=notion-youth-songbook | notionPageId=c7cd5991-e6f8-4010-a124-f3fb2e28dab7 | notionChordPageId=289d433a-de7a-4b78-972d-fef87e75ab46 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c7cd5991e6f84010a124f3fb2e28dab7', 'pending'
+Где слеза уж больше не нужна.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=97 | photo=notion-youth-songbook | notionPageId=c7cd5991-e6f8-4010-a124-f3fb2e28dab7 | notionChordPageId=289d433a-de7a-4b78-972d-fef87e75ab46 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c7cd5991e6f84010a124f3fb2e28dab7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто бы дал мне слезы сокрушенья'
@@ -4462,7 +4462,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Кто есть на небе у меня?', 'Спасение', NULL, '[Куплет 1]
 Em Am C H7
 Кто есть на небе у меня? Только Ты!
@@ -4521,7 +4521,7 @@ E7 Am D
 G Em
 Природы силы замолчат,
 Am H7 Em E
-Я буду петь сквозь смерти яд: Мой Христос! :||', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=98 | photo=notion-youth-songbook | notionPageId=9b33e469-2286-4527-95ad-32d10276884f | notionChordPageId=c2c656b6-5b04-4b31-8b47-148fc2298820 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b33e4692286452795ad32d10276884f', 'pending'
+Я буду петь сквозь смерти яд: Мой Христос! :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=98 | photo=notion-youth-songbook | notionPageId=9b33e469-2286-4527-95ad-32d10276884f | notionChordPageId=c2c656b6-5b04-4b31-8b47-148fc2298820 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9b33e4692286452795ad32d10276884f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто есть на небе у меня?'
@@ -4529,7 +4529,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Кто же я', 'Прощение', NULL, '[Куплет 1]
 G Em
 Кто же я, что Царя Вселенной всей
@@ -4562,7 +4562,7 @@ D C D C D
 G Em
 Кто же я, чтобы Бог, смиривший шторм,
 D C D C D
-Дарил мне Свой покой, когда вокруг лишь зло?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=99 | photo=notion-youth-songbook | notionPageId=0a9d92ed-c6ad-4daa-9c61-1f33ed9bc666 | notionChordPageId=80d24c8f-4504-431b-a144-367f90353d58 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a9d92edc6ad4daa9c611f33ed9bc666', 'pending'
+Дарил мне Свой покой, когда вокруг лишь зло?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=99 | photo=notion-youth-songbook | notionPageId=0a9d92ed-c6ad-4daa-9c61-1f33ed9bc666 | notionChordPageId=80d24c8f-4504-431b-a144-367f90353d58 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a9d92edc6ad4daa9c611f33ed9bc666', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто же я'
@@ -4570,7 +4570,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Кто из царей', 'Пасхальные', NULL, '[Куплет 1]
 A
 Идя за звездой в чужие края
@@ -4611,7 +4611,7 @@ A
 F#m
 И смирну несущему жизнь ко кресту
 Hm E
-Мы верим Он Тот, Кого мы так ждали давно!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=100 | photo=notion-youth-songbook | notionPageId=f28dacd5-5b98-4f02-b329-237f1b379241 | notionChordPageId=f4a80128-d732-40d1-b270-8d07eb9b5bab | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f28dacd55b984f02b329237f1b379241', 'pending'
+Мы верим Он Тот, Кого мы так ждали давно!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=100 | photo=notion-youth-songbook | notionPageId=f28dacd5-5b98-4f02-b329-237f1b379241 | notionChordPageId=f4a80128-d732-40d1-b270-8d07eb9b5bab | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f28dacd55b984f02b329237f1b379241', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто из царей'
@@ -4619,7 +4619,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Кто я без Тебя', 'Божья любовь', NULL, '[Куплет 1]
 C F
 Хочу я жить под кровом Твоим,
@@ -4660,7 +4660,7 @@ C F
 Am C F
 Всё то, что есть во мне,
 C Dm C Gsus G
-И всё, чем я живу, принадлежит Тебе.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=101 | photo=notion-youth-songbook | notionPageId=7455ae64-42ed-41d4-9e5b-adc1e5634c0e | notionChordPageId=47b1f592-14ae-47a8-8d26-f4bcf495fc4a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7455ae6442ed41d49e5badc1e5634c0e', 'pending'
+И всё, чем я живу, принадлежит Тебе.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=101 | photo=notion-youth-songbook | notionPageId=7455ae64-42ed-41d4-9e5b-adc1e5634c0e | notionChordPageId=47b1f592-14ae-47a8-8d26-f4bcf495fc4a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7455ae6442ed41d49e5badc1e5634c0e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Кто я без Тебя'
@@ -4668,7 +4668,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Куда б мы ни ехали', 'Молитвенные', NULL, '[Куплет 1]
 Куда б мы ни ехали, куда б ни бежали,
 Везде есть проблемы, везде есть печали…
@@ -4691,7 +4691,7 @@ SELECT 'Куда б мы ни ехали', 'Молитвенные', NULL, '[К�
 ||: Так может, потому и приходят печали,
 Чтобы мы с тобой о небе скучали,
 Чтобы всей душой стремились в небеса
-Куда не постучится больше беда. :|| Больше беда.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=102 | photo=notion-youth-songbook | notionPageId=4b9a8ff4-24bf-4fc6-a363-6a207efe645a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/4b9a8ff424bf4fc6a3636a207efe645a | Fill chord lines in the lead sheet before approval.', 'pending'
+Куда не постучится больше беда. :|| Больше беда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=102 | photo=notion-youth-songbook | notionPageId=4b9a8ff4-24bf-4fc6-a363-6a207efe645a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/4b9a8ff424bf4fc6a3636a207efe645a | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Куда б мы ни ехали'
@@ -4699,7 +4699,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Куда мы идем', 'Пасхальные', NULL, '[Куплет 1]
 D A Hm G
 Куда мы идем, только Он знает.
@@ -4738,7 +4738,7 @@ D A Hm G
 D A Hm G
 Выбери жизнь, выбери счастье.
 D A Hm G
-Крест свой нести сквозь бури, ненастья.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=103 | photo=notion-youth-songbook | notionPageId=f751b98b-8c4d-4508-9d80-cb277bfcb2c8 | notionChordPageId=c932ccf2-242b-4f55-a180-365f81e37be9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f751b98b8c4d45089d80cb277bfcb2c8', 'pending'
+Крест свой нести сквозь бури, ненастья.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=103 | photo=notion-youth-songbook | notionPageId=f751b98b-8c4d-4508-9d80-cb277bfcb2c8 | notionChordPageId=c932ccf2-242b-4f55-a180-365f81e37be9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f751b98b8c4d45089d80cb277bfcb2c8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Куда мы идем'
@@ -4746,7 +4746,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Лети', 'Небо', NULL, '[Куплет 1]
 F G Am
 Каждый день смотрю на небеса
@@ -4783,7 +4783,7 @@ F G Dm
 F G Am
 Покажи мне снова чудеса
 F E
-Скажи лети', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=104 | photo=notion-youth-songbook | notionPageId=3d15e3cc-a2f3-41fb-a240-cd66d75d097d | notionChordPageId=ed356e62-d658-41ed-b4a0-cc1081ef573c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d15e3cca2f341fba240cd66d75d097d', 'pending'
+Скажи лети', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=104 | photo=notion-youth-songbook | notionPageId=3d15e3cc-a2f3-41fb-a240-cd66d75d097d | notionChordPageId=ed356e62-d658-41ed-b4a0-cc1081ef573c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3d15e3cca2f341fba240cd66d75d097d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Лети'
@@ -4791,7 +4791,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Льются слёзы печали', 'Пасхальные', NULL, '[Куплет 1]
 [братья]
 Льются слёзы печали
@@ -4836,7 +4836,7 @@ SELECT 'Льются слёзы печали', 'Пасхальные', NULL, '[�
 Благодатью Христовой
 От греха я спасаюсь
 Его царства святого
-Я наследником стал.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=105 | photo=notion-youth-songbook | notionPageId=f512fd68-5c85-4075-b74f-a8e6caa926fd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/f512fd685c854075b74fa8e6caa926fd | Fill chord lines in the lead sheet before approval.', 'pending'
+Я наследником стал.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=105 | photo=notion-youth-songbook | notionPageId=f512fd68-5c85-4075-b74f-a8e6caa926fd | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/f512fd685c854075b74fa8e6caa926fd | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Льются слёзы печали'
@@ -4844,7 +4844,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Люби...', 'Божья любовь', NULL, '[Куплет 1]
 Em
 Люби, когда другой тебя толкает,
@@ -4885,7 +4885,7 @@ C
 Am
 Люби – пусть сердце Бога отражает,
 D H
-Люби – любовь любовью отвечает.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=106 | photo=notion-youth-songbook | notionPageId=9e83418b-a755-4e8c-9de7-9dfc438faf28 | notionChordPageId=e81368b3-7f28-419a-b57b-57cc81b48cc8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e83418ba7554e8c9de79dfc438faf28', 'pending'
+Люби – любовь любовью отвечает.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=106 | photo=notion-youth-songbook | notionPageId=9e83418b-a755-4e8c-9de7-9dfc438faf28 | notionChordPageId=e81368b3-7f28-419a-b57b-57cc81b48cc8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e83418ba7554e8c9de79dfc438faf28', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Люби...'
@@ -4893,7 +4893,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Любит Иисус меня', 'Призыв к покаянию', NULL, '[Куплет 1]
 D Em
 Любит Иисус меня, любит меня,
@@ -4934,7 +4934,7 @@ A D
 D Em
 Вечную радость ты обретешь
 A D D7
-И песню новую с Ним запоешь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=107 | photo=notion-youth-songbook | notionPageId=0a5a9e84-2d57-4dbb-b9fd-5b790f223b2e | notionChordPageId=3fc8d47c-ae6d-43e6-9222-4d7c8d483337 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a5a9e842d574dbbb9fd5b790f223b2e', 'pending'
+И песню новую с Ним запоешь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=107 | photo=notion-youth-songbook | notionPageId=0a5a9e84-2d57-4dbb-b9fd-5b790f223b2e | notionChordPageId=3fc8d47c-ae6d-43e6-9222-4d7c8d483337 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a5a9e842d574dbbb9fd5b790f223b2e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любит Иисус меня'
@@ -4942,7 +4942,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Любовь - Евангельское слово', 'Спасение', NULL, '[Куплет 1]
 C#m A E H7
 Любовь - Евангельское слово
@@ -4989,7 +4989,7 @@ G#m A E
 H7 C#m
 Любовь да будет не притворной
 A H7
-В нем тайна жизни боготворной.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=108 | photo=notion-youth-songbook | notionPageId=09da7197-572e-404a-be5a-066db2027166 | notionChordPageId=aa4306db-26a6-4665-bb52-e7cb46c283c5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/09da7197572e404abe5a066db2027166', 'pending'
+В нем тайна жизни боготворной.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=108 | photo=notion-youth-songbook | notionPageId=09da7197-572e-404a-be5a-066db2027166 | notionChordPageId=aa4306db-26a6-4665-bb52-e7cb46c283c5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/09da7197572e404abe5a066db2027166', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любовь - Евангельское слово'
@@ -4997,7 +4997,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Любовь Христа верна и чиста', 'Спасение', NULL, '[Куплет 1]
 Em
 Мы каждый день встречаемся вновь
@@ -5044,7 +5044,7 @@ Am
 H7
 Без денег, злата, серебра
 Em
-Любовь Христа.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=109 | photo=notion-youth-songbook | notionPageId=085692d9-b323-4bf6-9ad1-33cb2fb0d77f | notionChordPageId=aa4eac71-981f-46ec-b1fd-3fd94c4f5b23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/085692d9b3234bf69ad133cb2fb0d77f', 'pending'
+Любовь Христа.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=109 | photo=notion-youth-songbook | notionPageId=085692d9-b323-4bf6-9ad1-33cb2fb0d77f | notionChordPageId=aa4eac71-981f-46ec-b1fd-3fd94c4f5b23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/085692d9b3234bf69ad133cb2fb0d77f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любовь Христа верна и чиста'
@@ -5052,7 +5052,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Любоў Хрыстова', 'Спасение', NULL, '[Куплет 1]
 Em C
 Любоў Хрыстова! Яна, як сонца,
@@ -5095,7 +5095,7 @@ Am H7 Em H7
 Em C
 Прыйдзі да Ісуса, спяшайся хутка,
 Am H7 Em E
-Пакуль адкрыта да Бога дзвер.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=110 | photo=notion-youth-songbook | notionPageId=31d04827-dc7e-4e48-b9e2-d0301b994fce | notionChordPageId=78dab9b4-1ce5-47ac-a4c6-9c1ed12a935b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/31d04827dc7e4e48b9e2d0301b994fce', 'pending'
+Пакуль адкрыта да Бога дзвер.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=110 | photo=notion-youth-songbook | notionPageId=31d04827-dc7e-4e48-b9e2-d0301b994fce | notionChordPageId=78dab9b4-1ce5-47ac-a4c6-9c1ed12a935b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/31d04827dc7e4e48b9e2d0301b994fce', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Любоў Хрыстова'
@@ -5103,7 +5103,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Люди ищут вокруг', 'Разное', NULL, '[Куплет 1]
 Fm A#m D# G# C
 Люди ищут вокруг днём и в полночь идут
@@ -5132,7 +5132,7 @@ Fm A#m C#7 C7
 Fm A#m D# G# C
 Только Бог может знать жизнь твою наперёд
 Fm A#m C#7 C7
-Бог наш полон любви ты к Нему поспеши', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=111 | photo=notion-youth-songbook | notionPageId=2c93ac07-50e9-4f83-ae56-77c2e25f67d1 | notionChordPageId=15350e0d-9d12-4465-90ea-0a59c03e9478 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2c93ac0750e94f83ae5677c2e25f67d1', 'pending'
+Бог наш полон любви ты к Нему поспеши', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=111 | photo=notion-youth-songbook | notionPageId=2c93ac07-50e9-4f83-ae56-77c2e25f67d1 | notionChordPageId=15350e0d-9d12-4465-90ea-0a59c03e9478 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2c93ac0750e94f83ae5677c2e25f67d1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Люди ищут вокруг'
@@ -5140,7 +5140,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Манит сердце мечтою', 'Прощение', NULL, '[Куплет 1]
 Dm
 Манит сердце мечтою
@@ -5179,7 +5179,7 @@ Gm
 A7
 И второе рожденье,
 Dm
-Только истинно веруй.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=112 | photo=notion-youth-songbook | notionPageId=4722dbe8-a861-465c-adbc-9df5c1c19004 | notionChordPageId=0879f978-fc76-4930-9ff5-f3f21e4890f1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4722dbe8a861465cadbc9df5c1c19004', 'pending'
+Только истинно веруй.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=112 | photo=notion-youth-songbook | notionPageId=4722dbe8-a861-465c-adbc-9df5c1c19004 | notionChordPageId=0879f978-fc76-4930-9ff5-f3f21e4890f1 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4722dbe8a861465cadbc9df5c1c19004', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Манит сердце мечтою'
@@ -5187,7 +5187,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мария спешила скорей', 'Пасхальные', NULL, '[Куплет 1]
 G Em
 Мария спешила скорей
@@ -5226,7 +5226,7 @@ C D
 G E
 Христос и сегодня живой
 Am D
-И снова Он рядом с тобой', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=113 | photo=notion-youth-songbook | notionPageId=aa530eb0-fc11-42ed-962e-88eb3e823995 | notionChordPageId=9968fdb4-7925-4589-818a-39beffe7f9ee | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/aa530eb0fc1142ed962e88eb3e823995', 'pending'
+И снова Он рядом с тобой', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=113 | photo=notion-youth-songbook | notionPageId=aa530eb0-fc11-42ed-962e-88eb3e823995 | notionChordPageId=9968fdb4-7925-4589-818a-39beffe7f9ee | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/aa530eb0fc1142ed962e88eb3e823995', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мария спешила скорей'
@@ -5234,7 +5234,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Милости Твоей полна вся земля', 'Благодарение', NULL, '[Куплет 1]
 Em A A7
 Милости Твоей полна вся земля,
@@ -5253,7 +5253,7 @@ Em A D Hm Em F# Hm
 
 [Мост]
 Благодарю Тебя,
-Благодарю Тебя,', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=114 | photo=notion-youth-songbook | notionPageId=bd1b6653-b08d-4d46-babd-4db0d7abedc4 | notionChordPageId=3cee34b7-09e9-4f4b-9214-db0c5a0284b4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bd1b6653b08d4d46babd4db0d7abedc4', 'pending'
+Благодарю Тебя,', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=114 | photo=notion-youth-songbook | notionPageId=bd1b6653-b08d-4d46-babd-4db0d7abedc4 | notionChordPageId=3cee34b7-09e9-4f4b-9214-db0c5a0284b4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bd1b6653b08d4d46babd4db0d7abedc4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Милости Твоей полна вся земля'
@@ -5261,7 +5261,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Милость Божья', 'Дух Святой', NULL, '[Куплет 1]
 Dm Gm
 От погибели спасла меня милость Божья.
@@ -5300,7 +5300,7 @@ C A Dm D
 Cm D
 Там, где место для святых, будет вечно им светить –
 Gm A Dm D
-Это милость Божья, это милость Божья', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=115 | photo=notion-youth-songbook | notionPageId=839d1652-dd17-4232-ada6-1718886f39cf | notionChordPageId=5b0d2a81-0409-4c7e-8e18-3a4c9a1547d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/839d1652dd174232ada61718886f39cf', 'pending'
+Это милость Божья, это милость Божья', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=115 | photo=notion-youth-songbook | notionPageId=839d1652-dd17-4232-ada6-1718886f39cf | notionChordPageId=5b0d2a81-0409-4c7e-8e18-3a4c9a1547d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/839d1652dd174232ada61718886f39cf', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Милость Божья'
@@ -5308,7 +5308,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мимо текла, текла река', 'Божья любовь', NULL, '[Куплет 1]
 Dm Gm Dm
 Мимо текла, текла река, плыли куда-то облака,
@@ -5347,7 +5347,7 @@ Gm C F D7
 Gm F Dm
 Но чтобы в этом доме жить, нужно в сердцах своих хранить
 Gm A Dm D7
-Мир и тепло, любовь и свет, вечный завет.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=116 | photo=notion-youth-songbook | notionPageId=5b8315eb-8637-48bc-aaa6-c7f4805d9692 | notionChordPageId=c484cb2d-aee1-44bf-b729-7990e0227677 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b8315eb863748bcaaa6c7f4805d9692', 'pending'
+Мир и тепло, любовь и свет, вечный завет.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=116 | photo=notion-youth-songbook | notionPageId=5b8315eb-8637-48bc-aaa6-c7f4805d9692 | notionChordPageId=c484cb2d-aee1-44bf-b729-7990e0227677 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b8315eb863748bcaaa6c7f4805d9692', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мимо текла, текла река'
@@ -5355,7 +5355,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мир вам', 'Божья любовь', NULL, '[Куплет 1]
 Hm Em F#
 Мир вам, настал общения час,
@@ -5400,7 +5400,7 @@ Hm Em A
 D H7 Em
 Мир вам, конца не будет вашим дням,
 Em F# Hm
-Мир братья, сестры вам.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=117 | photo=notion-youth-songbook | notionPageId=d0b87b98-9968-4a0c-af1b-f2442ec20186 | notionChordPageId=62b4cd56-7af4-468b-92fe-30f66d4ef10a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d0b87b9899684a0caf1bf2442ec20186', 'pending'
+Мир братья, сестры вам.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=117 | photo=notion-youth-songbook | notionPageId=d0b87b98-9968-4a0c-af1b-f2442ec20186 | notionChordPageId=62b4cd56-7af4-468b-92fe-30f66d4ef10a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d0b87b9899684a0caf1bf2442ec20186', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мир вам'
@@ -5408,7 +5408,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мне есть за что благодарить', 'Пасхальные', NULL, '[Куплет 1]
 Hm F#m Hm
 Мне есть за что благодарить Творца -
@@ -5447,7 +5447,7 @@ Em F#7 Hm
 Hm F#7 G
 Придёт мой день - я ноги обниму
 Em F#7 Hm
-Того, Кто умер на кресте Голгофском.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=118 | photo=notion-youth-songbook | notionPageId=e686c2cf-a797-47d2-a85e-ae90443349d3 | notionChordPageId=2f3ee12e-701a-406c-9ac1-19dff1c4a5e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e686c2cfa79747d2a85eae90443349d3', 'pending'
+Того, Кто умер на кресте Голгофском.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=118 | photo=notion-youth-songbook | notionPageId=e686c2cf-a797-47d2-a85e-ae90443349d3 | notionChordPageId=2f3ee12e-701a-406c-9ac1-19dff1c4a5e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e686c2cfa79747d2a85eae90443349d3', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мне есть за что благодарить'
@@ -5455,7 +5455,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мне кажется завтра', 'Спасение', NULL, '[Куплет 1]
 C
 Нам кажется, завтра мы будем прилежней
@@ -5506,7 +5506,7 @@ F Fm
 G
 Не ныне, а завтра, потом.
 F G C
-Не ныне, а завтра, потом.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=119 | photo=notion-youth-songbook | notionPageId=818b46da-8b2c-4cda-bfb8-852f25fd05fc | notionChordPageId=72b5f6c8-8976-4127-a6e4-51ebac8300a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/818b46da8b2c4cdabfb8852f25fd05fc', 'pending'
+Не ныне, а завтра, потом.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=119 | photo=notion-youth-songbook | notionPageId=818b46da-8b2c-4cda-bfb8-852f25fd05fc | notionChordPageId=72b5f6c8-8976-4127-a6e4-51ebac8300a5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/818b46da8b2c4cdabfb8852f25fd05fc', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мне кажется завтра'
@@ -5514,7 +5514,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Много лет прошло', 'Пасхальные', NULL, '[Куплет 1]
 Em Am
 Много лет прошло с времен Голгофы,
@@ -5559,7 +5559,7 @@ C H Em
 G D H
 Руки те, что всем добро творили
 Em Am H
-И как любили нежно ласкать детей.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=120 | photo=notion-youth-songbook | notionPageId=8dbd4194-4d00-47be-8d1f-67ad6ead7f4a | notionChordPageId=711e4563-2420-4e6a-a225-7c5ebcb0b2ec | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8dbd41944d0047be8d1f67ad6ead7f4a', 'pending'
+И как любили нежно ласкать детей.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=120 | photo=notion-youth-songbook | notionPageId=8dbd4194-4d00-47be-8d1f-67ad6ead7f4a | notionChordPageId=711e4563-2420-4e6a-a225-7c5ebcb0b2ec | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8dbd41944d0047be8d1f67ad6ead7f4a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Много лет прошло'
@@ -5567,7 +5567,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Много лет учили тебя и меня', 'Спасение', NULL, '[Куплет 1]
 Am Dm
 Много лет учили тебя и меня:
@@ -5606,7 +5606,7 @@ E Am E
 Am Dm
 Спасенье приготовлено Богом моим,
 Am E Am
-Белым, белым парусом моим.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=121 | photo=notion-youth-songbook | notionPageId=8536df5e-69fd-4e72-b768-a119bf69a1f9 | notionChordPageId=c0da7889-302f-4bc4-b518-bbd9d06808b0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8536df5e69fd4e72b768a119bf69a1f9', 'pending'
+Белым, белым парусом моим.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=121 | photo=notion-youth-songbook | notionPageId=8536df5e-69fd-4e72-b768-a119bf69a1f9 | notionChordPageId=c0da7889-302f-4bc4-b518-bbd9d06808b0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8536df5e69fd4e72b768a119bf69a1f9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Много лет учили тебя и меня'
@@ -5614,7 +5614,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Много много километров', 'Небо', NULL, '[Куплет 1]
 D Hm G A
 Много много километров земного пути
@@ -5643,7 +5643,7 @@ D Hm G A
 G A D Hm
 И снова светят звезды, а мы роняем слезы
 G A
-Устаем идти, устаем мечтать', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=122 | photo=notion-youth-songbook | notionPageId=53a99305-01b9-4f87-a971-89c12724b77b | notionChordPageId=54d723b6-7d5e-4319-acf1-d63a04fe6ed8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53a9930501b94f87a97189c12724b77b', 'pending'
+Устаем идти, устаем мечтать', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=122 | photo=notion-youth-songbook | notionPageId=53a99305-01b9-4f87-a971-89c12724b77b | notionChordPageId=54d723b6-7d5e-4319-acf1-d63a04fe6ed8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53a9930501b94f87a97189c12724b77b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Много много километров'
@@ -5651,7 +5651,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мой Господь, в этот час', 'Молитвенные', NULL, '[Куплет 1]
 Em C D H
 Мой Господь, в этот час я склоняюсь в мольбе,
@@ -5694,7 +5694,7 @@ Em C D H
 Am H Em C
 Знаю, скоро придёшь, скоро встречу Тебя,
 Am H Em H
-Свою Церковь возьмёшь от скорбей и от зла.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=123 | photo=notion-youth-songbook | notionPageId=6760712b-d2fc-4447-ac80-4164dc835bdd | notionChordPageId=8f33b773-49a6-412e-9f53-cee1179f537c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6760712bd2fc4447ac804164dc835bdd', 'pending'
+Свою Церковь возьмёшь от скорбей и от зла.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=123 | photo=notion-youth-songbook | notionPageId=6760712b-d2fc-4447-ac80-4164dc835bdd | notionChordPageId=8f33b773-49a6-412e-9f53-cee1179f537c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6760712bd2fc4447ac804164dc835bdd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мой Господь, в этот час'
@@ -5702,7 +5702,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Молитва — это крик души', 'Молитвенные', NULL, '[Куплет 1]
 Em C Am H
 Молитва — это крик души, чем искренней, тем тише
@@ -5741,7 +5741,7 @@ Em C Am C H
 Am D G C
 Как пустоцвет неверных чувств, она тогда бесплодна,
 Am Em Am H E
-Лукавство, лесть из грешных уст, для Бога не угодны!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=124 | photo=notion-youth-songbook | notionPageId=820d8394-a34b-4e3d-9b9f-21ee605b9856 | notionChordPageId=f5eb307b-f013-46d9-9227-281e8ec414ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/820d8394a34b4e3d9b9f21ee605b9856', 'pending'
+Лукавство, лесть из грешных уст, для Бога не угодны!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=124 | photo=notion-youth-songbook | notionPageId=820d8394-a34b-4e3d-9b9f-21ee605b9856 | notionChordPageId=f5eb307b-f013-46d9-9227-281e8ec414ea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/820d8394a34b4e3d9b9f21ee605b9856', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Молитва — это крик души'
@@ -5749,7 +5749,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Молодые', 'Божья любовь', NULL, '[Куплет 1]
 Am Dm
 Молодые, вы рождённы для Бога жить,
@@ -5790,7 +5790,7 @@ G C E7
 Am Dm
 Молодые, будьте верны Иисусу Христу,
 F Dm E7
-Чтобы в мире этом лютом победить сатану.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=125 | photo=notion-youth-songbook | notionPageId=9842986c-3fae-4eb6-9ac7-4e858679250f | notionChordPageId=86be5c09-12ba-4850-98b3-b8bcaacd19c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9842986c3fae4eb69ac74e858679250f', 'pending'
+Чтобы в мире этом лютом победить сатану.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=125 | photo=notion-youth-songbook | notionPageId=9842986c-3fae-4eb6-9ac7-4e858679250f | notionChordPageId=86be5c09-12ba-4850-98b3-b8bcaacd19c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9842986c3fae4eb69ac74e858679250f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Молодые'
@@ -5798,7 +5798,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Моя молитва да стремится', 'Молитвенные', NULL, '[Куплет 1]
 Em C
 Моя молитва да стремится
@@ -5847,7 +5847,7 @@ Am H7 Em
 Em C
 Когда мы молимся – услышь нас
 Am H7 Em
-И помощь дай Свою с небес!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=126 | photo=notion-youth-songbook | notionPageId=108b6f4e-245e-401c-a789-4e3817dcfa08 | notionChordPageId=4de00650-657f-4805-8756-32424d9bb6e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/108b6f4e245e401ca7894e3817dcfa08', 'pending'
+И помощь дай Свою с небес!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=126 | photo=notion-youth-songbook | notionPageId=108b6f4e-245e-401c-a789-4e3817dcfa08 | notionChordPageId=4de00650-657f-4805-8756-32424d9bb6e2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/108b6f4e245e401ca7894e3817dcfa08', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Моя молитва да стремится'
@@ -5855,7 +5855,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мы – лишь мгновенье', 'Семья', NULL, '[Куплет 1]
 C G Dm Am
 Мы – лишь мгновенье, Ты – сама вечность
@@ -5884,7 +5884,7 @@ F C A# G
 C G Dm Am
 Слабых упавших Ты поднимаешь,
 F C A# G
-Даришь обильно нам благодать.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=127 | photo=notion-youth-songbook | notionPageId=8a626bb8-da3f-412e-bd66-062313494097 | notionChordPageId=b4f15d48-8526-441d-afb6-c7c7b053f8e4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8a626bb8da3f412ebd66062313494097', 'pending'
+Даришь обильно нам благодать.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=127 | photo=notion-youth-songbook | notionPageId=8a626bb8-da3f-412e-bd66-062313494097 | notionChordPageId=b4f15d48-8526-441d-afb6-c7c7b053f8e4 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8a626bb8da3f412ebd66062313494097', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мы – лишь мгновенье'
@@ -5892,7 +5892,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Мы нужны друг другу', 'Семья', NULL, '[Куплет 1]
 F C Dm
 Мы нужны друг другу, Бог нас спас не зря,
@@ -5921,7 +5921,7 @@ A# C F C
 F C Dm
 Так давайте сохраним мы веру на земле,
 A# C F
-Чтоб царствовать нам с Богом во Христе!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=128 | photo=notion-youth-songbook | notionPageId=52af40bc-a24f-4013-bb0f-3a2c2d35946a | notionChordPageId=7be2980c-5349-4114-bd20-7f88d8b1eaf3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/52af40bca24f4013bb0f3a2c2d35946a', 'pending'
+Чтоб царствовать нам с Богом во Христе!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=128 | photo=notion-youth-songbook | notionPageId=52af40bc-a24f-4013-bb0f-3a2c2d35946a | notionChordPageId=7be2980c-5349-4114-bd20-7f88d8b1eaf3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/52af40bca24f4013bb0f3a2c2d35946a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Мы нужны друг другу'
@@ -5929,7 +5929,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'На всяком месте', 'Семья', NULL, '[Куплет 1]
 G Em
 На всяком месте до краёв земли
@@ -5992,7 +5992,7 @@ C D
 Hm Em
 И жизнь моя рекою потечёт,
 C D G
-Там солнцем будет Сам Христос!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=129 | photo=notion-youth-songbook | notionPageId=df2ac51d-54cf-41cd-bc79-d6cd6758e13b | notionChordPageId=a6353397-bc53-45fb-8fdf-06bc2655652e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/df2ac51d54cf41cdbc79d6cd6758e13b', 'pending'
+Там солнцем будет Сам Христос!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=129 | photo=notion-youth-songbook | notionPageId=df2ac51d-54cf-41cd-bc79-d6cd6758e13b | notionChordPageId=a6353397-bc53-45fb-8fdf-06bc2655652e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/df2ac51d54cf41cdbc79d6cd6758e13b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'На всяком месте'
@@ -6000,7 +6000,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'На Тебя мы уповаем', 'Пасхальные', NULL, '[Куплет 1]
 Dm F C
 Наша надежда - Ты Христос.
@@ -6025,7 +6025,7 @@ A Dm
 Dm F C
 Ты нам спасенье ныне принёс,
 Gm A A7
-Ты нас избавил от горя и слёз.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=130 | photo=notion-youth-songbook | notionPageId=dd1f40a0-db09-43b3-b071-be5afb61e341 | notionChordPageId=73213b9e-d8be-4ddb-a58e-b7ee09b7047a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/dd1f40a0db0943b3b071be5afb61e341', 'pending'
+Ты нас избавил от горя и слёз.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=130 | photo=notion-youth-songbook | notionPageId=dd1f40a0-db09-43b3-b071-be5afb61e341 | notionChordPageId=73213b9e-d8be-4ddb-a58e-b7ee09b7047a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/dd1f40a0db0943b3b071be5afb61e341', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'На Тебя мы уповаем'
@@ -6033,7 +6033,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'На Христа взирая', 'Небо', NULL, '[Куплет 1]
 Em Hm C G
 На Христа взирая, жизнь Ему отдай,
@@ -6072,7 +6072,7 @@ Am F#m H
 Em Hm C G
 И рука святая приготовит пир,
 Am F#m H
-На Христа взирая, в Нём твой мир.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=131 | photo=notion-youth-songbook | notionPageId=97616c5e-4b67-4abe-9cb9-5de77a5b1fa4 | notionChordPageId=79ceeb46-b66f-4116-991b-70921f831113 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97616c5e4b674abe9cb95de77a5b1fa4', 'pending'
+На Христа взирая, в Нём твой мир.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=131 | photo=notion-youth-songbook | notionPageId=97616c5e-4b67-4abe-9cb9-5de77a5b1fa4 | notionChordPageId=79ceeb46-b66f-4116-991b-70921f831113 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97616c5e4b674abe9cb95de77a5b1fa4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'На Христа взирая'
@@ -6080,7 +6080,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Над церковными куполами', 'Спасение', NULL, '[Куплет 1]
 Am Dm
 Над церковными куполами
@@ -6119,7 +6119,7 @@ E7 Am
 C
 И мне очень, очень хочется
 Dm E7
-За мою Беларусь молиться!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=132 | photo=notion-youth-songbook | notionPageId=7be648d7-8137-426d-a48a-f12168bec8ce | notionChordPageId=26167861-2047-48f8-87e1-695b0f85d6e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7be648d78137426da48af12168bec8ce', 'pending'
+За мою Беларусь молиться!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=132 | photo=notion-youth-songbook | notionPageId=7be648d7-8137-426d-a48a-f12168bec8ce | notionChordPageId=26167861-2047-48f8-87e1-695b0f85d6e8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7be648d78137426da48af12168bec8ce', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Над церковными куполами'
@@ -6127,7 +6127,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Научи меня', 'Спасение', NULL, '[Куплет 1]
 Em Am
 Научи меня, мой Господь, во всём
@@ -6166,7 +6166,7 @@ H Em
 Em Am
 Добрый верный раб скорее войди,
 H Em
-В радость Господина своего.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=133 | photo=notion-youth-songbook | notionPageId=ff3615bc-4736-4a6a-b8ca-11e83940df6e | notionChordPageId=3dd95900-f309-4719-a7ae-e195a83aa265 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ff3615bc47364a6ab8ca11e83940df6e', 'pending'
+В радость Господина своего.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=133 | photo=notion-youth-songbook | notionPageId=ff3615bc-4736-4a6a-b8ca-11e83940df6e | notionChordPageId=3dd95900-f309-4719-a7ae-e195a83aa265 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ff3615bc47364a6ab8ca11e83940df6e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Научи меня'
@@ -6174,7 +6174,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Начиная новый день', 'Благодарение', NULL, '[Куплет 1]
 Начиная новый день, слышу голос Твой.
 Я смотрю на небеса, знаю - Ты со мной.
@@ -6197,7 +6197,7 @@ SELECT 'Начиная новый день', 'Благодарение', NULL, '
 Я хочу, чтоб сегодня горели сердца.
 Пусть сияет в них свет от великого Бога - Отца.
 Пусть ещё миллионы заблудших людей.
-Наконец-то поймут, Кто для них всех нужней.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=134 | photo=notion-youth-songbook | notionPageId=a388cd41-df97-4483-a8c2-70017e780b6a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a388cd41df974483a8c270017e780b6a | Fill chord lines in the lead sheet before approval.', 'pending'
+Наконец-то поймут, Кто для них всех нужней.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=134 | photo=notion-youth-songbook | notionPageId=a388cd41-df97-4483-a8c2-70017e780b6a | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/a388cd41df974483a8c270017e780b6a | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Начиная новый день'
@@ -6205,7 +6205,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Наш Бог Великий', 'Величие Бога', NULL, '[Куплет 1]
 G#m E H
 Воду в вино превратил,
@@ -6234,7 +6234,7 @@ H F#
 И если Бог с нами,
 Кто против нас восстанет?
 И если Бог с нами,
-Кто может против быть?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=135 | photo=notion-youth-songbook | notionPageId=92d99b0c-c6c4-43e2-adb4-635ca3052558 | notionChordPageId=6b086cc3-d547-4da4-8032-bd956014a9eb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/92d99b0cc6c443e2adb4635ca3052558', 'pending'
+Кто может против быть?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=135 | photo=notion-youth-songbook | notionPageId=92d99b0c-c6c4-43e2-adb4-635ca3052558 | notionChordPageId=6b086cc3-d547-4da4-8032-bd956014a9eb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/92d99b0cc6c443e2adb4635ca3052558', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Наш Бог Великий'
@@ -6242,7 +6242,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Наш Бог так велик', 'Семья', NULL, '[Куплет 1]
 G Em7
 В сиянии Царя блеск величия
@@ -6275,7 +6275,7 @@ C D
 Он превыше всех имён
 Всей хвалы достоин Он!
 И душа поёт:
-Наш Бог так велик!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=136 | photo=notion-youth-songbook | notionPageId=4a33c3ab-85d1-4f5c-86f6-7a9322cedc36 | notionChordPageId=3972c2f1-c591-4621-90aa-87a703a29302 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a33c3ab85d14f5c86f67a9322cedc36', 'pending'
+Наш Бог так велик!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=136 | photo=notion-youth-songbook | notionPageId=4a33c3ab-85d1-4f5c-86f6-7a9322cedc36 | notionChordPageId=3972c2f1-c591-4621-90aa-87a703a29302 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4a33c3ab85d14f5c86f67a9322cedc36', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Наш Бог так велик'
@@ -6283,7 +6283,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Наша жизнь - это путь', 'Спасение', NULL, '[Куплет 1]
 Dm Gm
 Наша жизнь - это путь на небеса.
@@ -6354,7 +6354,7 @@ Gm A# F
 Dm Gm
 Наша жизнь - это путь на небеса
 A# C Dm
-Всех искупленных кровью Христа.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=137 | photo=notion-youth-songbook | notionPageId=f758b27b-2b8d-448e-86ac-09b04363b8ea | notionChordPageId=3504de51-1336-4bdc-a379-5724e0d7ba31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f758b27b2b8d448e86ac09b04363b8ea', 'pending'
+Всех искупленных кровью Христа.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=137 | photo=notion-youth-songbook | notionPageId=f758b27b-2b8d-448e-86ac-09b04363b8ea | notionChordPageId=3504de51-1336-4bdc-a379-5724e0d7ba31 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f758b27b2b8d448e86ac09b04363b8ea', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Наша жизнь - это путь'
@@ -6362,7 +6362,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Небеса ожидают меня', 'Семья', NULL, '[Куплет 1]
 Em Am
 Небеса ожидают меня,
@@ -6401,7 +6401,7 @@ H7 Em
 Em Am
 Подойдут и обнимут меня,
 H7 Em
-Радость будет моя без конца.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=138 | photo=notion-youth-songbook | notionPageId=e62c064c-171b-41a2-a4ca-3fa2658e1106 | notionChordPageId=261a5d25-5baa-4d28-a005-5e812a7871cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e62c064c171b41a2a4ca3fa2658e1106', 'pending'
+Радость будет моя без конца.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=138 | photo=notion-youth-songbook | notionPageId=e62c064c-171b-41a2-a4ca-3fa2658e1106 | notionChordPageId=261a5d25-5baa-4d28-a005-5e812a7871cb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e62c064c171b41a2a4ca3fa2658e1106', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Небеса ожидают меня'
@@ -6409,7 +6409,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Небесная родина', 'Семья', NULL, '[Куплет 1]
 Я иду туда, где царит весна,
 Где цветут сады и все поля.
@@ -6429,7 +6429,7 @@ SELECT 'Небесная родина', 'Семья', NULL, '[Куплет 1]
 И пускай бывает жизнь трудна,
 И бушует море, бьет волна.
 Все же верю я, что придет весна,
-Я дойду туда, я дойду туда.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=139 | photo=notion-youth-songbook | notionPageId=105ca539-dd6f-4d6d-ae67-16deee4076ba | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/105ca539dd6f4d6dae6716deee4076ba | Fill chord lines in the lead sheet before approval.', 'pending'
+Я дойду туда, я дойду туда.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=139 | photo=notion-youth-songbook | notionPageId=105ca539-dd6f-4d6d-ae67-16deee4076ba | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/105ca539dd6f4d6dae6716deee4076ba | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Небесная родина'
@@ -6437,7 +6437,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Небо, небо, небес', 'Пасхальные', NULL, '[Куплет 1]
 Am Dm E7 Am
 Поднимаю глаза и смотрю в небеса,
@@ -6480,7 +6480,7 @@ Am Dm G C Am
 Am Dm G C Am
 Но я знаю одно — красотой тех небес
 Am Dm E7 Am
-Будет Тот, Кто понёс на Голгофу наш крест.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=140 | photo=notion-youth-songbook | notionPageId=21ec9972-c61d-4258-a0d8-6382d4c7d09c | notionChordPageId=66365aa4-c2a3-40cf-936c-b4909bcd752e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/21ec9972c61d4258a0d86382d4c7d09c', 'pending'
+Будет Тот, Кто понёс на Голгофу наш крест.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=140 | photo=notion-youth-songbook | notionPageId=21ec9972-c61d-4258-a0d8-6382d4c7d09c | notionChordPageId=66365aa4-c2a3-40cf-936c-b4909bcd752e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/21ec9972c61d4258a0d86382d4c7d09c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Небо, небо, небес'
@@ -6488,7 +6488,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Нет другой истории', 'Рождественские', NULL, '[Куплет 1]
 D A
 Нет другой истории прекрасной и знакомой
@@ -6525,7 +6525,7 @@ Hm G
 Родился Царь,чтоб царствовать вовеки
 Своей любовью изменить мир смог
 И чрез Него мы стали Божьи дети
-Рожденный от Бога - есть Бог!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=141 | photo=notion-youth-songbook | notionPageId=b22ec591-125f-4a3c-9ee1-fe699ef51e3c | notionChordPageId=02458177-3db1-4d18-b198-dc7edd88029f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b22ec591125f4a3c9ee1fe699ef51e3c', 'pending'
+Рожденный от Бога - есть Бог!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=141 | photo=notion-youth-songbook | notionPageId=b22ec591-125f-4a3c-9ee1-fe699ef51e3c | notionChordPageId=02458177-3db1-4d18-b198-dc7edd88029f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b22ec591125f4a3c9ee1fe699ef51e3c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Нет другой истории'
@@ -6533,7 +6533,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Нет небу синему конца', 'Божья любовь', NULL, '[Куплет 1]
 Em C G H
 Нет небу синему конца,
@@ -6572,7 +6572,7 @@ Em H C
 G C
 Под шум дождей и шум ветров
 G Am H
-Храните нежную любовь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=142 | photo=notion-youth-songbook | notionPageId=4ff83597-1060-412b-9da9-4725ea41510e | notionChordPageId=9e8f9a46-d8cb-48c3-b6ba-5cde2cb6f3c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ff835971060412b9da94725ea41510e', 'pending'
+Храните нежную любовь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=142 | photo=notion-youth-songbook | notionPageId=4ff83597-1060-412b-9da9-4725ea41510e | notionChordPageId=9e8f9a46-d8cb-48c3-b6ba-5cde2cb6f3c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ff835971060412b9da94725ea41510e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Нет небу синему конца'
@@ -6580,7 +6580,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Нет, не я, но Христос во мне', 'Прощение', NULL, '[Куплет 1]
 Бесценный дар, Иисус, мой Искупитель,
 Вся благодать небес сокрыта в Нём.
@@ -6619,7 +6619,7 @@ SELECT 'Нет, не я, но Христос во мне', 'Прощение', N
 ||: И я держусь надежды в Иисусе,
 Одному Ему хвала вовек!
 И свершив жизни путь, будет песнь моих уст:
-”Нет, не я, но Христос во мне!” :||', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=143 | photo=notion-youth-songbook | notionPageId=281b8b55-3bc3-4921-a368-f9b63eb539ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/281b8b553bc34921a368f9b63eb539ad | Fill chord lines in the lead sheet before approval.', 'pending'
+”Нет, не я, но Христос во мне!” :||', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=143 | photo=notion-youth-songbook | notionPageId=281b8b55-3bc3-4921-a368-f9b63eb539ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/281b8b553bc34921a368f9b63eb539ad | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Нет, не я, но Христос во мне'
@@ -6627,7 +6627,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Новый год', 'Утешение и ободрение', NULL, '[Куплет 1]
 Am H7
 Прошел незаметно весь год
@@ -6666,7 +6666,7 @@ Dm E Am
 A7 Dm
 Мы будем счастливы тогда
 F E
-И жизнь проживём не напрасно.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=144 | photo=notion-youth-songbook | notionPageId=5b13d5e9-00af-4c99-a7fa-c727e156a53f | notionChordPageId=37668f59-7eb2-4805-907f-72cca1224a3a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b13d5e900af4c99a7fac727e156a53f', 'pending'
+И жизнь проживём не напрасно.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=144 | photo=notion-youth-songbook | notionPageId=5b13d5e9-00af-4c99-a7fa-c727e156a53f | notionChordPageId=37668f59-7eb2-4805-907f-72cca1224a3a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5b13d5e900af4c99a7fac727e156a53f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Новый год'
@@ -6674,7 +6674,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ныне поздравляют', 'Спасение', NULL, '[Куплет 1]
 D Em
 Ныне поздравляют все друзья тебя,
@@ -6701,7 +6701,7 @@ A7 D
 D Em
 Пусть Господь Спаситель Сам тебя ведет
 A7 D
-В вечную обитель, где Он Сам живёт.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=145 | photo=notion-youth-songbook | notionPageId=3fa70b77-ec50-4332-a212-62ab54849d1b | notionChordPageId=a14c45f8-f422-4ff9-a017-2d95294848fd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3fa70b77ec504332a21262ab54849d1b', 'pending'
+В вечную обитель, где Он Сам живёт.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=145 | photo=notion-youth-songbook | notionPageId=3fa70b77-ec50-4332-a212-62ab54849d1b | notionChordPageId=a14c45f8-f422-4ff9-a017-2d95294848fd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3fa70b77ec504332a21262ab54849d1b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ныне поздравляют'
@@ -6709,7 +6709,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'О, молитва', 'Благодарение', NULL, '[Куплет 1]
 Em Am Em H Em
 О молитва, о молитва! В жизни Богом ты дана.
@@ -6744,7 +6744,7 @@ E Am D G Em
 Am D G Am D
 Когда в бурю падал я без сил. К небесам сердечный вздох
 G Em Am H Em
-Возносился средь тревог, Я в молитве радость получал.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=146 | photo=notion-youth-songbook | notionPageId=a9a70757-1ce1-489f-ac5f-6fd776514549 | notionChordPageId=6f44cf5d-5996-487c-accc-b027c4a0ec3f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9a707571ce1489fac5f6fd776514549', 'pending'
+Возносился средь тревог, Я в молитве радость получал.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=146 | photo=notion-youth-songbook | notionPageId=a9a70757-1ce1-489f-ac5f-6fd776514549 | notionChordPageId=6f44cf5d-5996-487c-accc-b027c4a0ec3f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a9a707571ce1489fac5f6fd776514549', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'О, молитва'
@@ -6752,7 +6752,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'О, Ты велик', 'Божья любовь', NULL, '[Куплет 1]
 Прихожу к Тебе я с хвалою -
 Чудеса Твои велики
@@ -6772,7 +6772,7 @@ SELECT 'О, Ты велик', 'Божья любовь', NULL, '[Куплет 1]
 [Куплет 3]
 Ты один достоин всей хвалы,
 Превозносим к небу руки -
-В Тебе радуемся мы.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=147 | photo=notion-youth-songbook | notionPageId=fd57e227-e505-44b5-baca-5be1526fc133 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fd57e227e50544b5baca5be1526fc133 | Fill chord lines in the lead sheet before approval.', 'pending'
+В Тебе радуемся мы.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=147 | photo=notion-youth-songbook | notionPageId=fd57e227-e505-44b5-baca-5be1526fc133 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fd57e227e50544b5baca5be1526fc133 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'О, Ты велик'
@@ -6780,7 +6780,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Одиноко смотрят звезды', 'Пасхальные', NULL, '[Куплет 1]
 Dm C A# A7
 Одиноко смотрят звезды, Одиноко плачет небо,
@@ -6819,7 +6819,7 @@ Dm C A# A7
 Dm C A# A7
 И ты мечешься по жизни, Хочешь вырвать куш свободы,
 Dm C A# A7
-Но я знаю, бесполезно, Если нет Христа.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=148 | photo=notion-youth-songbook | notionPageId=043847d8-b0cf-4c87-9c92-7c7ba2b90646 | notionChordPageId=6b3815bd-305a-4cd7-8f89-e4dfe8170c8c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043847d8b0cf4c879c927c7ba2b90646', 'pending'
+Но я знаю, бесполезно, Если нет Христа.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=148 | photo=notion-youth-songbook | notionPageId=043847d8-b0cf-4c87-9c92-7c7ba2b90646 | notionChordPageId=6b3815bd-305a-4cd7-8f89-e4dfe8170c8c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043847d8b0cf4c879c927c7ba2b90646', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Одиноко смотрят звезды'
@@ -6827,7 +6827,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Однажды я сказал', 'Божья любовь', NULL, '[Куплет 1]
 Am F C G
 Однажды я сказал, что сохраню тебя,
@@ -6866,7 +6866,7 @@ Am F C G
 Am F C G
 Ты еще расправишь крылья и взлетишь высоко
 Am F C G
-Кто сказал что побеждать так просто и легко?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=149 | photo=notion-youth-songbook | notionPageId=0422a625-287c-48ac-ad86-36d79ed84f9d | notionChordPageId=abc2bbd1-a1d8-4479-bbdb-5b9bafa64ea9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0422a625287c48acad8636d79ed84f9d', 'pending'
+Кто сказал что побеждать так просто и легко?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=149 | photo=notion-youth-songbook | notionPageId=0422a625-287c-48ac-ad86-36d79ed84f9d | notionChordPageId=abc2bbd1-a1d8-4479-bbdb-5b9bafa64ea9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0422a625287c48acad8636d79ed84f9d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Однажды я сказал'
@@ -6874,7 +6874,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Он здесь', 'Величие Бога', NULL, '[Куплет 1]
 D Em A D D7
 Он здесь, Он здесь,
@@ -6909,7 +6909,7 @@ G A
 F#m Hm
 Чтобы дать душе покой,
 Em A D D7
-Двери сердца для Иисуса ты открой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=150 | photo=notion-youth-songbook | notionPageId=6d2e759a-43aa-4976-b5e8-4176660c5b9e | notionChordPageId=f6296510-eeaf-4c61-87f9-077ac158e2a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6d2e759a43aa4976b5e84176660c5b9e', 'pending'
+Двери сердца для Иисуса ты открой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=150 | photo=notion-youth-songbook | notionPageId=6d2e759a-43aa-4976-b5e8-4176660c5b9e | notionChordPageId=f6296510-eeaf-4c61-87f9-077ac158e2a9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6d2e759a43aa4976b5e84176660c5b9e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он здесь'
@@ -6917,7 +6917,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Он не сошёл с креста', 'Пасхальные', NULL, '[Куплет 1]
 Dm F Gm A
 Тебя распяли, мой Господь, а Ты с креста благословлял,
@@ -6966,7 +6966,7 @@ Dm F A# C
 F Dm Gm A
 Он на Себе замкнул войну добра и зла, во веки сущих,
 A# Gm A
-И победил! О, мой Господь! Ты — Царь царей, Бог Всемогущий!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=151 | photo=notion-youth-songbook | notionPageId=76d33fe7-0549-424b-95bd-06c60b1ca59d | notionChordPageId=faa37a59-0ed6-47eb-bce1-609bca817dac | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76d33fe70549424b95bd06c60b1ca59d', 'pending'
+И победил! О, мой Господь! Ты — Царь царей, Бог Всемогущий!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=151 | photo=notion-youth-songbook | notionPageId=76d33fe7-0549-424b-95bd-06c60b1ca59d | notionChordPageId=faa37a59-0ed6-47eb-bce1-609bca817dac | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76d33fe70549424b95bd06c60b1ca59d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он не сошёл с креста'
@@ -6974,7 +6974,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Он пришёл, спасая всех', 'Пасхальные', NULL, '[Куплет 1]
 Dm C
 Он пришёл, спасая всех от земных тревог
@@ -7013,7 +7013,7 @@ A# Am Dm
 A# F Gm Dm
 Вознесён во славе вверх, Тот, Кто в яслях был
 Gm Dm Am Dm
-Он пришёл как человек, Богом уходил.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=152 | photo=notion-youth-songbook | notionPageId=ec59b91f-b8c2-44e4-856c-30ee2ee0f6a9 | notionChordPageId=a3f9a8eb-798e-48b2-8d34-ee455c91e990 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec59b91fb8c244e4856c30ee2ee0f6a9', 'pending'
+Он пришёл как человек, Богом уходил.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=152 | photo=notion-youth-songbook | notionPageId=ec59b91f-b8c2-44e4-856c-30ee2ee0f6a9 | notionChordPageId=a3f9a8eb-798e-48b2-8d34-ee455c91e990 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ec59b91fb8c244e4856c30ee2ee0f6a9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он пришёл, спасая всех'
@@ -7021,7 +7021,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Он родился для меня', 'Рождественские', NULL, '[Куплет 1]
 D F# G D
 Тишина, ночное небо в домах тепло и светло
@@ -7046,7 +7046,7 @@ G D Em A D
 D F# G D
 Его рождение сердце греет тебе дарит и радость и мир
 D A G
-С озарённым сердцем ты принеси к ногам Иисуса дары', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=153 | photo=notion-youth-songbook | notionPageId=7268a4f6-6fda-4f46-a595-c4a655e5dc61 | notionChordPageId=d822bc2e-9a68-427f-b7a8-6c2d99e9638b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7268a4f66fda4f46a595c4a655e5dc61', 'pending'
+С озарённым сердцем ты принеси к ногам Иисуса дары', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=153 | photo=notion-youth-songbook | notionPageId=7268a4f6-6fda-4f46-a595-c4a655e5dc61 | notionChordPageId=d822bc2e-9a68-427f-b7a8-6c2d99e9638b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7268a4f66fda4f46a595c4a655e5dc61', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Он родился для меня'
@@ -7054,7 +7054,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Острое жало', 'Пасхальные', NULL, '[Куплет 1]
 Острое жало коснулось ладони,
 Слился со стоном удар молотка.
@@ -7103,7 +7103,7 @@ SELECT 'Острое жало', 'Пасхальные', NULL, '[Куплет 1]
 Только не гнев был в ответ и не мщенье,
 Для искупленья лилась эта Кровь
 Кротко над миром звучало прощенье
-И обнимала планету Любовь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=154 | photo=notion-youth-songbook | notionPageId=50b8fefe-ed3b-4bdc-a7df-2102851374e9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50b8fefeed3b4bdca7df2102851374e9 | Fill chord lines in the lead sheet before approval.', 'pending'
+И обнимала планету Любовь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=154 | photo=notion-youth-songbook | notionPageId=50b8fefe-ed3b-4bdc-a7df-2102851374e9 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/50b8fefeed3b4bdca7df2102851374e9 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Острое жало'
@@ -7111,7 +7111,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Отец мой, я люблю Тебя', 'Семья', NULL, '[Куплет 1]
 Dm
 Отец мой, я люблю Тебя
@@ -7156,7 +7156,7 @@ F C
 Gm A# C
 Все ангелы Тебя возносят,
 Gm A# C
-И мы возносим лишь Тебя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=155 | photo=notion-youth-songbook | notionPageId=0c52815f-6bce-4f28-bb2d-ce29334b1efb | notionChordPageId=b2e3f74c-292c-4122-9be3-a675bca216da | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0c52815f6bce4f28bb2dce29334b1efb', 'pending'
+И мы возносим лишь Тебя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=155 | photo=notion-youth-songbook | notionPageId=0c52815f-6bce-4f28-bb2d-ce29334b1efb | notionChordPageId=b2e3f74c-292c-4122-9be3-a675bca216da | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0c52815f6bce4f28bb2dce29334b1efb', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отец мой, я люблю Тебя'
@@ -7164,7 +7164,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Откликнется душа моя', 'Божья любовь', NULL, '[Куплет 1]
 Снова по небу скучаю я,
 Но знаю, Ты видишь, что в сердце моём.
@@ -7189,7 +7189,7 @@ SELECT 'Откликнется душа моя', 'Божья любовь', NULL
 Буду я там, где любовь Твоя,
 С Тобой я останусь в раю навсегда!
 После последнего припева:
-Снова по небу скучаю я…', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=156 | photo=notion-youth-songbook | notionPageId=fcbea3f5-757c-4eaf-85d5-a8a0e2843e6e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fcbea3f5757c4eaf85d5a8a0e2843e6e | Fill chord lines in the lead sheet before approval.', 'pending'
+Снова по небу скучаю я…', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=156 | photo=notion-youth-songbook | notionPageId=fcbea3f5-757c-4eaf-85d5-a8a0e2843e6e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/fcbea3f5757c4eaf85d5a8a0e2843e6e | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Откликнется душа моя'
@@ -7197,7 +7197,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Отцы', 'Семья', NULL, '[Куплет 1]
 Cm Dsus D
 Отцы, вы надежды на нас возлагали.
@@ -7246,7 +7246,7 @@ Gm F D#
 Cm Dsus D
 И стать миру этому ясной звездою,
 D Gm G
-Идти только узкой тропою.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=157 | photo=notion-youth-songbook | notionPageId=329487dc-7145-406f-8844-b570d39a2864 | notionChordPageId=9cb502dc-c50c-4f74-95fe-2f02720cd209 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/329487dc7145406f8844b570d39a2864', 'pending'
+Идти только узкой тропою.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=157 | photo=notion-youth-songbook | notionPageId=329487dc-7145-406f-8844-b570d39a2864 | notionChordPageId=9cb502dc-c50c-4f74-95fe-2f02720cd209 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/329487dc7145406f8844b570d39a2864', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отцы'
@@ -7254,7 +7254,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Отчаянья дожди', 'Пасхальные', NULL, '[Куплет 1]
 Вновь дом Твой пуст, торжественный канон
 Сменился тихой утренней молитвой.
@@ -7277,7 +7277,7 @@ SELECT 'Отчаянья дожди', 'Пасхальные', NULL, '[Купле
 Не властна смерть над светлою душой
 Хотя сквозь мрак ещё не видно солнца
 Мне и среди невзгод с Тобою хорошо
-Я буду петь доколе сердце бьётся', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=158 | photo=notion-youth-songbook | notionPageId=9f351ae4-3dae-4f2b-a819-a4871d37dd61 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f351ae43dae4f2ba819a4871d37dd61 | Fill chord lines in the lead sheet before approval.', 'pending'
+Я буду петь доколе сердце бьётся', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=158 | photo=notion-youth-songbook | notionPageId=9f351ae4-3dae-4f2b-a819-a4871d37dd61 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f351ae43dae4f2ba819a4871d37dd61 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отчаянья дожди'
@@ -7285,7 +7285,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Отче мы просим', 'Исцеление', NULL, '[Куплет 1]
 D A F#m Hm
 Отче, мы просим: "Ты приди,
@@ -7314,7 +7314,7 @@ G A G A
 F# Hm
 Прославим мы на всей Земле,
 G Em A A7
-И узнает мир, что Иисус – Господь!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=159 | photo=notion-youth-songbook | notionPageId=fd30492e-8990-4a28-8317-413924d623db | notionChordPageId=ab6d4a31-6387-47dc-b57c-9a29d4e2c827 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fd30492e89904a288317413924d623db', 'pending'
+И узнает мир, что Иисус – Господь!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=159 | photo=notion-youth-songbook | notionPageId=fd30492e-8990-4a28-8317-413924d623db | notionChordPageId=ab6d4a31-6387-47dc-b57c-9a29d4e2c827 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fd30492e89904a288317413924d623db', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отче мы просим'
@@ -7322,7 +7322,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Отче Небесный, стою пред Тобою', 'Прощение', NULL, '[Куплет 1]
 G Em C D
 Отче Небесный, стою пред Тобою
@@ -7345,7 +7345,7 @@ D G
 D C
 Ты – любовь, Ты даришь милость,
 D G
-Навеки я буду Твой.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=160 | photo=notion-youth-songbook | notionPageId=c6ac7caa-5794-4add-937e-82c737cd400a | notionChordPageId=52042bff-a3ae-41f4-be24-42537b6a3c43 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c6ac7caa57944add937e82c737cd400a', 'pending'
+Навеки я буду Твой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=160 | photo=notion-youth-songbook | notionPageId=c6ac7caa-5794-4add-937e-82c737cd400a | notionChordPageId=52042bff-a3ae-41f4-be24-42537b6a3c43 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c6ac7caa57944add937e82c737cd400a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Отче Небесный, стою пред Тобою'
@@ -7353,7 +7353,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Первый вздох', 'Семья', NULL, '[Куплет 1]
 D G D
 Первый вздох — ты родился, Я был там,
@@ -7382,7 +7382,7 @@ F#m G A
 D F# G
 «Прости, Отец, я каюсь», — в молитве ты просил,
 D A D
-Я снял твой грех, обнял и всё простил.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=161 | photo=notion-youth-songbook | notionPageId=5cad1add-0faf-4fa1-9c18-e814afe90e1f | notionChordPageId=5d4f8e27-8d2f-488d-acb4-44644fd3fc1e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5cad1add0faf4fa19c18e814afe90e1f', 'pending'
+Я снял твой грех, обнял и всё простил.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=161 | photo=notion-youth-songbook | notionPageId=5cad1add-0faf-4fa1-9c18-e814afe90e1f | notionChordPageId=5d4f8e27-8d2f-488d-acb4-44644fd3fc1e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5cad1add0faf4fa19c18e814afe90e1f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Первый вздох'
@@ -7390,7 +7390,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'По ночам', 'Утешение и ободрение', NULL, '[Куплет 1]
 C G C
 По ночам часто город мне снится,
@@ -7439,7 +7439,7 @@ F G Em Am
 F G Em Am
 А пока я, устав от обмана
 F G C
-И от боли твержу одно:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=162 | photo=notion-youth-songbook | notionPageId=e1657004-8cad-4361-bb19-8a8b18baeff6 | notionChordPageId=358a9ba2-8b3a-4328-bd02-92132210a073 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e16570048cad4361bb198a8b18baeff6', 'pending'
+И от боли твержу одно:', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=162 | photo=notion-youth-songbook | notionPageId=e1657004-8cad-4361-bb19-8a8b18baeff6 | notionChordPageId=358a9ba2-8b3a-4328-bd02-92132210a073 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e16570048cad4361bb198a8b18baeff6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'По ночам'
@@ -7447,7 +7447,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'По преданью отцов', 'Божья любовь', NULL, '[Куплет 1]
 Am F
 По преданью отцов человек охранял
@@ -7496,7 +7496,7 @@ Dm E Am
 Am F
 Воду жизни душа и в пустыне найдет,
 Dm H E
-И любовью Твоей напьется.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=163 | photo=notion-youth-songbook | notionPageId=eed61b49-4dd3-4b6b-b089-0e9f831b50df | notionChordPageId=af3117d3-71a4-4180-bf54-7eb06124f8c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eed61b494dd34b6bb0890e9f831b50df', 'pending'
+И любовью Твоей напьется.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=163 | photo=notion-youth-songbook | notionPageId=eed61b49-4dd3-4b6b-b089-0e9f831b50df | notionChordPageId=af3117d3-71a4-4180-bf54-7eb06124f8c8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eed61b494dd34b6bb0890e9f831b50df', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'По преданью отцов'
@@ -7504,7 +7504,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'По страницам Библии старой', 'Утешение и ободрение', NULL, '[Куплет 1]
 G C G D
 По страницам Библии старой я шагаю в город святой.
@@ -7543,7 +7543,7 @@ G C Am D
 Em Hm C G
 Там не буду я больше томиться от невзгод и болезней земных.
 C D G C Am C G
-Там увижу родные лица дошедших друзей родных.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=164 | photo=notion-youth-songbook | notionPageId=40d20bab-087a-4054-b1a6-fc5b0cb530ba | notionChordPageId=5fd0db32-2e7d-4cb6-bc9e-77382a098842 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/40d20bab087a4054b1a6fc5b0cb530ba', 'pending'
+Там увижу родные лица дошедших друзей родных.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=164 | photo=notion-youth-songbook | notionPageId=40d20bab-087a-4054-b1a6-fc5b0cb530ba | notionChordPageId=5fd0db32-2e7d-4cb6-bc9e-77382a098842 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/40d20bab087a4054b1a6fc5b0cb530ba', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'По страницам Библии старой'
@@ -7551,7 +7551,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Под защитой твоих крыл', 'Спасение', NULL, '[Куплет 1]
 Буду жить под защитой Твоих крыл,
 Буду я в мире Божией любви,
@@ -7568,7 +7568,7 @@ SELECT 'Под защитой твоих крыл', 'Спасение', NULL, '[
 Я спасен под защитой Твоих крыл,
 Мой покой под охраною Твоей
 Пусть летят стрелы, я не устрашусь,
-Когда я под защитой Твоих крыл.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=165 | photo=notion-youth-songbook | notionPageId=e12331b6-168b-4911-baf1-51c1961bccde | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e12331b6168b4911baf151c1961bccde | Fill chord lines in the lead sheet before approval.', 'pending'
+Когда я под защитой Твоих крыл.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=165 | photo=notion-youth-songbook | notionPageId=e12331b6-168b-4911-baf1-51c1961bccde | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/e12331b6168b4911baf151c1961bccde | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Под защитой твоих крыл'
@@ -7576,7 +7576,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Подобно библейским пророкам', 'Молитвенные', NULL, '[Куплет 1]
 G C
 Подобно библейским пророкам
@@ -7621,7 +7621,7 @@ C D
 G C
 Трудитесь же так, как велел Он, смело,
 G D G
-Неся людям Слово Его!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=166 | photo=notion-youth-songbook | notionPageId=c467709d-106c-43a3-aec7-bb71ee2d3692 | notionChordPageId=62af9fe7-c025-4dce-b9a8-e8dba1d7cbcd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c467709d106c43a3aec7bb71ee2d3692', 'pending'
+Неся людям Слово Его!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=166 | photo=notion-youth-songbook | notionPageId=c467709d-106c-43a3-aec7-bb71ee2d3692 | notionChordPageId=62af9fe7-c025-4dce-b9a8-e8dba1d7cbcd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c467709d106c43a3aec7bb71ee2d3692', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Подобно библейским пророкам'
@@ -7629,7 +7629,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Пока огонь любви чудесной', 'Исцеление', NULL, '[Куплет 1]
 A#
 Пока огонь любви чудесной
@@ -7666,7 +7666,7 @@ A# Cm
 F
 Порывы юности святые,
 F A#
-О всех друзьях и о трудах.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=167 | photo=notion-youth-songbook | notionPageId=68e26ee3-e791-4ada-81be-404afb9f3425 | notionChordPageId=0fa86bb3-03b2-4ff7-9934-2d8846208dd9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e26ee3e7914ada81be404afb9f3425', 'pending'
+О всех друзьях и о трудах.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=167 | photo=notion-youth-songbook | notionPageId=68e26ee3-e791-4ada-81be-404afb9f3425 | notionChordPageId=0fa86bb3-03b2-4ff7-9934-2d8846208dd9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e26ee3e7914ada81be404afb9f3425', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пока огонь любви чудесной'
@@ -7674,7 +7674,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Покажите мне любовь без Иисуса,', 'Пасхальные', NULL, '[Куплет 1]
 Em Am
 Покажите мне любовь без Иисуса,
@@ -7713,7 +7713,7 @@ H7 Em H7
 Em Am
 Ложных чувств здесь, на земле, стремлений много,
 H7 Em H7
-Но а истинна любовь лишь у Христа.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=168 | photo=notion-youth-songbook | notionPageId=febf0039-214d-46a7-85e5-9a50152f5ef4 | notionChordPageId=951d6231-b295-4966-9d9b-e6b2db5d4ac9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/febf0039214d46a785e59a50152f5ef4', 'pending'
+Но а истинна любовь лишь у Христа.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=168 | photo=notion-youth-songbook | notionPageId=febf0039-214d-46a7-85e5-9a50152f5ef4 | notionChordPageId=951d6231-b295-4966-9d9b-e6b2db5d4ac9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/febf0039214d46a785e59a50152f5ef4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Покажите мне любовь без Иисуса,'
@@ -7721,7 +7721,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Полдороги в небо', 'Вера и упование', NULL, '[Куплет 1]
 Cm
 Мы с вами столько вёрст уже прошли,
@@ -7768,7 +7768,7 @@ D# C
 Fm Cm
 От полдороги в небо, от полдороги в небо,
 G Cm C
-От полдороги в небо.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=169 | photo=notion-youth-songbook | notionPageId=e145283c-e29f-4d0f-a9aa-44c3a3e872bb | notionChordPageId=0debae40-6295-4e1e-98c5-2b4528a65466 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e145283ce29f4d0fa9aa44c3a3e872bb', 'pending'
+От полдороги в небо.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=169 | photo=notion-youth-songbook | notionPageId=e145283c-e29f-4d0f-a9aa-44c3a3e872bb | notionChordPageId=0debae40-6295-4e1e-98c5-2b4528a65466 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e145283ce29f4d0fa9aa44c3a3e872bb', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Полдороги в небо'
@@ -7776,7 +7776,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Помоги мне, Боже', 'Семья', NULL, '[Куплет 1]
 Em Am
 Помоги мне в этой жизни благодарной, Боже, быть,
@@ -7829,7 +7829,7 @@ Am G C H
 О, Христос, лишь в Тебе нашла я счастье,
 Быть с Тобой всегда, пусть и горе, и ненастье,
 Не страшна беда. Чего душе моей бояться?
-Ты никогда, Отец, мне не дашь поколебаться.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=170 | photo=notion-youth-songbook | notionPageId=2146b5d9-af09-4605-82b1-45af9dfbf5e2 | notionChordPageId=19c921c5-e2f9-4b87-a094-ad5e82439c32 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2146b5d9af09460582b145af9dfbf5e2', 'pending'
+Ты никогда, Отец, мне не дашь поколебаться.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=170 | photo=notion-youth-songbook | notionPageId=2146b5d9-af09-4605-82b1-45af9dfbf5e2 | notionChordPageId=19c921c5-e2f9-4b87-a094-ad5e82439c32 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2146b5d9af09460582b145af9dfbf5e2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Помоги мне, Боже'
@@ -7837,7 +7837,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Помолись обо мне', 'Пасхальные', NULL, '[Куплет 1]
 Dm
 Помолись обо мне, мой друг.
@@ -7890,7 +7890,7 @@ Gm C
 F7 A#
 Молча, шепотом или взглядом,
 Gm A7
-Где бы ни был я, помолись, помолись…..', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=171 | photo=notion-youth-songbook | notionPageId=96544a04-5b5d-4860-9f7f-796008defdca | notionChordPageId=720aaecc-d5f4-47e3-bfff-1dad5d0236c2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/96544a045b5d48609f7f796008defdca', 'pending'
+Где бы ни был я, помолись, помолись…..', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=171 | photo=notion-youth-songbook | notionPageId=96544a04-5b5d-4860-9f7f-796008defdca | notionChordPageId=720aaecc-d5f4-47e3-bfff-1dad5d0236c2 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/96544a045b5d48609f7f796008defdca', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Помолись обо мне'
@@ -7898,7 +7898,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Посмотри на Небо', 'Пасхальные', NULL, '[Куплет 1]
 Am                                      Dm
 Если ты в пути продрог и не знаешь где ты.
@@ -7945,7 +7945,7 @@ Am Dm F E
 Am                              Dm
 Посмотри на Небо, посмотри на Небо.
 G             C  E
-Никогда ты не был один.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=172 | photo=notion-youth-songbook | notionPageId=6f7e1f3b-5265-49cb-a521-2b680f7931de | notionChordPageId=d7b5f494-b67f-4c84-ba31-74f181270666 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6f7e1f3b526549cba5212b680f7931de', 'pending'
+Никогда ты не был один.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=172 | photo=notion-youth-songbook | notionPageId=6f7e1f3b-5265-49cb-a521-2b680f7931de | notionChordPageId=d7b5f494-b67f-4c84-ba31-74f181270666 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/6f7e1f3b526549cba5212b680f7931de', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Посмотри на Небо'
@@ -7953,7 +7953,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Праздник жатвы', 'Благодарение', NULL, '[Куплет 1]
 Am Dm
 Снова год пролетел, День Жатвы настал…
@@ -7992,7 +7992,7 @@ E Am
 Am Dm
 “Это - Бог за тебя!” - говорили вокруг…
 E Am
-Он за нас, потому, что Он наш лучший Друг!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=173 | photo=notion-youth-songbook | notionPageId=41247341-4f45-4b19-ac75-47474cadfce8 | notionChordPageId=120a32a3-2593-4b08-aed4-dadba12615fa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/412473414f454b19ac7547474cadfce8', 'pending'
+Он за нас, потому, что Он наш лучший Друг!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=173 | photo=notion-youth-songbook | notionPageId=41247341-4f45-4b19-ac75-47474cadfce8 | notionChordPageId=120a32a3-2593-4b08-aed4-dadba12615fa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/412473414f454b19ac7547474cadfce8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Праздник жатвы'
@@ -8000,7 +8000,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Превыше силы', 'Пасхальные', NULL, '[Куплет 1]
 C D G
 Превыше силы, превыше царств,
@@ -8053,7 +8053,7 @@ C D G
 C D Em
 Каждый день восходит, как заря,
 Am C H
-Милость безграничная Твоя.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=174 | photo=notion-youth-songbook | notionPageId=816eec2e-d32e-4ab6-9d95-5cc789a99f4b | notionChordPageId=46733da3-a311-4747-bd57-feab7f1353e5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/816eec2ed32e4ab69d955cc789a99f4b', 'pending'
+Милость безграничная Твоя.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=174 | photo=notion-youth-songbook | notionPageId=816eec2e-d32e-4ab6-9d95-5cc789a99f4b | notionChordPageId=46733da3-a311-4747-bd57-feab7f1353e5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/816eec2ed32e4ab69d955cc789a99f4b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Превыше силы'
@@ -8061,7 +8061,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Придите к Иисусу', 'Рождественские', NULL, '[Куплет 1]
 Em Hm C G C D G H
 Все вокруг заняты были своим, и только лишь три мудреца
@@ -8096,7 +8096,7 @@ Em Hm C G C D
 Войди в моё сердце, любовь подари,
 Иисус мой Спаситель, Сын Бога любви.
 Войди в моё сердце, Иисус — Царь с небес,
-Ты — наша жизнь и Ты истинный путь, Ты любишь нас всех.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=175 | photo=notion-youth-songbook | notionPageId=fa205362-f23e-4d7e-8447-878f011f35a2 | notionChordPageId=b36a4fc3-f0e0-4c08-8a98-b54ef23d8cda | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fa205362f23e4d7e8447878f011f35a2', 'pending'
+Ты — наша жизнь и Ты истинный путь, Ты любишь нас всех.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=175 | photo=notion-youth-songbook | notionPageId=fa205362-f23e-4d7e-8447-878f011f35a2 | notionChordPageId=b36a4fc3-f0e0-4c08-8a98-b54ef23d8cda | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fa205362f23e4d7e8447878f011f35a2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Придите к Иисусу'
@@ -8104,7 +8104,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Прославим Бога', 'Семья', NULL, '[Куплет 1]
 Em Am H Em
 Прославим Бога одной семьёю,
@@ -8143,7 +8143,7 @@ Am D G E
 Am Em
 Кто любит Господа, кто любит Господа
 Am H Em E7
-Готовы встретить вас небеса', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=176 | photo=notion-youth-songbook | notionPageId=1e114234-a094-4ed1-8550-b0b1278aac17 | notionChordPageId=00c7a531-8e05-4a0d-8874-e359fe287355 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1e114234a0944ed18550b0b1278aac17', 'pending'
+Готовы встретить вас небеса', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=176 | photo=notion-youth-songbook | notionPageId=1e114234-a094-4ed1-8550-b0b1278aac17 | notionChordPageId=00c7a531-8e05-4a0d-8874-e359fe287355 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1e114234a0944ed18550b0b1278aac17', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Прославим Бога'
@@ -8151,7 +8151,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Прости меня, Боже', 'Пасхальные', NULL, '[Куплет 1]
 Em Am H7 Em
 Прости меня, Боже, прости, я молю,
@@ -8220,7 +8220,7 @@ Am Em E7
 Am D G Em
 Чтоб люди увидели свет Твой во мне
 Am H7 Em
-И, светом влекомые, шли все к Тебе.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=177 | photo=notion-youth-songbook | notionPageId=82339dfc-6459-424d-92b3-5e3b1a229569 | notionChordPageId=1c990b02-96b4-4afb-b90b-66461f8e3a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/82339dfc6459424d92b35e3b1a229569', 'pending'
+И, светом влекомые, шли все к Тебе.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=177 | photo=notion-youth-songbook | notionPageId=82339dfc-6459-424d-92b3-5e3b1a229569 | notionChordPageId=1c990b02-96b4-4afb-b90b-66461f8e3a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/82339dfc6459424d92b35e3b1a229569', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Прости меня, Боже'
@@ -8228,7 +8228,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Просыпаюсь на заре', 'Вера и упование', NULL, '[Куплет 1]
 D G
 Просыпаюсь на заре
@@ -8253,7 +8253,7 @@ A D
 D G
 Каждый день к Тебе ведёт,
 A D
-В сердце праведность живёт.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=178 | photo=notion-youth-songbook | notionPageId=7c9f5f35-ac63-43b3-a5f2-1d2218b65a7d | notionChordPageId=4ecb1b2d-63a7-4362-8f54-c5511181e0bb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c9f5f35ac6343b3a5f21d2218b65a7d', 'pending'
+В сердце праведность живёт.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=178 | photo=notion-youth-songbook | notionPageId=7c9f5f35-ac63-43b3-a5f2-1d2218b65a7d | notionChordPageId=4ecb1b2d-63a7-4362-8f54-c5511181e0bb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/7c9f5f35ac6343b3a5f21d2218b65a7d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Просыпаюсь на заре'
@@ -8261,7 +8261,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Пусть Он войдет', 'Рождественские', NULL, '[Куплет 1]
 О взгляни! Открыты покровы небес —
 Детский плач, над девой звезды яркий блеск!
@@ -8294,7 +8294,7 @@ SELECT 'Пусть Он войдет', 'Рождественские', NULL, '[�
 [Припев]
 ||: Пусть Он войдет, Христос войдет!
 Приготовьте место для Царя! :||
-Приготовьте место для Царя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=179 | photo=notion-youth-songbook | notionPageId=6b3d73a4-9721-4e20-bd6e-34aaa0c59f5e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/6b3d73a497214e20bd6e34aaa0c59f5e | Fill chord lines in the lead sheet before approval.', 'pending'
+Приготовьте место для Царя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=179 | photo=notion-youth-songbook | notionPageId=6b3d73a4-9721-4e20-bd6e-34aaa0c59f5e | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/6b3d73a497214e20bd6e34aaa0c59f5e | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пусть Он войдет'
@@ -8302,7 +8302,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Пусть светит солнце', 'Пасхальные', NULL, '[Куплет 1]
 F C Dm
 Пусть светит солнце и дождь идёт,
@@ -8339,7 +8339,7 @@ A# C F
 C Dm
 И если имя Его призовёшь,
 A# C F
-То счастье, любовь и мир обретёшь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=180 | photo=notion-youth-songbook | notionPageId=d4aac228-88d0-46a4-ace9-8828b3698426 | notionChordPageId=f36f0541-3003-494e-8c84-1bfe88ae81c7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4aac22888d046a4ace98828b3698426', 'pending'
+То счастье, любовь и мир обретёшь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=180 | photo=notion-youth-songbook | notionPageId=d4aac228-88d0-46a4-ace9-8828b3698426 | notionChordPageId=f36f0541-3003-494e-8c84-1bfe88ae81c7 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d4aac22888d046a4ace98828b3698426', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пусть светит солнце'
@@ -8347,7 +8347,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Пусть угасло небо', 'Божья любовь', NULL, '[Куплет 1]
 Am F Am F
 Пусть угасло небо, пусть померк рассвет.
@@ -8380,7 +8380,7 @@ Am F Am F
 Am F Am F
 Там, где темнота была, сияет свет.
 F G
-Вечный Божий свет.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=181 | photo=notion-youth-songbook | notionPageId=5fb33616-75f9-4fd7-8bb2-e9d970b27972 | notionChordPageId=de9aec53-1aa8-4a46-9672-9840f794e074 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fb3361675f94fd78bb2e9d970b27972', 'pending'
+Вечный Божий свет.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=181 | photo=notion-youth-songbook | notionPageId=5fb33616-75f9-4fd7-8bb2-e9d970b27972 | notionChordPageId=de9aec53-1aa8-4a46-9672-9840f794e074 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fb3361675f94fd78bb2e9d970b27972', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пусть угасло небо'
@@ -8388,7 +8388,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Путь на Голгофу далёк', 'Пасхальные', NULL, '[Куплет 1]
 Путь на Голгофу далёк,
 Путь на Голгофу так труден
@@ -8416,7 +8416,7 @@ SELECT 'Путь на Голгофу далёк', 'Пасхальные', NULL, 
 Люди в сердцах распинают
 [Припев - 2 раза]
 И кровь Его, святую, проливает,
-Хоть Он им всем прощение даёт...', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=182 | photo=notion-youth-songbook | notionPageId=8da57a79-957d-45c9-8c4e-39e4562c8cf6 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/8da57a79957d45c98c4e39e4562c8cf6 | Fill chord lines in the lead sheet before approval.', 'pending'
+Хоть Он им всем прощение даёт...', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=182 | photo=notion-youth-songbook | notionPageId=8da57a79-957d-45c9-8c4e-39e4562c8cf6 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/8da57a79957d45c98c4e39e4562c8cf6 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Путь на Голгофу далёк'
@@ -8424,7 +8424,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Пшеница и плевелы', 'Пасхальные', NULL, '[Куплет 1]
 Dm A
 Пшеница и плевелы, так мало времени
@@ -8473,7 +8473,7 @@ A# A
 A# Asus A
 Кто жил беспечно, тот сожжется огнём.
 A# Gm A
-Стань зерном, чтобы с Богом быть вечно.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=183 | photo=notion-youth-songbook | notionPageId=28b19b44-6364-4b0f-a2b5-c3c6994de10e | notionChordPageId=c71ec666-396c-4d27-8ba1-690b45eac365 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/28b19b4463644b0fa2b5c3c6994de10e', 'pending'
+Стань зерном, чтобы с Богом быть вечно.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=183 | photo=notion-youth-songbook | notionPageId=28b19b44-6364-4b0f-a2b5-c3c6994de10e | notionChordPageId=c71ec666-396c-4d27-8ba1-690b45eac365 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/28b19b4463644b0fa2b5c3c6994de10e', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Пшеница и плевелы'
@@ -8481,7 +8481,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Радость находится', 'Спасение', NULL, '[Куплет 1]
 E C#m
 Радость находится в сердце у того,
@@ -8498,7 +8498,7 @@ E C#m
 A E
 Что может дать Господь.
 A H7 E
-Это любовь того, которого спас Иисус.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=184 | photo=notion-youth-songbook | notionPageId=5fe8d04b-5701-466f-ba50-8f613ec53d78 | notionChordPageId=d5c83588-2a1b-49af-9c96-ad73ecbbed60 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fe8d04b5701466fba508f613ec53d78', 'pending'
+Это любовь того, которого спас Иисус.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=184 | photo=notion-youth-songbook | notionPageId=5fe8d04b-5701-466f-ba50-8f613ec53d78 | notionChordPageId=d5c83588-2a1b-49af-9c96-ad73ecbbed60 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5fe8d04b5701466fba508f613ec53d78', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Радость находится'
@@ -8506,7 +8506,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Раньше жил я во грехах', 'Свадебные', NULL, '[Куплет 1]
 Dm Gm Dm
 Раньше жил я во грехах, в горе, болях и скорбях,
@@ -8569,7 +8569,7 @@ Dm Gm C F
 Dm Gm Dm
 И конец придет скорбям, что за радость будет там!
 Dm A Dm
-Друг, готов ли встретить Господа Христа?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=185 | photo=notion-youth-songbook | notionPageId=406c794c-b775-46d4-ba2d-e9c74ee5779c | notionChordPageId=4ba758a7-88d1-4b11-b03b-c787dbb40eb5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/406c794cb77546d4ba2de9c74ee5779c', 'pending'
+Друг, готов ли встретить Господа Христа?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=185 | photo=notion-youth-songbook | notionPageId=406c794c-b775-46d4-ba2d-e9c74ee5779c | notionChordPageId=4ba758a7-88d1-4b11-b03b-c787dbb40eb5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/406c794cb77546d4ba2de9c74ee5779c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Раньше жил я во грехах'
@@ -8577,7 +8577,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Руки опущены', 'Пасхальные', NULL, '[Куплет 1]
 Am C
 Руки опущены, слезы в очах
@@ -8626,7 +8626,7 @@ C Dm E Am E
 Празднуют небеса
 Гимны поет земля
 Славим и ты, и я
-Подвиг Христа!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=186 | photo=notion-youth-songbook | notionPageId=bf23d7c5-03ed-48ee-aa30-b3df8bee2699 | notionChordPageId=122e541b-1450-4364-bc7d-7fe0fcc95211 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bf23d7c503ed48eeaa30b3df8bee2699', 'pending'
+Подвиг Христа!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=186 | photo=notion-youth-songbook | notionPageId=bf23d7c5-03ed-48ee-aa30-b3df8bee2699 | notionChordPageId=122e541b-1450-4364-bc7d-7fe0fcc95211 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bf23d7c503ed48eeaa30b3df8bee2699', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Руки опущены'
@@ -8634,7 +8634,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'С детских лет стремились', 'Божья любовь', NULL, '[Куплет 1]
 Em7 C
 С детских лет стремились к небесам твои мечты,
@@ -8663,7 +8663,7 @@ D G H
 Em C
 Вспомни сколько раз тебе Он руку подавал,
 D G H
-Как Ему быть верным ты всем сердцем обещал…', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=187 | photo=notion-youth-songbook | notionPageId=53b75fe0-383c-487d-b875-675dd13393e7 | notionChordPageId=5dbcc44e-9b40-4535-be22-4e70b1263fc9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53b75fe0383c487db875675dd13393e7', 'pending'
+Как Ему быть верным ты всем сердцем обещал…', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=187 | photo=notion-youth-songbook | notionPageId=53b75fe0-383c-487d-b875-675dd13393e7 | notionChordPageId=5dbcc44e-9b40-4535-be22-4e70b1263fc9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/53b75fe0383c487db875675dd13393e7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'С детских лет стремились'
@@ -8671,7 +8671,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Светом Своим', 'Пасхальные', NULL, '[Куплет 1]
 E H F#m
 Светом Своим Ты прогнал сумрак ночи,
@@ -8704,7 +8704,7 @@ E H A
 
 [Мост]
 Мне не забыть какой ценой
-На крест был вознесён грех мой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=188 | photo=notion-youth-songbook | notionPageId=b11f05a2-4868-4738-bc06-6c43d0d908cc | notionChordPageId=327200ae-5f8a-419b-963d-d73b88f0bbe8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b11f05a248684738bc066c43d0d908cc', 'pending'
+На крест был вознесён грех мой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=188 | photo=notion-youth-songbook | notionPageId=b11f05a2-4868-4738-bc06-6c43d0d908cc | notionChordPageId=327200ae-5f8a-419b-963d-d73b88f0bbe8 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b11f05a248684738bc066c43d0d908cc', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Светом Своим'
@@ -8712,7 +8712,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Свят Господь', 'Пасхальные', NULL, '[Куплет 1]
 Em D G
 Ты ярче, чем солнца свет,
@@ -8751,7 +8751,7 @@ Am H Em
 Em D G
 Ты - славный Спаситель мой,
 Am H Em
-Иисус, Ты - мой Господь живой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=189 | photo=notion-youth-songbook | notionPageId=e96c8783-fb9a-4c4f-8199-aa0f4b9443b1 | notionChordPageId=72a7817e-39ee-4139-82e2-8a96a230875e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96c8783fb9a4c4f8199aa0f4b9443b1', 'pending'
+Иисус, Ты - мой Господь живой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=189 | photo=notion-youth-songbook | notionPageId=e96c8783-fb9a-4c4f-8199-aa0f4b9443b1 | notionChordPageId=72a7817e-39ee-4139-82e2-8a96a230875e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96c8783fb9a4c4f8199aa0f4b9443b1', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Свят Господь'
@@ -8759,7 +8759,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Святая ночь', 'Рождественские', NULL, '[Куплет 1]
 A D A
 Святая ночь! Сверкают ярко звезды.
@@ -8818,7 +8818,7 @@ F#m C#m Hm F#m
 A E A D A E A
 Ему вся власть и честь принадлежит!
 E A Hm A E A
-Ему вся власть и честь принадлежит!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=190 | photo=notion-youth-songbook | notionPageId=359db02d-da74-4cae-8cb7-ef4f0a0f535b | notionChordPageId=d0ad38f3-3a45-4ec5-af5f-cebba2c958fc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/359db02dda744cae8cb7ef4f0a0f535b', 'pending'
+Ему вся власть и честь принадлежит!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=190 | photo=notion-youth-songbook | notionPageId=359db02d-da74-4cae-8cb7-ef4f0a0f535b | notionChordPageId=d0ad38f3-3a45-4ec5-af5f-cebba2c958fc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/359db02dda744cae8cb7ef4f0a0f535b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Святая ночь'
@@ -8826,7 +8826,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Сердце благодарностью горит', 'Благодарение', NULL, '[Куплет 1]
 Em Am
 Я благодарю Тебя, мой Бог,
@@ -8865,7 +8865,7 @@ H Em
 Em Am
 Имя Иисуса, Иисуса Христа
 H Em
-Возвещать мы вечно будем.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=191 | photo=notion-youth-songbook | notionPageId=b8328808-1568-4561-b5d4-97de3fd277f2 | notionChordPageId=851c60cc-aea1-408a-a27d-a5a1ea13ce23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b832880815684561b5d497de3fd277f2', 'pending'
+Возвещать мы вечно будем.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=191 | photo=notion-youth-songbook | notionPageId=b8328808-1568-4561-b5d4-97de3fd277f2 | notionChordPageId=851c60cc-aea1-408a-a27d-a5a1ea13ce23 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b832880815684561b5d497de3fd277f2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сердце благодарностью горит'
@@ -8873,7 +8873,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Сила моя в Тебе', 'Пасхальные', NULL, '[Куплет 1]
 E H C#m
 Сила моя в Тебе Господь,
@@ -8906,7 +8906,7 @@ E H C#m
 G#m A
 Жаждал я - Ты мне дал воды,
 H E H
-Ты для меня все.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=192 | photo=notion-youth-songbook | notionPageId=fcc8685f-ee59-4f6e-a2c9-d081be361c0a | notionChordPageId=85aa0fbd-c505-44da-aff3-cb28f409e1d9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fcc8685fee594f6ea2c9d081be361c0a', 'pending'
+Ты для меня все.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=192 | photo=notion-youth-songbook | notionPageId=fcc8685f-ee59-4f6e-a2c9-d081be361c0a | notionChordPageId=85aa0fbd-c505-44da-aff3-cb28f409e1d9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/fcc8685fee594f6ea2c9d081be361c0a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сила моя в Тебе'
@@ -8914,7 +8914,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Скоро рассвет', 'Небо', NULL, '[Куплет 1]
 G Em C D
 Скоро рассвет нового дня: приходит весна,
@@ -8943,7 +8943,7 @@ G Em C D
 G D G D
 Приди в славе мы ждём Тебя
 C G C D
-Мы ждём, Господь, прихода Твоего!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=193 | photo=notion-youth-songbook | notionPageId=3a95baf7-c650-48de-b51d-e5c07b1af76c | notionChordPageId=466f6606-0153-4818-99d6-da76ac607477 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a95baf7c65048deb51de5c07b1af76c', 'pending'
+Мы ждём, Господь, прихода Твоего!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=193 | photo=notion-youth-songbook | notionPageId=3a95baf7-c650-48de-b51d-e5c07b1af76c | notionChordPageId=466f6606-0153-4818-99d6-da76ac607477 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a95baf7c65048deb51de5c07b1af76c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Скоро рассвет'
@@ -8951,7 +8951,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Скрой меня', 'Семья', NULL, '[Куплет 1]
 C G Am F D G
 Скрой меня, Своим крылом,
@@ -8972,7 +8972,7 @@ F G C
 C G Am F D G
 Найду покой, В Тебе Христос,
 C G Am F D G
-Верю я, в могущество Твоё!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=194 | photo=notion-youth-songbook | notionPageId=9d60ddae-b369-4d9b-93f0-099359f8948c | notionChordPageId=df96f0cd-08d5-439e-bebf-8ca342bd7e4f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9d60ddaeb3694d9b93f0099359f8948c', 'pending'
+Верю я, в могущество Твоё!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=194 | photo=notion-youth-songbook | notionPageId=9d60ddae-b369-4d9b-93f0-099359f8948c | notionChordPageId=df96f0cd-08d5-439e-bebf-8ca342bd7e4f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9d60ddaeb3694d9b93f0099359f8948c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Скрой меня'
@@ -8980,7 +8980,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Слабый скажет: «Я силён!»', 'Пасхальные', NULL, '[Куплет 1]
 C G C
 Слабый скажет: «Я силён!»
@@ -9019,7 +9019,7 @@ Am Em
 C G C
 Буду петь, что для Небес
 F G C
-К новой жизни я воскрес.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=195 | photo=notion-youth-songbook | notionPageId=0f98bded-646c-47a6-9c6d-afe6558bb7d8 | notionChordPageId=5c518a78-1ad9-4a0e-9563-fc49fb6f0e9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f98bded646c47a69c6dafe6558bb7d8', 'pending'
+К новой жизни я воскрес.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=195 | photo=notion-youth-songbook | notionPageId=0f98bded-646c-47a6-9c6d-afe6558bb7d8 | notionChordPageId=5c518a78-1ad9-4a0e-9563-fc49fb6f0e9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0f98bded646c47a69c6dafe6558bb7d8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слабый скажет: «Я силён!»'
@@ -9027,7 +9027,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Слава Всемогущему Богу!', 'Семья', NULL, '[Куплет 1]
 A Hm
 Отец Небесный мы с любовью,
@@ -9064,7 +9064,7 @@ E A
 A Hm
 Ароматы славы Божьей ощущаем мы.
 D E A
-Преклонитесь и будьте спасены!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=196 | photo=notion-youth-songbook | notionPageId=06795c30-3621-46ac-a6d6-9b68ff593896 | notionChordPageId=12ad2fe3-4acb-45ae-bc69-5256de65af9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/06795c30362146aca6d69b68ff593896', 'pending'
+Преклонитесь и будьте спасены!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=196 | photo=notion-youth-songbook | notionPageId=06795c30-3621-46ac-a6d6-9b68ff593896 | notionChordPageId=12ad2fe3-4acb-45ae-bc69-5256de65af9f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/06795c30362146aca6d69b68ff593896', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слава Всемогущему Богу!'
@@ -9072,7 +9072,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Слава Христу', 'Божья любовь', NULL, '[Куплет 1]
 A Hm
 Какой сегодня день чудесный:
@@ -9109,7 +9109,7 @@ E A
 A D
 И даже, если он дождливый,
 E A
-Прославим Бога все равно.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=197 | photo=notion-youth-songbook | notionPageId=4088e091-7f29-428b-be53-3114c5dfd48a | notionChordPageId=22aa8792-536b-4320-9280-3c7714fa2dcb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4088e0917f29428bbe533114c5dfd48a', 'pending'
+Прославим Бога все равно.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=197 | photo=notion-youth-songbook | notionPageId=4088e091-7f29-428b-be53-3114c5dfd48a | notionChordPageId=22aa8792-536b-4320-9280-3c7714fa2dcb | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4088e0917f29428bbe533114c5dfd48a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слава Христу'
@@ -9117,7 +9117,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Славлю Тебя, Господи', 'Вера и упование', NULL, '[Куплет 1]
 A F#m C#m E
 Славлю Тебя, Господи, всем сердцем своим
@@ -9146,7 +9146,7 @@ A F#m C#m E
 D A C#7 F#m E
 Пищу он даёт боящимся Его,
 D A E7 A
-Вечно помнит Свой завет – Он с тобой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=198 | photo=notion-youth-songbook | notionPageId=68e13abb-e49d-4cdb-aaed-a64d9b191ba5 | notionChordPageId=3899d54d-8185-4a72-8da9-250da532a031 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e13abbe49d4cdbaaeda64d9b191ba5', 'pending'
+Вечно помнит Свой завет – Он с тобой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=198 | photo=notion-youth-songbook | notionPageId=68e13abb-e49d-4cdb-aaed-a64d9b191ba5 | notionChordPageId=3899d54d-8185-4a72-8da9-250da532a031 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e13abbe49d4cdbaaeda64d9b191ba5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Славлю Тебя, Господи'
@@ -9154,7 +9154,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Славь, душа, Господа', 'Божья любовь', NULL, '[Куплет 1]
 A E H C#m
 Солнце встаёт, новый день приходит,
@@ -9193,7 +9193,7 @@ A E H C#m
 A E H C#m
 Душа моя Его будет славить
 A E H E
-Десятки тысяч лет и навсегда!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=199 | photo=notion-youth-songbook | notionPageId=0d7b62fb-e45a-44fb-a587-1b4c1387da15 | notionChordPageId=96d880b1-39fc-4bf7-9780-17897d2b2e9b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0d7b62fbe45a44fba5871b4c1387da15', 'pending'
+Десятки тысяч лет и навсегда!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=199 | photo=notion-youth-songbook | notionPageId=0d7b62fb-e45a-44fb-a587-1b4c1387da15 | notionChordPageId=96d880b1-39fc-4bf7-9780-17897d2b2e9b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0d7b62fbe45a44fba5871b4c1387da15', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Славь, душа, Господа'
@@ -9201,7 +9201,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Слова те нельзя стереть', 'Утешение и ободрение', NULL, '[Куплет 1]
 Em C D Hm
 Напиши Свое Слово на сердце моем,
@@ -9238,7 +9238,7 @@ C Am H
 Em C D Hm
 Соблюдать Твое Слово – удел для меня,
 C Am H
-Пусть же снова и снова будет Воля Твоя!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=200 | photo=notion-youth-songbook | notionPageId=244f3179-eacd-4527-9a9a-7a6bb8383763 | notionChordPageId=a07d635e-4c21-4ed5-8c2b-b66080e08217 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/244f3179eacd45279a9a7a6bb8383763', 'pending'
+Пусть же снова и снова будет Воля Твоя!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=200 | photo=notion-youth-songbook | notionPageId=244f3179-eacd-4527-9a9a-7a6bb8383763 | notionChordPageId=a07d635e-4c21-4ed5-8c2b-b66080e08217 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/244f3179eacd45279a9a7a6bb8383763', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Слова те нельзя стереть'
@@ -9246,7 +9246,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Создатель всей Вселенной', 'Молитвенные', NULL, '[Куплет 1]
 Am Em Am Em
 Создатель всей Вселенной - Всемогущий Бог,
@@ -9275,7 +9275,7 @@ F E
 Am Em Am Em
 С тех пор, как я узнал Твою любовь ко мне,
 F E
-Хочу служить всем сердцем я Тебе.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=201 | photo=notion-youth-songbook | notionPageId=05b97727-f0ae-4cc8-9670-e4546b9eb1b0 | notionChordPageId=d5190bd8-d9f4-4280-8517-376efa62db8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/05b97727f0ae4cc89670e4546b9eb1b0', 'pending'
+Хочу служить всем сердцем я Тебе.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=201 | photo=notion-youth-songbook | notionPageId=05b97727-f0ae-4cc8-9670-e4546b9eb1b0 | notionChordPageId=d5190bd8-d9f4-4280-8517-376efa62db8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/05b97727f0ae4cc89670e4546b9eb1b0', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Создатель всей Вселенной'
@@ -9283,7 +9283,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Солнца луч', 'Семья', NULL, '[Куплет 1]
 Солнца луч одарит теплом землю.
 Небеса возвестят Творцу славу.
@@ -9305,7 +9305,7 @@ SELECT 'Солнца луч', 'Семья', NULL, '[Куплет 1]
 Суд Господень свят, охраняет нас.
 Пусть угодны будут Тебе
 Помышления наших сердец.
-Ты - твердыня для нас, наш Господь и Отец.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=202 | photo=notion-youth-songbook | notionPageId=9f0a8c98-450a-48a7-b0c0-23e676849a25 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f0a8c98450a48a7b0c023e676849a25 | Fill chord lines in the lead sheet before approval.', 'pending'
+Ты - твердыня для нас, наш Господь и Отец.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=202 | photo=notion-youth-songbook | notionPageId=9f0a8c98-450a-48a7-b0c0-23e676849a25 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/9f0a8c98450a48a7b0c023e676849a25 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Солнца луч'
@@ -9313,7 +9313,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'С‍‍олнца свет, за‍‍кат и рассвет', 'Семья', NULL, '[Куплет 1]
 F Dm
 Оглянись! Посмотри вок‍‍руг себя
@@ -9352,7 +9352,7 @@ A# C
 F Dm
 Знай мой друг есть один простой ответ:
 A# C
-Бог создал весь этот мир и Ему хвала вовек!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=203 | photo=notion-youth-songbook | notionPageId=c9264797-8200-4788-bd10-81a1a7f4c5f2 | notionChordPageId=9c23d8a3-00cf-406f-97f4-a547ae5629d0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c926479782004788bd1081a1a7f4c5f2', 'pending'
+Бог создал весь этот мир и Ему хвала вовек!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=203 | photo=notion-youth-songbook | notionPageId=c9264797-8200-4788-bd10-81a1a7f4c5f2 | notionChordPageId=9c23d8a3-00cf-406f-97f4-a547ae5629d0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/c926479782004788bd1081a1a7f4c5f2', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'С‍‍олнца свет, за‍‍кат и рассвет'
@@ -9360,7 +9360,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Солнце простилось с землею', 'Прощение', NULL, '[Куплет 1]
 D G
 Солнце простилось с землею,
@@ -9409,7 +9409,7 @@ A D
 D G
 Чтоб к высоте стремленье
 A D
-В людях могло бы жить.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=204 | photo=notion-youth-songbook | notionPageId=0a4ce734-0504-4532-a862-84c8ba65e984 | notionChordPageId=a4352688-3d81-4a1a-a38e-674ec3ffa2ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a4ce73405044532a86284c8ba65e984', 'pending'
+В людях могло бы жить.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=204 | photo=notion-youth-songbook | notionPageId=0a4ce734-0504-4532-a862-84c8ba65e984 | notionChordPageId=a4352688-3d81-4a1a-a38e-674ec3ffa2ae | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0a4ce73405044532a86284c8ba65e984', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Солнце простилось с землею'
@@ -9417,7 +9417,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Спасенье моё, надежда моя', 'Спасение', NULL, '[Куплет 1]
 E C#m
 Спасенье моё, надежда моя,
@@ -9436,7 +9436,7 @@ E C#m F#m H7
 E C#m F#m H7
 Подниму я очи свои
 C#m A7 A E
-И скажу Тебе, Бог мой, как люблю я Тебя.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=205 | photo=notion-youth-songbook | notionPageId=68e06d4f-bf93-4d58-b43a-ffd0bc8f0c27 | notionChordPageId=bf8e0b3c-cc25-4552-9446-9e0cd0782951 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e06d4fbf934d58b43affd0bc8f0c27', 'pending'
+И скажу Тебе, Бог мой, как люблю я Тебя.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=205 | photo=notion-youth-songbook | notionPageId=68e06d4f-bf93-4d58-b43a-ffd0bc8f0c27 | notionChordPageId=bf8e0b3c-cc25-4552-9446-9e0cd0782951 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/68e06d4fbf934d58b43affd0bc8f0c27', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Спасенье моё, надежда моя'
@@ -9444,7 +9444,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Спелых колосьев', 'Спасение', NULL, '[Куплет 1]
 G Hm Am
 Спелых колосьев, к жатве готовых, поле стоит.
@@ -9483,7 +9483,7 @@ D G D
 G Hm Am
 Отмерено время, живи не в смятенье, готовь добрый плод.
 C D
-Только подобных, Богу угодных, в небе оплот.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=206 | photo=notion-youth-songbook | notionPageId=775b5c6d-a236-4c67-9991-16675261e00b | notionChordPageId=fdcc5f3a-747b-4a8b-bb5e-50c754ebc381 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/775b5c6da2364c67999116675261e00b', 'pending'
+Только подобных, Богу угодных, в небе оплот.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=206 | photo=notion-youth-songbook | notionPageId=775b5c6d-a236-4c67-9991-16675261e00b | notionChordPageId=fdcc5f3a-747b-4a8b-bb5e-50c754ebc381 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/775b5c6da2364c67999116675261e00b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Спелых колосьев'
@@ -9491,7 +9491,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Старый крест', 'Пасхальные', NULL, '[Куплет 1]
 Am Dm E7 Am
 На далеком холме, средь деревьев и скал
@@ -9530,7 +9530,7 @@ Dm G C
 Am Dm E7 Am
 На пронзенных руках не застывшая кровь,
 Dm F E7
-А в прекрасных глазах Божья к людям любовь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=207 | photo=notion-youth-songbook | notionPageId=16a95c9a-32e2-4e93-8296-f71dea423e57 | notionChordPageId=883dd778-fcf2-4bb7-9b8b-cb5a4c5cfb8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/16a95c9a32e24e938296f71dea423e57', 'pending'
+А в прекрасных глазах Божья к людям любовь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=207 | photo=notion-youth-songbook | notionPageId=16a95c9a-32e2-4e93-8296-f71dea423e57 | notionChordPageId=883dd778-fcf2-4bb7-9b8b-cb5a4c5cfb8a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/16a95c9a32e24e938296f71dea423e57', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Старый крест'
@@ -9538,7 +9538,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Струн души', 'Спасение', NULL, '[Куплет 1]
 Am
 Струн души рука Христа касается,
@@ -9587,7 +9587,7 @@ Dm G C Am
 Dm G C Am
 Пусть вовеки песня не кончается,
 Dm E Am
-Песнь о Том, Кто счастье нам дает!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=208 | photo=notion-youth-songbook | notionPageId=76e761e9-4946-4bc6-b4eb-db32efa8e2a5 | notionChordPageId=602e6adc-e6fe-4357-bed2-efd0c82efaea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76e761e949464bc6b4ebdb32efa8e2a5', 'pending'
+Песнь о Том, Кто счастье нам дает!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=208 | photo=notion-youth-songbook | notionPageId=76e761e9-4946-4bc6-b4eb-db32efa8e2a5 | notionChordPageId=602e6adc-e6fe-4357-bed2-efd0c82efaea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/76e761e949464bc6b4ebdb32efa8e2a5', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Струн души'
@@ -9595,7 +9595,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Суть рождения Иисуса', 'Рождественские', NULL, '[Куплет 1]
 C G
 Суть рождения Иисуса это дивный Божий план
@@ -9626,7 +9626,7 @@ Dm C
 F G
 Так давайте обратим наши взоры на Христа
 E G
-Благодарностью наполним наши души и сердца!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=209 | photo=notion-youth-songbook | notionPageId=8836d91b-a95a-40cf-b411-8e0154848751 | notionChordPageId=6c6b1f2e-60c5-4a9b-92de-76d6fe07e53c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8836d91ba95a40cfb4118e0154848751', 'pending'
+Благодарностью наполним наши души и сердца!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=209 | photo=notion-youth-songbook | notionPageId=8836d91b-a95a-40cf-b411-8e0154848751 | notionChordPageId=6c6b1f2e-60c5-4a9b-92de-76d6fe07e53c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8836d91ba95a40cfb4118e0154848751', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Суть рождения Иисуса'
@@ -9634,7 +9634,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Сущий', 'Прощение', NULL, '[Куплет 1]
 Fm Cm
 В начали был и есть, и нет тебе конца,
@@ -9673,7 +9673,7 @@ C# Fm
 В Твоём имени свобода
 В Твоём имени огонь
 В Твоём имени прощение
-В Твоём имени любовь', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=210 | photo=notion-youth-songbook | notionPageId=e1ee1e85-f183-44a7-a4fa-6408b4698367 | notionChordPageId=9ad98f15-e7f9-43bf-b494-b1e09bbf7cfa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e1ee1e85f18344a7a4fa6408b4698367', 'pending'
+В Твоём имени любовь', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=210 | photo=notion-youth-songbook | notionPageId=e1ee1e85-f183-44a7-a4fa-6408b4698367 | notionChordPageId=9ad98f15-e7f9-43bf-b494-b1e09bbf7cfa | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e1ee1e85f18344a7a4fa6408b4698367', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сущий'
@@ -9681,7 +9681,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Сын Божий нам рождён', 'Спасение', NULL, '[Куплет 1]
 C F
 Сын Божий нам рождён оставив власть и трон
@@ -9714,7 +9714,7 @@ C F
 C G
 Святого Бога и спасенных всех
 F G
-Приди и поклонись', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=211 | photo=notion-youth-songbook | notionPageId=0ceab6ef-c520-4149-9f9e-d0f391e0430b | notionChordPageId=ed768b83-fbe8-43e9-940c-088902e8fa8b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceab6efc52041499f9ed0f391e0430b', 'pending'
+Приди и поклонись', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=211 | photo=notion-youth-songbook | notionPageId=0ceab6ef-c520-4149-9f9e-d0f391e0430b | notionChordPageId=ed768b83-fbe8-43e9-940c-088902e8fa8b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0ceab6efc52041499f9ed0f391e0430b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Сын Божий нам рождён'
@@ -9722,7 +9722,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Так уж бывает летней порой', 'Небо', NULL, '[Куплет 1]
 Dm Gm
 Так уж бывает летней порой,
@@ -9771,7 +9771,7 @@ A7 Dm
 Dm Gm
 Нужно лишиться овец в загоне,
 C F
-Хочу, чтобы спела душа моя:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=212 | photo=notion-youth-songbook | notionPageId=092d79d3-ded0-44f1-a951-9880bacf0c1b | notionChordPageId=6d831c9a-70d7-459d-8293-eb03dd45a49b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/092d79d3ded044f1a9519880bacf0c1b', 'pending'
+Хочу, чтобы спела душа моя:', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=212 | photo=notion-youth-songbook | notionPageId=092d79d3-ded0-44f1-a951-9880bacf0c1b | notionChordPageId=6d831c9a-70d7-459d-8293-eb03dd45a49b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/092d79d3ded044f1a9519880bacf0c1b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Так уж бывает летней порой'
@@ -9779,7 +9779,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Таков как есмь', 'Пасхальные', NULL, '[Куплет 1]
 D G Em
 Таков как есмь, во имя Крови,
@@ -9826,7 +9826,7 @@ G Em
 G A Hm G
 Христос, я прихожу к Тебе!
 A G D
-Христос, я прихожу к Тебе!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=213 | photo=notion-youth-songbook | notionPageId=94d8b659-16e3-4e60-8443-3f9754e17a48 | notionChordPageId=225dbf1f-633a-47fc-a54f-9779950eed73 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/94d8b65916e34e6084433f9754e17a48', 'pending'
+Христос, я прихожу к Тебе!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=213 | photo=notion-youth-songbook | notionPageId=94d8b659-16e3-4e60-8443-3f9754e17a48 | notionChordPageId=225dbf1f-633a-47fc-a54f-9779950eed73 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/94d8b65916e34e6084433f9754e17a48', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Таков как есмь'
@@ -9834,7 +9834,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Там, в вышине бесконечной', 'Небо', NULL, '[Куплет 1]
 Hm Em
 Там, в вышине бесконечной,
@@ -9863,7 +9863,7 @@ F# Hm
 Hm Em G
 Город родной неповторим он живет, растет, цветет.
 Hm Em F# Hm
-Город чудный, город славный красотой к себе влечет.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=214 | photo=notion-youth-songbook | notionPageId=efa099e1-42a4-4989-9152-e3be8f4af908 | notionChordPageId=10bcc95e-d349-40ef-ab93-29594957ad64 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/efa099e142a449899152e3be8f4af908', 'pending'
+Город чудный, город славный красотой к себе влечет.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=214 | photo=notion-youth-songbook | notionPageId=efa099e1-42a4-4989-9152-e3be8f4af908 | notionChordPageId=10bcc95e-d349-40ef-ab93-29594957ad64 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/efa099e142a449899152e3be8f4af908', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Там, в вышине бесконечной'
@@ -9871,7 +9871,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Там, где Один', 'Прощение', NULL, '[Куплет 1]
 E A E
 Там, где Один пострадал за всех,
@@ -9918,7 +9918,7 @@ E A H7
 E A E
 Грех свой омой и счастливым будь!
 E H7 E
-О, хвала Ему!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=215 | photo=notion-youth-songbook | notionPageId=9e9767a6-217a-4b8c-9570-2e7cfa0af56a | notionChordPageId=94d7ba42-0679-4611-92cd-13e12b37993e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e9767a6217a4b8c95702e7cfa0af56a', 'pending'
+О, хвала Ему!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=215 | photo=notion-youth-songbook | notionPageId=9e9767a6-217a-4b8c-9570-2e7cfa0af56a | notionChordPageId=94d7ba42-0679-4611-92cd-13e12b37993e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/9e9767a6217a4b8c95702e7cfa0af56a', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Там, где Один'
@@ -9926,7 +9926,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Там, далеко, за облаками', 'Вера и упование', NULL, '[Куплет 1]
 G Em
 Там, далеко, за облаками,
@@ -9965,7 +9965,7 @@ C D
 G Em
 Там с Иисусом вечно я буду
 C D
-В сладком общении жить,', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=216 | photo=notion-youth-songbook | notionPageId=669d8c71-70f4-402b-abce-2d4e43049663 | notionChordPageId=a01613c0-eee6-44b8-988d-d92b98c6a229 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/669d8c7170f4402babce2d4e43049663', 'pending'
+В сладком общении жить,', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=216 | photo=notion-youth-songbook | notionPageId=669d8c71-70f4-402b-abce-2d4e43049663 | notionChordPageId=a01613c0-eee6-44b8-988d-d92b98c6a229 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/669d8c7170f4402babce2d4e43049663', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Там, далеко, за облаками'
@@ -9973,7 +9973,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Творящий чудеса', 'Дух Святой', NULL, '[Куплет 1]
 E H
 Каждый миг и каждый час
@@ -10008,7 +10008,7 @@ E H
 C#m A
 Отца любовь ведет меня
 E H C#m E
-В Твои святые небеса.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=217 | photo=notion-youth-songbook | notionPageId=bffc3ed8-ea00-46ff-8ca5-190494925991 | notionChordPageId=f3b20c1a-ddf2-4356-8c54-b4815f01a767 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bffc3ed8ea0046ff8ca5190494925991', 'pending'
+В Твои святые небеса.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=217 | photo=notion-youth-songbook | notionPageId=bffc3ed8-ea00-46ff-8ca5-190494925991 | notionChordPageId=f3b20c1a-ddf2-4356-8c54-b4815f01a767 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bffc3ed8ea0046ff8ca5190494925991', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Творящий чудеса'
@@ -10016,7 +10016,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Твоя любовь', 'Спасение', NULL, '[Куплет 1]
 A E F#m
 Твоя любовь границ не знает
@@ -10047,7 +10047,7 @@ D A Hm E
 A E F#m
 Твоим теплом душа согрета,
 D A Hm E
-Мне хорошо с Тобой, навек я Твой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=218 | photo=notion-youth-songbook | notionPageId=8ad13cfb-9d39-459e-9a01-8c4702992c48 | notionChordPageId=20d4bf9a-41a8-4e64-982f-57a2023221ff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8ad13cfb9d39459e9a018c4702992c48', 'pending'
+Мне хорошо с Тобой, навек я Твой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=218 | photo=notion-youth-songbook | notionPageId=8ad13cfb-9d39-459e-9a01-8c4702992c48 | notionChordPageId=20d4bf9a-41a8-4e64-982f-57a2023221ff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/8ad13cfb9d39459e9a018c4702992c48', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Твоя любовь'
@@ -10055,7 +10055,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Тихо погас в ночи закат', 'Божья любовь', NULL, '[Куплет 1]
 G Am Em
 Тихо погас в ночи закат,
@@ -10091,7 +10091,7 @@ Am G D Em
 Смогли понять, что есть любовь,
 Но только сердце у людей
 Куда холоднее камней,
-холоднее камней.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=219 | photo=notion-youth-songbook | notionPageId=ae645ce9-004a-482c-b9e9-a32c2ae727e0 | notionChordPageId=00d6b202-3668-4e85-8ff4-5cd6bc86b025 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae645ce9004a482cb9e9a32c2ae727e0', 'pending'
+холоднее камней.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=219 | photo=notion-youth-songbook | notionPageId=ae645ce9-004a-482c-b9e9-a32c2ae727e0 | notionChordPageId=00d6b202-3668-4e85-8ff4-5cd6bc86b025 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/ae645ce9004a482cb9e9a32c2ae727e0', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Тихо погас в ночи закат'
@@ -10099,7 +10099,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Тихо у гроба, очень рано', 'Пасхальные', NULL, '[Куплет 1]
 Тихо у гроба очень рано,
 Жены спешат, предваряя рассвет…
@@ -10122,7 +10122,7 @@ SELECT 'Тихо у гроба, очень рано', 'Пасхальные', NU
 Праздник спасенных, звуки восторга,
 Церкви Христовой Пасхальный привет!
 Радость Святая всех да наполнит
-Места тревогам в душе больше нет.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=220 | photo=notion-youth-songbook | notionPageId=69843e29-936e-4e0e-9781-2f4c9dfde2ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/69843e29936e4e0e97812f4c9dfde2ad | Fill chord lines in the lead sheet before approval.', 'pending'
+Места тревогам в душе больше нет.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=220 | photo=notion-youth-songbook | notionPageId=69843e29-936e-4e0e-9781-2f4c9dfde2ad | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/69843e29936e4e0e97812f4c9dfde2ad | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Тихо у гроба, очень рано'
@@ -10130,7 +10130,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Только Ты Один', 'Пасхальные', NULL, '[Куплет 1]
 F C Dm
 Только Ты Один
@@ -10169,7 +10169,7 @@ A# C
 F C Dm
 Небеса открыты передо мной,
 A# C F
-Я иду домой!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=221 | photo=notion-youth-songbook | notionPageId=5275a87a-39a4-441d-b421-3bcd295baf4b | notionChordPageId=4104048d-2fbc-495b-af15-e54effc0ab83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5275a87a39a4441db4213bcd295baf4b', 'pending'
+Я иду домой!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=221 | photo=notion-youth-songbook | notionPageId=5275a87a-39a4-441d-b421-3bcd295baf4b | notionChordPageId=4104048d-2fbc-495b-af15-e54effc0ab83 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5275a87a39a4441db4213bcd295baf4b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Только Ты Один'
@@ -10177,7 +10177,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты воскрес и дал нам жизнь', 'Пасхальные', NULL, '[Куплет 1]
 D G A
 Торжествуют небеса, торжествует вся земля
@@ -10203,7 +10203,7 @@ G A
 Благодарю Тебя за эту жертву. :||
 Тот кто в мир пришёл с небес,
 Царь царей Господь всесильный
-Иисус Христос воскрес! Иисус Христос воскрес!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=222 | photo=notion-youth-songbook | notionPageId=86bc0568-47cc-407b-a978-20929b5cc17d | notionChordPageId=c897b374-3efe-4cb4-9457-3119560cea6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/86bc056847cc407ba97820929b5cc17d', 'pending'
+Иисус Христос воскрес! Иисус Христос воскрес!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=222 | photo=notion-youth-songbook | notionPageId=86bc0568-47cc-407b-a978-20929b5cc17d | notionChordPageId=c897b374-3efe-4cb4-9457-3119560cea6c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/86bc056847cc407ba97820929b5cc17d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты воскрес и дал нам жизнь'
@@ -10211,7 +10211,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты знаешь, Боже', 'Молитвенные', NULL, '[Куплет 1]
 Dm
 Ты знаешь, Боже, моё желанье,
@@ -10260,7 +10260,7 @@ Dm Gm C F
 Gm Dm
 Устал бороться, слабеют силы,
 Dm A Dm
-А путь далекий предо мной.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=223 | photo=notion-youth-songbook | notionPageId=019eaf94-0b3f-4fb5-aea5-7a313bd15430 | notionChordPageId=2163f79c-9666-42f9-b7a6-739a8db250d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/019eaf940b3f4fb5aea57a313bd15430', 'pending'
+А путь далекий предо мной.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=223 | photo=notion-youth-songbook | notionPageId=019eaf94-0b3f-4fb5-aea5-7a313bd15430 | notionChordPageId=2163f79c-9666-42f9-b7a6-739a8db250d5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/019eaf940b3f4fb5aea57a313bd15430', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты знаешь, Боже'
@@ -10268,7 +10268,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты искупил мир от греха', 'Семья', NULL, '[Куплет 1]
 G D Em
 Ты искупил мир от греха,
@@ -10313,7 +10313,7 @@ Em C
 C Am
 И потому сердца людей,
 Am D
-Полны хвалою.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=224 | photo=notion-youth-songbook | notionPageId=2d868f4a-8345-407e-bb81-f7b33375971d | notionChordPageId=c851ae1d-2eb3-4638-a083-cf3c7f66fc77 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2d868f4a8345407ebb81f7b33375971d', 'pending'
+Полны хвалою.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=224 | photo=notion-youth-songbook | notionPageId=2d868f4a-8345-407e-bb81-f7b33375971d | notionChordPageId=c851ae1d-2eb3-4638-a083-cf3c7f66fc77 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/2d868f4a8345407ebb81f7b33375971d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты искупил мир от греха'
@@ -10321,7 +10321,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты куда идешь, скажи мне', 'Божья любовь', NULL, '[Куплет 1]
 C
 "Ты куда идешь, скажи мне,
@@ -10376,7 +10376,7 @@ C
 F G C Am
 Недалеко уж родная и желанная страна.
 F G C G C
-Вера чистая, живая нас введет с тобой туда".', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=225 | photo=notion-youth-songbook | notionPageId=97253e46-0aba-4ab2-aefd-396654dad216 | notionChordPageId=4aef0575-93d9-4f54-9963-e4821c88fdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97253e460aba4ab2aefd396654dad216', 'pending'
+Вера чистая, живая нас введет с тобой туда".', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=225 | photo=notion-youth-songbook | notionPageId=97253e46-0aba-4ab2-aefd-396654dad216 | notionChordPageId=4aef0575-93d9-4f54-9963-e4821c88fdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/97253e460aba4ab2aefd396654dad216', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты куда идешь, скажи мне'
@@ -10384,7 +10384,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты любишь меня', 'Прославление', NULL, '[Куплет 1]
 Hm Em
 Ты никогда не предашь меня,
@@ -10429,7 +10429,7 @@ F#7 Hm
 Hm Em
 В руки Твои себя отдаю,
 Hm F#7 Hm
-Всё потому, что Тебя я люблю.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=226 | photo=notion-youth-songbook | notionPageId=f9143efd-b3e1-41d8-9c99-0fc766b9b23c | notionChordPageId=76450584-b4ce-4c02-a212-bd42460b6cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f9143efdb3e141d89c990fc766b9b23c', 'pending'
+Всё потому, что Тебя я люблю.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=226 | photo=notion-youth-songbook | notionPageId=f9143efd-b3e1-41d8-9c99-0fc766b9b23c | notionChordPageId=76450584-b4ce-4c02-a212-bd42460b6cd3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f9143efdb3e141d89c990fc766b9b23c', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты любишь меня'
@@ -10437,7 +10437,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты меня наполни', 'Спасение', NULL, '[Куплет 1]
 E H A H
 Ты меня наполни святостью Твоей.
@@ -10490,7 +10490,7 @@ E H A H
 C#m A E
 Пусть ещё одна душа вдруг увидит и поймёт,
 A H E
-Что её Создатель в небесах живёт.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=227 | photo=notion-youth-songbook | notionPageId=b1c38c38-cad2-4e03-9a59-f3ef24fe5854 | notionChordPageId=2b6324e5-7922-4bbd-9e03-f62102630c70 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b1c38c38cad24e039a59f3ef24fe5854', 'pending'
+Что её Создатель в небесах живёт.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=227 | photo=notion-youth-songbook | notionPageId=b1c38c38-cad2-4e03-9a59-f3ef24fe5854 | notionChordPageId=2b6324e5-7922-4bbd-9e03-f62102630c70 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/b1c38c38cad24e039a59f3ef24fe5854', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты меня наполни'
@@ -10498,7 +10498,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты мой Бог', 'Семья', NULL, '[Куплет 1]
 Dm Gm A Dm
 Тебя люблю, мой Бог, я всей душою,
@@ -10533,7 +10533,7 @@ Dm Gm C F
 D7 Gm A A#
 Как совершенный наш Отец Небесный.
 A# Gm A Dm A
-Надейся, верь, люби и будешь жить вовек"', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=228 | photo=notion-youth-songbook | notionPageId=29bc4497-0452-4b02-9bf9-e787b4160243 | notionChordPageId=434932f5-5d60-4285-97a0-8221c9eb3575 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/29bc449704524b029bf9e787b4160243', 'pending'
+Надейся, верь, люби и будешь жить вовек"', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=228 | photo=notion-youth-songbook | notionPageId=29bc4497-0452-4b02-9bf9-e787b4160243 | notionChordPageId=434932f5-5d60-4285-97a0-8221c9eb3575 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/29bc449704524b029bf9e787b4160243', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты мой Бог'
@@ -10541,7 +10541,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты моя скала', 'Спасение', NULL, '[Куплет 1]
 G C D Hm
 Нет силы, Господи, не могу я так дальше жить,
@@ -10574,7 +10574,7 @@ Em C D G
 G C D Hm
 Я так хочу, всей жизнью Тебе служить,
 Em C D G
-И врага победить с Тобой, Спаситель мой.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=229 | photo=notion-youth-songbook | notionPageId=d1da57c6-31c4-4f96-9965-6eb3712dddd7 | notionChordPageId=aa963a46-a46c-4d84-8ee2-7754a2e33890 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d1da57c631c44f9699656eb3712dddd7', 'pending'
+И врага победить с Тобой, Спаситель мой.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=229 | photo=notion-youth-songbook | notionPageId=d1da57c6-31c4-4f96-9965-6eb3712dddd7 | notionChordPageId=aa963a46-a46c-4d84-8ee2-7754a2e33890 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/d1da57c631c44f9699656eb3712dddd7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты моя скала'
@@ -10582,7 +10582,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты над городом этим', 'Спасение', NULL, '[Куплет 1]
 C G
 Ты над городом этим, и над этим народом,
@@ -10605,7 +10605,7 @@ G C F G
 F
 Грядёт пора больших чудес,
 G C
-Господь прольёт благодать с небес здесь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=230 | photo=notion-youth-songbook | notionPageId=1d693207-a395-4212-8ca5-e8a0e69b1d85 | notionChordPageId=f58af63e-aa0a-4fdc-9337-755a30b83dbd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1d693207a39542128ca5e8a0e69b1d85', 'pending'
+Господь прольёт благодать с небес здесь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=230 | photo=notion-youth-songbook | notionPageId=1d693207-a395-4212-8ca5-e8a0e69b1d85 | notionChordPageId=f58af63e-aa0a-4fdc-9337-755a30b83dbd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1d693207a39542128ca5e8a0e69b1d85', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты над городом этим'
@@ -10613,7 +10613,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты не одинок', 'Утешение и ободрение', NULL, '[Куплет 1]
 F
 Ты идешь, в душе печаль,
@@ -10644,7 +10644,7 @@ F
 Dm A#
 Пронесу сквозь бури, грозы, холода,
 C
-Ты лишь поверь, что…', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=231 | photo=notion-youth-songbook | notionPageId=1002d3ae-dd74-4365-8b81-5f24ff6080ab | notionChordPageId=e3c4559f-c0a4-4262-9625-964d257dd522 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1002d3aedd7443658b815f24ff6080ab', 'pending'
+Ты лишь поверь, что…', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=231 | photo=notion-youth-songbook | notionPageId=1002d3ae-dd74-4365-8b81-5f24ff6080ab | notionChordPageId=e3c4559f-c0a4-4262-9625-964d257dd522 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1002d3aedd7443658b815f24ff6080ab', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты не одинок'
@@ -10652,7 +10652,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты не печалься', 'Пасхальные', NULL, '[Куплет 1]
 Em C D G
 Я постигаю сквозь слезы и боль
@@ -10691,7 +10691,7 @@ C Am H7 Em
 Em C D G
 Верую в крестный мной избранный путь,
 C Am H7 Em
-В тайну распятой любви на Голгофе.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=232 | photo=notion-youth-songbook | notionPageId=1ae74b5e-451d-41db-80bb-6d34bae241e6 | notionChordPageId=1e6c4867-9636-43a9-b558-a7782400450e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1ae74b5e451d41db80bb6d34bae241e6', 'pending'
+В тайну распятой любви на Голгофе.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=232 | photo=notion-youth-songbook | notionPageId=1ae74b5e-451d-41db-80bb-6d34bae241e6 | notionChordPageId=1e6c4867-9636-43a9-b558-a7782400450e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1ae74b5e451d41db80bb6d34bae241e6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты не печалься'
@@ -10699,7 +10699,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты объемлешь меня', 'Небо', NULL, '[Куплет 1]
 C Am
 Ты объемлешь меня позади, впереди,
@@ -10728,7 +10728,7 @@ Dm G
 C Am
 Отдыхаю ли я или путь свой держу,
 Dm G
-Ты всегда везде со мною.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=233 | photo=notion-youth-songbook | notionPageId=944bb88a-3df9-4fd3-ae99-f1d6afc4a092 | notionChordPageId=ee67f966-fdde-48cb-a2ed-ed15dfba3abd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/944bb88a3df94fd3ae99f1d6afc4a092', 'pending'
+Ты всегда везде со мною.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=233 | photo=notion-youth-songbook | notionPageId=944bb88a-3df9-4fd3-ae99-f1d6afc4a092 | notionChordPageId=ee67f966-fdde-48cb-a2ed-ed15dfba3abd | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/944bb88a3df94fd3ae99f1d6afc4a092', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты объемлешь меня'
@@ -10736,7 +10736,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты оплот моего спасенья', 'Спасение', NULL, '[Куплет 1]
 Em F#m Hm
 Ты оплот моего спасенья,
@@ -10775,7 +10775,7 @@ G A Hm
 Em F#m Hm
 Сердцем желаю я быть с Тобою
 Hm A Hm
-В дивном вечном раю.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=234 | photo=notion-youth-songbook | notionPageId=a45c3033-e8c8-4cc9-98d5-7313c1cc408b | notionChordPageId=adffa1bc-6992-48af-ba4d-85df9ac39128 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a45c3033e8c84cc998d57313c1cc408b', 'pending'
+В дивном вечном раю.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=234 | photo=notion-youth-songbook | notionPageId=a45c3033-e8c8-4cc9-98d5-7313c1cc408b | notionChordPageId=adffa1bc-6992-48af-ba4d-85df9ac39128 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/a45c3033e8c84cc998d57313c1cc408b', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты оплот моего спасенья'
@@ -10783,7 +10783,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Ты с нами Бог', 'Спасение', NULL, '[Куплет 1]
 Am G
 Из глубин души моей льётся песня о Тебе,
@@ -10824,7 +10824,7 @@ Dm Am E
 Am G
 Пойте реки, пойте горы и равнины и моря.
 Dm F E
-Имя Господа и веру снова прославляю я.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=235 | photo=notion-youth-songbook | notionPageId=0983af7f-3542-4656-810a-c525e2795c9d | notionChordPageId=3dcc744f-9e52-4b03-8e51-f9967a458dff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0983af7f35424656810ac525e2795c9d', 'pending'
+Имя Господа и веру снова прославляю я.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=235 | photo=notion-youth-songbook | notionPageId=0983af7f-3542-4656-810a-c525e2795c9d | notionChordPageId=3dcc744f-9e52-4b03-8e51-f9967a458dff | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0983af7f35424656810ac525e2795c9d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Ты с нами Бог'
@@ -10832,7 +10832,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Умчались безвозвратно', 'Утешение и ободрение', NULL, '[Куплет 1]
 A E
 Умчались безвозвратно дни вчерашние,
@@ -10881,7 +10881,7 @@ Hm E A
 A Hm
 И ваша доброта, и ваша искренность
 D E7
-Помогут ближним счастье обрести.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=236 | photo=notion-youth-songbook | notionPageId=de450ee5-ff11-4ae1-bb5d-efe54d24f146 | notionChordPageId=0b24df87-9d56-44c0-bde1-6e2a21c72bf5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/de450ee5ff114ae1bb5defe54d24f146', 'pending'
+Помогут ближним счастье обрести.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=236 | photo=notion-youth-songbook | notionPageId=de450ee5-ff11-4ae1-bb5d-efe54d24f146 | notionChordPageId=0b24df87-9d56-44c0-bde1-6e2a21c72bf5 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/de450ee5ff114ae1bb5defe54d24f146', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Умчались безвозвратно'
@@ -10889,7 +10889,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Упала слеза', 'Пасхальные', NULL, '[Куплет 1]
 Am E7 G D
 Упала слеза на горячий песок,
@@ -10934,7 +10934,7 @@ F C E
 За всё человечество кровь пролилась
 Ценой бесконечно бесценной.
 Голгофа над грешной землёй поднялась
-И сделалась центром вселенной.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=237 | photo=notion-youth-songbook | notionPageId=4b68d35b-cfe0-4fe2-9bda-d23c3c9b28bf | notionChordPageId=41cecc96-465d-4783-9812-545b17a079f6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4b68d35bcfe04fe29bdad23c3c9b28bf', 'pending'
+И сделалась центром вселенной.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=237 | photo=notion-youth-songbook | notionPageId=4b68d35b-cfe0-4fe2-9bda-d23c3c9b28bf | notionChordPageId=41cecc96-465d-4783-9812-545b17a079f6 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4b68d35bcfe04fe29bdad23c3c9b28bf', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Упала слеза'
@@ -10942,7 +10942,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Хвали Творца', 'Пасхальные', NULL, '[Куплет 1]
 F C
 Хвали Творца лишь день начнётся,
@@ -10981,7 +10981,7 @@ D Gm C
 Dm A A#
 И в день, и в ночь твой чистый дар,
 F C F
-Молитвы шёпот, сердца жар.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=238 | photo=notion-youth-songbook | notionPageId=5c861015-5dd1-4060-b4ee-71fe10b7d1d9 | notionChordPageId=3b22852b-913b-4a56-b79d-c4b14195404c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5c8610155dd14060b4ee71fe10b7d1d9', 'pending'
+Молитвы шёпот, сердца жар.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=238 | photo=notion-youth-songbook | notionPageId=5c861015-5dd1-4060-b4ee-71fe10b7d1d9 | notionChordPageId=3b22852b-913b-4a56-b79d-c4b14195404c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/5c8610155dd14060b4ee71fe10b7d1d9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Хвали Творца'
@@ -10989,7 +10989,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Храни своё сердце чистым', 'Детские', NULL, '[Куплет 1]
 Много в мире искушений,
 Много разного того,
@@ -11012,7 +11012,7 @@ SELECT 'Храни своё сердце чистым', 'Детские', NULL, 
 Будем мы всегда во свете
 Слова Божьего ходить,
 Как Его святые дети,
-Под Его охраной жить.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=239 | photo=notion-youth-songbook | notionPageId=773042ed-874e-4ba6-a201-454235315956 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/773042ed874e4ba6a201454235315956 | Fill chord lines in the lead sheet before approval.', 'pending'
+Под Его охраной жить.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=239 | photo=notion-youth-songbook | notionPageId=773042ed-874e-4ba6-a201-454235315956 | status=notion-lyrics | confidence=notion-page-lyrics | Notion: https://blagochestie.notion.site/773042ed874e4ba6a201454235315956 | Fill chord lines in the lead sheet before approval.', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Храни своё сердце чистым'
@@ -11020,7 +11020,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Христос мой, как о Тебе молчать', 'Благодарение', NULL, '[Куплет 1]
 C G
 Христос мой, как о Тебе молчать,
@@ -11059,7 +11059,7 @@ Dm G C G
 C G
 Пошли нам больше дара любви,
 Dm G C
-Чтоб не смолкли наши уста.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=240 | photo=notion-youth-songbook | notionPageId=0833d9f8-5398-4c05-9ea1-e36c0295c6db | notionChordPageId=82990700-4b26-4c79-b868-bd4b81463d79 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0833d9f853984c059ea1e36c0295c6db', 'pending'
+Чтоб не смолкли наши уста.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=240 | photo=notion-youth-songbook | notionPageId=0833d9f8-5398-4c05-9ea1-e36c0295c6db | notionChordPageId=82990700-4b26-4c79-b868-bd4b81463d79 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/0833d9f853984c059ea1e36c0295c6db', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Христос мой, как о Тебе молчать'
@@ -11067,7 +11067,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Христос, для многих', 'Прощение', NULL, '[Куплет 1]
 G Am
 Христос, для многих Ты людей - легенда,
@@ -11120,7 +11120,7 @@ D G
 G Am
 Служить Тебе до смерти обещаю
 D G
-И посреди неверья верным быть.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=241 | photo=notion-youth-songbook | notionPageId=56a11c3b-b549-44ca-a830-9a437c070e38 | notionChordPageId=ad709fcb-3a85-4679-8997-7e6f7bdf7a67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/56a11c3bb54944caa8309a437c070e38', 'pending'
+И посреди неверья верным быть.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=241 | photo=notion-youth-songbook | notionPageId=56a11c3b-b549-44ca-a830-9a437c070e38 | notionChordPageId=ad709fcb-3a85-4679-8997-7e6f7bdf7a67 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/56a11c3bb54944caa8309a437c070e38', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Христос, для многих'
@@ -11128,7 +11128,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Христос, кто бы знал', 'Пасхальные', NULL, '[Куплет 1]
 Am Dm
 Христос, кто бы знал Твое имя здесь,
@@ -11167,7 +11167,7 @@ E Am
 F Dm
 И тех, кто услышит весть в первый раз,
 E E7
-Прими в объятья святые.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=242 | photo=notion-youth-songbook | notionPageId=1a0ea6ba-ef18-4ab2-b7b3-b2c4612df49f | notionChordPageId=9caf2352-2b76-4e88-a32d-9d9727f5de92 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1a0ea6baef184ab2b7b3b2c4612df49f', 'pending'
+Прими в объятья святые.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=242 | photo=notion-youth-songbook | notionPageId=1a0ea6ba-ef18-4ab2-b7b3-b2c4612df49f | notionChordPageId=9caf2352-2b76-4e88-a32d-9d9727f5de92 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/1a0ea6baef184ab2b7b3b2c4612df49f', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Христос, кто бы знал'
@@ -11175,7 +11175,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Чакаем Цябе, наш Ісус,', 'Спасение', NULL, '[Куплет 1]
 Dm Gm
 Чакаем Цябе, наш Ісус,
@@ -11224,7 +11224,7 @@ A Dm
 F C
 Няхай Табе ўся Беларусь
 A# A
-Аддасьць сваё сэрца і лёс!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=243 | photo=notion-youth-songbook | notionPageId=432af77c-3248-4865-8e62-7cf90a920340 | notionChordPageId=90bd82aa-5bca-4133-8dcb-5280d6604fea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/432af77c324848658e627cf90a920340', 'pending'
+Аддасьць сваё сэрца і лёс!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=243 | photo=notion-youth-songbook | notionPageId=432af77c-3248-4865-8e62-7cf90a920340 | notionChordPageId=90bd82aa-5bca-4133-8dcb-5280d6604fea | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/432af77c324848658e627cf90a920340', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Чакаем Цябе, наш Ісус,'
@@ -11232,7 +11232,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Что вера без дел?', 'Молитвенные', NULL, '[Куплет 1]
 Dm A
 Что вера без дел? Это звук лишь пустой,
@@ -11277,7 +11277,7 @@ F Dm
 A# F
 Чтоб дело твое было веры полно
 Gm A
-Начато в молитве и Духе Святом.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=244 | photo=notion-youth-songbook | notionPageId=15d38c9c-3ac4-4417-a84b-ac11e85b88ee | notionChordPageId=e1ada5b7-3f54-4baf-bdd8-1fba055cff6f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/15d38c9c3ac44417a84bac11e85b88ee', 'pending'
+Начато в молитве и Духе Святом.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=244 | photo=notion-youth-songbook | notionPageId=15d38c9c-3ac4-4417-a84b-ac11e85b88ee | notionChordPageId=e1ada5b7-3f54-4baf-bdd8-1fba055cff6f | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/15d38c9c3ac44417a84bac11e85b88ee', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Что вера без дел?'
@@ -11285,7 +11285,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Что этот свет', 'Семья', NULL, '[Куплет 1]
 Hm
 Что этот свет – он созданье Всевышнего,
@@ -11342,7 +11342,7 @@ G
 Em
 Чаша скорбей производит терпение,
 A F#
-Вся наша жизнь на земле – лишь мгновение!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=245 | photo=notion-youth-songbook | notionPageId=93a487f7-9f86-4705-99aa-7ff57bfc1943 | notionChordPageId=d8210e9b-9c22-4770-b515-034c6655697c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/93a487f79f86470599aa7ff57bfc1943', 'pending'
+Вся наша жизнь на земле – лишь мгновение!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=245 | photo=notion-youth-songbook | notionPageId=93a487f7-9f86-4705-99aa-7ff57bfc1943 | notionChordPageId=d8210e9b-9c22-4770-b515-034c6655697c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/93a487f79f86470599aa7ff57bfc1943', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Что этот свет'
@@ -11350,7 +11350,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Чуден Он', 'Пасхальные', NULL, '[Куплет 1]
 G C
 Чуден Он, наш Господь,
@@ -11389,7 +11389,7 @@ G C
 G D Em
 Чтоб меня оправдать
 G D G
-Он воскрес, Он воскрес.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=246 | photo=notion-youth-songbook | notionPageId=72115a4b-ac44-423d-8b78-eab83ac6b643 | notionChordPageId=f612ca0f-c2bf-4506-b59d-a9a02f4789cc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/72115a4bac44423d8b78eab83ac6b643', 'pending'
+Он воскрес, Он воскрес.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=246 | photo=notion-youth-songbook | notionPageId=72115a4b-ac44-423d-8b78-eab83ac6b643 | notionChordPageId=f612ca0f-c2bf-4506-b59d-a9a02f4789cc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/72115a4bac44423d8b78eab83ac6b643', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Чуден Он'
@@ -11397,7 +11397,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Чудную книгу полюбил я', 'Спасение', NULL, '[Куплет 1]
 Dm Gm
 Чудную книгу полюбил я
@@ -11460,7 +11460,7 @@ F Dm
 Gm A
 Слово Твое — вода живая,
 Dm D
-И там , где Слово, все оживает.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=247 | photo=notion-youth-songbook | notionPageId=bdd385cd-16d1-4af7-9f62-4359bf749dbe | notionChordPageId=6e540925-6a08-4fd9-a7a2-2c7a6d474c5b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd385cd16d14af79f624359bf749dbe', 'pending'
+И там , где Слово, все оживает.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=247 | photo=notion-youth-songbook | notionPageId=bdd385cd-16d1-4af7-9f62-4359bf749dbe | notionChordPageId=6e540925-6a08-4fd9-a7a2-2c7a6d474c5b | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/bdd385cd16d14af79f624359bf749dbe', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Чудную книгу полюбил я'
@@ -11468,7 +11468,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Шалом, мои друзья', 'Небо', NULL, '[Куплет 1]
 Em F# H7 Em
 Шалом, мои друзья, Храни, Господь, ваш дом!
@@ -11507,7 +11507,7 @@ Em F# H7 Em D
 G D Am Em
 :,:Нас не смутят пути, которыми пойдем,
 Em F# H7 Em D
-Наградой будет нам Шалом, шалом.:,:', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=248 | photo=notion-youth-songbook | notionPageId=77950ad4-3d34-4124-b334-0ddbda5ef95d | notionChordPageId=3182688e-d066-46d7-9c30-9bcbc963d4d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77950ad43d344124b3340ddbda5ef95d', 'pending'
+Наградой будет нам Шалом, шалом.:,:', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=248 | photo=notion-youth-songbook | notionPageId=77950ad4-3d34-4124-b334-0ddbda5ef95d | notionChordPageId=3182688e-d066-46d7-9c30-9bcbc963d4d3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77950ad43d344124b3340ddbda5ef95d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Шалом, мои друзья'
@@ -11515,7 +11515,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Это Бог наш', 'Благодарение', NULL, '[Куплет 1]
 G D Em
 Ты вседержитель Бог и Царь
@@ -11574,7 +11574,7 @@ G C
 Кто так свят и справедлив?
 Неизменен и велик?
 Кто есть истина и жизнь?
-Кто нас спас, грехи простив?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=249 | photo=notion-youth-songbook | notionPageId=3c7d1d51-eac3-42cc-a699-286cd851a7d7 | notionChordPageId=40829b5c-b3ea-456c-a7fa-d67550e5bb7a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7d1d51eac342cca699286cd851a7d7', 'pending'
+Кто нас спас, грехи простив?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=249 | photo=notion-youth-songbook | notionPageId=3c7d1d51-eac3-42cc-a699-286cd851a7d7 | notionChordPageId=40829b5c-b3ea-456c-a7fa-d67550e5bb7a | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3c7d1d51eac342cca699286cd851a7d7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Это Бог наш'
@@ -11582,7 +11582,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Юность белоснежную', 'Спасение', NULL, '[Куплет 1]
 G Am
 Юность белоснежную береги от зла.
@@ -11611,7 +11611,7 @@ D G
 H Em C
 И в святых обителях, получивши жизнь,
 D G
-На алтарь Спасителя молодость сложи.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=250 | photo=notion-youth-songbook | notionPageId=640cf3be-256d-4b0b-a805-8bfd719abf5d | notionChordPageId=44ba5401-b745-44d4-af83-e8ff353804df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/640cf3be256d4b0ba8058bfd719abf5d', 'pending'
+На алтарь Спасителя молодость сложи.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=250 | photo=notion-youth-songbook | notionPageId=640cf3be-256d-4b0b-a805-8bfd719abf5d | notionChordPageId=44ba5401-b745-44d4-af83-e8ff353804df | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/640cf3be256d4b0ba8058bfd719abf5d', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Юность белоснежную'
@@ -11619,7 +11619,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Юность пройдет', 'Прославление', NULL, '[Куплет 1]
 Am Dm
 Сегодня, друзья, мы вместе
@@ -11658,7 +11658,7 @@ G C
 F Dm
 Прославлять Отца Всеблагого
 E
-За дивные дела.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=251 | photo=notion-youth-songbook | notionPageId=eb5c1d5f-aac1-43a4-b0f8-9a2367acc5e8 | notionChordPageId=dd4a151a-15b0-4f6a-90c0-b569523d0bf0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eb5c1d5faac143a4b0f89a2367acc5e8', 'pending'
+За дивные дела.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=251 | photo=notion-youth-songbook | notionPageId=eb5c1d5f-aac1-43a4-b0f8-9a2367acc5e8 | notionChordPageId=dd4a151a-15b0-4f6a-90c0-b569523d0bf0 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/eb5c1d5faac143a4b0f89a2367acc5e8', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Юность пройдет'
@@ -11666,7 +11666,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Юность светлая', 'Вера и упование', NULL, '[Куплет 1]
 Hm
 Юность светлая, весна ранняя -
@@ -11715,7 +11715,7 @@ Em A D
 Em G
 И Он даст тебе золотой венец,
 F# Hm
-Будешь царствовать ты с Ним.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=252 | photo=notion-youth-songbook | notionPageId=e96e6d81-5d9b-47ad-aae6-2ae46f0cdb84 | notionChordPageId=711123a2-73e0-433a-9d5a-dce0cedc20dc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96e6d815d9b47adaae62ae46f0cdb84', 'pending'
+Будешь царствовать ты с Ним.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=252 | photo=notion-youth-songbook | notionPageId=e96e6d81-5d9b-47ad-aae6-2ae46f0cdb84 | notionChordPageId=711123a2-73e0-433a-9d5a-dce0cedc20dc | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e96e6d815d9b47adaae62ae46f0cdb84', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Юность светлая'
@@ -11723,7 +11723,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я без Тебя', 'Спасение', NULL, '[Куплет 1]
 D H
 Я без Тебя, как солнце без света.
@@ -11762,7 +11762,7 @@ Em A
 D Hm
 Я, как дитя, без материнской ласки.
 Em A
-Без Тебя, Господь, тускнеют жизни краски.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=253 | photo=notion-youth-songbook | notionPageId=77ce7c1b-1395-407f-9987-172f155fde48 | notionChordPageId=d26861eb-ecb8-4f86-9956-27e7290a96b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77ce7c1b1395407f9987172f155fde48', 'pending'
+Без Тебя, Господь, тускнеют жизни краски.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=253 | photo=notion-youth-songbook | notionPageId=77ce7c1b-1395-407f-9987-172f155fde48 | notionChordPageId=d26861eb-ecb8-4f86-9956-27e7290a96b3 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/77ce7c1b1395407f9987172f155fde48', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я без Тебя'
@@ -11770,7 +11770,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я Бог неба', 'Спасение', NULL, '[Куплет 1]
 G C G
 Я Бог неба и морей
@@ -11833,7 +11833,7 @@ C G D
 Em C Am
 Кто захочет им сказать?
 C D
-Кого послать?', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=254 | photo=notion-youth-songbook | notionPageId=41d8cc95-bea3-4efc-b589-422829c69bea | notionChordPageId=65d08502-46b6-4d4c-b6b1-70498102cdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/41d8cc95bea34efcb589422829c69bea', 'pending'
+Кого послать?', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=254 | photo=notion-youth-songbook | notionPageId=41d8cc95-bea3-4efc-b589-422829c69bea | notionChordPageId=65d08502-46b6-4d4c-b6b1-70498102cdf9 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/41d8cc95bea34efcb589422829c69bea', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я Бог неба'
@@ -11841,7 +11841,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я в бессмертье иду', 'Вера и упование', NULL, '[Куплет 1]
 Dm A Dm
 Я в бессмертье иду, наступая на зло,
@@ -11890,7 +11890,7 @@ F C F
 A# F D Gm
 На душе у меня и тепло и светло,
 Dm A Dm
-Потому что я верую в Бога.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=255 | photo=notion-youth-songbook | notionPageId=4ba44c97-dcbf-4c96-8ea3-44676eaa4546 | notionChordPageId=8b4a6156-39b4-4f88-85bf-007b03302996 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ba44c97dcbf4c968ea344676eaa4546', 'pending'
+Потому что я верую в Бога.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=255 | photo=notion-youth-songbook | notionPageId=4ba44c97-dcbf-4c96-8ea3-44676eaa4546 | notionChordPageId=8b4a6156-39b4-4f88-85bf-007b03302996 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/4ba44c97dcbf4c968ea344676eaa4546', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я в бессмертье иду'
@@ -11898,7 +11898,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я жду Тебя', 'Пасхальные', NULL, '[Куплет 1]
 E C#m
 Как земля без дождя в знойное лето
@@ -11927,7 +11927,7 @@ F#m A H
 E C#m
 О, придите к Христу, Бог вас призывает
 F#m H E
-У подножья креста есть прощенье для всех.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=256 | photo=notion-youth-songbook | notionPageId=043375d9-d2ea-42fd-9961-f22dfcd15ad6 | notionChordPageId=052f9f03-287d-446b-bd10-8bf1d4227230 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043375d9d2ea42fd9961f22dfcd15ad6', 'pending'
+У подножья креста есть прощенье для всех.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=256 | photo=notion-youth-songbook | notionPageId=043375d9-d2ea-42fd-9961-f22dfcd15ad6 | notionChordPageId=052f9f03-287d-446b-bd10-8bf1d4227230 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/043375d9d2ea42fd9961f22dfcd15ad6', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я жду Тебя'
@@ -11935,7 +11935,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я иду земными битвами', 'Рождественские', NULL, '[Куплет 1]
 Em Am
 Я иду земными битвами,
@@ -11988,7 +11988,7 @@ D G
 C Am
 Среди ангельского пения
 H7 Em
-Милосердный Божий лик.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=257 | photo=notion-youth-songbook | notionPageId=e00e3d8d-6a1d-47c6-822a-3263a7ea70cb | notionChordPageId=75f922f7-3578-4cce-a90f-fc8a055a576c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e00e3d8d6a1d47c6822a3263a7ea70cb', 'pending'
+Милосердный Божий лик.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=257 | photo=notion-youth-songbook | notionPageId=e00e3d8d-6a1d-47c6-822a-3263a7ea70cb | notionChordPageId=75f922f7-3578-4cce-a90f-fc8a055a576c | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/e00e3d8d6a1d47c6822a3263a7ea70cb', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я иду земными битвами'
@@ -11996,7 +11996,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я один из тех', 'Пасхальные', NULL, '[Куплет 1]
 Am Dm E Am
 Я один из тех, кого Ты заметил,
@@ -12035,7 +12035,7 @@ Dm E Am
 G C
 Я один из тех, кто с Тобой будет вместе
 Dm E E7
-В Царстве Небесном вовеки-веков', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=258 | photo=notion-youth-songbook | notionPageId=713a084d-45db-499b-968c-bf3fea6bf258 | notionChordPageId=88c28778-fe83-41e0-848f-af8770859a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/713a084d45db499b968cbf3fea6bf258', 'pending'
+В Царстве Небесном вовеки-веков', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=258 | photo=notion-youth-songbook | notionPageId=713a084d-45db-499b-968c-bf3fea6bf258 | notionChordPageId=88c28778-fe83-41e0-848f-af8770859a8e | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/713a084d45db499b968cbf3fea6bf258', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я один из тех'
@@ -12043,7 +12043,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я опускаюсь на колени', 'Молитвенные', NULL, '[Куплет 1]
 C Em
 Я опускаюсь на колени,
@@ -12090,7 +12090,7 @@ C D
 C Em
 За грешный мир Ты заплатил,
 C D
-Своей невинной кровью.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=259 | photo=notion-youth-songbook | notionPageId=3a4c8fdb-e08b-4e51-8a34-123370179ddd | notionChordPageId=fc461e54-4a11-416a-b372-835f851bd020 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a4c8fdbe08b4e518a34123370179ddd', 'pending'
+Своей невинной кровью.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=259 | photo=notion-youth-songbook | notionPageId=3a4c8fdb-e08b-4e51-8a34-123370179ddd | notionChordPageId=fc461e54-4a11-416a-b372-835f851bd020 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3a4c8fdbe08b4e518a34123370179ddd', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я опускаюсь на колени'
@@ -12098,7 +12098,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я прихожу к Тебе пустой', 'Семья', NULL, '[Куплет 1]
 Dm A# F
 Я прихожу к Тебе пустой,
@@ -12143,7 +12143,7 @@ Dm A# F
 Ты днём и ночью видишь всё, Ты знаешь сердце моё,
 Но, не смотря на всё, дитем меня назвал.
 Ты раз и навсегда принял, очистил, оправдал,
-Поверил в меня больше, чем я сам.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=260 | photo=notion-youth-songbook | notionPageId=3752b018-f657-45d2-9ee4-6639e1e82625 | notionChordPageId=d3bafbf5-f4c1-4b77-838d-2aa13b48cd28 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3752b018f65745d29ee46639e1e82625', 'pending'
+Поверил в меня больше, чем я сам.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=260 | photo=notion-youth-songbook | notionPageId=3752b018-f657-45d2-9ee4-6639e1e82625 | notionChordPageId=d3bafbf5-f4c1-4b77-838d-2aa13b48cd28 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/3752b018f65745d29ee46639e1e82625', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я прихожу к Тебе пустой'
@@ -12151,7 +12151,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я радуюсь всесильно', 'Благодарение', NULL, '[Куплет 1]
 D A7 D
 Я радуюсь, что ты живёшь на свете:
@@ -12180,7 +12180,7 @@ G A7 D
 G A7 D Hm
 И знаю я, что вера будет вечной,
 G A7 D D7
-И я тебя на небе обниму.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=261 | photo=notion-youth-songbook | notionPageId=cc753c23-79ce-4509-9d32-d93d442724d7 | notionChordPageId=df35be22-da46-47ba-afa0-9669d16ad936 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/cc753c2379ce45099d32d93d442724d7', 'pending'
+И я тебя на небе обниму.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=261 | photo=notion-youth-songbook | notionPageId=cc753c23-79ce-4509-9d32-d93d442724d7 | notionChordPageId=df35be22-da46-47ba-afa0-9669d16ad936 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/cc753c2379ce45099d32d93d442724d7', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я радуюсь всесильно'
@@ -12188,7 +12188,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я радуюсь, что Бог...', 'Спасение', NULL, '[Куплет 1]
 A F#m D
 Я радуюсь, что Бог мимо не прошёл
@@ -12217,7 +12217,7 @@ E A
 A F#m D
 Ведь за руку Отца каждый день крепко
 E A
-Я держусь.', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=262 | photo=notion-youth-songbook | notionPageId=99cdcddf-751e-4dfb-b345-3effe94ac2b9 | notionChordPageId=5c444f08-554f-4658-a6f8-ef8340891e42 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/99cdcddf751e4dfbb3453effe94ac2b9', 'pending'
+Я держусь.', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=262 | photo=notion-youth-songbook | notionPageId=99cdcddf-751e-4dfb-b345-3effe94ac2b9 | notionChordPageId=5c444f08-554f-4658-a6f8-ef8340891e42 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/99cdcddf751e4dfbb3453effe94ac2b9', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я радуюсь, что Бог...'
@@ -12225,7 +12225,7 @@ WHERE NOT EXISTS (
   LIMIT 1
 );
 
-INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
+INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)
 SELECT 'Я смотрю на крест', 'Пасхальные', NULL, '[Куплет 1]
 Hm A G Hm A G
 Я смотрю на крест, на нём страдал Господь.
@@ -12258,7 +12258,7 @@ Em G Hm
 Em G Hm
 Но благодать Твоя, вновь воскрешает меня,
 A
-Верю я!', NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=263 | photo=notion-youth-songbook | notionPageId=f54327d3-9978-4c3f-86a7-b95dfde28dc4 | notionChordPageId=0a13753a-6a1e-4a2d-81b3-ada61d2ef309 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f54327d399784c3f86a7b95dfde28dc4', 'pending'
+Верю я!', NULL, NULL, NULL, NULL, 'Seed import', NULL, '[staging:songbook-staging-2026-08-14] oldNumber=263 | photo=notion-youth-songbook | notionPageId=f54327d3-9978-4c3f-86a7-b95dfde28dc4 | notionChordPageId=0a13753a-6a1e-4a2d-81b3-ada61d2ef309 | status=notion-lyrics-chords | confidence=notion-page-with-nested-chords | Notion: https://blagochestie.notion.site/f54327d399784c3f86a7b95dfde28dc4', 'pending'
 WHERE NOT EXISTS (
   SELECT 1 FROM song_submissions
   WHERE title = 'Я смотрю на крест'

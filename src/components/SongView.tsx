@@ -100,6 +100,8 @@ const inferKeyFromChords = (song: Song): string | undefined => {
   return undefined;
 };
 
+const isImageSheetMusic = (value: string) => /\.(png|jpe?g|webp|gif|svg)(\?|#|$)/i.test(value);
+
 const Section = ({
   title,
   sectionId,
@@ -190,6 +192,7 @@ const SongView = ({
   const [playbackTick, setPlaybackTick] = useState(() => Date.now());
   const [playbackBpm, setPlaybackBpm] = useState(() => song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
   const [bpmInputValue, setBpmInputValue] = useState(() => String(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm));
+  const [contentMode, setContentMode] = useState<'song' | 'sheet'>('song');
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const tapTempoTimes = useRef<number[]>([]);
@@ -271,6 +274,8 @@ const SongView = ({
     : activePlaybackLine
       ? `${activePlaybackLine.sectionTitle} · ${activeLineIndex + 1}/${playbackLines.length}`
       : `${playback.bpm} BPM · ${playback.beatsPerLine} доли`;
+  const hasSheetMusic = Boolean(song.sheetMusicUrl);
+  const isSheetMode = hasSheetMusic && contentMode === 'sheet';
 
   useEffect(() => {
     const nextBpm = song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm;
@@ -282,6 +287,10 @@ const SongView = ({
     lineStartedAt.current = null;
     setPlaybackTick(Date.now());
   }, [initialAutoPlay, song.id, song.playback?.bpm]);
+
+  useEffect(() => {
+    setContentMode('song');
+  }, [song.id]);
 
   const registerLine = (key: string, element: HTMLButtonElement | null) => {
     lineElements.current[key] = element;
@@ -487,6 +496,12 @@ const SongView = ({
           <h1>{song.title}</h1>
           <div className="song-meta-row">
             <p className="view-preset-chip">{viewPresetLabels[settings.viewPreset]}</p>
+            {hasSheetMusic ? (
+              <div className="song-mode-toggle" aria-label="Режим отображения песни">
+                <button type="button" className={!isSheetMode ? 'is-active' : ''} onClick={() => setContentMode('song')} aria-pressed={!isSheetMode}>Текст</button>
+                <button type="button" className={isSheetMode ? 'is-active' : ''} onClick={() => setContentMode('sheet')} aria-pressed={isSheetMode}>Ноты</button>
+              </div>
+            ) : null}
             <div className="song-transpose-control" aria-label="Транспонирование этой песни">
               <button
                 type="button"
@@ -547,25 +562,38 @@ const SongView = ({
         </div>
       </div>
 
-      <div className="song-sections">
-        {getRenderableSections(song, settings.repeatChorus).map((section, index) => (
-          <Section
-            key={`${section.title}-${index}`}
-            sectionId={sectionStableId(section, index)}
-            songId={song.id}
-            title={section.title}
-            rows={section.rows}
-            chords={section.chords}
-            settings={settings}
-            playbackPosition={activePosition}
-            effectiveTransposition={effectiveTransposition}
-            registerLine={registerLine}
-            onPlaybackPositionChange={onPlaybackPositionChange}
-          />
-        ))}
-      </div>
+      {isSheetMode && song.sheetMusicUrl ? (
+        <div className="song-sheet-music">
+          <div className="song-sheet-frame">
+            {isImageSheetMusic(song.sheetMusicUrl) ? (
+              <img src={song.sheetMusicUrl} alt={`Ноты: ${song.title}`} loading="lazy" />
+            ) : (
+              <iframe src={song.sheetMusicUrl} title={`Ноты: ${song.title}`} loading="lazy" />
+            )}
+          </div>
+          <a className="song-sheet-link" href={song.sheetMusicUrl} target="_blank" rel="noreferrer">Открыть ноты отдельно</a>
+        </div>
+      ) : (
+        <div className="song-sections">
+          {getRenderableSections(song, settings.repeatChorus).map((section, index) => (
+            <Section
+              key={`${section.title}-${index}`}
+              sectionId={sectionStableId(section, index)}
+              songId={song.id}
+              title={section.title}
+              rows={section.rows}
+              chords={section.chords}
+              settings={settings}
+              playbackPosition={activePosition}
+              effectiveTransposition={effectiveTransposition}
+              registerLine={registerLine}
+              onPlaybackPositionChange={onPlaybackPositionChange}
+            />
+          ))}
+        </div>
+      )}
 
-      {settings.showPlaybackDock ? (
+      {settings.showPlaybackDock && !isSheetMode ? (
         <div className={`song-playback-dock ${isAutoPlaying ? 'is-running' : ''}`} style={playbackProgressStyle}>
           <div className="song-playback-dock-main">
             <strong>{playbackTimingLabel}</strong>

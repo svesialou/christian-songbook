@@ -35,7 +35,7 @@ type Props = {
 
 type SongDraft = AdminSongUpdatePayload & { leadSheet: string };
 type SubmissionDraft = SongSubmissionPayload & { leadSheet: string };
-type MetaKey = 'title' | 'category' | 'defaultKey' | 'bpm' | 'beatsPerLine' | 'introBeats';
+type MetaKey = 'title' | 'category' | 'defaultKey' | 'sheetMusicUrl' | 'bpm' | 'beatsPerLine' | 'introBeats';
 type MetaDraft = Pick<SongDraft, MetaKey>;
 type SongListFilter = 'all' | 'missing-chords';
 
@@ -48,6 +48,7 @@ const emptySubmissionDraft = (): SubmissionDraft => ({
   title: '',
   category: DEFAULT_CATEGORY,
   defaultKey: '',
+  sheetMusicUrl: '',
   leadSheet: '',
   bpm: DEFAULT_BPM,
   beatsPerLine: DEFAULT_BEATS_PER_LINE,
@@ -97,6 +98,7 @@ const buildSongDraft = (song: Song): SongDraft => {
     title: song.title,
     category: song.category || DEFAULT_CATEGORY,
     defaultKey: song.defaultKey || inferKeyFromLeadSheet(leadSheet),
+    sheetMusicUrl: song.sheetMusicUrl || '',
     leadSheet,
     bpm: song.playback?.bpm ?? DEFAULT_BPM,
     beatsPerLine: song.playback?.beatsPerLine ?? DEFAULT_BEATS_PER_LINE,
@@ -234,6 +236,7 @@ const SongMetaFields = ({ draft, categories, disabled, onChange }: {
         <label className="submission-field"><span>Категория</span><select value={draft.category} onChange={(event) => onChange('category', event.target.value)} disabled={disabled}>{categories.map((category) => <option key={category} value={category}>{category}</option>)}</select></label>
         <label className="submission-field"><span>Тональность</span><input value={draft.defaultKey} onChange={(event) => onChange('defaultKey', event.target.value)} disabled={disabled} placeholder="G, Am..." /></label>
       </div>
+      <label className="submission-field"><span>Ноты PDF/изображение</span><input type="url" value={draft.sheetMusicUrl || ''} onChange={(event) => onChange('sheetMusicUrl', event.target.value)} disabled={disabled} placeholder="https://...pdf или https://...jpg" /></label>
     </FieldBlock>
     <FieldBlock title="Ритм">
       <div className="submission-grid submission-grid-three">
@@ -371,7 +374,7 @@ const AdminSubmissionPage = ({ submission, categories, savingId, approvingId, re
   onNavigate: Props['onNavigate'];
 }) => {
   const [draft, setDraft] = useState<SubmissionDraft | null>(() =>
-    submission ? { ...submission, leadSheet: submission.leadSheet || submission.lyrics || '' } : null,
+    submission ? { ...submission, sheetMusicUrl: submission.sheetMusicUrl || '', leadSheet: submission.leadSheet || submission.lyrics || '' } : null,
   );
   const [error, setError] = useState<string | null>(null);
   const isBusy = !!submission && (savingId === submission.id || approvingId === submission.id || rejectingId === submission.id);

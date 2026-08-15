@@ -89,17 +89,18 @@ type songPlayback struct {
 }
 
 type songResponse struct {
-	ID         string               `json:"id"`
-	Number     int                  `json:"number"`
-	Title      string               `json:"title"`
-	Category   string               `json:"category"`
-	DefaultKey string               `json:"defaultKey,omitempty"`
-	LeadSheet  string               `json:"leadSheet,omitempty"`
-	Playback   *songPlayback        `json:"playback,omitempty"`
-	Sections   []songOrderedSection `json:"sections,omitempty"`
-	Verses     []songSection        `json:"verses"`
-	Chorus     *songSection         `json:"chorus,omitempty"`
-	Bridge     *songSection         `json:"bridge,omitempty"`
+	ID            string               `json:"id"`
+	Number        int                  `json:"number"`
+	Title         string               `json:"title"`
+	Category      string               `json:"category"`
+	DefaultKey    string               `json:"defaultKey,omitempty"`
+	LeadSheet     string               `json:"leadSheet,omitempty"`
+	SheetMusicURL string               `json:"sheetMusicUrl,omitempty"`
+	Playback      *songPlayback        `json:"playback,omitempty"`
+	Sections      []songOrderedSection `json:"sections,omitempty"`
+	Verses        []songSection        `json:"verses"`
+	Chorus        *songSection         `json:"chorus,omitempty"`
+	Bridge        *songSection         `json:"bridge,omitempty"`
 }
 
 type catalogVersion struct {
@@ -113,6 +114,7 @@ type songSubmissionRequest struct {
 	Category       string `json:"category"`
 	DefaultKey     string `json:"defaultKey"`
 	LeadSheet      string `json:"leadSheet"`
+	SheetMusicURL  string `json:"sheetMusicUrl,omitempty"`
 	Lyrics         string `json:"lyrics,omitempty"`
 	Chords         string `json:"chords,omitempty"`
 	BPM            *int   `json:"bpm,omitempty"`
@@ -124,14 +126,15 @@ type songSubmissionRequest struct {
 }
 
 type songAdminUpdateRequest struct {
-	Title        string                          `json:"title"`
-	Category     string                          `json:"category"`
-	DefaultKey   string                          `json:"defaultKey"`
-	LeadSheet    string                          `json:"leadSheet"`
-	BPM          *int                            `json:"bpm,omitempty"`
-	BeatsPerLine *int                            `json:"beatsPerLine,omitempty"`
-	IntroBeats   *int                            `json:"introBeats,omitempty"`
-	Sections     []songAdminSectionUpdateRequest `json:"sections,omitempty"`
+	Title         string                          `json:"title"`
+	Category      string                          `json:"category"`
+	DefaultKey    string                          `json:"defaultKey"`
+	LeadSheet     string                          `json:"leadSheet"`
+	SheetMusicURL string                          `json:"sheetMusicUrl,omitempty"`
+	BPM           *int                            `json:"bpm,omitempty"`
+	BeatsPerLine  *int                            `json:"beatsPerLine,omitempty"`
+	IntroBeats    *int                            `json:"introBeats,omitempty"`
+	Sections      []songAdminSectionUpdateRequest `json:"sections,omitempty"`
 }
 
 type songAdminSectionUpdateRequest struct {
@@ -163,6 +166,7 @@ type songSubmissionListItem struct {
 	Category       string    `json:"category"`
 	DefaultKey     string    `json:"defaultKey"`
 	LeadSheet      string    `json:"leadSheet"`
+	SheetMusicURL  string    `json:"sheetMusicUrl,omitempty"`
 	Lyrics         string    `json:"lyrics,omitempty"`
 	Chords         string    `json:"chords,omitempty"`
 	BPM            *int      `json:"bpm,omitempty"`
@@ -1594,8 +1598,8 @@ func createSongSubmission(ctx context.Context, db *sql.DB, payload songSubmissio
 
 	const query = `
 INSERT INTO song_submissions (
-  title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note
-) VALUES (?, ?, NULLIF(?, ''), ?, ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''))`
+  title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note
+) VALUES (?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''))`
 
 	result, err := db.ExecContext(
 		ctx,
@@ -1604,6 +1608,7 @@ INSERT INTO song_submissions (
 		normalized.Category,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
+		normalized.SheetMusicURL,
 		optionalIntParam(normalized.BPM),
 		optionalIntParam(normalized.BeatsPerLine),
 		optionalIntParam(normalized.IntroBeats),
@@ -1632,6 +1637,7 @@ SET
   category = ?,
   default_key = NULLIF(?, ''),
   lead_sheet = ?,
+  sheet_music_url = NULLIF(?, ''),
   bpm = ?,
   beats_per_line = ?,
   intro_beats = ?,
@@ -1643,6 +1649,7 @@ WHERE id = ? AND status = 'pending'`,
 		normalized.Category,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
+		normalized.SheetMusicURL,
 		optionalIntParam(normalized.BPM),
 		optionalIntParam(normalized.BeatsPerLine),
 		optionalIntParam(normalized.IntroBeats),
@@ -1673,6 +1680,7 @@ SELECT
   category,
   COALESCE(default_key, ''),
   lead_sheet,
+  COALESCE(sheet_music_url, ''),
   bpm,
   beats_per_line,
   intro_beats,
@@ -1704,6 +1712,7 @@ LIMIT 100`
 			&item.Category,
 			&item.DefaultKey,
 			&item.LeadSheet,
+			&item.SheetMusicURL,
 			&bpm,
 			&beatsPerLine,
 			&introBeats,
@@ -1787,12 +1796,13 @@ func updatePublishedSongMetadata(ctx context.Context, db *sql.DB, songID string,
 	result, err := tx.ExecContext(
 		ctx,
 		`UPDATE songs
-SET title = ?, category = ?, default_key = NULLIF(?, ''), lead_sheet = ?, bpm = ?, beats_per_line = ?, intro_beats = ?
+SET title = ?, category = ?, default_key = NULLIF(?, ''), lead_sheet = ?, sheet_music_url = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
 WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
 		normalized.Title,
 		normalized.Category,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
+		normalized.SheetMusicURL,
 		optionalIntParam(normalized.BPM),
 		optionalIntParam(normalized.BeatsPerLine),
 		optionalIntParam(normalized.IntroBeats),
@@ -1864,7 +1874,7 @@ func approveSongSubmission(ctx context.Context, db *sql.DB, submissionID int64) 
 
 	var submission songSubmissionRequest
 	const submissionQuery = `
-SELECT title, category, COALESCE(default_key, ''), lead_sheet, bpm, beats_per_line, intro_beats
+SELECT title, category, COALESCE(default_key, ''), lead_sheet, COALESCE(sheet_music_url, ''), bpm, beats_per_line, intro_beats
 FROM song_submissions
 WHERE id = ? AND status = 'pending'
 FOR UPDATE`
@@ -1876,6 +1886,7 @@ FOR UPDATE`
 		&submission.Category,
 		&submission.DefaultKey,
 		&submission.LeadSheet,
+		&submission.SheetMusicURL,
 		&bpm,
 		&beatsPerLine,
 		&introBeats,
@@ -1971,7 +1982,7 @@ func insertPublishedSongTx(
 ) error {
 	if _, err := tx.ExecContext(
 		ctx,
-		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), ?, ?, ?, ?, 'published')`,
+		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, 'published')`,
 		songID,
 		catalogVersionID,
 		number,
@@ -1979,6 +1990,7 @@ func insertPublishedSongTx(
 		normalized.Category,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
+		normalized.SheetMusicURL,
 		optionalIntParam(normalized.BPM),
 		optionalIntParam(normalized.BeatsPerLine),
 		optionalIntParam(normalized.IntroBeats),
@@ -2380,6 +2392,7 @@ func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionReque
 		Category:       strings.TrimSpace(payload.Category),
 		DefaultKey:     strings.TrimSpace(payload.DefaultKey),
 		LeadSheet:      leadSheet,
+		SheetMusicURL:  strings.TrimSpace(payload.SheetMusicURL),
 		BPM:            payload.BPM,
 		BeatsPerLine:   payload.BeatsPerLine,
 		IntroBeats:     payload.IntroBeats,
@@ -2390,6 +2403,11 @@ func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionReque
 	if normalized.Category == "" {
 		normalized.Category = "Общее"
 	}
+	sheetMusicURL, err := normalizeOptionalHTTPURL(normalized.SheetMusicURL, "sheet music URL")
+	if err != nil {
+		return songSubmissionRequest{}, err
+	}
+	normalized.SheetMusicURL = sheetMusicURL
 
 	if _, err := parseLeadSheetSections(normalized.LeadSheet); err != nil {
 		return songSubmissionRequest{}, err
@@ -2431,17 +2449,23 @@ func normalizeSongMetadata(payload songAdminUpdateRequest) (songAdminUpdateReque
 		leadSheet = leadSheetFromAdminSections(payload.Sections)
 	}
 	normalized := songAdminUpdateRequest{
-		Title:        strings.TrimSpace(payload.Title),
-		Category:     strings.TrimSpace(payload.Category),
-		DefaultKey:   strings.TrimSpace(payload.DefaultKey),
-		LeadSheet:    leadSheet,
-		BPM:          payload.BPM,
-		BeatsPerLine: payload.BeatsPerLine,
-		IntroBeats:   payload.IntroBeats,
+		Title:         strings.TrimSpace(payload.Title),
+		Category:      strings.TrimSpace(payload.Category),
+		DefaultKey:    strings.TrimSpace(payload.DefaultKey),
+		LeadSheet:     leadSheet,
+		SheetMusicURL: strings.TrimSpace(payload.SheetMusicURL),
+		BPM:           payload.BPM,
+		BeatsPerLine:  payload.BeatsPerLine,
+		IntroBeats:    payload.IntroBeats,
 	}
 	if normalized.Category == "" {
 		normalized.Category = "Общее"
 	}
+	sheetMusicURL, err := normalizeOptionalHTTPURL(normalized.SheetMusicURL, "sheet music URL")
+	if err != nil {
+		return songAdminUpdateRequest{}, err
+	}
+	normalized.SheetMusicURL = sheetMusicURL
 	if _, err := parseLeadSheetSections(normalized.LeadSheet); err != nil {
 		return songAdminUpdateRequest{}, err
 	}
@@ -2468,6 +2492,24 @@ func normalizeSongMetadata(payload songAdminUpdateRequest) (songAdminUpdateReque
 	}
 
 	return normalized, nil
+}
+
+func normalizeOptionalHTTPURL(value string, field string) (string, error) {
+	trimmed := strings.TrimSpace(value)
+	if trimmed == "" {
+		return "", nil
+	}
+	if tooLong(trimmed, 1000) {
+		return "", validationError(field + " is too long")
+	}
+	parsed, err := url.ParseRequestURI(trimmed)
+	if err != nil || parsed.Scheme == "" || parsed.Host == "" {
+		return "", validationError(field + " must be a valid URL")
+	}
+	if parsed.Scheme != "http" && parsed.Scheme != "https" {
+		return "", validationError(field + " must use http or https")
+	}
+	return trimmed, nil
 }
 
 func optionalIntParam(value *int) any {
@@ -2608,7 +2650,7 @@ func getSong(ctx context.Context, db *sql.DB, songID string) (songResponse, erro
 
 func getSongByVersion(ctx context.Context, db *sql.DB, catalogVersionID int64, songID string) (songResponse, error) {
 	const songQuery = `
-SELECT id, number, title, category, COALESCE(default_key, ''), lead_sheet, bpm, beats_per_line, intro_beats
+SELECT id, number, title, category, COALESCE(default_key, ''), lead_sheet, COALESCE(sheet_music_url, ''), bpm, beats_per_line, intro_beats
 FROM songs
 WHERE catalog_version_id = ? AND id = ? AND status = 'published'
 LIMIT 1`
@@ -2617,7 +2659,7 @@ LIMIT 1`
 	var bpm sql.NullInt64
 	var beatsPerLine sql.NullInt64
 	var introBeats sql.NullInt64
-	if err := db.QueryRowContext(ctx, songQuery, catalogVersionID, songID).Scan(&song.ID, &song.Number, &song.Title, &song.Category, &song.DefaultKey, &song.LeadSheet, &bpm, &beatsPerLine, &introBeats); err != nil {
+	if err := db.QueryRowContext(ctx, songQuery, catalogVersionID, songID).Scan(&song.ID, &song.Number, &song.Title, &song.Category, &song.DefaultKey, &song.LeadSheet, &song.SheetMusicURL, &bpm, &beatsPerLine, &introBeats); err != nil {
 		return songResponse{}, err
 	}
 	if bpm.Valid && beatsPerLine.Valid {

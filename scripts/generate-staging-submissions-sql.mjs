@@ -68,6 +68,7 @@ function normalizeSongs(payload) {
       bpm: nullableNumber(song.bpm),
       beatsPerLine: nullableNumber(song.beatsPerLine),
       introBeats: nullableNumber(song.introBeats),
+      sheetMusicUrl: nullableString(song.sheetMusicUrl),
       leadSheet: buildLeadSheet(nullableString(song.lyrics), nullableString(song.chords)) || PLACEHOLDER_LEAD_SHEET,
       note: buildNote(song),
     };
@@ -160,8 +161,8 @@ function buildSQL(songs, marker) {
   for (const song of songs) {
     const note = `[staging:${marker}] ${song.note}`;
     lines.push(
-      'INSERT INTO song_submissions (title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)',
-      `SELECT ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, ${sql(song.bpm)}, ${sql(song.beatsPerLine)}, ${sql(song.introBeats)}, 'Seed import', NULL, ${sql(note)}, 'pending'`,
+      'INSERT INTO song_submissions (title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note, status)',
+      `SELECT ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, ${sql(song.sheetMusicUrl)}, ${sql(song.bpm)}, ${sql(song.beatsPerLine)}, ${sql(song.introBeats)}, 'Seed import', NULL, ${sql(note)}, 'pending'`,
       'WHERE NOT EXISTS (',
       '  SELECT 1 FROM song_submissions',
       `  WHERE title = ${sql(song.title)}`,

@@ -21,6 +21,7 @@ export type Song = {
   category: string;
   defaultKey?: string;
   leadSheet?: string;
+  sheetMusicUrl?: string;
   playback?: SongPlayback;
   sections?: SongOrderedSection[];
   verses: SongSection[];

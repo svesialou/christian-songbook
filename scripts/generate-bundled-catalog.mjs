@@ -65,6 +65,7 @@ function toSong(song, index) {
     category: categorizeSong(song, stringValue(song.category) || 'Разное'),
     defaultKey: stringValue(song.defaultKey) || inferDefaultKey(leadSheet) || 'C',
     leadSheet,
+    sheetMusicUrl: stringValue(song.sheetMusicUrl) || undefined,
     playback: undefined,
     sections: sections.ordered,
     verses: sections.verses,
@@ -235,8 +236,8 @@ function buildPublishedCatalogSQL(items, version) {
 
   for (const song of items) {
     lines.push(
-      'INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)',
-      `VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, NULL, NULL, NULL, 'published');`,
+      'INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)',
+      `VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, NULLIF(${sql(song.sheetMusicUrl || '')}, ''), NULL, NULL, NULL, 'published');`,
       '',
     );
   }

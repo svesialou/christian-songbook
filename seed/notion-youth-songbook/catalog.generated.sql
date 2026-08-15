@@ -12,7 +12,7 @@ SET @catalog_version_id := (SELECT id FROM catalog_versions WHERE version = '202
 UPDATE catalog_versions SET is_current = 0 WHERE id <> @catalog_version_id;
 DELETE FROM songs WHERE catalog_version_id = @catalog_version_id;
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('a-ty-ne-dumai', @catalog_version_id, 1, 'А ты не думай', 'Прощение', 'D', '[Куплет 1]
 D Hm
 А ты не думай, что тебе тяжело,
@@ -47,9 +47,9 @@ Em A
 D Hm
 Помни, что другому тяжело.
 Em G A
-Подставь ему своё плечо.', NULL, NULL, NULL, 'published');
+Подставь ему своё плечо.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('agnecz-pashalnyi', @catalog_version_id, 2, 'Агнец Пасхальный', 'Пасхальные', 'Am', '[Куплет 1]
 Am Dm Am Dm
 Над Голгофою тьма нависла, тучи солнце закрыли быстро,
@@ -90,9 +90,9 @@ F Am F C Dm E
 
 [Мост]
 Он наш Агнец Пасхальный, заклан за нас, заклан за нас.
-Претерпел Он страданья, Кровью нас спас, Кровью нас спас!', NULL, NULL, NULL, 'published');
+Претерпел Он страданья, Кровью нас спас, Кровью нас спас!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('angely-v-nebe', @catalog_version_id, 3, 'Ангелы в небе', 'Свадебные', 'Em', '[Куплет 1]
 Em H
 Ангелы в небе Господа славят,
@@ -139,9 +139,9 @@ Am D G C
 Am H Em
 Христу Спасителю славу поёт.
 E
-Славу поет!', NULL, NULL, NULL, 'published');
+Славу поет!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ballada-o-treh-synovyah', @catalog_version_id, 4, 'Баллада о трёх сыновьях', 'Семья', 'Em', '[Куплет 1]
 Em Am D Em
 В краю средь гор и цветущих долин
@@ -217,9 +217,9 @@ Am D Em
 Я тебе свой престол отдаю!
 И звучало в ответ эхо горных вершин
 Кроток сердцем и духом смирен
-Верный сын унаследовал трон.', NULL, NULL, NULL, 'published');
+Верный сын унаследовал трон.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('blago-est-slavit-gospoda', @catalog_version_id, 5, 'Благо есть славить Господа', 'Семья', 'C', '[Куплет 1]
 Благо есть славить Господа
 И петь имени Твоему, Спаситель,
@@ -242,9 +242,9 @@ VALUES ('blago-est-slavit-gospoda', @catalog_version_id, 5, 'Благо есть
 Ты укажешь мне жизни путь,
 Да не постыжусь, что к Тебе взываю,
 На Тебя уповаю я,
-Благослови, Господь, меня.', NULL, NULL, NULL, 'published');
+Благослови, Господь, меня.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('blagodarnye-serdcza', @catalog_version_id, 6, 'Благодарные сердца', 'Благодарение', 'A', '[Куплет 1]
 A F#m D E
 Благодарные сердца, поспешите в дом Отца!
@@ -283,9 +283,9 @@ A F#m D E
 F#m D E C#
 Обновленные душой вечно будем жить с Тобой.
 D E E7
-Боже, Боже, поспеши, в мире жатву соверши!', NULL, NULL, NULL, 'published');
+Боже, Боже, поспеши, в мире жатву соверши!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('blagosloven-tot-dom', @catalog_version_id, 7, 'Благословен тот дом', 'Семья', 'Hm', '[Куплет 1]
 Hm Em F# Hm
 Благословен тот дом, где в каждом чистом сердце
@@ -320,9 +320,9 @@ Hm Em F#
 H Em A D
 Славят Творца и Библию читают,
 G Em F#
-И возрастают в мудрости из года в год.', NULL, NULL, NULL, 'published');
+И возрастают в мудрости из года в год.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('blagoslovi-gospoda-dusha-moya', @catalog_version_id, 8, 'Благослови Господа, душа моя', 'Благодарение', 'D', '[Куплет 1]
 D G D
 Буду петь Господу всю жизнь мою.
@@ -357,9 +357,9 @@ A7 D A7
 D G D
 Как далеко восток от запада,
 Em A D D7
-Так удалил Он от нас наши грехи.', NULL, NULL, NULL, 'published');
+Так удалил Он от нас наши грехи.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bog-izbral-nas', @catalog_version_id, 9, 'Бог избрал нас', 'Спасение', 'C', '[Куплет 1]
 Бог избрал нас из разных народов,
 Дал нам имя Свое.
@@ -376,9 +376,9 @@ VALUES ('bog-izbral-nas', @catalog_version_id, 9, 'Бог избрал нас', 
 Мы есть Церковь – Мы есть Тело Христа,
 Мы искуплены кровью Его!
 Врата ада не одолеют нас,
-Потому, что с нами Господь!', NULL, NULL, NULL, 'published');
+Потому, что с нами Господь!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bog-moi-vo-mne-ty', @catalog_version_id, 10, 'Бог мой, во мне Ты', 'Утешение и ободрение', 'G', '[Куплет 1]
 G Am
 Бог мой, во мне Ты,
@@ -407,9 +407,9 @@ C D G
 G Am
 О счастье мечтали
 C D G
-И вот оно навеки к нам пришло.', NULL, NULL, NULL, 'published');
+И вот оно навеки к нам пришло.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bog-prishel-i-umer-za-menya', @catalog_version_id, 11, 'Бог пришел и умер за меня', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm A# F C
 Бог пришел и умер за меня, аминь, аминь
@@ -444,9 +444,9 @@ Dm A# F C
 Ты вечный и Святой, Сущий вовек веков
 Ты был и есть и вновь грядешь
 Ты вечный и Святой, Сущий вовек веков
-Ты был и есть и вновь грядешь', NULL, NULL, NULL, 'published');
+Ты был и есть и вновь грядешь', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bog-s-nami-v-doline-udachi', @catalog_version_id, 12, 'Бог с нами в долине удачи', 'Спасение', 'Em', '[Куплет 1]
 Em
 Бог с нами в долине удачи,
@@ -523,9 +523,9 @@ D
 C
 Исполнятся наши желания
 H7
-В назначенный Господом час', NULL, NULL, NULL, 'published');
+В назначенный Господом час', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bozhe-ty-moi-bog', @catalog_version_id, 13, 'Боже, Ты мой Бог', 'Божья любовь', 'Em', '[Куплет 1]
 Em C Am Hm
 Боже, Ты мой Бог!
@@ -564,9 +564,9 @@ Em C Am D7
 G7 C7 Am H7
 Тебя жаждет душа моя.
 Em Hm Em
-Аллилуйя!', NULL, NULL, NULL, 'published');
+Аллилуйя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bozhya-lyubov', @catalog_version_id, 14, 'Божья любовь', 'Божья любовь', 'Dm', '[Куплет 1]
 Dm Gm
 Скажи, ну что тебя сюда ведет?
@@ -605,9 +605,9 @@ C F
 A# Gm
 Он помогает в этом мире жить,
 A7
-Он дает силы верить и любить.', NULL, NULL, NULL, 'published');
+Он дает силы верить и любить.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('budu-boga-hvalit', @catalog_version_id, 15, 'Буду Бога хвалить', 'Спасение', 'A', '[Куплет 1]
 A
 Буду Бога хвалить доколе жив,
@@ -652,9 +652,9 @@ C#m
 Hm
 Божьей милости я не заслужил,
 E
-А в ответ на любовь из сердца песнь.', NULL, NULL, NULL, 'published');
+А в ответ на любовь из сердца песнь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bud-blagosloven', @catalog_version_id, 16, 'Будь благословен', 'Утешение и ободрение', 'A', '[Куплет 1]
 A E F#m D
 Будь благословен на земле изобилия,
@@ -697,9 +697,9 @@ A E D
 Лишь Ты имеешь власть
 Всё дать и всё отнять.
 Я выберу за всё
-Тебя благословлять!', NULL, NULL, NULL, 'published');
+Тебя благословлять!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('bud-hrabroi-dusha', @catalog_version_id, 17, 'Будь храброй, душа', 'Вера и упование', 'G', '[Куплет 1]
 G D
 Спокойно стой, прими покой:
@@ -734,9 +734,9 @@ Em C
 Все звезды держишь Ты,
 В Твоих руках весь мир,
 Исполнишь все, что Ты обещал.
-В победе я вновь поднимусь!', NULL, NULL, NULL, 'published');
+В победе я вновь поднимусь!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('v-gorode-tihaya-osen', @catalog_version_id, 18, 'В городе тихая осень', 'Прославление', 'F#m', '[Куплет 1]
 F#m D E F#m
 В городе тихая осень, первые дни октября.
@@ -761,9 +761,9 @@ Hm C#m F#m
 Бог так одевает лилию, цветущую несколько дней,
 Что Соломон великий меркнет при славе своей,
 Но верных одел Бог лучше в праведной жизни своей,
-Чтоб просветлели души рядом идущих людей.', NULL, NULL, NULL, 'published');
+Чтоб просветлели души рядом идущих людей.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('v-zhizni-zemnoi', @catalog_version_id, 19, 'В жизни земной', 'Призыв к покаянию', 'Dm', '[Куплет 1]
 Dm A# C Dm
 В жизни земной всё приходит к концу,
@@ -822,9 +822,9 @@ Gm A Dm
 Только однажды даётся нам жизнь,
 Ну, а затем начинается вечность.
 Хочешь ли в вечности с Господом быть,
-Ныне оставь роковую беспечность.', NULL, NULL, NULL, 'published');
+Ныне оставь роковую беспечность.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('v-mir-greha', @catalog_version_id, 20, 'В мир греха', 'Спасение', 'Em', '[Куплет 1]
 Em Hm Em Hm
 В мир греха, мерзости и зла
@@ -871,9 +871,9 @@ C D Em
 Em Hm Em Hm
 С нами рос Иисус Христос,
 C D Em
-В мир спасение нёс.', NULL, NULL, NULL, 'published');
+В мир спасение нёс.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('v-palestine-czar-rodilsya-v-te-dalekie-goda', @catalog_version_id, 21, 'В Палестине Царь родился в те далекие года', 'Рождественские', 'F', '[Куплет 1]
 F Dm
 В Палестине Царь родился в те далекие года,
@@ -912,9 +912,9 @@ A# Gm C
 F Dm
 И когда печаль на сердце, подними глаза туда,
 A# Gm C
-Где сияет вечным светом Вифлеемская звезда', NULL, NULL, NULL, 'published');
+Где сияет вечным светом Вифлеемская звезда', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('v-hriste-odnom', @catalog_version_id, 22, 'В Христе одном', 'Пасхальные', 'G', '[Куплет 1]
 G D G A
 В Христе одном надежда есть,
@@ -985,9 +985,9 @@ D G D A
 G D G A
 Он приведёт меня в Свой дом,
 D G A D
-Моя опора только в Нём. :||', NULL, NULL, NULL, 'published');
+Моя опора только в Нём. :||', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('v-chasy-trevog-unynya-i-somnenya', @catalog_version_id, 23, 'В часы тревог, унынья и сомненья', 'Пасхальные', 'Gm', '[Куплет 1]
 Gm D7 Gm
 В часы тревог, унынья и сомненья,
@@ -1036,9 +1036,9 @@ F A# D7
 Gm Cm
 Но вновь душа словам Твоим внимает:
 Gm D7 Gm
-“Я не оставлю, Я люблю тебя”.', NULL, NULL, NULL, 'published');
+“Я не оставлю, Я люблю тебя”.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('veliki-i-chudny', @catalog_version_id, 24, 'Велики и чудны', 'Прославление', 'Em', '[Куплет 1]
 Em Am D Em
 Велики и чудны дела Твои,
@@ -1081,9 +1081,9 @@ C D G H
 Em Am D Em
 Аллилуйя и осанна лишь Тебе,
 C D Em
-Царь Святый.', NULL, NULL, NULL, 'published');
+Царь Святый.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('velichit-dusha-moya-boga', @catalog_version_id, 25, 'Величит душа моя Бога', 'Молитвенные', 'G', '[Куплет 1]
 G
 Величит душа моя Бога,
@@ -1124,9 +1124,9 @@ Em
 Am D
 И громко Его прославляю
 C D
-Сердечной хвалою. Аминь.', NULL, NULL, NULL, 'published');
+Сердечной хвалою. Аминь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('verim-my', @catalog_version_id, 26, 'Верим мы', 'Пасхальные', 'C', '[Куплет 1]
 C Csus
 В час когда вокруг сомненье,
@@ -1171,9 +1171,9 @@ C F
 Кто потерян был выход найдёт пусть в сердца людей ворвется любовь
 Церковь громко скажет чтоб слышал Ты, верим мы! Верим мы!
 Нас не одолеют ада врата сила Божья завесу разорвала
-Не пройдет Его любовь никогда верим мы! Верим мы!', NULL, NULL, NULL, 'published');
+Не пройдет Его любовь никогда верим мы! Верим мы!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('veruyu-gospodi', @catalog_version_id, 27, 'Верую, Господи', 'Небо', 'Dm', '[Куплет 1]
 Dm Gm A A7
 Верую, Господи, истинно верую в Слово святое Твое.
@@ -1212,9 +1212,9 @@ Dm Gm A
 Dm Gm C F
 Перед Тобою никто не осмелится чтобы неправду сказать.
 Dm Gm A
-Чистое небо святыми заселится, грешникам там не бывать.', NULL, NULL, NULL, 'published');
+Чистое небо святыми заселится, грешникам там не бывать.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vetry-holodnye', @catalog_version_id, 28, 'Ветры холодные', 'Семья', 'Am', '[Куплет 1]
 Am E
 Ещё будет зима, ещё ветры подуют холодные,
@@ -1285,9 +1285,9 @@ F E
 Am Dm
 А пока время есть благодатного лета Господнего
 Am E Am
-О котором когда-то потом будем лишь вспоминать.', NULL, NULL, NULL, 'published');
+О котором когда-то потом будем лишь вспоминать.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vzor-podnimayu-k-lazurnomu-nebu', @catalog_version_id, 29, 'Взор поднимаю к лазурному небу', 'Спасение', 'Em', '[Куплет 1]
 Em C
 Взор поднимаю к лазурному небу
@@ -1328,9 +1328,9 @@ Am H7
 Em C
 Ты неизменный о слава за это!
 Am H7 Em
-Пусть в моем сердце надежда живёт.', NULL, NULL, NULL, 'published');
+Пусть в моем сердце надежда живёт.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vot-nash-bog', @catalog_version_id, 30, 'Вот наш Бог', 'Пасхальные', 'C', '[Куплет 1]
 Кто моря все горстью исчерпал?
 Кто песок земли пересчитал?
@@ -1353,9 +1353,9 @@ VALUES ('vot-nash-bog', @catalog_version_id, 30, 'Вот наш Бог', 'Пас
 Кто был свят, но взял вину людей?
 Кто подставил руки для гвоздей?
 Кто в смиреньи умер на кресте?
-Кто воскрес, чтоб грешников спасти?', NULL, NULL, NULL, 'published');
+Кто воскрес, чтоб грешников спасти?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vot-on-ya', @catalog_version_id, 31, 'Вот он я', 'Пасхальные', 'Am', '[Куплет 1]
 Am G F C F
 Вот он я. Твоим величием смирён,
@@ -1386,9 +1386,9 @@ C G
 Am G F C F
 Вот он я. Знаю, что я нужен Тебе.
 C G
-Освящён, очищен, в огне.', NULL, NULL, NULL, 'published');
+Освящён, очищен, в огне.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vot-proshli-tysyacheletya', @catalog_version_id, 32, 'Вот прошли тысячелетья...', 'Пасхальные', 'C', '[Куплет 1]
 C
 Вот прошли тысячелетья…
@@ -1439,9 +1439,9 @@ C
 Am
 Бог не завтра обещает,
 Dm G C
-Но сегодня предлагает для души.', NULL, NULL, NULL, 'published');
+Но сегодня предлагает для души.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vse-nebesa-da-hvalyat-voskresshego', @catalog_version_id, 33, 'Все небеса да хвалят Воскресшего', 'Пасхальные', 'G', '[Куплет 1]
 G C D G
 Все небеса да хвалят Воскресшего
@@ -1460,9 +1460,9 @@ G C D G
 G C G Em
 Отец всё дал Ему, а мы чем воздадим?
 C D G
-Колени преклоню я только перед Ним.', NULL, NULL, NULL, 'published');
+Колени преклоню я только перед Ним.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vstaet-zarya', @catalog_version_id, 34, 'Встает заря', 'Прощение', 'Em', '[Куплет 1]
 Em D
 Встает заря, и солнца луч на небо всходит,
@@ -1501,9 +1501,9 @@ Am H7 Em
 Em D
 И нас омыл Он Кровию Своей Пречистой,
 Am H7 Em
-Будем вечно славить мы Его.', NULL, NULL, NULL, 'published');
+Будем вечно славить мы Его.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vsya-zemlya-polna-slavy', @catalog_version_id, 35, 'Вся земля полна славы', 'Рождественские', 'C', '[Куплет 1]
 Вся земля полна славы и хвалы
 Любовь Отца нам явилась в Сыне
@@ -1524,9 +1524,9 @@ VALUES ('vsya-zemlya-polna-slavy', @catalog_version_id, 35, 'Вся земля �
 Подними к небу руки и тогда,
 Льется пусть слава и хвала Иисусу,
 Ликуй Земля, ведь открыты Небеса,
-Родился Царь и грех мира разрушен', NULL, NULL, NULL, 'published');
+Родился Царь и грех мира разрушен', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vsya-zemlya-hvalu-poet', @catalog_version_id, 36, 'Вся земля хвалу поет', 'Небо', 'D', '[Куплет 1]
 D A Hm G
 Вся земля хвалу поет лишь Тебе, наш чудный Бог.
@@ -1567,9 +1567,9 @@ G A
 Em D
 И все народы преклонят колени,
 G A
-И воспоют хвалу Тебе!', NULL, NULL, NULL, 'published');
+И воспоют хвалу Тебе!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('vybrali-my-uzkuyu-dorogu', @catalog_version_id, 37, 'Выбрали мы узкую дорогу', 'Божья любовь', 'Em', '[Куплет 1]
 Em C D G
 Выбрали мы узкую дорогу
@@ -1610,9 +1610,9 @@ C Am H
 Em C D G
 День придёт, расстанемся с землёю,
 C Am H7
-Чтобы нам там в небе отдохнуть.', NULL, NULL, NULL, 'published');
+Чтобы нам там в небе отдохнуть.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gde-vy-druzya-moi', @catalog_version_id, 38, 'Где вы, друзья мои', 'Небо', 'Em', '[Куплет 1]
 Em Am H
 Где вы, друзья мои? Я вас люблю.
@@ -1641,9 +1641,9 @@ Am D Am H
 Em Am H
 Пусть Твои Ангелы друзей моих хранят,
 Am D Am H
-Да не преткнутся, не дай им обернуться назад»', NULL, NULL, NULL, 'published');
+Да не преткнутся, не дай им обернуться назад»', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gde-ty-prekrasnaya', @catalog_version_id, 39, 'Где ты прекрасная', 'Молитвенные', 'A', '[Куплет 1]
 A Dm Gm
 Где ты прекрасная, светлая, ясная,
@@ -1692,9 +1692,9 @@ A Dm A
 Dm Gm
 Прими моё сердце, цвет моей юности,
 A Dm
-В руки Иисуса отдаюсь навсегда.', NULL, NULL, NULL, 'published');
+В руки Иисуса отдаюсь навсегда.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gefsimanskii-sad', @catalog_version_id, 40, 'Гефсиманский сад', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm
 Гефсиманский сад, Гефсиманский сад…
@@ -1739,9 +1739,9 @@ Gm A# A
 И в молитве я, и в молитве я
 Говорю: Господь, научи меня
 ||: На коленях так, как Твой Сын, стоять,
-Побеждать, побеждать!!! :||', NULL, NULL, NULL, 'published');
+Побеждать, побеждать!!! :||', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gluboka-podobno-moryu', @catalog_version_id, 41, 'Глубока, подобно морю', 'Пасхальные', 'D', '[Куплет 1]
 D G D A
 Глубока, подобно морю, совершенная Любовь
@@ -1770,9 +1770,9 @@ D G D A D
 D Em A D
 Царь вселенной, Искупитель, умирал за нас с тобой.
 Hm G D A D
-Там была Любовь излита, где пролита Божья Кровь.', NULL, NULL, NULL, 'published');
+Там была Любовь излита, где пролита Божья Кровь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('govori-ko-mne', @catalog_version_id, 42, 'Говори ко мне', 'Разное', 'C#m', '[Куплет 1]
 C#m H
 От гласа Твоего содрогаются горы
@@ -1799,9 +1799,9 @@ A G#
 C#m H
 О! Говори! Говори ко мне! Говори! Говори ко мне!
 A G#m C#m
-Говори! Говори ко мне, мой Господь!', NULL, NULL, NULL, 'published');
+Говори! Говори ко мне, мой Господь!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gory-sdvinutsya', @catalog_version_id, 43, 'Горы сдвинутся', 'Молитвенные', 'Dm', '[Куплет 1]
 Dm Am
 Его мысли не наши мысли, и пути Его не наши пути.
@@ -1830,9 +1830,9 @@ Gm A
 Gm A Dm Gm A Dm
 А надеющиеся на Господа обновятся в силе всегда.
 A#m Dm Gm A Dm A
-О, душа успокойся, рядом Бог, не бойся.', NULL, NULL, NULL, 'published');
+О, душа успокойся, рядом Бог, не бойся.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gospodi-kak-stranno', @catalog_version_id, 44, 'Господи, как странно', 'Благодарение', 'Em', '[Куплет 1]
 Em D
 Господи, как странно, что я жил Тебя не зная
@@ -1881,9 +1881,9 @@ C D H7
 Em D
 С Ним сумею сделать всё, снесу я трудности любые
 C D H7
-Потому что славлюБога и Его люблю.', NULL, NULL, NULL, 'published');
+Потому что славлюБога и Его люблю.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gospod-pastyr-moi', @catalog_version_id, 45, 'Господь - пастырь мой', 'Хлебопреломление', 'Em', '[Куплет 1]
 Em D G C
 На злачных пажитях меня покоит Он,
@@ -1918,9 +1918,9 @@ G D Em
 Em D G C
 Пребывать вечно буду я в доме Твоем,
 G D Em
-В чудный образ Твой преображаться.', NULL, NULL, NULL, 'published');
+В чудный образ Твой преображаться.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gospod-est-moi-pastyr', @catalog_version_id, 46, 'Господь есть мой Пастырь', 'Божья любовь', 'G', '[Куплет 1]
 G C
 Господь есть мой Пастырь, не буду тужить,
@@ -1959,9 +1959,9 @@ D G
 G C
 Храни меня в мире могучей рукой
 D G
-Пока не прибуду к Тебе.', NULL, NULL, NULL, 'published');
+Пока не прибуду к Тебе.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('gospod-moya-sila', @catalog_version_id, 47, 'Господь моя сила', 'Вера и упование', 'C', '[Куплет 1]
 // Господь моя сила и щит. //
 Господь упованье моё и помощь мне.
@@ -1973,9 +1973,9 @@ VALUES ('gospod-moya-sila', @catalog_version_id, 47, 'Господь моя си
 
 [Куплет 2]
 // Господь моя радость и мир //
-Господь утешенье мое и мой покой.', NULL, NULL, NULL, 'published');
+Господь утешенье мое и мой покой.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('davno-pogasli-ogni', @catalog_version_id, 48, 'Давно погасли огни', 'Спасение', 'Am', '[Куплет 1]
 Am F C E Am
 Давно погасли огни туманных надежд
@@ -2016,9 +2016,9 @@ Am F C E Am
 Am F C E Am
 Где звуки арф и труб, где ангелы поют
 Am F C E Am
-Где Богу и Христу хвалу все воздают.', NULL, NULL, NULL, 'published');
+Где Богу и Христу хвалу все воздают.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('daleko-daleko', @catalog_version_id, 49, 'Далеко, далеко', 'Спасение', 'Cm', '[Куплет 1]
 Cm G#
 Далеко, далеко, далеко, далеко,
@@ -2057,9 +2057,9 @@ A# D#
 Fm Cm
 Побеждать этот мир лишь любовью Твоей,
 Fm G Cm
-Ожидая отрадных тех дней!', NULL, NULL, NULL, 'published');
+Ожидая отрадных тех дней!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('derzhit-on-menya', @catalog_version_id, 50, 'Держит Он меня!', 'Пасхальные', 'G', '[Куплет 1]
 G C D G
 Если грех меня страшит, Держит Он меня!
@@ -2098,9 +2098,9 @@ G C D G
 C D G C H Em
 Я воскресну к жизни с Ним Держит Он меня
 C D G C D G
-Знаю, буду Им храним До Благого Дня.', NULL, NULL, NULL, 'published');
+Знаю, буду Им храним До Благого Дня.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('divnyi-spasitel-prekrasnyi', @catalog_version_id, 51, 'Дивный Спаситель, прекрасный', 'Пасхальные', 'C', '[Куплет 1]
 C F C
 Дивный Спаситель, прекрасный,
@@ -2147,9 +2147,9 @@ Am F Fm
 C G Am
 Чтобы у ног пасть Твоих,
 F C G C E
-О, чтобы у ног пасть Твоих.', NULL, NULL, NULL, 'published');
+О, чтобы у ног пасть Твоих.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('dlya-tebya-o-chelovek', @catalog_version_id, 52, 'Для тебя, о человек', 'Небо', 'Am', '[Куплет 1]
 Am Dm
 Для тебя, о человек, Бог создал небо и поля,
@@ -2178,9 +2178,9 @@ E Am
 A Dm
 Для тебя моря и горы, все живое – для тебя,
 Am E Am
-Для тебя все это создала Его рука.', NULL, NULL, NULL, 'published');
+Для тебя все это создала Его рука.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('dni-kak-zvuk-otshumyat', @catalog_version_id, 53, 'Дни, как звук, отшумят', 'Жизнь христианина', 'Am', '[Куплет 1]
 Am E Am
 Дни, как звук, отшумят и исчезнут вдали.
@@ -2215,9 +2215,9 @@ C Dm G C
 Dm Am E
 И оставишь ли ты, и оставишь ли
 E Am
-На земле добрый след.', NULL, NULL, NULL, 'published');
+На земле добрый след.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('dolgo-v-sumrake-skitalsya', @catalog_version_id, 54, 'Долго в сумраке скитался', 'Пасхальные', 'Am', '[Куплет 1]
 Am Dm G C
 Долго в сумраке скитался, на путях греховных я
@@ -2262,9 +2262,9 @@ F Dm E E7
 Am Dm G C
 Если искренно покаясь, в сердце примешь ты Его
 F Dm E E7
-Непременно ты услышишь: «Я люблю Тебя давно»', NULL, NULL, NULL, 'published');
+Непременно ты услышишь: «Я люблю Тебя давно»', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('doroga-smerti-v-ierusalime', @catalog_version_id, 55, 'Дорога смерти в Иерусалиме', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm A#
 Дорога смерти в Иерусалиме,
@@ -2303,9 +2303,9 @@ Gm C Dm
 Dm A#
 Идет, чтоб вечность дать нам с тобою,
 Gm C F
-Путь в бесконечность проложить Своею Кровью.', NULL, NULL, NULL, 'published');
+Путь в бесконечность проложить Своею Кровью.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('dushu-moyu-k-tebe-voznoshu', @catalog_version_id, 56, 'Душу мою к Тебе возношу', 'Божья любовь', 'D', '[Куплет 1]
 D A Em Hm
 Душу мою к Тебе возношу -
@@ -2334,9 +2334,9 @@ G A
 D A Em Hm
 Боже, прошу, приблизся ко мне.
 G A
-В святости нежной любовью.', NULL, NULL, NULL, 'published');
+В святости нежной любовью.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('esli-zhdet-tebya-doroga', @catalog_version_id, 57, 'Если ждет тебя дорога', 'Небо', 'C', '[Куплет 1]
 Если ждет тебя дорога в неизвестный край,
 На прощанье у порога думы не гадай,
@@ -2359,9 +2359,9 @@ VALUES ('esli-zhdet-tebya-doroga', @catalog_version_id, 57, 'Если ждет �
 Жизнь кипит вокруг, как море, бьет тебя волной,
 И в твоем огромном горе ты для всех чужой.
 Помощь есть для всех у Бога, ты к Нему взывай,
-Если ждет тебя дорога в неизвестный край.', NULL, NULL, NULL, 'published');
+Если ждет тебя дорога в неизвестный край.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('est-na-nebe-gorod', @catalog_version_id, 58, 'Есть на небе город', 'Небо', 'Am', '[Куплет 1]
 Am Dm E Am
 Есть на небе город, чудный город света,
@@ -2400,9 +2400,9 @@ Am F G C
 Am Dm G C
 Так давайте ж на земле вместе славить Бога,
 Am E
-Чтобы стала нам светлей в небеса дорога.', NULL, NULL, NULL, 'published');
+Чтобы стала нам светлей в небеса дорога.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zhivuschii-pod-krovom-tvoim', @catalog_version_id, 59, 'Живущий под кровом Твоим', 'Вера и упование', 'E', '[Куплет 1]
 E H
 Живущий под кровом Твоим
@@ -2421,9 +2421,9 @@ E G#m A H
 E H A
 Потому что уповаю на Творца,
 A H E
-Потому что я говорю: “Бог мой щит”.', NULL, NULL, NULL, 'published');
+Потому что я говорю: “Бог мой щит”.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zhizni-reka-bezhit', @catalog_version_id, 60, 'Жизни река бежит', 'Спасение', 'Dm', '[Куплет 1]
 Dm A7 Dm Gm
 Жизни река бежит, в вечность она ведёт,
@@ -2452,9 +2452,9 @@ A7 Dm C7 F
 D7 Gm
 Верю, что день тот придет, примешь меня Иисус.
 Dm A7 Dm
-Верю, Ты мой Господь, верю не постыжусь.', NULL, NULL, NULL, 'published');
+Верю, Ты мой Господь, верю не постыжусь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zhizn-borba', @catalog_version_id, 61, 'Жизнь – борьба', 'Прославление', 'Am', '[Куплет 1]
 Am F
 Жизнь – борьба Света с тьмой,
@@ -2499,9 +2499,9 @@ Dm Am
 F C
 Мы, рожденные в пустыне,
 Dm E
-Прославляем Его Имя!', NULL, NULL, NULL, 'published');
+Прославляем Его Имя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zhizn-eto-pole', @catalog_version_id, 62, 'Жизнь это поле', 'Пасхальные', 'Am', '[Куплет 1]
 Am G
 Ты устал в этой жизни от горя и слез,
@@ -2546,9 +2546,9 @@ Dm Am
 F Am
 Он страдал на кресте, Он людей возлюбил,
 Dm E
-Хочет Он, чтоб обиды свои ты простил!', NULL, NULL, NULL, 'published');
+Хочет Он, чтоб обиды свои ты простил!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('za-vse-blagodarite', @catalog_version_id, 63, 'За всё благодарите', 'Благодарение', 'C', '[Куплет 1]
 Праздник жатвы наступил как ты этот год прожил?
 Сердце благодарное ли ты Богу принес?
@@ -2566,9 +2566,9 @@ VALUES ('za-vse-blagodarite', @catalog_version_id, 63, 'За всё благод
 Все здесь проходящее, ветром уносящее,
 Как песок рассыпется и все уйдет в никуда.
 Только милость вечная, Божья бесконечная
-На Земле останется, ведь Он Бог Спаситель твой.', NULL, NULL, NULL, 'published');
+На Земле останется, ведь Он Бог Спаситель твой.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('za-vse-ya-blagodaryu', @catalog_version_id, 64, 'За все я благодарю', 'Пасхальные', 'F', '[Куплет 1]
 F A Dm
 За все Тебя, Господь, я благодарю
@@ -2607,9 +2607,9 @@ F A Dm
 Gm D Gm C
 Одежду правды мне Иисус подарил,
 F C A# C
-Простил, очистил и меня искупил.', NULL, NULL, NULL, 'published');
+Простил, очистил и меня искупил.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('za-golgofu-za-krov', @catalog_version_id, 65, 'За Голгофу, за кровь', 'Пасхальные', 'D', '[Куплет 1]
 D A Hm G D A
 За Голгофу, за кровь я Тебя благодарю.
@@ -2638,9 +2638,9 @@ D A Hm G A D
 D A Hm G D A
 За чистый воздух с небес, светлый солнечный лес.
 D A Hm G A D
-За ликование птиц, за Слово с вечных страниц.', NULL, NULL, NULL, 'published');
+За ликование птиц, за Слово с вечных страниц.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zazhech-lesnoi-pozhar', @catalog_version_id, 66, 'Зажечь лесной пожар', 'Спасение', 'D', '[Куплет 1]
 D F#m G A
 Зажечь лесной пожар одной довольно искры,
@@ -2659,9 +2659,9 @@ D F#m G A
 G D G D Hm
 //: Вот так и Божия любовь и Божья благодать,
 G Hm G A D
-Ты хочешь петь, ты хочешь их другому передать. ://', NULL, NULL, NULL, 'published');
+Ты хочешь петь, ты хочешь их другому передать. ://', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zachem-moi-gospod', @catalog_version_id, 67, 'Зачем мой Господь', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm                          F                             Gm              A
 Зачем, мой Господь, Ты оставил всех ангелов в небе?
@@ -2725,9 +2725,9 @@ Dm
 Пусть будут слова просты, но искренние от сердца.
 Ведь Ты для меня так дорог, мой Господь.
 
-[Припев]', NULL, NULL, NULL, 'published');
+[Припев]', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('za-shagom-shag', @catalog_version_id, 68, 'За шагом шаг', 'Божья любовь', 'C', '[Куплет 1]
 Мы пытаемся найти в жизни разные пути.
 Кто укажет нам дорогу в светлый мир?
@@ -2746,9 +2746,9 @@ VALUES ('za-shagom-shag', @catalog_version_id, 68, 'За шагом шаг', 'Б
 Церковь станет нам мостом в замок веры, в светлый дом,
 Где надежда и уверенность в грядущем.
 Пусть сияет свет Христа. В нём любовь и доброта
-И святая неземная красота.', NULL, NULL, NULL, 'published');
+И святая неземная красота.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('zdes-na-zemle-my-tolko-stranniki', @catalog_version_id, 69, 'Здесь, на земле, мы только странники', 'Спасение', 'Am', '[Куплет 1]
 Am Dm
 Здесь, на земле, мы только странники
@@ -2787,9 +2787,9 @@ E Am
 Am Dm
 Как велика любовь Спасителя Христа,
 F E
-Что в небе Родина нас ждет!', NULL, NULL, NULL, 'published');
+Что в небе Родина нас ждет!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('znaesh-v-zhizni-vse-prohodit', @catalog_version_id, 70, 'Знаешь, в жизни всё проходит', 'Божья любовь', 'Dm', '[Куплет 1]
 Dm A#
 Знаешь, в жизни всё проходит и уходит, уплывает как вода,
@@ -2824,9 +2824,9 @@ C A
 Dm
 :: Есть смысл твоей жизни,
 A# Gm A
-Лишь с Христом, лишь с Христом, счастье будет только в нём. ::', NULL, NULL, NULL, 'published');
+Лишь с Христом, лишь с Христом, счастье будет только в нём. ::', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('izmeni-menya', @catalog_version_id, 71, 'Измени меня', 'Прославление', 'E', '[Куплет 1]
 E H7 E
 Измени меня, измени меня
@@ -2875,9 +2875,9 @@ A H7
 E C#m
 Для чего ты меня призвал.
 A H7 E
-Освяти меня!', NULL, NULL, NULL, 'published');
+Освяти меня!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('iisus-kak-ty-dorog-dlya-menya', @catalog_version_id, 72, 'Иисус, как Ты дорог для меня', 'Молитвенные', 'D', '[Куплет 1]
 D Em
 Иисус, как Ты дорог для меня
@@ -2906,9 +2906,9 @@ A7 D
 Hm Em
 О, Иисус, услышь Ты наши голоса;
 A7 D
-Как Ты дорог, дорог для меня.', NULL, NULL, NULL, 'published');
+Как Ты дорог, дорог для меня.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('iisus-prevoznosim', @catalog_version_id, 73, 'Иисус, превозносим', 'Прославление', 'G', '[Куплет 1]
 G Em
 Иисус, превозносим
@@ -2947,9 +2947,9 @@ C Am D
 G Em
 Прими славу, величие
 C D G
-И восхваление без конца', NULL, NULL, NULL, 'published');
+И восхваление без конца', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('iisus-ty-lyubov-moya', @catalog_version_id, 74, 'Иисус, Ты любовь моя', 'Спасение', 'D', '[Куплет 1]
 D A F#
 Иисус, Ты любовь моя,
@@ -2978,9 +2978,9 @@ Hm G A
 D A F#
 Даришь ты жизни полноту,
 Hm G A
-Ты скала моя и я к тебе иду!', NULL, NULL, NULL, 'published');
+Ты скала моя и я к тебе иду!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('iisus-ty-moya-skala', @catalog_version_id, 75, 'Иисус, Ты моя скала', 'Пасхальные', 'Am', '[Куплет 1]
 Am E Am
 Когда в море бушует волна,
@@ -3027,9 +3027,9 @@ G C
 Dm Am
 Силой Духа Святого всегда
 E
-Пой слова.', NULL, NULL, NULL, 'published');
+Пой слова.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('iisus-ty-umer-na-kreste', @catalog_version_id, 76, 'Иисус, Ты умер на кресте', 'Пасхальные', 'D', '[Куплет 1]
 D A Hm
 Иисус, Ты умер на кресте
@@ -3048,9 +3048,9 @@ G D A D
 G A Hm
 Измени меня, прошу,
 G D A D
-Ведь я Тебе служить хочу.', NULL, NULL, NULL, 'published');
+Ведь я Тебе служить хочу.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ischite-boga', @catalog_version_id, 77, 'Ищите Бога', 'Утешение и ободрение', 'Cm', '[Куплет 1]
 Cm Fm G Cm
 Ищите Бога, ищите слёзно,
@@ -3069,9 +3069,9 @@ Fm G Cm C
 Fm A# Cm
 И будет радость превыше неба,
 Fm G Cm
-Но так ищите, как нищий — хлеба!', NULL, NULL, NULL, 'published');
+Но так ищите, как нищий — хлеба!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ischite-prezhde-czarstva', @catalog_version_id, 78, 'Ищите прежде Царства', 'Прославление', 'C', '[Куплет 1]
 Ищите прежде Царства Божия
 И правды Его,
@@ -3088,9 +3088,9 @@ VALUES ('ischite-prezhde-czarstva', @catalog_version_id, 78, 'Ищите пре�
 Просите и дано будет вам,
 Ищите и найдете,
 Стучите и отворят вам,
-Аллилуйя, аллилуйя!', NULL, NULL, NULL, 'published');
+Аллилуйя, аллилуйя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kazhdyi-den-uletayut-samolety', @catalog_version_id, 79, 'Каждый день улетают самолёты', 'Вера и упование', 'C', '[Припев]
 Каждый день улетают самолёты,
 Каждый час уезжают поезда,
@@ -3113,9 +3113,9 @@ VALUES ('kazhdyi-den-uletayut-samolety', @catalog_version_id, 79, 'Каждый 
 Никогда не унывай,
 Небо есть заветный край.
 Ты в него всегда смотри,
-Помощь Господа прими.', NULL, NULL, NULL, 'published');
+Помощь Господа прими.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-vozhdelenny-zhilischa-tvoi', @catalog_version_id, 80, 'Как вожделенны жилища Твои', 'Дух Святой', 'C', '[Куплет 1]
 C G Am7 F
 Как вожделенны жилища Твои,
@@ -3150,9 +3150,9 @@ E Am
 Dm G Em Am
 Ибо день один во дворах Твоих
 Dm G C
-Лучше тысячи.', NULL, NULL, NULL, 'published');
+Лучше тысячи.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-vozhdelenny', @catalog_version_id, 81, 'Как вожделенны', 'Дух Святой', 'D', '[Куплет 1]
 D Hm
 Как вожделенны жилища Твои,
@@ -3197,9 +3197,9 @@ Hm D A
 Я верю в Тебя, мой Бог!
 Я верю в Тебя, мой Бог!
 Имя Твое всегда будет в сердце моем.
-Я верю в Тебя!', NULL, NULL, NULL, 'published');
+Я верю в Тебя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-gluboka-tvoya-lyubov', @catalog_version_id, 82, 'Как глубока Твоя любовь', 'Дух Святой', 'Em', '[Куплет 1]
 Em C
 Как глубока Твоя любовь,
@@ -3226,9 +3226,9 @@ Am D
 G C
 Драгоценный Дух Святой,
 Am H7 Em
-Освещай и веди за Собой!', NULL, NULL, NULL, 'published');
+Освещай и веди за Собой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-olen-stremitsya-k-vodam', @catalog_version_id, 83, 'Как олень стремится к водам', 'Молитвенные', 'C', '[Куплет 1]
 C Em Am
 Как олень стремится к водам,
@@ -3267,9 +3267,9 @@ F G C F G
 C G Am
 Прославляю Тебя, мой Боже,
 F G C
-Всей душой любя Тебя.', NULL, NULL, NULL, 'published');
+Всей душой любя Тебя.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-prekrasno-vse-to-chto-tvoe', @catalog_version_id, 84, 'Как прекрасно все то, что Твое', 'Спасение', 'Am', '[Куплет 1]
 Am
 Как прекрасно все то, что Твое,
@@ -3332,9 +3332,9 @@ Dm
 F
 Это Ты мне, Спаситель, даешь
 E7
-Все то доброе, что я имею.', NULL, NULL, NULL, 'published');
+Все то доброе, что я имею.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-son-uhodyat-proch-goda', @catalog_version_id, 85, 'Как сон уходят прочь года', 'Молитвенные', 'Cm', '[Куплет 1]
 Cm Gm
 Как сон уходят прочь года
@@ -3363,9 +3363,9 @@ Fm G#
 Cm Gm
 Альбом листая в тишине
 Fm G#
-Прошу: “Господь, друзей моих храни”', NULL, NULL, NULL, 'published');
+Прошу: “Господь, друзей моих храни”', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-chasto-my-bluzhdaem', @catalog_version_id, 86, 'Как часто мы блуждаем', 'Пасхальные', 'C', '[Куплет 1]
 C Em A7
 Как часто мы блуждаем, и просто забываем,
@@ -3400,9 +3400,9 @@ Dm
 G E Am Dm
 Любовь его святая живёт и побеждает,
 G C
-Приносит радость и покой!', NULL, NULL, NULL, 'published');
+Приносит радость и покой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kak-to-poluchilos', @catalog_version_id, 87, 'Как-то получилось', 'Божья любовь', 'Em', '[Куплет 1]
 Em Am
 Как-то получилось, что сошлись дороги,
@@ -3451,9 +3451,9 @@ H7 Em
 Em Am
 Ты придешь, я знаю, и склонишься низко,
 D H7
-Скажешь нежно слово в утешенье мне.', NULL, NULL, NULL, 'published');
+Скажешь нежно слово в утешенье мне.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kistyu-tvorcza', @catalog_version_id, 88, 'Кистью Творца', 'Благодарение', 'C', '[Куплет 1]
 C F G Am
 Кистью Творца созданы небеса,
@@ -3492,9 +3492,9 @@ F G
 C F E
 Я благодарю Тебя, мой Господь,
 Am F G
-Мой Господь и славлю я Тебя!', NULL, NULL, NULL, 'published');
+Мой Господь и славлю я Тебя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kogda-bushuet-zhizn', @catalog_version_id, 89, 'Когда бушует жизнь', 'Пасхальные', 'Em', '[Куплет 1]
 Em Am
 Когда бушует жизнь, огнем меня крестя,
@@ -3535,9 +3535,9 @@ Am H7 E7
 Am Am Em C
 Но мне ли унывать - имею я Христа,
 Am H7 Em
-Что может у меня Его отнять?', NULL, NULL, NULL, 'published');
+Что может у меня Его отнять?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kogda-v-puti-dusha-utomlyaetsya', @catalog_version_id, 90, 'Когда в пути душа утомляется', 'Молитвенные', 'Am', '[Куплет 1]
 Am Dm E Am
 Когда в пути душа утомляется
@@ -3576,9 +3576,9 @@ Dm G C Am
 Dm7 Gm C Am
 ||: Прими спасенье в день этот памятный
 Dm E Am A
-И вместе с нами радостно в путь пойдём! :||', NULL, NULL, NULL, 'published');
+И вместе с нами радостно в путь пойдём! :||', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kogda-v-tvoi-slova-vnikayu', @catalog_version_id, 91, 'Когда в Твои слова вникаю', 'Спасение', 'Dm', '[Куплет 1]
 Dm
 Когда в Твои слова вникаю,
@@ -3631,9 +3631,9 @@ F A Dm
 Gm A
 Твоими соками питаясь,
 Dm A Dm
-Дай пребывать в Тебе всегда.', NULL, NULL, NULL, 'published');
+Дай пребывать в Тебе всегда.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kogda-vesennii-veterok', @catalog_version_id, 92, 'Когда весенний ветерок', 'Утешение и ободрение', 'Em', '[Куплет 1]
 Em A D Hm
 Когда весенний ветерок колышет радостно цветок,
@@ -3668,9 +3668,9 @@ Em A D D7
 Em A D Hm
 Зимой, в метель, в глухую ночь, зимой, в метель, в глухую ночь
 Em A D D7
-Мы прославляем Божью мощь, да Божью мощь.', NULL, NULL, NULL, 'published');
+Мы прославляем Божью мощь, да Божью мощь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kogda-smolknet-vse', @catalog_version_id, 93, 'Когда смолкнет всё', 'Прощение', 'D', '[Куплет 1]
 D A Em
 Когда смолкнет всё, в тиши утонет звук,
@@ -3707,9 +3707,9 @@ Em A
 D A Em
 Беден я и нищ, и все, что есть -Твоё,
 A
-Даже просто вздох.', NULL, NULL, NULL, 'published');
+Даже просто вздох.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kogda-hristos-menya-prostil', @catalog_version_id, 94, 'Когда Христос меня простил', 'Прощение', 'C', '[Куплет 1]
 C
 Когда Христос меня простил,
@@ -3748,9 +3748,9 @@ Am
 Dm
 В стране родной, в стране чужой,-
 G E7
-Там небо, где Христос со мной.', NULL, NULL, NULL, 'published');
+Там небо, где Христос со мной.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kosari-na-lugu', @catalog_version_id, 95, 'Косари на лугу', 'Спасение', 'Gm', '[Куплет 1]
 Gm Cm
 Косари на лугу размахалися острыми косами,
@@ -3789,9 +3789,9 @@ Gm D Gm
 Cm Gm
 И как в прежние дни, упиваясь небесными росами,
 Dm Gm
-Прославляю Тебя за любовь и за милость Твою.', NULL, NULL, NULL, 'published');
+Прославляю Тебя за любовь и за милость Твою.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('krylya-zari', @catalog_version_id, 96, 'Крылья зари', 'Божья любовь', 'Em', '[Куплет 1]
 Em
 Господи, Ты испытал меня
@@ -3828,9 +3828,9 @@ Em
 Em
 И веденье Твое мне не постичь,
 Em D Em
-Как высоки Твои все, Боже, помышления', NULL, NULL, NULL, 'published');
+Как высоки Твои все, Боже, помышления', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kto-by-dal-mne-slezy-sokrushenya', @catalog_version_id, 97, 'Кто бы дал мне слезы сокрушенья', 'Дух Святой', 'Gm', '[Куплет 1]
 Gm D7 Gm
 Кто бы дал мне слезы сокрушенья,
@@ -3889,9 +3889,9 @@ A# F A#
 Cm D7 Gm
 Чтобы я не плакал за дверями,
 D7 A Gm
-Где слеза уж больше не нужна.', NULL, NULL, NULL, 'published');
+Где слеза уж больше не нужна.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kto-est-na-nebe-u-menya', @catalog_version_id, 98, 'Кто есть на небе у меня?', 'Спасение', 'Em', '[Куплет 1]
 Em Am C H7
 Кто есть на небе у меня? Только Ты!
@@ -3950,9 +3950,9 @@ E7 Am D
 G Em
 Природы силы замолчат,
 Am H7 Em E
-Я буду петь сквозь смерти яд: Мой Христос! :||', NULL, NULL, NULL, 'published');
+Я буду петь сквозь смерти яд: Мой Христос! :||', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kto-zhe-ya', @catalog_version_id, 99, 'Кто же я', 'Прощение', 'G', '[Куплет 1]
 G Em
 Кто же я, что Царя Вселенной всей
@@ -3985,9 +3985,9 @@ D C D C D
 G Em
 Кто же я, чтобы Бог, смиривший шторм,
 D C D C D
-Дарил мне Свой покой, когда вокруг лишь зло?', NULL, NULL, NULL, 'published');
+Дарил мне Свой покой, когда вокруг лишь зло?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kto-iz-czarei', @catalog_version_id, 100, 'Кто из царей', 'Пасхальные', 'A', '[Куплет 1]
 A
 Идя за звездой в чужие края
@@ -4028,9 +4028,9 @@ A
 F#m
 И смирну несущему жизнь ко кресту
 Hm E
-Мы верим Он Тот, Кого мы так ждали давно!', NULL, NULL, NULL, 'published');
+Мы верим Он Тот, Кого мы так ждали давно!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kto-ya-bez-tebya', @catalog_version_id, 101, 'Кто я без Тебя', 'Божья любовь', 'C', '[Куплет 1]
 C F
 Хочу я жить под кровом Твоим,
@@ -4071,9 +4071,9 @@ C F
 Am C F
 Всё то, что есть во мне,
 C Dm C Gsus G
-И всё, чем я живу, принадлежит Тебе.', NULL, NULL, NULL, 'published');
+И всё, чем я живу, принадлежит Тебе.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kuda-b-my-ni-ehali', @catalog_version_id, 102, 'Куда б мы ни ехали', 'Молитвенные', 'C', '[Куплет 1]
 Куда б мы ни ехали, куда б ни бежали,
 Везде есть проблемы, везде есть печали…
@@ -4096,9 +4096,9 @@ VALUES ('kuda-b-my-ni-ehali', @catalog_version_id, 102, 'Куда б мы ни �
 ||: Так может, потому и приходят печали,
 Чтобы мы с тобой о небе скучали,
 Чтобы всей душой стремились в небеса
-Куда не постучится больше беда. :|| Больше беда.', NULL, NULL, NULL, 'published');
+Куда не постучится больше беда. :|| Больше беда.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('kuda-my-idem', @catalog_version_id, 103, 'Куда мы идем', 'Пасхальные', 'D', '[Куплет 1]
 D A Hm G
 Куда мы идем, только Он знает.
@@ -4137,9 +4137,9 @@ D A Hm G
 D A Hm G
 Выбери жизнь, выбери счастье.
 D A Hm G
-Крест свой нести сквозь бури, ненастья.', NULL, NULL, NULL, 'published');
+Крест свой нести сквозь бури, ненастья.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('leti', @catalog_version_id, 104, 'Лети', 'Небо', 'F', '[Куплет 1]
 F G Am
 Каждый день смотрю на небеса
@@ -4176,9 +4176,9 @@ F G Dm
 F G Am
 Покажи мне снова чудеса
 F E
-Скажи лети', NULL, NULL, NULL, 'published');
+Скажи лети', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyutsya-slezy-pechali', @catalog_version_id, 105, 'Льются слёзы печали', 'Пасхальные', 'C', '[Куплет 1]
 [братья]
 Льются слёзы печали
@@ -4223,9 +4223,9 @@ VALUES ('lyutsya-slezy-pechali', @catalog_version_id, 105, 'Льются слё�
 Благодатью Христовой
 От греха я спасаюсь
 Его царства святого
-Я наследником стал.', NULL, NULL, NULL, 'published');
+Я наследником стал.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyubi', @catalog_version_id, 106, 'Люби...', 'Божья любовь', 'Em', '[Куплет 1]
 Em
 Люби, когда другой тебя толкает,
@@ -4266,9 +4266,9 @@ C
 Am
 Люби – пусть сердце Бога отражает,
 D H
-Люби – любовь любовью отвечает.', NULL, NULL, NULL, 'published');
+Люби – любовь любовью отвечает.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyubit-iisus-menya', @catalog_version_id, 107, 'Любит Иисус меня', 'Призыв к покаянию', 'D', '[Куплет 1]
 D Em
 Любит Иисус меня, любит меня,
@@ -4309,9 +4309,9 @@ A D
 D Em
 Вечную радость ты обретешь
 A D D7
-И песню новую с Ним запоешь.', NULL, NULL, NULL, 'published');
+И песню новую с Ним запоешь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyubov-evangelskoe-slovo', @catalog_version_id, 108, 'Любовь - Евангельское слово', 'Спасение', 'C#m', '[Куплет 1]
 C#m A E H7
 Любовь - Евангельское слово
@@ -4358,9 +4358,9 @@ G#m A E
 H7 C#m
 Любовь да будет не притворной
 A H7
-В нем тайна жизни боготворной.', NULL, NULL, NULL, 'published');
+В нем тайна жизни боготворной.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyubov-hrista-verna-i-chista', @catalog_version_id, 109, 'Любовь Христа верна и чиста', 'Спасение', 'Em', '[Куплет 1]
 Em
 Мы каждый день встречаемся вновь
@@ -4407,9 +4407,9 @@ Am
 H7
 Без денег, злата, серебра
 Em
-Любовь Христа.', NULL, NULL, NULL, 'published');
+Любовь Христа.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyubo-hrystova', @catalog_version_id, 110, 'Любоў Хрыстова', 'Спасение', 'Em', '[Куплет 1]
 Em C
 Любоў Хрыстова! Яна, як сонца,
@@ -4452,9 +4452,9 @@ Am H7 Em H7
 Em C
 Прыйдзі да Ісуса, спяшайся хутка,
 Am H7 Em E
-Пакуль адкрыта да Бога дзвер.', NULL, NULL, NULL, 'published');
+Пакуль адкрыта да Бога дзвер.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('lyudi-ischut-vokrug', @catalog_version_id, 111, 'Люди ищут вокруг', 'Разное', 'Fm', '[Куплет 1]
 Fm A#m D# G# C
 Люди ищут вокруг днём и в полночь идут
@@ -4483,9 +4483,9 @@ Fm A#m C#7 C7
 Fm A#m D# G# C
 Только Бог может знать жизнь твою наперёд
 Fm A#m C#7 C7
-Бог наш полон любви ты к Нему поспеши', NULL, NULL, NULL, 'published');
+Бог наш полон любви ты к Нему поспеши', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('manit-serdcze-mechtoyu', @catalog_version_id, 112, 'Манит сердце мечтою', 'Прощение', 'Dm', '[Куплет 1]
 Dm
 Манит сердце мечтою
@@ -4524,9 +4524,9 @@ Gm
 A7
 И второе рожденье,
 Dm
-Только истинно веруй.', NULL, NULL, NULL, 'published');
+Только истинно веруй.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mariya-speshila-skorei', @catalog_version_id, 113, 'Мария спешила скорей', 'Пасхальные', 'G', '[Куплет 1]
 G Em
 Мария спешила скорей
@@ -4565,9 +4565,9 @@ C D
 G E
 Христос и сегодня живой
 Am D
-И снова Он рядом с тобой', NULL, NULL, NULL, 'published');
+И снова Он рядом с тобой', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('milosti-tvoei-polna-vsya-zemlya', @catalog_version_id, 114, 'Милости Твоей полна вся земля', 'Благодарение', 'Em', '[Куплет 1]
 Em A A7
 Милости Твоей полна вся земля,
@@ -4586,9 +4586,9 @@ Em A D Hm Em F# Hm
 
 [Мост]
 Благодарю Тебя,
-Благодарю Тебя,', NULL, NULL, NULL, 'published');
+Благодарю Тебя,', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('milost-bozhya', @catalog_version_id, 115, 'Милость Божья', 'Дух Святой', 'Dm', '[Куплет 1]
 Dm Gm
 От погибели спасла меня милость Божья.
@@ -4627,9 +4627,9 @@ C A Dm D
 Cm D
 Там, где место для святых, будет вечно им светить –
 Gm A Dm D
-Это милость Божья, это милость Божья', NULL, NULL, NULL, 'published');
+Это милость Божья, это милость Божья', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mimo-tekla-tekla-reka', @catalog_version_id, 116, 'Мимо текла, текла река', 'Божья любовь', 'Dm', '[Куплет 1]
 Dm Gm Dm
 Мимо текла, текла река, плыли куда-то облака,
@@ -4668,9 +4668,9 @@ Gm C F D7
 Gm F Dm
 Но чтобы в этом доме жить, нужно в сердцах своих хранить
 Gm A Dm D7
-Мир и тепло, любовь и свет, вечный завет.', NULL, NULL, NULL, 'published');
+Мир и тепло, любовь и свет, вечный завет.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mir-vam', @catalog_version_id, 117, 'Мир вам', 'Божья любовь', 'Hm', '[Куплет 1]
 Hm Em F#
 Мир вам, настал общения час,
@@ -4715,9 +4715,9 @@ Hm Em A
 D H7 Em
 Мир вам, конца не будет вашим дням,
 Em F# Hm
-Мир братья, сестры вам.', NULL, NULL, NULL, 'published');
+Мир братья, сестры вам.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mne-est-za-chto-blagodarit', @catalog_version_id, 118, 'Мне есть за что благодарить', 'Пасхальные', 'Hm', '[Куплет 1]
 Hm F#m Hm
 Мне есть за что благодарить Творца -
@@ -4756,9 +4756,9 @@ Em F#7 Hm
 Hm F#7 G
 Придёт мой день - я ноги обниму
 Em F#7 Hm
-Того, Кто умер на кресте Голгофском.', NULL, NULL, NULL, 'published');
+Того, Кто умер на кресте Голгофском.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mne-kazhetsya-zavtra', @catalog_version_id, 119, 'Мне кажется завтра', 'Спасение', 'C', '[Куплет 1]
 C
 Нам кажется, завтра мы будем прилежней
@@ -4809,9 +4809,9 @@ F Fm
 G
 Не ныне, а завтра, потом.
 F G C
-Не ныне, а завтра, потом.', NULL, NULL, NULL, 'published');
+Не ныне, а завтра, потом.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mnogo-let-proshlo', @catalog_version_id, 120, 'Много лет прошло', 'Пасхальные', 'Em', '[Куплет 1]
 Em Am
 Много лет прошло с времен Голгофы,
@@ -4856,9 +4856,9 @@ C H Em
 G D H
 Руки те, что всем добро творили
 Em Am H
-И как любили нежно ласкать детей.', NULL, NULL, NULL, 'published');
+И как любили нежно ласкать детей.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mnogo-let-uchili-tebya-i-menya', @catalog_version_id, 121, 'Много лет учили тебя и меня', 'Спасение', 'Am', '[Куплет 1]
 Am Dm
 Много лет учили тебя и меня:
@@ -4897,9 +4897,9 @@ E Am E
 Am Dm
 Спасенье приготовлено Богом моим,
 Am E Am
-Белым, белым парусом моим.', NULL, NULL, NULL, 'published');
+Белым, белым парусом моим.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('mnogo-mnogo-kilometrov', @catalog_version_id, 122, 'Много много километров', 'Небо', 'D', '[Куплет 1]
 D Hm G A
 Много много километров земного пути
@@ -4928,9 +4928,9 @@ D Hm G A
 G A D Hm
 И снова светят звезды, а мы роняем слезы
 G A
-Устаем идти, устаем мечтать', NULL, NULL, NULL, 'published');
+Устаем идти, устаем мечтать', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('moi-gospod-v-etot-chas', @catalog_version_id, 123, 'Мой Господь, в этот час', 'Молитвенные', 'Em', '[Куплет 1]
 Em C D H
 Мой Господь, в этот час я склоняюсь в мольбе,
@@ -4973,9 +4973,9 @@ Em C D H
 Am H Em C
 Знаю, скоро придёшь, скоро встречу Тебя,
 Am H Em H
-Свою Церковь возьмёшь от скорбей и от зла.', NULL, NULL, NULL, 'published');
+Свою Церковь возьмёшь от скорбей и от зла.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('molitva-eto-krik-dushi', @catalog_version_id, 124, 'Молитва — это крик души', 'Молитвенные', 'Em', '[Куплет 1]
 Em C Am H
 Молитва — это крик души, чем искренней, тем тише
@@ -5014,9 +5014,9 @@ Em C Am C H
 Am D G C
 Как пустоцвет неверных чувств, она тогда бесплодна,
 Am Em Am H E
-Лукавство, лесть из грешных уст, для Бога не угодны!', NULL, NULL, NULL, 'published');
+Лукавство, лесть из грешных уст, для Бога не угодны!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('molodye', @catalog_version_id, 125, 'Молодые', 'Божья любовь', 'Am', '[Куплет 1]
 Am Dm
 Молодые, вы рождённы для Бога жить,
@@ -5057,9 +5057,9 @@ G C E7
 Am Dm
 Молодые, будьте верны Иисусу Христу,
 F Dm E7
-Чтобы в мире этом лютом победить сатану.', NULL, NULL, NULL, 'published');
+Чтобы в мире этом лютом победить сатану.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('moya-molitva-da-stremitsya', @catalog_version_id, 126, 'Моя молитва да стремится', 'Молитвенные', 'Em', '[Куплет 1]
 Em C
 Моя молитва да стремится
@@ -5108,9 +5108,9 @@ Am H7 Em
 Em C
 Когда мы молимся – услышь нас
 Am H7 Em
-И помощь дай Свою с небес!', NULL, NULL, NULL, 'published');
+И помощь дай Свою с небес!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('my-lish-mgnovene', @catalog_version_id, 127, 'Мы – лишь мгновенье', 'Семья', 'C', '[Куплет 1]
 C G Dm Am
 Мы – лишь мгновенье, Ты – сама вечность
@@ -5139,9 +5139,9 @@ F C A# G
 C G Dm Am
 Слабых упавших Ты поднимаешь,
 F C A# G
-Даришь обильно нам благодать.', NULL, NULL, NULL, 'published');
+Даришь обильно нам благодать.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('my-nuzhny-drug-drugu', @catalog_version_id, 128, 'Мы нужны друг другу', 'Семья', 'F', '[Куплет 1]
 F C Dm
 Мы нужны друг другу, Бог нас спас не зря,
@@ -5170,9 +5170,9 @@ A# C F C
 F C Dm
 Так давайте сохраним мы веру на земле,
 A# C F
-Чтоб царствовать нам с Богом во Христе!', NULL, NULL, NULL, 'published');
+Чтоб царствовать нам с Богом во Христе!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('na-vsyakom-meste', @catalog_version_id, 129, 'На всяком месте', 'Семья', 'G', '[Куплет 1]
 G Em
 На всяком месте до краёв земли
@@ -5235,9 +5235,9 @@ C D
 Hm Em
 И жизнь моя рекою потечёт,
 C D G
-Там солнцем будет Сам Христос!', NULL, NULL, NULL, 'published');
+Там солнцем будет Сам Христос!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('na-tebya-my-upovaem', @catalog_version_id, 130, 'На Тебя мы уповаем', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm F C
 Наша надежда - Ты Христос.
@@ -5262,9 +5262,9 @@ A Dm
 Dm F C
 Ты нам спасенье ныне принёс,
 Gm A A7
-Ты нас избавил от горя и слёз.', NULL, NULL, NULL, 'published');
+Ты нас избавил от горя и слёз.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('na-hrista-vziraya', @catalog_version_id, 131, 'На Христа взирая', 'Небо', 'Em', '[Куплет 1]
 Em Hm C G
 На Христа взирая, жизнь Ему отдай,
@@ -5303,9 +5303,9 @@ Am F#m H
 Em Hm C G
 И рука святая приготовит пир,
 Am F#m H
-На Христа взирая, в Нём твой мир.', NULL, NULL, NULL, 'published');
+На Христа взирая, в Нём твой мир.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nad-czerkovnymi-kupolami', @catalog_version_id, 132, 'Над церковными куполами', 'Спасение', 'Am', '[Куплет 1]
 Am Dm
 Над церковными куполами
@@ -5344,9 +5344,9 @@ E7 Am
 C
 И мне очень, очень хочется
 Dm E7
-За мою Беларусь молиться!', NULL, NULL, NULL, 'published');
+За мою Беларусь молиться!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nauchi-menya', @catalog_version_id, 133, 'Научи меня', 'Спасение', 'Em', '[Куплет 1]
 Em Am
 Научи меня, мой Господь, во всём
@@ -5385,9 +5385,9 @@ H Em
 Em Am
 Добрый верный раб скорее войди,
 H Em
-В радость Господина своего.', NULL, NULL, NULL, 'published');
+В радость Господина своего.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nachinaya-novyi-den', @catalog_version_id, 134, 'Начиная новый день', 'Благодарение', 'C', '[Куплет 1]
 Начиная новый день, слышу голос Твой.
 Я смотрю на небеса, знаю - Ты со мной.
@@ -5410,9 +5410,9 @@ VALUES ('nachinaya-novyi-den', @catalog_version_id, 134, 'Начиная нов�
 Я хочу, чтоб сегодня горели сердца.
 Пусть сияет в них свет от великого Бога - Отца.
 Пусть ещё миллионы заблудших людей.
-Наконец-то поймут, Кто для них всех нужней.', NULL, NULL, NULL, 'published');
+Наконец-то поймут, Кто для них всех нужней.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nash-bog-velikii', @catalog_version_id, 135, 'Наш Бог Великий', 'Величие Бога', 'G#m', '[Куплет 1]
 G#m E H
 Воду в вино превратил,
@@ -5441,9 +5441,9 @@ H F#
 И если Бог с нами,
 Кто против нас восстанет?
 И если Бог с нами,
-Кто может против быть?', NULL, NULL, NULL, 'published');
+Кто может против быть?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nash-bog-tak-velik', @catalog_version_id, 136, 'Наш Бог так велик', 'Семья', 'G', '[Куплет 1]
 G Em7
 В сиянии Царя блеск величия
@@ -5476,9 +5476,9 @@ C D
 Он превыше всех имён
 Всей хвалы достоин Он!
 И душа поёт:
-Наш Бог так велик!', NULL, NULL, NULL, 'published');
+Наш Бог так велик!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nasha-zhizn-eto-put', @catalog_version_id, 137, 'Наша жизнь - это путь', 'Спасение', 'Dm', '[Куплет 1]
 Dm Gm
 Наша жизнь - это путь на небеса.
@@ -5549,9 +5549,9 @@ Gm A# F
 Dm Gm
 Наша жизнь - это путь на небеса
 A# C Dm
-Всех искупленных кровью Христа.', NULL, NULL, NULL, 'published');
+Всех искупленных кровью Христа.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nebesa-ozhidayut-menya', @catalog_version_id, 138, 'Небеса ожидают меня', 'Семья', 'Em', '[Куплет 1]
 Em Am
 Небеса ожидают меня,
@@ -5590,9 +5590,9 @@ H7 Em
 Em Am
 Подойдут и обнимут меня,
 H7 Em
-Радость будет моя без конца.', NULL, NULL, NULL, 'published');
+Радость будет моя без конца.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nebesnaya-rodina', @catalog_version_id, 139, 'Небесная родина', 'Семья', 'C', '[Куплет 1]
 Я иду туда, где царит весна,
 Где цветут сады и все поля.
@@ -5612,9 +5612,9 @@ VALUES ('nebesnaya-rodina', @catalog_version_id, 139, 'Небесная роди
 И пускай бывает жизнь трудна,
 И бушует море, бьет волна.
 Все же верю я, что придет весна,
-Я дойду туда, я дойду туда.', NULL, NULL, NULL, 'published');
+Я дойду туда, я дойду туда.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nebo-nebo-nebes', @catalog_version_id, 140, 'Небо, небо, небес', 'Пасхальные', 'Am', '[Куплет 1]
 Am Dm E7 Am
 Поднимаю глаза и смотрю в небеса,
@@ -5657,9 +5657,9 @@ Am Dm G C Am
 Am Dm G C Am
 Но я знаю одно — красотой тех небес
 Am Dm E7 Am
-Будет Тот, Кто понёс на Голгофу наш крест.', NULL, NULL, NULL, 'published');
+Будет Тот, Кто понёс на Голгофу наш крест.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('net-drugoi-istorii', @catalog_version_id, 141, 'Нет другой истории', 'Рождественские', 'D', '[Куплет 1]
 D A
 Нет другой истории прекрасной и знакомой
@@ -5696,9 +5696,9 @@ Hm G
 Родился Царь,чтоб царствовать вовеки
 Своей любовью изменить мир смог
 И чрез Него мы стали Божьи дети
-Рожденный от Бога - есть Бог!', NULL, NULL, NULL, 'published');
+Рожденный от Бога - есть Бог!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('net-nebu-sinemu-koncza', @catalog_version_id, 142, 'Нет небу синему конца', 'Божья любовь', 'Em', '[Куплет 1]
 Em C G H
 Нет небу синему конца,
@@ -5737,9 +5737,9 @@ Em H C
 G C
 Под шум дождей и шум ветров
 G Am H
-Храните нежную любовь.', NULL, NULL, NULL, 'published');
+Храните нежную любовь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('net-ne-ya-no-hristos-vo-mne', @catalog_version_id, 143, 'Нет, не я, но Христос во мне', 'Прощение', 'C', '[Куплет 1]
 Бесценный дар, Иисус, мой Искупитель,
 Вся благодать небес сокрыта в Нём.
@@ -5778,9 +5778,9 @@ VALUES ('net-ne-ya-no-hristos-vo-mne', @catalog_version_id, 143, 'Нет, не �
 ||: И я держусь надежды в Иисусе,
 Одному Ему хвала вовек!
 И свершив жизни путь, будет песнь моих уст:
-”Нет, не я, но Христос во мне!” :||', NULL, NULL, NULL, 'published');
+”Нет, не я, но Христос во мне!” :||', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('novyi-god', @catalog_version_id, 144, 'Новый год', 'Утешение и ободрение', 'Am', '[Куплет 1]
 Am H7
 Прошел незаметно весь год
@@ -5819,9 +5819,9 @@ Dm E Am
 A7 Dm
 Мы будем счастливы тогда
 F E
-И жизнь проживём не напрасно.', NULL, NULL, NULL, 'published');
+И жизнь проживём не напрасно.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('nyne-pozdravlyayut', @catalog_version_id, 145, 'Ныне поздравляют', 'Спасение', 'D', '[Куплет 1]
 D Em
 Ныне поздравляют все друзья тебя,
@@ -5848,9 +5848,9 @@ A7 D
 D Em
 Пусть Господь Спаситель Сам тебя ведет
 A7 D
-В вечную обитель, где Он Сам живёт.', NULL, NULL, NULL, 'published');
+В вечную обитель, где Он Сам живёт.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('o-molitva', @catalog_version_id, 146, 'О, молитва', 'Благодарение', 'Em', '[Куплет 1]
 Em Am Em H Em
 О молитва, о молитва! В жизни Богом ты дана.
@@ -5885,9 +5885,9 @@ E Am D G Em
 Am D G Am D
 Когда в бурю падал я без сил. К небесам сердечный вздох
 G Em Am H Em
-Возносился средь тревог, Я в молитве радость получал.', NULL, NULL, NULL, 'published');
+Возносился средь тревог, Я в молитве радость получал.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('o-ty-velik', @catalog_version_id, 147, 'О, Ты велик', 'Божья любовь', 'C', '[Куплет 1]
 Прихожу к Тебе я с хвалою -
 Чудеса Твои велики
@@ -5907,9 +5907,9 @@ VALUES ('o-ty-velik', @catalog_version_id, 147, 'О, Ты велик', 'Божь
 [Куплет 3]
 Ты один достоин всей хвалы,
 Превозносим к небу руки -
-В Тебе радуемся мы.', NULL, NULL, NULL, 'published');
+В Тебе радуемся мы.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('odinoko-smotryat-zvezdy', @catalog_version_id, 148, 'Одиноко смотрят звезды', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm C A# A7
 Одиноко смотрят звезды, Одиноко плачет небо,
@@ -5948,9 +5948,9 @@ Dm C A# A7
 Dm C A# A7
 И ты мечешься по жизни, Хочешь вырвать куш свободы,
 Dm C A# A7
-Но я знаю, бесполезно, Если нет Христа.', NULL, NULL, NULL, 'published');
+Но я знаю, бесполезно, Если нет Христа.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('odnazhdy-ya-skazal', @catalog_version_id, 149, 'Однажды я сказал', 'Божья любовь', 'Am', '[Куплет 1]
 Am F C G
 Однажды я сказал, что сохраню тебя,
@@ -5989,9 +5989,9 @@ Am F C G
 Am F C G
 Ты еще расправишь крылья и взлетишь высоко
 Am F C G
-Кто сказал что побеждать так просто и легко?', NULL, NULL, NULL, 'published');
+Кто сказал что побеждать так просто и легко?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('on-zdes', @catalog_version_id, 150, 'Он здесь', 'Величие Бога', 'D', '[Куплет 1]
 D Em A D D7
 Он здесь, Он здесь,
@@ -6026,9 +6026,9 @@ G A
 F#m Hm
 Чтобы дать душе покой,
 Em A D D7
-Двери сердца для Иисуса ты открой!', NULL, NULL, NULL, 'published');
+Двери сердца для Иисуса ты открой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('on-ne-soshel-s-kresta', @catalog_version_id, 151, 'Он не сошёл с креста', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm F Gm A
 Тебя распяли, мой Господь, а Ты с креста благословлял,
@@ -6077,9 +6077,9 @@ Dm F A# C
 F Dm Gm A
 Он на Себе замкнул войну добра и зла, во веки сущих,
 A# Gm A
-И победил! О, мой Господь! Ты — Царь царей, Бог Всемогущий!', NULL, NULL, NULL, 'published');
+И победил! О, мой Господь! Ты — Царь царей, Бог Всемогущий!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('on-prishel-spasaya-vseh', @catalog_version_id, 152, 'Он пришёл, спасая всех', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm C
 Он пришёл, спасая всех от земных тревог
@@ -6118,9 +6118,9 @@ A# Am Dm
 A# F Gm Dm
 Вознесён во славе вверх, Тот, Кто в яслях был
 Gm Dm Am Dm
-Он пришёл как человек, Богом уходил.', NULL, NULL, NULL, 'published');
+Он пришёл как человек, Богом уходил.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('on-rodilsya-dlya-menya', @catalog_version_id, 153, 'Он родился для меня', 'Рождественские', 'D', '[Куплет 1]
 D F# G D
 Тишина, ночное небо в домах тепло и светло
@@ -6145,9 +6145,9 @@ G D Em A D
 D F# G D
 Его рождение сердце греет тебе дарит и радость и мир
 D A G
-С озарённым сердцем ты принеси к ногам Иисуса дары', NULL, NULL, NULL, 'published');
+С озарённым сердцем ты принеси к ногам Иисуса дары', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ostroe-zhalo', @catalog_version_id, 154, 'Острое жало', 'Пасхальные', 'C', '[Куплет 1]
 Острое жало коснулось ладони,
 Слился со стоном удар молотка.
@@ -6196,9 +6196,9 @@ VALUES ('ostroe-zhalo', @catalog_version_id, 154, 'Острое жало', 'Па
 Только не гнев был в ответ и не мщенье,
 Для искупленья лилась эта Кровь
 Кротко над миром звучало прощенье
-И обнимала планету Любовь.', NULL, NULL, NULL, 'published');
+И обнимала планету Любовь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('otecz-moi-ya-lyublyu-tebya', @catalog_version_id, 155, 'Отец мой, я люблю Тебя', 'Семья', 'Dm', '[Куплет 1]
 Dm
 Отец мой, я люблю Тебя
@@ -6243,9 +6243,9 @@ F C
 Gm A# C
 Все ангелы Тебя возносят,
 Gm A# C
-И мы возносим лишь Тебя!', NULL, NULL, NULL, 'published');
+И мы возносим лишь Тебя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('otkliknetsya-dusha-moya', @catalog_version_id, 156, 'Откликнется душа моя', 'Божья любовь', 'C', '[Куплет 1]
 Снова по небу скучаю я,
 Но знаю, Ты видишь, что в сердце моём.
@@ -6270,9 +6270,9 @@ VALUES ('otkliknetsya-dusha-moya', @catalog_version_id, 156, 'Откликнет
 Буду я там, где любовь Твоя,
 С Тобой я останусь в раю навсегда!
 После последнего припева:
-Снова по небу скучаю я…', NULL, NULL, NULL, 'published');
+Снова по небу скучаю я…', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('otczy', @catalog_version_id, 157, 'Отцы', 'Семья', 'Cm', '[Куплет 1]
 Cm Dsus D
 Отцы, вы надежды на нас возлагали.
@@ -6321,9 +6321,9 @@ Gm F D#
 Cm Dsus D
 И стать миру этому ясной звездою,
 D Gm G
-Идти только узкой тропою.', NULL, NULL, NULL, 'published');
+Идти только узкой тропою.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('otchayanya-dozhdi', @catalog_version_id, 158, 'Отчаянья дожди', 'Пасхальные', 'C', '[Куплет 1]
 Вновь дом Твой пуст, торжественный канон
 Сменился тихой утренней молитвой.
@@ -6346,9 +6346,9 @@ VALUES ('otchayanya-dozhdi', @catalog_version_id, 158, 'Отчаянья дож�
 Не властна смерть над светлою душой
 Хотя сквозь мрак ещё не видно солнца
 Мне и среди невзгод с Тобою хорошо
-Я буду петь доколе сердце бьётся', NULL, NULL, NULL, 'published');
+Я буду петь доколе сердце бьётся', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('otche-my-prosim', @catalog_version_id, 159, 'Отче мы просим', 'Исцеление', 'D', '[Куплет 1]
 D A F#m Hm
 Отче, мы просим: "Ты приди,
@@ -6377,9 +6377,9 @@ G A G A
 F# Hm
 Прославим мы на всей Земле,
 G Em A A7
-И узнает мир, что Иисус – Господь!', NULL, NULL, NULL, 'published');
+И узнает мир, что Иисус – Господь!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('otche-nebesnyi-stoyu-pred-toboyu', @catalog_version_id, 160, 'Отче Небесный, стою пред Тобою', 'Прощение', 'G', '[Куплет 1]
 G Em C D
 Отче Небесный, стою пред Тобою
@@ -6402,9 +6402,9 @@ D G
 D C
 Ты – любовь, Ты даришь милость,
 D G
-Навеки я буду Твой.', NULL, NULL, NULL, 'published');
+Навеки я буду Твой.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pervyi-vzdoh', @catalog_version_id, 161, 'Первый вздох', 'Семья', 'D', '[Куплет 1]
 D G D
 Первый вздох — ты родился, Я был там,
@@ -6433,9 +6433,9 @@ F#m G A
 D F# G
 «Прости, Отец, я каюсь», — в молитве ты просил,
 D A D
-Я снял твой грех, обнял и всё простил.', NULL, NULL, NULL, 'published');
+Я снял твой грех, обнял и всё простил.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('po-nocham', @catalog_version_id, 162, 'По ночам', 'Утешение и ободрение', 'C', '[Куплет 1]
 C G C
 По ночам часто город мне снится,
@@ -6484,9 +6484,9 @@ F G Em Am
 F G Em Am
 А пока я, устав от обмана
 F G C
-И от боли твержу одно:', NULL, NULL, NULL, 'published');
+И от боли твержу одно:', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('po-predanyu-otczov', @catalog_version_id, 163, 'По преданью отцов', 'Божья любовь', 'Am', '[Куплет 1]
 Am F
 По преданью отцов человек охранял
@@ -6535,9 +6535,9 @@ Dm E Am
 Am F
 Воду жизни душа и в пустыне найдет,
 Dm H E
-И любовью Твоей напьется.', NULL, NULL, NULL, 'published');
+И любовью Твоей напьется.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('po-straniczam-biblii-staroi', @catalog_version_id, 164, 'По страницам Библии старой', 'Утешение и ободрение', 'G', '[Куплет 1]
 G C G D
 По страницам Библии старой я шагаю в город святой.
@@ -6576,9 +6576,9 @@ G C Am D
 Em Hm C G
 Там не буду я больше томиться от невзгод и болезней земных.
 C D G C Am C G
-Там увижу родные лица дошедших друзей родных.', NULL, NULL, NULL, 'published');
+Там увижу родные лица дошедших друзей родных.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pod-zaschitoi-tvoih-kryl', @catalog_version_id, 165, 'Под защитой твоих крыл', 'Спасение', 'C', '[Куплет 1]
 Буду жить под защитой Твоих крыл,
 Буду я в мире Божией любви,
@@ -6595,9 +6595,9 @@ VALUES ('pod-zaschitoi-tvoih-kryl', @catalog_version_id, 165, 'Под защит
 Я спасен под защитой Твоих крыл,
 Мой покой под охраною Твоей
 Пусть летят стрелы, я не устрашусь,
-Когда я под защитой Твоих крыл.', NULL, NULL, NULL, 'published');
+Когда я под защитой Твоих крыл.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('podobno-bibleiskim-prorokam', @catalog_version_id, 166, 'Подобно библейским пророкам', 'Молитвенные', 'G', '[Куплет 1]
 G C
 Подобно библейским пророкам
@@ -6642,9 +6642,9 @@ C D
 G C
 Трудитесь же так, как велел Он, смело,
 G D G
-Неся людям Слово Его!', NULL, NULL, NULL, 'published');
+Неся людям Слово Его!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('poka-ogon-lyubvi-chudesnoi', @catalog_version_id, 167, 'Пока огонь любви чудесной', 'Исцеление', 'A#', '[Куплет 1]
 A#
 Пока огонь любви чудесной
@@ -6681,9 +6681,9 @@ A# Cm
 F
 Порывы юности святые,
 F A#
-О всех друзьях и о трудах.', NULL, NULL, NULL, 'published');
+О всех друзьях и о трудах.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pokazhite-mne-lyubov-bez-iisusa', @catalog_version_id, 168, 'Покажите мне любовь без Иисуса,', 'Пасхальные', 'Em', '[Куплет 1]
 Em Am
 Покажите мне любовь без Иисуса,
@@ -6722,9 +6722,9 @@ H7 Em H7
 Em Am
 Ложных чувств здесь, на земле, стремлений много,
 H7 Em H7
-Но а истинна любовь лишь у Христа.', NULL, NULL, NULL, 'published');
+Но а истинна любовь лишь у Христа.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('poldorogi-v-nebo', @catalog_version_id, 169, 'Полдороги в небо', 'Вера и упование', 'Cm', '[Куплет 1]
 Cm
 Мы с вами столько вёрст уже прошли,
@@ -6771,9 +6771,9 @@ D# C
 Fm Cm
 От полдороги в небо, от полдороги в небо,
 G Cm C
-От полдороги в небо.', NULL, NULL, NULL, 'published');
+От полдороги в небо.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pomogi-mne-bozhe', @catalog_version_id, 170, 'Помоги мне, Боже', 'Семья', 'Em', '[Куплет 1]
 Em Am
 Помоги мне в этой жизни благодарной, Боже, быть,
@@ -6826,9 +6826,9 @@ Am G C H
 О, Христос, лишь в Тебе нашла я счастье,
 Быть с Тобой всегда, пусть и горе, и ненастье,
 Не страшна беда. Чего душе моей бояться?
-Ты никогда, Отец, мне не дашь поколебаться.', NULL, NULL, NULL, 'published');
+Ты никогда, Отец, мне не дашь поколебаться.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pomolis-obo-mne', @catalog_version_id, 171, 'Помолись обо мне', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm
 Помолись обо мне, мой друг.
@@ -6881,9 +6881,9 @@ Gm C
 F7 A#
 Молча, шепотом или взглядом,
 Gm A7
-Где бы ни был я, помолись, помолись…..', NULL, NULL, NULL, 'published');
+Где бы ни был я, помолись, помолись…..', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('posmotri-na-nebo', @catalog_version_id, 172, 'Посмотри на Небо', 'Пасхальные', 'Am', '[Куплет 1]
 Am                                      Dm
 Если ты в пути продрог и не знаешь где ты.
@@ -6930,9 +6930,9 @@ Am Dm F E
 Am                              Dm
 Посмотри на Небо, посмотри на Небо.
 G             C  E
-Никогда ты не был один.', NULL, NULL, NULL, 'published');
+Никогда ты не был один.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('prazdnik-zhatvy', @catalog_version_id, 173, 'Праздник жатвы', 'Благодарение', 'Am', '[Куплет 1]
 Am Dm
 Снова год пролетел, День Жатвы настал…
@@ -6971,9 +6971,9 @@ E Am
 Am Dm
 “Это - Бог за тебя!” - говорили вокруг…
 E Am
-Он за нас, потому, что Он наш лучший Друг!', NULL, NULL, NULL, 'published');
+Он за нас, потому, что Он наш лучший Друг!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('prevyshe-sily', @catalog_version_id, 174, 'Превыше силы', 'Пасхальные', 'C', '[Куплет 1]
 C D G
 Превыше силы, превыше царств,
@@ -7026,9 +7026,9 @@ C D G
 C D Em
 Каждый день восходит, как заря,
 Am C H
-Милость безграничная Твоя.', NULL, NULL, NULL, 'published');
+Милость безграничная Твоя.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pridite-k-iisusu', @catalog_version_id, 175, 'Придите к Иисусу', 'Рождественские', 'Em', '[Куплет 1]
 Em Hm C G C D G H
 Все вокруг заняты были своим, и только лишь три мудреца
@@ -7063,9 +7063,9 @@ Em Hm C G C D
 Войди в моё сердце, любовь подари,
 Иисус мой Спаситель, Сын Бога любви.
 Войди в моё сердце, Иисус — Царь с небес,
-Ты — наша жизнь и Ты истинный путь, Ты любишь нас всех.', NULL, NULL, NULL, 'published');
+Ты — наша жизнь и Ты истинный путь, Ты любишь нас всех.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('proslavim-boga', @catalog_version_id, 176, 'Прославим Бога', 'Семья', 'Em', '[Куплет 1]
 Em Am H Em
 Прославим Бога одной семьёю,
@@ -7104,9 +7104,9 @@ Am D G E
 Am Em
 Кто любит Господа, кто любит Господа
 Am H Em E7
-Готовы встретить вас небеса', NULL, NULL, NULL, 'published');
+Готовы встретить вас небеса', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('prosti-menya-bozhe', @catalog_version_id, 177, 'Прости меня, Боже', 'Пасхальные', 'Em', '[Куплет 1]
 Em Am H7 Em
 Прости меня, Боже, прости, я молю,
@@ -7175,9 +7175,9 @@ Am Em E7
 Am D G Em
 Чтоб люди увидели свет Твой во мне
 Am H7 Em
-И, светом влекомые, шли все к Тебе.', NULL, NULL, NULL, 'published');
+И, светом влекомые, шли все к Тебе.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('prosypayus-na-zare', @catalog_version_id, 178, 'Просыпаюсь на заре', 'Вера и упование', 'D', '[Куплет 1]
 D G
 Просыпаюсь на заре
@@ -7202,9 +7202,9 @@ A D
 D G
 Каждый день к Тебе ведёт,
 A D
-В сердце праведность живёт.', NULL, NULL, NULL, 'published');
+В сердце праведность живёт.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pust-on-voidet', @catalog_version_id, 179, 'Пусть Он войдет', 'Рождественские', 'C', '[Куплет 1]
 О взгляни! Открыты покровы небес —
 Детский плач, над девой звезды яркий блеск!
@@ -7237,9 +7237,9 @@ VALUES ('pust-on-voidet', @catalog_version_id, 179, 'Пусть Он войде�
 [Припев]
 ||: Пусть Он войдет, Христос войдет!
 Приготовьте место для Царя! :||
-Приготовьте место для Царя!', NULL, NULL, NULL, 'published');
+Приготовьте место для Царя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pust-svetit-solncze', @catalog_version_id, 180, 'Пусть светит солнце', 'Пасхальные', 'F', '[Куплет 1]
 F C Dm
 Пусть светит солнце и дождь идёт,
@@ -7276,9 +7276,9 @@ A# C F
 C Dm
 И если имя Его призовёшь,
 A# C F
-То счастье, любовь и мир обретёшь.', NULL, NULL, NULL, 'published');
+То счастье, любовь и мир обретёшь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pust-ugaslo-nebo', @catalog_version_id, 181, 'Пусть угасло небо', 'Божья любовь', 'Am', '[Куплет 1]
 Am F Am F
 Пусть угасло небо, пусть померк рассвет.
@@ -7311,9 +7311,9 @@ Am F Am F
 Am F Am F
 Там, где темнота была, сияет свет.
 F G
-Вечный Божий свет.', NULL, NULL, NULL, 'published');
+Вечный Божий свет.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('put-na-golgofu-dalek', @catalog_version_id, 182, 'Путь на Голгофу далёк', 'Пасхальные', 'C', '[Куплет 1]
 Путь на Голгофу далёк,
 Путь на Голгофу так труден
@@ -7341,9 +7341,9 @@ VALUES ('put-na-golgofu-dalek', @catalog_version_id, 182, 'Путь на Гол�
 Люди в сердцах распинают
 [Припев - 2 раза]
 И кровь Его, святую, проливает,
-Хоть Он им всем прощение даёт...', NULL, NULL, NULL, 'published');
+Хоть Он им всем прощение даёт...', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('pshenicza-i-plevely', @catalog_version_id, 183, 'Пшеница и плевелы', 'Пасхальные', 'Dm', '[Куплет 1]
 Dm A
 Пшеница и плевелы, так мало времени
@@ -7392,9 +7392,9 @@ A# A
 A# Asus A
 Кто жил беспечно, тот сожжется огнём.
 A# Gm A
-Стань зерном, чтобы с Богом быть вечно.', NULL, NULL, NULL, 'published');
+Стань зерном, чтобы с Богом быть вечно.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('radost-nahoditsya', @catalog_version_id, 184, 'Радость находится', 'Спасение', 'E', '[Куплет 1]
 E C#m
 Радость находится в сердце у того,
@@ -7411,9 +7411,9 @@ E C#m
 A E
 Что может дать Господь.
 A H7 E
-Это любовь того, которого спас Иисус.', NULL, NULL, NULL, 'published');
+Это любовь того, которого спас Иисус.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ranshe-zhil-ya-vo-grehah', @catalog_version_id, 185, 'Раньше жил я во грехах', 'Свадебные', 'Dm', '[Куплет 1]
 Dm Gm Dm
 Раньше жил я во грехах, в горе, болях и скорбях,
@@ -7476,9 +7476,9 @@ Dm Gm C F
 Dm Gm Dm
 И конец придет скорбям, что за радость будет там!
 Dm A Dm
-Друг, готов ли встретить Господа Христа?', NULL, NULL, NULL, 'published');
+Друг, готов ли встретить Господа Христа?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ruki-opuscheny', @catalog_version_id, 186, 'Руки опущены', 'Пасхальные', 'Am', '[Куплет 1]
 Am C
 Руки опущены, слезы в очах
@@ -7527,9 +7527,9 @@ C Dm E Am E
 Празднуют небеса
 Гимны поет земля
 Славим и ты, и я
-Подвиг Христа!', NULL, NULL, NULL, 'published');
+Подвиг Христа!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('s-detskih-let-stremilis', @catalog_version_id, 187, 'С детских лет стремились', 'Божья любовь', 'C', '[Куплет 1]
 Em7 C
 С детских лет стремились к небесам твои мечты,
@@ -7558,9 +7558,9 @@ D G H
 Em C
 Вспомни сколько раз тебе Он руку подавал,
 D G H
-Как Ему быть верным ты всем сердцем обещал…', NULL, NULL, NULL, 'published');
+Как Ему быть верным ты всем сердцем обещал…', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('svetom-svoim', @catalog_version_id, 188, 'Светом Своим', 'Пасхальные', 'E', '[Куплет 1]
 E H F#m
 Светом Своим Ты прогнал сумрак ночи,
@@ -7593,9 +7593,9 @@ E H A
 
 [Мост]
 Мне не забыть какой ценой
-На крест был вознесён грех мой!', NULL, NULL, NULL, 'published');
+На крест был вознесён грех мой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('svyat-gospod', @catalog_version_id, 189, 'Свят Господь', 'Пасхальные', 'Em', '[Куплет 1]
 Em D G
 Ты ярче, чем солнца свет,
@@ -7634,9 +7634,9 @@ Am H Em
 Em D G
 Ты - славный Спаситель мой,
 Am H Em
-Иисус, Ты - мой Господь живой!', NULL, NULL, NULL, 'published');
+Иисус, Ты - мой Господь живой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('svyataya-noch', @catalog_version_id, 190, 'Святая ночь', 'Рождественские', 'A', '[Куплет 1]
 A D A
 Святая ночь! Сверкают ярко звезды.
@@ -7695,9 +7695,9 @@ F#m C#m Hm F#m
 A E A D A E A
 Ему вся власть и честь принадлежит!
 E A Hm A E A
-Ему вся власть и честь принадлежит!', NULL, NULL, NULL, 'published');
+Ему вся власть и честь принадлежит!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('serdcze-blagodarnostyu-gorit', @catalog_version_id, 191, 'Сердце благодарностью горит', 'Благодарение', 'Em', '[Куплет 1]
 Em Am
 Я благодарю Тебя, мой Бог,
@@ -7736,9 +7736,9 @@ H Em
 Em Am
 Имя Иисуса, Иисуса Христа
 H Em
-Возвещать мы вечно будем.', NULL, NULL, NULL, 'published');
+Возвещать мы вечно будем.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('sila-moya-v-tebe', @catalog_version_id, 192, 'Сила моя в Тебе', 'Пасхальные', 'E', '[Куплет 1]
 E H C#m
 Сила моя в Тебе Господь,
@@ -7771,9 +7771,9 @@ E H C#m
 G#m A
 Жаждал я - Ты мне дал воды,
 H E H
-Ты для меня все.', NULL, NULL, NULL, 'published');
+Ты для меня все.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('skoro-rassvet', @catalog_version_id, 193, 'Скоро рассвет', 'Небо', 'G', '[Куплет 1]
 G Em C D
 Скоро рассвет нового дня: приходит весна,
@@ -7802,9 +7802,9 @@ G Em C D
 G D G D
 Приди в славе мы ждём Тебя
 C G C D
-Мы ждём, Господь, прихода Твоего!', NULL, NULL, NULL, 'published');
+Мы ждём, Господь, прихода Твоего!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('skroi-menya', @catalog_version_id, 194, 'Скрой меня', 'Семья', 'C', '[Куплет 1]
 C G Am F D G
 Скрой меня, Своим крылом,
@@ -7825,9 +7825,9 @@ F G C
 C G Am F D G
 Найду покой, В Тебе Христос,
 C G Am F D G
-Верю я, в могущество Твоё!', NULL, NULL, NULL, 'published');
+Верю я, в могущество Твоё!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('slabyi-skazhet-ya-silen', @catalog_version_id, 195, 'Слабый скажет: «Я силён!»', 'Пасхальные', 'C', '[Куплет 1]
 C G C
 Слабый скажет: «Я силён!»
@@ -7866,9 +7866,9 @@ Am Em
 C G C
 Буду петь, что для Небес
 F G C
-К новой жизни я воскрес.', NULL, NULL, NULL, 'published');
+К новой жизни я воскрес.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('slava-vsemoguschemu-bogu', @catalog_version_id, 196, 'Слава Всемогущему Богу!', 'Семья', 'A', '[Куплет 1]
 A Hm
 Отец Небесный мы с любовью,
@@ -7905,9 +7905,9 @@ E A
 A Hm
 Ароматы славы Божьей ощущаем мы.
 D E A
-Преклонитесь и будьте спасены!', NULL, NULL, NULL, 'published');
+Преклонитесь и будьте спасены!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('slava-hristu', @catalog_version_id, 197, 'Слава Христу', 'Божья любовь', 'A', '[Куплет 1]
 A Hm
 Какой сегодня день чудесный:
@@ -7944,9 +7944,9 @@ E A
 A D
 И даже, если он дождливый,
 E A
-Прославим Бога все равно.', NULL, NULL, NULL, 'published');
+Прославим Бога все равно.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('slavlyu-tebya-gospodi', @catalog_version_id, 198, 'Славлю Тебя, Господи', 'Вера и упование', 'A', '[Куплет 1]
 A F#m C#m E
 Славлю Тебя, Господи, всем сердцем своим
@@ -7975,9 +7975,9 @@ A F#m C#m E
 D A C#7 F#m E
 Пищу он даёт боящимся Его,
 D A E7 A
-Вечно помнит Свой завет – Он с тобой!', NULL, NULL, NULL, 'published');
+Вечно помнит Свой завет – Он с тобой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('slav-dusha-gospoda', @catalog_version_id, 199, 'Славь, душа, Господа', 'Божья любовь', 'A', '[Куплет 1]
 A E H C#m
 Солнце встаёт, новый день приходит,
@@ -8016,9 +8016,9 @@ A E H C#m
 A E H C#m
 Душа моя Его будет славить
 A E H E
-Десятки тысяч лет и навсегда!', NULL, NULL, NULL, 'published');
+Десятки тысяч лет и навсегда!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('slova-te-nelzya-steret', @catalog_version_id, 200, 'Слова те нельзя стереть', 'Утешение и ободрение', 'Em', '[Куплет 1]
 Em C D Hm
 Напиши Свое Слово на сердце моем,
@@ -8055,9 +8055,9 @@ C Am H
 Em C D Hm
 Соблюдать Твое Слово – удел для меня,
 C Am H
-Пусть же снова и снова будет Воля Твоя!', NULL, NULL, NULL, 'published');
+Пусть же снова и снова будет Воля Твоя!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('sozdatel-vsei-vselennoi', @catalog_version_id, 201, 'Создатель всей Вселенной', 'Молитвенные', 'Am', '[Куплет 1]
 Am Em Am Em
 Создатель всей Вселенной - Всемогущий Бог,
@@ -8086,9 +8086,9 @@ F E
 Am Em Am Em
 С тех пор, как я узнал Твою любовь ко мне,
 F E
-Хочу служить всем сердцем я Тебе.', NULL, NULL, NULL, 'published');
+Хочу служить всем сердцем я Тебе.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('solncza-luch', @catalog_version_id, 202, 'Солнца луч', 'Семья', 'C', '[Куплет 1]
 Солнца луч одарит теплом землю.
 Небеса возвестят Творцу славу.
@@ -8110,9 +8110,9 @@ VALUES ('solncza-luch', @catalog_version_id, 202, 'Солнца луч', 'Сем
 Суд Господень свят, охраняет нас.
 Пусть угодны будут Тебе
 Помышления наших сердец.
-Ты - твердыня для нас, наш Господь и Отец.', NULL, NULL, NULL, 'published');
+Ты - твердыня для нас, наш Господь и Отец.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('s-olncza-svet-za-kat-i-rassvet', @catalog_version_id, 203, 'С‍‍олнца свет, за‍‍кат и рассвет', 'Семья', 'F', '[Куплет 1]
 F Dm
 Оглянись! Посмотри вок‍‍руг себя
@@ -8151,9 +8151,9 @@ A# C
 F Dm
 Знай мой друг есть один простой ответ:
 A# C
-Бог создал весь этот мир и Ему хвала вовек!', NULL, NULL, NULL, 'published');
+Бог создал весь этот мир и Ему хвала вовек!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('solncze-prostilos-s-zemleyu', @catalog_version_id, 204, 'Солнце простилось с землею', 'Прощение', 'D', '[Куплет 1]
 D G
 Солнце простилось с землею,
@@ -8202,9 +8202,9 @@ A D
 D G
 Чтоб к высоте стремленье
 A D
-В людях могло бы жить.', NULL, NULL, NULL, 'published');
+В людях могло бы жить.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('spasene-moe-nadezhda-moya', @catalog_version_id, 205, 'Спасенье моё, надежда моя', 'Спасение', 'E', '[Куплет 1]
 E C#m
 Спасенье моё, надежда моя,
@@ -8223,9 +8223,9 @@ E C#m F#m H7
 E C#m F#m H7
 Подниму я очи свои
 C#m A7 A E
-И скажу Тебе, Бог мой, как люблю я Тебя.', NULL, NULL, NULL, 'published');
+И скажу Тебе, Бог мой, как люблю я Тебя.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('spelyh-kolosev', @catalog_version_id, 206, 'Спелых колосьев', 'Спасение', 'G', '[Куплет 1]
 G Hm Am
 Спелых колосьев, к жатве готовых, поле стоит.
@@ -8264,9 +8264,9 @@ D G D
 G Hm Am
 Отмерено время, живи не в смятенье, готовь добрый плод.
 C D
-Только подобных, Богу угодных, в небе оплот.', NULL, NULL, NULL, 'published');
+Только подобных, Богу угодных, в небе оплот.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('staryi-krest', @catalog_version_id, 207, 'Старый крест', 'Пасхальные', 'Am', '[Куплет 1]
 Am Dm E7 Am
 На далеком холме, средь деревьев и скал
@@ -8305,9 +8305,9 @@ Dm G C
 Am Dm E7 Am
 На пронзенных руках не застывшая кровь,
 Dm F E7
-А в прекрасных глазах Божья к людям любовь.', NULL, NULL, NULL, 'published');
+А в прекрасных глазах Божья к людям любовь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('strun-dushi', @catalog_version_id, 208, 'Струн души', 'Спасение', 'Am', '[Куплет 1]
 Am
 Струн души рука Христа касается,
@@ -8356,9 +8356,9 @@ Dm G C Am
 Dm G C Am
 Пусть вовеки песня не кончается,
 Dm E Am
-Песнь о Том, Кто счастье нам дает!', NULL, NULL, NULL, 'published');
+Песнь о Том, Кто счастье нам дает!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('sut-rozhdeniya-iisusa', @catalog_version_id, 209, 'Суть рождения Иисуса', 'Рождественские', 'C', '[Куплет 1]
 C G
 Суть рождения Иисуса это дивный Божий план
@@ -8389,9 +8389,9 @@ Dm C
 F G
 Так давайте обратим наши взоры на Христа
 E G
-Благодарностью наполним наши души и сердца!', NULL, NULL, NULL, 'published');
+Благодарностью наполним наши души и сердца!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('suschii', @catalog_version_id, 210, 'Сущий', 'Прощение', 'Fm', '[Куплет 1]
 Fm Cm
 В начали был и есть, и нет тебе конца,
@@ -8430,9 +8430,9 @@ C# Fm
 В Твоём имени свобода
 В Твоём имени огонь
 В Твоём имени прощение
-В Твоём имени любовь', NULL, NULL, NULL, 'published');
+В Твоём имени любовь', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('syn-bozhii-nam-rozhden', @catalog_version_id, 211, 'Сын Божий нам рождён', 'Спасение', 'C', '[Куплет 1]
 C F
 Сын Божий нам рождён оставив власть и трон
@@ -8465,9 +8465,9 @@ C F
 C G
 Святого Бога и спасенных всех
 F G
-Приди и поклонись', NULL, NULL, NULL, 'published');
+Приди и поклонись', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tak-uzh-byvaet-letnei-poroi', @catalog_version_id, 212, 'Так уж бывает летней порой', 'Небо', 'Dm', '[Куплет 1]
 Dm Gm
 Так уж бывает летней порой,
@@ -8516,9 +8516,9 @@ A7 Dm
 Dm Gm
 Нужно лишиться овец в загоне,
 C F
-Хочу, чтобы спела душа моя:', NULL, NULL, NULL, 'published');
+Хочу, чтобы спела душа моя:', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('takov-kak-esm', @catalog_version_id, 213, 'Таков как есмь', 'Пасхальные', 'D', '[Куплет 1]
 D G Em
 Таков как есмь, во имя Крови,
@@ -8565,9 +8565,9 @@ G Em
 G A Hm G
 Христос, я прихожу к Тебе!
 A G D
-Христос, я прихожу к Тебе!', NULL, NULL, NULL, 'published');
+Христос, я прихожу к Тебе!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tam-v-vyshine-beskonechnoi', @catalog_version_id, 214, 'Там, в вышине бесконечной', 'Небо', 'Hm', '[Куплет 1]
 Hm Em
 Там, в вышине бесконечной,
@@ -8596,9 +8596,9 @@ F# Hm
 Hm Em G
 Город родной неповторим он живет, растет, цветет.
 Hm Em F# Hm
-Город чудный, город славный красотой к себе влечет.', NULL, NULL, NULL, 'published');
+Город чудный, город славный красотой к себе влечет.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tam-gde-odin', @catalog_version_id, 215, 'Там, где Один', 'Прощение', 'E', '[Куплет 1]
 E A E
 Там, где Один пострадал за всех,
@@ -8645,9 +8645,9 @@ E A H7
 E A E
 Грех свой омой и счастливым будь!
 E H7 E
-О, хвала Ему!', NULL, NULL, NULL, 'published');
+О, хвала Ему!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tam-daleko-za-oblakami', @catalog_version_id, 216, 'Там, далеко, за облаками', 'Вера и упование', 'G', '[Куплет 1]
 G Em
 Там, далеко, за облаками,
@@ -8686,9 +8686,9 @@ C D
 G Em
 Там с Иисусом вечно я буду
 C D
-В сладком общении жить,', NULL, NULL, NULL, 'published');
+В сладком общении жить,', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tvoryaschii-chudesa', @catalog_version_id, 217, 'Творящий чудеса', 'Дух Святой', 'E', '[Куплет 1]
 E H
 Каждый миг и каждый час
@@ -8723,9 +8723,9 @@ E H
 C#m A
 Отца любовь ведет меня
 E H C#m E
-В Твои святые небеса.', NULL, NULL, NULL, 'published');
+В Твои святые небеса.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tvoya-lyubov', @catalog_version_id, 218, 'Твоя любовь', 'Спасение', 'A', '[Куплет 1]
 A E F#m
 Твоя любовь границ не знает
@@ -8756,9 +8756,9 @@ D A Hm E
 A E F#m
 Твоим теплом душа согрета,
 D A Hm E
-Мне хорошо с Тобой, навек я Твой!', NULL, NULL, NULL, 'published');
+Мне хорошо с Тобой, навек я Твой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tiho-pogas-v-nochi-zakat', @catalog_version_id, 219, 'Тихо погас в ночи закат', 'Божья любовь', 'G', '[Куплет 1]
 G Am Em
 Тихо погас в ночи закат,
@@ -8794,9 +8794,9 @@ Am G D Em
 Смогли понять, что есть любовь,
 Но только сердце у людей
 Куда холоднее камней,
-холоднее камней.', NULL, NULL, NULL, 'published');
+холоднее камней.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tiho-u-groba-ochen-rano', @catalog_version_id, 220, 'Тихо у гроба, очень рано', 'Пасхальные', 'C', '[Куплет 1]
 Тихо у гроба очень рано,
 Жены спешат, предваряя рассвет…
@@ -8819,9 +8819,9 @@ VALUES ('tiho-u-groba-ochen-rano', @catalog_version_id, 220, 'Тихо у гро
 Праздник спасенных, звуки восторга,
 Церкви Христовой Пасхальный привет!
 Радость Святая всех да наполнит
-Места тревогам в душе больше нет.', NULL, NULL, NULL, 'published');
+Места тревогам в душе больше нет.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('tolko-ty-odin', @catalog_version_id, 221, 'Только Ты Один', 'Пасхальные', 'F', '[Куплет 1]
 F C Dm
 Только Ты Один
@@ -8860,9 +8860,9 @@ A# C
 F C Dm
 Небеса открыты передо мной,
 A# C F
-Я иду домой!', NULL, NULL, NULL, 'published');
+Я иду домой!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-voskres-i-dal-nam-zhizn', @catalog_version_id, 222, 'Ты воскрес и дал нам жизнь', 'Пасхальные', 'D', '[Куплет 1]
 D G A
 Торжествуют небеса, торжествует вся земля
@@ -8888,9 +8888,9 @@ G A
 Благодарю Тебя за эту жертву. :||
 Тот кто в мир пришёл с небес,
 Царь царей Господь всесильный
-Иисус Христос воскрес! Иисус Христос воскрес!', NULL, NULL, NULL, 'published');
+Иисус Христос воскрес! Иисус Христос воскрес!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-znaesh-bozhe', @catalog_version_id, 223, 'Ты знаешь, Боже', 'Молитвенные', 'Dm', '[Куплет 1]
 Dm
 Ты знаешь, Боже, моё желанье,
@@ -8939,9 +8939,9 @@ Dm Gm C F
 Gm Dm
 Устал бороться, слабеют силы,
 Dm A Dm
-А путь далекий предо мной.', NULL, NULL, NULL, 'published');
+А путь далекий предо мной.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-iskupil-mir-ot-greha', @catalog_version_id, 224, 'Ты искупил мир от греха', 'Семья', 'G', '[Куплет 1]
 G D Em
 Ты искупил мир от греха,
@@ -8986,9 +8986,9 @@ Em C
 C Am
 И потому сердца людей,
 Am D
-Полны хвалою.', NULL, NULL, NULL, 'published');
+Полны хвалою.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-kuda-idesh-skazhi-mne', @catalog_version_id, 225, 'Ты куда идешь, скажи мне', 'Божья любовь', 'C', '[Куплет 1]
 C
 "Ты куда идешь, скажи мне,
@@ -9043,9 +9043,9 @@ C
 F G C Am
 Недалеко уж родная и желанная страна.
 F G C G C
-Вера чистая, живая нас введет с тобой туда".', NULL, NULL, NULL, 'published');
+Вера чистая, живая нас введет с тобой туда".', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-lyubish-menya', @catalog_version_id, 226, 'Ты любишь меня', 'Прославление', 'Hm', '[Куплет 1]
 Hm Em
 Ты никогда не предашь меня,
@@ -9090,9 +9090,9 @@ F#7 Hm
 Hm Em
 В руки Твои себя отдаю,
 Hm F#7 Hm
-Всё потому, что Тебя я люблю.', NULL, NULL, NULL, 'published');
+Всё потому, что Тебя я люблю.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-menya-napolni', @catalog_version_id, 227, 'Ты меня наполни', 'Спасение', 'E', '[Куплет 1]
 E H A H
 Ты меня наполни святостью Твоей.
@@ -9145,9 +9145,9 @@ E H A H
 C#m A E
 Пусть ещё одна душа вдруг увидит и поймёт,
 A H E
-Что её Создатель в небесах живёт.', NULL, NULL, NULL, 'published');
+Что её Создатель в небесах живёт.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-moi-bog', @catalog_version_id, 228, 'Ты мой Бог', 'Семья', 'Dm', '[Куплет 1]
 Dm Gm A Dm
 Тебя люблю, мой Бог, я всей душою,
@@ -9182,9 +9182,9 @@ Dm Gm C F
 D7 Gm A A#
 Как совершенный наш Отец Небесный.
 A# Gm A Dm A
-Надейся, верь, люби и будешь жить вовек"', NULL, NULL, NULL, 'published');
+Надейся, верь, люби и будешь жить вовек"', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-moya-skala', @catalog_version_id, 229, 'Ты моя скала', 'Спасение', 'G', '[Куплет 1]
 G C D Hm
 Нет силы, Господи, не могу я так дальше жить,
@@ -9217,9 +9217,9 @@ Em C D G
 G C D Hm
 Я так хочу, всей жизнью Тебе служить,
 Em C D G
-И врага победить с Тобой, Спаситель мой.', NULL, NULL, NULL, 'published');
+И врага победить с Тобой, Спаситель мой.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-nad-gorodom-etim', @catalog_version_id, 230, 'Ты над городом этим', 'Спасение', 'C', '[Куплет 1]
 C G
 Ты над городом этим, и над этим народом,
@@ -9242,9 +9242,9 @@ G C F G
 F
 Грядёт пора больших чудес,
 G C
-Господь прольёт благодать с небес здесь.', NULL, NULL, NULL, 'published');
+Господь прольёт благодать с небес здесь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-ne-odinok', @catalog_version_id, 231, 'Ты не одинок', 'Утешение и ободрение', 'F', '[Куплет 1]
 F
 Ты идешь, в душе печаль,
@@ -9275,9 +9275,9 @@ F
 Dm A#
 Пронесу сквозь бури, грозы, холода,
 C
-Ты лишь поверь, что…', NULL, NULL, NULL, 'published');
+Ты лишь поверь, что…', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-ne-pechalsya', @catalog_version_id, 232, 'Ты не печалься', 'Пасхальные', 'Em', '[Куплет 1]
 Em C D G
 Я постигаю сквозь слезы и боль
@@ -9316,9 +9316,9 @@ C Am H7 Em
 Em C D G
 Верую в крестный мной избранный путь,
 C Am H7 Em
-В тайну распятой любви на Голгофе.', NULL, NULL, NULL, 'published');
+В тайну распятой любви на Голгофе.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-obemlesh-menya', @catalog_version_id, 233, 'Ты объемлешь меня', 'Небо', 'C', '[Куплет 1]
 C Am
 Ты объемлешь меня позади, впереди,
@@ -9347,9 +9347,9 @@ Dm G
 C Am
 Отдыхаю ли я или путь свой держу,
 Dm G
-Ты всегда везде со мною.', NULL, NULL, NULL, 'published');
+Ты всегда везде со мною.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-oplot-moego-spasenya', @catalog_version_id, 234, 'Ты оплот моего спасенья', 'Спасение', 'Em', '[Куплет 1]
 Em F#m Hm
 Ты оплот моего спасенья,
@@ -9388,9 +9388,9 @@ G A Hm
 Em F#m Hm
 Сердцем желаю я быть с Тобою
 Hm A Hm
-В дивном вечном раю.', NULL, NULL, NULL, 'published');
+В дивном вечном раю.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ty-s-nami-bog', @catalog_version_id, 235, 'Ты с нами Бог', 'Спасение', 'Am', '[Куплет 1]
 Am G
 Из глубин души моей льётся песня о Тебе,
@@ -9431,9 +9431,9 @@ Dm Am E
 Am G
 Пойте реки, пойте горы и равнины и моря.
 Dm F E
-Имя Господа и веру снова прославляю я.', NULL, NULL, NULL, 'published');
+Имя Господа и веру снова прославляю я.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('umchalis-bezvozvratno', @catalog_version_id, 236, 'Умчались безвозвратно', 'Утешение и ободрение', 'A', '[Куплет 1]
 A E
 Умчались безвозвратно дни вчерашние,
@@ -9482,9 +9482,9 @@ Hm E A
 A Hm
 И ваша доброта, и ваша искренность
 D E7
-Помогут ближним счастье обрести.', NULL, NULL, NULL, 'published');
+Помогут ближним счастье обрести.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('upala-sleza', @catalog_version_id, 237, 'Упала слеза', 'Пасхальные', 'Am', '[Куплет 1]
 Am E7 G D
 Упала слеза на горячий песок,
@@ -9529,9 +9529,9 @@ F C E
 За всё человечество кровь пролилась
 Ценой бесконечно бесценной.
 Голгофа над грешной землёй поднялась
-И сделалась центром вселенной.', NULL, NULL, NULL, 'published');
+И сделалась центром вселенной.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('hvali-tvorcza', @catalog_version_id, 238, 'Хвали Творца', 'Пасхальные', 'F', '[Куплет 1]
 F C
 Хвали Творца лишь день начнётся,
@@ -9570,9 +9570,9 @@ D Gm C
 Dm A A#
 И в день, и в ночь твой чистый дар,
 F C F
-Молитвы шёпот, сердца жар.', NULL, NULL, NULL, 'published');
+Молитвы шёпот, сердца жар.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('hrani-svoe-serdcze-chistym', @catalog_version_id, 239, 'Храни своё сердце чистым', 'Детские', 'C', '[Куплет 1]
 Много в мире искушений,
 Много разного того,
@@ -9595,9 +9595,9 @@ VALUES ('hrani-svoe-serdcze-chistym', @catalog_version_id, 239, 'Храни св
 Будем мы всегда во свете
 Слова Божьего ходить,
 Как Его святые дети,
-Под Его охраной жить.', NULL, NULL, NULL, 'published');
+Под Его охраной жить.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('hristos-moi-kak-o-tebe-molchat', @catalog_version_id, 240, 'Христос мой, как о Тебе молчать', 'Благодарение', 'C', '[Куплет 1]
 C G
 Христос мой, как о Тебе молчать,
@@ -9636,9 +9636,9 @@ Dm G C G
 C G
 Пошли нам больше дара любви,
 Dm G C
-Чтоб не смолкли наши уста.', NULL, NULL, NULL, 'published');
+Чтоб не смолкли наши уста.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('hristos-dlya-mnogih', @catalog_version_id, 241, 'Христос, для многих', 'Прощение', 'G', '[Куплет 1]
 G Am
 Христос, для многих Ты людей - легенда,
@@ -9691,9 +9691,9 @@ D G
 G Am
 Служить Тебе до смерти обещаю
 D G
-И посреди неверья верным быть.', NULL, NULL, NULL, 'published');
+И посреди неверья верным быть.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('hristos-kto-by-znal', @catalog_version_id, 242, 'Христос, кто бы знал', 'Пасхальные', 'Am', '[Куплет 1]
 Am Dm
 Христос, кто бы знал Твое имя здесь,
@@ -9732,9 +9732,9 @@ E Am
 F Dm
 И тех, кто услышит весть в первый раз,
 E E7
-Прими в объятья святые.', NULL, NULL, NULL, 'published');
+Прими в объятья святые.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('chakaem-czyabe-nash-sus', @catalog_version_id, 243, 'Чакаем Цябе, наш Ісус,', 'Спасение', 'Dm', '[Куплет 1]
 Dm Gm
 Чакаем Цябе, наш Ісус,
@@ -9783,9 +9783,9 @@ A Dm
 F C
 Няхай Табе ўся Беларусь
 A# A
-Аддасьць сваё сэрца і лёс!', NULL, NULL, NULL, 'published');
+Аддасьць сваё сэрца і лёс!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('chto-vera-bez-del', @catalog_version_id, 244, 'Что вера без дел?', 'Молитвенные', 'Dm', '[Куплет 1]
 Dm A
 Что вера без дел? Это звук лишь пустой,
@@ -9830,9 +9830,9 @@ F Dm
 A# F
 Чтоб дело твое было веры полно
 Gm A
-Начато в молитве и Духе Святом.', NULL, NULL, NULL, 'published');
+Начато в молитве и Духе Святом.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('chto-etot-svet', @catalog_version_id, 245, 'Что этот свет', 'Семья', 'Hm', '[Куплет 1]
 Hm
 Что этот свет – он созданье Всевышнего,
@@ -9889,9 +9889,9 @@ G
 Em
 Чаша скорбей производит терпение,
 A F#
-Вся наша жизнь на земле – лишь мгновение!', NULL, NULL, NULL, 'published');
+Вся наша жизнь на земле – лишь мгновение!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('chuden-on', @catalog_version_id, 246, 'Чуден Он', 'Пасхальные', 'G', '[Куплет 1]
 G C
 Чуден Он, наш Господь,
@@ -9930,9 +9930,9 @@ G C
 G D Em
 Чтоб меня оправдать
 G D G
-Он воскрес, Он воскрес.', NULL, NULL, NULL, 'published');
+Он воскрес, Он воскрес.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('chudnuyu-knigu-polyubil-ya', @catalog_version_id, 247, 'Чудную книгу полюбил я', 'Спасение', 'Dm', '[Куплет 1]
 Dm Gm
 Чудную книгу полюбил я
@@ -9995,9 +9995,9 @@ F Dm
 Gm A
 Слово Твое — вода живая,
 Dm D
-И там , где Слово, все оживает.', NULL, NULL, NULL, 'published');
+И там , где Слово, все оживает.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('shalom-moi-druzya', @catalog_version_id, 248, 'Шалом, мои друзья', 'Небо', 'Em', '[Куплет 1]
 Em F# H7 Em
 Шалом, мои друзья, Храни, Господь, ваш дом!
@@ -10036,9 +10036,9 @@ Em F# H7 Em D
 G D Am Em
 :,:Нас не смутят пути, которыми пойдем,
 Em F# H7 Em D
-Наградой будет нам Шалом, шалом.:,:', NULL, NULL, NULL, 'published');
+Наградой будет нам Шалом, шалом.:,:', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('eto-bog-nash', @catalog_version_id, 249, 'Это Бог наш', 'Благодарение', 'G', '[Куплет 1]
 G D Em
 Ты вседержитель Бог и Царь
@@ -10097,9 +10097,9 @@ G C
 Кто так свят и справедлив?
 Неизменен и велик?
 Кто есть истина и жизнь?
-Кто нас спас, грехи простив?', NULL, NULL, NULL, 'published');
+Кто нас спас, грехи простив?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('yunost-belosnezhnuyu', @catalog_version_id, 250, 'Юность белоснежную', 'Спасение', 'G', '[Куплет 1]
 G Am
 Юность белоснежную береги от зла.
@@ -10128,9 +10128,9 @@ D G
 H Em C
 И в святых обителях, получивши жизнь,
 D G
-На алтарь Спасителя молодость сложи.', NULL, NULL, NULL, 'published');
+На алтарь Спасителя молодость сложи.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('yunost-proidet', @catalog_version_id, 251, 'Юность пройдет', 'Прославление', 'Am', '[Куплет 1]
 Am Dm
 Сегодня, друзья, мы вместе
@@ -10169,9 +10169,9 @@ G C
 F Dm
 Прославлять Отца Всеблагого
 E
-За дивные дела.', NULL, NULL, NULL, 'published');
+За дивные дела.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('yunost-svetlaya', @catalog_version_id, 252, 'Юность светлая', 'Вера и упование', 'Hm', '[Куплет 1]
 Hm
 Юность светлая, весна ранняя -
@@ -10220,9 +10220,9 @@ Em A D
 Em G
 И Он даст тебе золотой венец,
 F# Hm
-Будешь царствовать ты с Ним.', NULL, NULL, NULL, 'published');
+Будешь царствовать ты с Ним.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-bez-tebya', @catalog_version_id, 253, 'Я без Тебя', 'Спасение', 'D', '[Куплет 1]
 D H
 Я без Тебя, как солнце без света.
@@ -10261,9 +10261,9 @@ Em A
 D Hm
 Я, как дитя, без материнской ласки.
 Em A
-Без Тебя, Господь, тускнеют жизни краски.', NULL, NULL, NULL, 'published');
+Без Тебя, Господь, тускнеют жизни краски.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-bog-neba', @catalog_version_id, 254, 'Я Бог неба', 'Спасение', 'G', '[Куплет 1]
 G C G
 Я Бог неба и морей
@@ -10326,9 +10326,9 @@ C G D
 Em C Am
 Кто захочет им сказать?
 C D
-Кого послать?', NULL, NULL, NULL, 'published');
+Кого послать?', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-v-bessmerte-idu', @catalog_version_id, 255, 'Я в бессмертье иду', 'Вера и упование', 'Dm', '[Куплет 1]
 Dm A Dm
 Я в бессмертье иду, наступая на зло,
@@ -10377,9 +10377,9 @@ F C F
 A# F D Gm
 На душе у меня и тепло и светло,
 Dm A Dm
-Потому что я верую в Бога.', NULL, NULL, NULL, 'published');
+Потому что я верую в Бога.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-zhdu-tebya', @catalog_version_id, 256, 'Я жду Тебя', 'Пасхальные', 'E', '[Куплет 1]
 E C#m
 Как земля без дождя в знойное лето
@@ -10408,9 +10408,9 @@ F#m A H
 E C#m
 О, придите к Христу, Бог вас призывает
 F#m H E
-У подножья креста есть прощенье для всех.', NULL, NULL, NULL, 'published');
+У подножья креста есть прощенье для всех.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-idu-zemnymi-bitvami', @catalog_version_id, 257, 'Я иду земными битвами', 'Рождественские', 'Em', '[Куплет 1]
 Em Am
 Я иду земными битвами,
@@ -10463,9 +10463,9 @@ D G
 C Am
 Среди ангельского пения
 H7 Em
-Милосердный Божий лик.', NULL, NULL, NULL, 'published');
+Милосердный Божий лик.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-odin-iz-teh', @catalog_version_id, 258, 'Я один из тех', 'Пасхальные', 'Am', '[Куплет 1]
 Am Dm E Am
 Я один из тех, кого Ты заметил,
@@ -10504,9 +10504,9 @@ Dm E Am
 G C
 Я один из тех, кто с Тобой будет вместе
 Dm E E7
-В Царстве Небесном вовеки-веков', NULL, NULL, NULL, 'published');
+В Царстве Небесном вовеки-веков', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-opuskayus-na-koleni', @catalog_version_id, 259, 'Я опускаюсь на колени', 'Молитвенные', 'C', '[Куплет 1]
 C Em
 Я опускаюсь на колени,
@@ -10553,9 +10553,9 @@ C D
 C Em
 За грешный мир Ты заплатил,
 C D
-Своей невинной кровью.', NULL, NULL, NULL, 'published');
+Своей невинной кровью.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-prihozhu-k-tebe-pustoi', @catalog_version_id, 260, 'Я прихожу к Тебе пустой', 'Семья', 'Dm', '[Куплет 1]
 Dm A# F
 Я прихожу к Тебе пустой,
@@ -10600,9 +10600,9 @@ Dm A# F
 Ты днём и ночью видишь всё, Ты знаешь сердце моё,
 Но, не смотря на всё, дитем меня назвал.
 Ты раз и навсегда принял, очистил, оправдал,
-Поверил в меня больше, чем я сам.', NULL, NULL, NULL, 'published');
+Поверил в меня больше, чем я сам.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-raduyus-vsesilno', @catalog_version_id, 261, 'Я радуюсь всесильно', 'Благодарение', 'D', '[Куплет 1]
 D A7 D
 Я радуюсь, что ты живёшь на свете:
@@ -10631,9 +10631,9 @@ G A7 D
 G A7 D Hm
 И знаю я, что вера будет вечной,
 G A7 D D7
-И я тебя на небе обниму.', NULL, NULL, NULL, 'published');
+И я тебя на небе обниму.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-raduyus-chto-bog', @catalog_version_id, 262, 'Я радуюсь, что Бог...', 'Спасение', 'A', '[Куплет 1]
 A F#m D
 Я радуюсь, что Бог мимо не прошёл
@@ -10662,9 +10662,9 @@ E A
 A F#m D
 Ведь за руку Отца каждый день крепко
 E A
-Я держусь.', NULL, NULL, NULL, 'published');
+Я держусь.', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
-INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)
+INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)
 VALUES ('ya-smotryu-na-krest', @catalog_version_id, 263, 'Я смотрю на крест', 'Пасхальные', 'Hm', '[Куплет 1]
 Hm A G Hm A G
 Я смотрю на крест, на нём страдал Господь.
@@ -10697,6 +10697,6 @@ Em G Hm
 Em G Hm
 Но благодать Твоя, вновь воскрешает меня,
 A
-Верю я!', NULL, NULL, NULL, 'published');
+Верю я!', NULLIF('', ''), NULL, NULL, NULL, 'published');
 
 COMMIT;
