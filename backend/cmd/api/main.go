@@ -1087,6 +1087,8 @@ func transliterateLetter(letter rune) (string, bool) {
 		return "sch", true
 	case 'ы':
 		return "y", true
+	case 'ь', 'ъ':
+		return "", true
 	case 'э':
 		return "e", true
 	case 'ю':
