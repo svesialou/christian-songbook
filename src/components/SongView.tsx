@@ -1,4 +1,4 @@
-import { type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Song } from '../types/song';
 import { normalizeTransposition, transposeSongRows } from '../lib/chords';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
@@ -56,17 +56,10 @@ const buildPlaybackLines = (song: Song, repeatChorus: boolean): PlaybackLine[] =
 
   song.verses.forEach((verse, index) => {
     pushSection(`verse-${index}`, index === 0 ? 'Куплет 1' : `Куплет ${index + 1}`, verse.rows);
+    if (song.chorus && (index === 0 || repeatChorus)) {
+      pushSection(index === 0 ? 'chorus' : `repeat-chorus-${index - 1}`, 'Припев', song.chorus.rows);
+    }
   });
-
-  if (song.chorus) {
-    pushSection('chorus', 'Припев', song.chorus.rows);
-  }
-
-  if (repeatChorus && song.chorus) {
-    song.verses.slice(1).forEach((_, index) => {
-      pushSection(`repeat-chorus-${index}`, 'Припев', song.chorus!.rows);
-    });
-  }
 
   if (song.bridge) {
     pushSection('bridge', 'Мост', song.bridge.rows);
@@ -491,49 +484,34 @@ const SongView = ({
 
       <div className="song-sections">
         {song.verses.map((verse, index) => (
-          <Section
-            key={`verse-${index}`}
-            sectionId={`verse-${index}`}
-            songId={song.id}
-            title={index === 0 ? 'Куплет 1' : `Куплет ${index + 1}`}
-            rows={verse.rows}
-            chords={verse.chords}
-            settings={settings}
-            playbackPosition={activePosition}
-            registerLine={registerLine}
-            onPlaybackPositionChange={onPlaybackPositionChange}
-          />
-        ))}
+          <Fragment key={`verse-${index}`}>
+            <Section
+              sectionId={`verse-${index}`}
+              songId={song.id}
+              title={index === 0 ? 'Куплет 1' : `Куплет ${index + 1}`}
+              rows={verse.rows}
+              chords={verse.chords}
+              settings={settings}
+              playbackPosition={activePosition}
+              registerLine={registerLine}
+              onPlaybackPositionChange={onPlaybackPositionChange}
+            />
 
-        {song.chorus ? (
-          <Section
-            sectionId="chorus"
-            songId={song.id}
-            title="Припев"
-            rows={song.chorus.rows}
-            chords={song.chorus.chords}
-            settings={settings}
-            playbackPosition={activePosition}
-            registerLine={registerLine}
-            onPlaybackPositionChange={onPlaybackPositionChange}
-          />
-        ) : null}
-        {settings.repeatChorus && song.chorus
-          ? song.verses.slice(1).map((verse, index) => (
+            {song.chorus && (index === 0 || settings.repeatChorus) ? (
               <Section
-                key={`repeat-${index}-${verse.rows[0]}`}
-                sectionId={`repeat-chorus-${index}`}
+                sectionId={index === 0 ? 'chorus' : `repeat-chorus-${index - 1}`}
                 songId={song.id}
                 title="Припев"
-                rows={song.chorus!.rows}
-                chords={song.chorus!.chords}
+                rows={song.chorus.rows}
+                chords={song.chorus.chords}
                 settings={settings}
                 playbackPosition={activePosition}
                 registerLine={registerLine}
                 onPlaybackPositionChange={onPlaybackPositionChange}
               />
-            ))
-          : null}
+            ) : null}
+          </Fragment>
+        ))}
 
         {song.bridge ? (
           <Section
