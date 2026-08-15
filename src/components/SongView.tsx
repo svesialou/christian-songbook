@@ -9,6 +9,7 @@ type SongViewProps = {
   playbackPosition: SongPlaybackPosition | null;
   initialAutoPlay?: boolean;
   onBack: () => void;
+  onShare: (song: Song) => void;
   onTranspositionChange: (songId: string, transposition: number) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
 };
@@ -158,6 +159,7 @@ const SongView = ({
   playbackPosition,
   initialAutoPlay = false,
   onBack,
+  onShare,
   onTranspositionChange,
   onPlaybackPositionChange,
 }: SongViewProps) => {
@@ -423,6 +425,7 @@ const SongView = ({
     >
       <div className="song-header">
         <button onClick={onBack} className="toolbar-button">Назад к списку</button>
+        <button type="button" onClick={() => onShare(song)} className="toolbar-button">Поделиться</button>
         <div>
           <p className="eyebrow">Песня №{song.number}</p>
           <h1>{song.title}</h1>

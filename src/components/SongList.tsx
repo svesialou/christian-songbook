@@ -19,6 +19,7 @@ type SongListProps = {
   collections: SongCollection[];
   activeCollectionId: string | null;
   liveCollectionId: string | null;
+  liveCollections: SongCollection[];
   activeLiveSongId: string | null;
   liveSongIds: string[];
   liveSourceSongs: Song[];
@@ -26,12 +27,16 @@ type SongListProps = {
   activeCollectionSongIds: string[];
   onCollectionSelect: (collectionId: string) => void;
   onCreateCollection: () => void;
-  onOpenLiveMode: () => void;
+  onShareCollection: (collectionId: string) => void;
   onLiveCollectionChange: (collectionId: string | null) => void;
+  onLiveCollectionSelect: (collectionId: string) => void;
+  onCreateLiveCollection: () => void;
   onLiveSongChange: (songId: string | null) => void;
   onAddLiveSong: (songId: string) => void;
   onRemoveLiveSong: (songId: string) => void;
   onMoveLiveSong: (songId: string, direction: -1 | 1) => void;
+  onResetLiveSongs: () => void;
+  onShareLive: () => void;
   onToggleSongCollection: (songId: string) => void;
 };
 
@@ -66,6 +71,7 @@ const SongList = ({
   collections,
   activeCollectionId,
   liveCollectionId,
+  liveCollections,
   activeLiveSongId,
   liveSongIds,
   liveSourceSongs,
@@ -73,12 +79,16 @@ const SongList = ({
   activeCollectionSongIds,
   onCollectionSelect,
   onCreateCollection,
-  onOpenLiveMode,
+  onShareCollection,
   onLiveCollectionChange,
+  onLiveCollectionSelect,
+  onCreateLiveCollection,
   onLiveSongChange,
   onAddLiveSong,
   onRemoveLiveSong,
   onMoveLiveSong,
+  onResetLiveSongs,
+  onShareLive,
   onToggleSongCollection,
 }: SongListProps) => {
   const [isCategoryPickerOpen, setIsCategoryPickerOpen] = useState(initialCategoryPickerOpen);
@@ -106,9 +116,8 @@ const SongList = ({
     setIsCategoryPickerOpen(false);
     setCategoryQuery('');
   };
-  const liveCollection = collections.find((collection) => collection.id === liveCollectionId) ?? null;
   const isLiveMode = mode === 'live';
-  const liveEntryHint = 'Откройте Live и выберите песни из всего каталога.';
+  const activeCollection = collections.find((collection) => collection.id === activeCollectionId) ?? null;
   const activePlaybackIndex = isLiveMode
     ? songs.findIndex((song) => song.id === activeLiveSongId)
     : -1;
@@ -153,23 +162,6 @@ const SongList = ({
     <div className="catalog">
       {!isLiveMode ? (
         <>
-          <section className="live-entry-card" aria-labelledby="live-entry-title">
-            <span className="live-entry-copy">
-              <strong id="live-entry-title">Live режим</strong>
-              <small>{liveEntryHint}</small>
-            </span>
-            <button
-              type="button"
-              className="live-entry-button"
-              onClick={() => {
-                onLiveCollectionChange(null);
-                onOpenLiveMode();
-              }}
-            >
-              Открыть Live
-            </button>
-          </section>
-
           <label className="search-label sr-only" htmlFor="song-search">
             Поиск
           </label>
@@ -216,39 +208,78 @@ const SongList = ({
               </button>
             ))}
           </div>
+          {mode === 'collection' && activeCollection ? (
+            <div className="live-list-card">
+              <span>
+                <strong>{activeCollection.name}</strong>
+                <small>{activeCollection.songIds.length} песен</small>
+              </span>
+              <button type="button" className="live-list-button" onClick={() => onShareCollection(activeCollection.id)}>
+                Поделиться
+              </button>
+            </div>
+          ) : null}
         </>
       ) : null}
 
       {isLiveMode ? (
-        <div className="live-list-card is-live is-stage">
-          <span>
-            <strong>Live</strong>
-            <small>{liveSongIds.length > 0 ? `${liveSongIds.length} песен выбрано` : 'Выберите песни ниже'}</small>
-          </span>
-          <div className="live-list-actions">
-            {liveAdvanceSongId ? (
+        <>
+          <div className="folder-strip" aria-label="Live сборники">
+            <button className="folder-chip folder-create" onClick={onCreateLiveCollection}>
+              + Live сборник
+            </button>
+            {liveCollections.map((collection) => (
+              <button
+                key={collection.id}
+                className={`folder-chip ${liveCollectionId === collection.id ? 'is-selected' : ''}`}
+                onClick={() => onLiveCollectionSelect(collection.id)}
+                aria-pressed={liveCollectionId === collection.id}
+              >
+                {collection.name} <span>{collection.songIds.length}</span>
+              </button>
+            ))}
+          </div>
+          <div className="live-list-card is-stage">
+            <span>
+              <strong>{liveSongIds.length > 0 ? 'Очередь' : 'Очередь пуста'}</strong>
+              <small>{liveSongIds.length > 0 ? `${liveSongIds.length} песен выбрано` : 'Выберите песни ниже'}</small>
+            </span>
+            <div className="live-list-actions">
+              {liveAdvanceSongId ? (
+                <button
+                  type="button"
+                  className="live-list-button live-list-button-secondary"
+                  onClick={() => onLiveSongChange(liveAdvanceSongId)}
+                  aria-label={`${liveAdvanceLabel} live-песню`}
+                >
+                  {liveAdvanceLabel}
+                </button>
+              ) : null}
+              {liveSongIds.length > 0 ? (
+                <>
+                  <button type="button" className="live-list-button live-list-button-secondary" onClick={onResetLiveSongs}>
+                    Сбросить
+                  </button>
+                  <button type="button" className="live-list-button live-list-button-secondary" onClick={onShareLive}>
+                    Поделиться
+                  </button>
+                </>
+              ) : null}
               <button
                 type="button"
-                className="live-list-button live-list-button-secondary"
-                onClick={() => onLiveSongChange(liveAdvanceSongId)}
-                aria-label={`${liveAdvanceLabel} live-песню`}
+                className="live-list-button"
+                onClick={() => {
+                  onLiveCollectionChange(null);
+                  onLiveSongChange(null);
+                  onResetLiveSongs();
+                  onModeChange('all');
+                }}
               >
-                {liveAdvanceLabel}
+                Завершить
               </button>
-            ) : null}
-            <button
-              type="button"
-              className="live-list-button"
-              onClick={() => {
-                onLiveCollectionChange(null);
-                onLiveSongChange(null);
-                onModeChange('all');
-              }}
-            >
-              Завершить
-            </button>
+            </div>
           </div>
-        </div>
+        </>
       ) : null}
 
       {!isLiveMode && categories.length > 1 ? (

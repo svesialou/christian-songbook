@@ -20,6 +20,7 @@ const SONGS_KEY = 'songs';
 const SETTINGS_KEY = 'settings';
 const RECENT_SONGS_KEY = 'recentSongs';
 const COLLECTIONS_KEY = 'collections';
+const LIVE_COLLECTIONS_KEY = 'liveCollections';
 const LIVE_COLLECTION_KEY = 'liveCollectionId';
 const LIVE_SONG_KEY = 'liveSongId';
 const LIVE_SONG_IDS_KEY = 'liveSongIds';
@@ -30,6 +31,7 @@ const SONGS_FALLBACK = 'csb:songs';
 const SETTINGS_FALLBACK = 'csb:settings';
 const RECENT_SONGS_FALLBACK = 'csb:recentSongs';
 const COLLECTIONS_FALLBACK = 'csb:collections';
+const LIVE_COLLECTIONS_FALLBACK = 'csb:liveCollections';
 const LIVE_COLLECTION_FALLBACK = 'csb:liveCollectionId';
 const LIVE_SONG_FALLBACK = 'csb:liveSongId';
 const LIVE_SONG_IDS_FALLBACK = 'csb:liveSongIds';
@@ -221,6 +223,12 @@ export const loadCollections = async (): Promise<SongCollection[]> =>
 export const saveCollections = (collections: SongCollection[]): Promise<void> =>
   writeToStore(COLLECTIONS_KEY, collections);
 
+export const loadLiveCollections = async (): Promise<SongCollection[]> =>
+  normalizeCollections(await readFromStore<unknown>(LIVE_COLLECTIONS_KEY, []));
+
+export const saveLiveCollections = (collections: SongCollection[]): Promise<void> =>
+  writeToStore(LIVE_COLLECTIONS_KEY, collections);
+
 export const loadLiveCollectionId = async (): Promise<string | null> =>
   readFromStore<string | null>(LIVE_COLLECTION_KEY, null);
 
@@ -260,6 +268,7 @@ export const hydrateLegacyState = async () => {
   const settings = fallbackRead<SongSettings | null>(SETTINGS_FALLBACK, null);
   const recentSongs = fallbackRead<string[] | null>(RECENT_SONGS_FALLBACK, null);
   const collections = fallbackRead<SongCollection[] | null>(COLLECTIONS_FALLBACK, null);
+  const liveCollections = fallbackRead<SongCollection[] | null>(LIVE_COLLECTIONS_FALLBACK, null);
   const liveCollectionId = fallbackRead<string | null>(LIVE_COLLECTION_FALLBACK, null);
   const liveSongId = fallbackRead<string | null>(LIVE_SONG_FALLBACK, null);
   const liveSongIds = fallbackRead<string[] | null>(LIVE_SONG_IDS_FALLBACK, null);
@@ -269,6 +278,7 @@ export const hydrateLegacyState = async () => {
   if (settings) await saveSettings(settings);
   if (recentSongs) await saveRecentSongs(recentSongs);
   if (collections) await saveCollections(normalizeCollections(collections));
+  if (liveCollections) await saveLiveCollections(normalizeCollections(liveCollections));
   if (liveCollectionId) await saveLiveCollectionId(liveCollectionId);
   if (liveSongId) await saveLiveSongId(liveSongId);
   if (liveSongIds) await saveLiveSongIds(normalizeSongIds(liveSongIds));
@@ -278,6 +288,7 @@ export const hydrateLegacyState = async () => {
   if (settings) localStorage.removeItem(SETTINGS_FALLBACK);
   if (recentSongs) localStorage.removeItem(RECENT_SONGS_FALLBACK);
   if (collections) localStorage.removeItem(COLLECTIONS_FALLBACK);
+  if (liveCollections) localStorage.removeItem(LIVE_COLLECTIONS_FALLBACK);
   if (liveCollectionId) localStorage.removeItem(LIVE_COLLECTION_FALLBACK);
   if (liveSongId) localStorage.removeItem(LIVE_SONG_FALLBACK);
   if (liveSongIds) localStorage.removeItem(LIVE_SONG_IDS_FALLBACK);

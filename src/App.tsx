@@ -5,6 +5,7 @@ import {
   hydrateLegacyState,
   loadCatalogMeta,
   loadCollections,
+  loadLiveCollections,
   loadLiveCollectionId,
   loadLiveSongId,
   loadLiveSongIds,
@@ -14,6 +15,7 @@ import {
   loadSongs,
   saveCatalogMeta,
   saveCollections,
+  saveLiveCollections,
   saveLiveCollectionId,
   saveLiveSongId,
   saveLiveSongIds,
@@ -119,6 +121,27 @@ const buildExport = (songs: Song[], settings: SongSettings, collections: SongCol
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+};
+
+const getShareOrigin = () => {
+  if (typeof window === 'undefined') return '';
+  return window.location.origin;
+};
+
+const buildSongShareText = (song: Song) => {
+  const origin = getShareOrigin();
+  const link = origin ? `${origin}/?song=${encodeURIComponent(song.id)}` : '';
+  return [`Песня №${song.number}: ${song.title}`, normalizeCategory(song.category), link].filter(Boolean).join('\n');
+};
+
+const buildCollectionShareText = (title: string, songIds: string[], songs: Song[]) => {
+  const songMap = new Map(songs.map((song) => [song.id, song]));
+  const rows = songIds.flatMap((songId, index) => {
+    const song = songMap.get(songId);
+    return song ? [`${index + 1}. №${song.number} ${song.title}`] : [];
+  });
+
+  return [title, rows.length > 0 ? rows.join('\n') : 'Песни не выбраны'].join('\n');
 };
 
 const normalizeImportedSettings = (settings: unknown): SongSettings | undefined => {
@@ -335,6 +358,9 @@ function App() {
   const [songs, setSongs] = useState<Song[]>(() => bundledSongs);
   const [recentSongIds, setRecentSongIds] = useState<string[]>([]);
   const [collections, setCollections] = useState<SongCollection[]>(() =>
+    readSearchParam('livePreview') === '1' ? [LIVE_PREVIEW_COLLECTION] : [],
+  );
+  const [liveCollections, setLiveCollections] = useState<SongCollection[]>(() =>
     readSearchParam('livePreview') === '1' ? [LIVE_PREVIEW_COLLECTION] : [],
   );
   const [liveCollectionId, setLiveCollectionId] = useState<string | null>(() =>
@@ -623,6 +649,7 @@ function App() {
         loadedSongs,
         loadedRecentSongs,
         loadedCollections,
+        loadedLiveCollections,
         loadedLiveCollectionId,
         loadedLiveSongId,
         loadedLiveSongIds,
@@ -633,6 +660,7 @@ function App() {
         loadSongs(),
         loadRecentSongs(),
         loadCollections(),
+        loadLiveCollections(),
         loadLiveCollectionId(),
         loadLiveSongId(),
         loadLiveSongIds(),
@@ -644,6 +672,7 @@ function App() {
       const hasLocalCatalog = loadedCatalog.length > 0 && !isDemoCatalog(loadedCatalog);
       const baseCatalog = hasLocalCatalog ? loadedCatalog : bundledSongs;
       const baseCollections = isLiveListPreview ? [LIVE_PREVIEW_COLLECTION] : loadedCollections;
+      const baseLiveCollections = isLiveListPreview ? [LIVE_PREVIEW_COLLECTION] : loadedLiveCollections;
 
       if (cancelled) return;
       setSongs(baseCatalog);
@@ -654,10 +683,11 @@ function App() {
       }
       setRecentSongIds(loadedRecentSongs);
       setCollections(baseCollections);
+      setLiveCollections(baseLiveCollections);
       setLiveCollectionId(
         isLiveListPreview
           ? LIVE_PREVIEW_COLLECTION.id
-          : loadedCollections.some((collection) => collection.id === loadedLiveCollectionId)
+          : baseLiveCollections.some((collection) => collection.id === loadedLiveCollectionId)
             ? loadedLiveCollectionId
             : null,
       );
@@ -744,6 +774,11 @@ function App() {
 
   useEffect(() => {
     if (isLiveListPreview) return;
+    saveLiveCollections(liveCollections);
+  }, [isLiveListPreview, liveCollections]);
+
+  useEffect(() => {
+    if (isLiveListPreview) return;
     saveLiveCollectionId(liveCollectionId);
   }, [liveCollectionId, isLiveListPreview]);
 
@@ -760,12 +795,13 @@ function App() {
   useEffect(() => {
     if (isLiveListPreview) return;
     if (!liveCollectionId) {
+      if (listMode === 'live') return;
       if (liveSongId) setLiveSongId(null);
       if (liveSongIds.length > 0) setLiveSongIds([]);
       return;
     }
 
-    const liveCollection = collections.find((collection) => collection.id === liveCollectionId);
+    const liveCollection = liveCollections.find((collection) => collection.id === liveCollectionId);
     if (!liveCollection) {
       if (liveSongId) setLiveSongId(null);
       if (liveSongIds.length > 0) setLiveSongIds([]);
@@ -781,7 +817,18 @@ function App() {
     if (liveSongId && !nextLiveSongIds.includes(liveSongId)) {
       setLiveSongId(nextLiveSongIds[0] ?? null);
     }
-  }, [collections, isLiveListPreview, liveCollectionId, liveSongId, liveSongIds, songs]);
+  }, [isLiveListPreview, listMode, liveCollectionId, liveCollections, liveSongId, liveSongIds, songs]);
+
+  useEffect(() => {
+    if (isLiveListPreview || listMode !== 'live' || !liveCollectionId) return;
+    setLiveCollections((current) =>
+      current.map((collection) =>
+        collection.id === liveCollectionId
+          ? { ...collection, songIds: liveSongIds, updatedAt: new Date().toISOString() }
+          : collection,
+      ),
+    );
+  }, [isLiveListPreview, listMode, liveCollectionId, liveSongIds]);
 
   useEffect(() => {
     savePlaybackPosition(playbackPosition);
@@ -920,8 +967,8 @@ function App() {
     [collections, activeCollectionId],
   );
   const liveCollection = useMemo(
-    () => collections.find((collection) => collection.id === liveCollectionId) ?? null,
-    [collections, liveCollectionId],
+    () => liveCollections.find((collection) => collection.id === liveCollectionId) ?? null,
+    [liveCollections, liveCollectionId],
   );
   const liveSourceSongs = songs;
 
@@ -937,20 +984,87 @@ function App() {
     setActiveCollectionId(null);
   };
 
+  const selectLiveCollection = (collectionId: string) => {
+    const collection = liveCollections.find((item) => item.id === collectionId);
+    if (!collection) return;
+
+    const catalogSongIds = new Set(songs.map((song) => song.id));
+    const nextLiveSongIds = collection.songIds.filter((songId) => catalogSongIds.has(songId));
+    setLiveCollectionId(collection.id);
+    setLiveSongIds(nextLiveSongIds);
+    setLiveSongId(nextLiveSongIds[0] ?? null);
+    setQuery('');
+    setActiveCategory(null);
+    setListMode('live');
+    setActiveCollectionId(null);
+  };
+
+  const createLiveCollection = () => {
+    if (typeof window === 'undefined') return;
+    const name = window.prompt('Название live-сборника')?.trim();
+    if (!name) return;
+
+    const now = new Date().toISOString();
+    const collection: SongCollection = {
+      id: `live-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`,
+      name,
+      songIds: liveSongIds,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    setLiveCollections((current) => [...current, collection]);
+    setLiveCollectionId(collection.id);
+    setListMode('live');
+    setActiveCollectionId(null);
+  };
+
   const addLiveSong = (songId: string) => {
     if (!liveSourceSongs.some((song) => song.id === songId)) return;
-    if (liveSongIds.includes(songId)) return;
 
-    setLiveSongIds([...liveSongIds, songId]);
-    if (!liveSongId) {
-      setLiveSongId(songId);
-    }
+    setLiveSongIds((current) => (current.includes(songId) ? current : [...current, songId]));
+    setLiveSongId((current) => current ?? songId);
   };
 
   const removeLiveSong = (songId: string) => {
     const nextLiveSongIds = liveSongIds.filter((item) => item !== songId);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId((current) => (current === songId ? nextLiveSongIds[0] ?? null : current));
+  };
+
+  const resetLiveSongs = () => {
+    setLiveSongIds([]);
+    setLiveSongId(null);
+  };
+
+  const shareText = async (title: string, text: string) => {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.share) {
+        await navigator.share({ title, text });
+      } else if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        await navigator.clipboard.writeText(text);
+        setNotice('Текст для отправки скопирован.');
+      } else {
+        setNotice(text);
+      }
+      setError(null);
+    } catch (shareError) {
+      if (shareError instanceof DOMException && shareError.name === 'AbortError') return;
+      setError('Не удалось подготовить отправку.');
+    }
+  };
+
+  const shareSong = (song: Song) => void shareText(song.title, buildSongShareText(song));
+
+  const shareCollection = (collectionId: string) => {
+    const collection = collections.find((item) => item.id === collectionId);
+    if (!collection) return;
+    void shareText(collection.name, buildCollectionShareText(`Сборник: ${collection.name}`, collection.songIds, songs));
+  };
+
+  const shareLive = () => {
+    const title = liveCollection ? `Live: ${liveCollection.name}` : 'Live';
+    void shareText(title, buildCollectionShareText(title, liveSongIds, songs));
   };
 
   const moveLiveSong = (songId: string, direction: -1 | 1) => {
@@ -1119,7 +1233,7 @@ function App() {
   };
   const onSongTranspositionChange = (songId: string, transposition: number) =>
     setSongTranspositions((current) => ({ ...current, [songId]: transposition }));
-  const canOpenLiveMode = !isAdminMode && !activeSong && listMode !== 'live';
+  const canShowLiveButton = !isAdminMode && !activeSong;
 
   const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
     if (!canPullRefresh || window.scrollY > 2) return;
@@ -1231,8 +1345,8 @@ function App() {
             <h1>{activeSong ? activeSong.title : isAdminMode ? 'Админка' : 'Песни'}</h1>
           </div>
           <div className="top-actions">
-            {canOpenLiveMode ? (
-              <button className="top-live-button" type="button" onClick={openLiveMode}>
+            {canShowLiveButton ? (
+              <button className="top-live-button" type="button" onClick={openLiveMode} aria-pressed={listMode === 'live'}>
                 Live
               </button>
             ) : null}
@@ -1399,6 +1513,7 @@ function App() {
               playbackPosition={previewPlaybackPosition}
               initialAutoPlay={isAutoPlaybackPreview}
               onBack={closeSong}
+              onShare={shareSong}
               onTranspositionChange={onSongTranspositionChange}
               onPlaybackPositionChange={setPlaybackPosition}
             />
@@ -1420,6 +1535,7 @@ function App() {
                 collections={collections}
                 activeCollectionId={activeCollectionId}
                 liveCollectionId={liveCollectionId}
+                liveCollections={liveCollections}
                 activeLiveSongId={liveSongId}
                 liveSongIds={liveSongIds}
                 liveSourceSongs={liveSourceSongs}
@@ -1427,12 +1543,16 @@ function App() {
                 activeCollectionSongIds={listMode === 'collection' ? activeCollection?.songIds ?? [] : []}
                 onCollectionSelect={selectCollection}
                 onCreateCollection={() => openCreateCollection()}
-                onOpenLiveMode={openLiveMode}
+                onShareCollection={shareCollection}
                 onLiveCollectionChange={setLiveCollectionId}
+                onLiveCollectionSelect={selectLiveCollection}
+                onCreateLiveCollection={createLiveCollection}
                 onLiveSongChange={setLiveSongId}
                 onAddLiveSong={addLiveSong}
                 onRemoveLiveSong={removeLiveSong}
                 onMoveLiveSong={moveLiveSong}
+                onResetLiveSongs={resetLiveSongs}
+                onShareLive={shareLive}
                 onToggleSongCollection={toggleSongCollection}
               />
               <SearchHint query={query} count={filteredSongs.length} />
