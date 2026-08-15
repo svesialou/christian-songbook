@@ -9,6 +9,8 @@ Current migrations:
 - `003_song_submissions.down.sql` - removes song submissions.
 - `004_song_playback.up.sql` - adds optional BPM/autoscroll playback fields to songs and submissions.
 - `004_song_playback.down.sql` - removes optional playback fields.
+- `005_user_preferences.up.sql` - adds users, OAuth identities, sessions, OAuth state, global preferences, and per-song preferences.
+- `005_user_preferences.down.sql` - removes user account and preference tables.
 
 Apply locally:
 - `make db-migrate`
@@ -21,4 +23,4 @@ Rules before adding more migrations:
 - Add indexes for real access patterns.
 - Use `EXPLAIN` for list/search/song detail queries once data volume becomes representative.
 - Do not add destructive migrations without explicit approval.
-- Keep user/auth/setlist/live schema out until the user model is confirmed.
+- User/auth schema is allowed only through the approved OAuth and personal preferences foundation; avoid password storage.

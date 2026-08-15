@@ -28,12 +28,18 @@ import { bundledCatalog } from './data/bundledCatalog.generated';
 import { songCategories } from './data/songCategories';
 import {
   AdminSongUpdatePayload,
+  CurrentUserState,
   SongSubmission,
   SongSubmissionPayload,
+  UserPreferences,
   approveSongSubmission,
   fetchCatalogSnapshot,
+  fetchCurrentUser,
   fetchPendingSongSubmissions,
+  googleAuthStartUrl,
+  logoutCurrentUser,
   rejectSongSubmission,
+  saveUserPreferences,
   updateAdminSong,
   updateSongSubmission,
 } from './lib/catalogApi';
@@ -413,6 +419,8 @@ function App() {
   const [catalogSource, setCatalogSource] = useState<CatalogSource>('bundled');
   const [catalogMeta, setCatalogMeta] = useState<CatalogSnapshotMeta | null>(null);
   const [syncState, setSyncState] = useState<SyncState>('idle');
+  const [account, setAccount] = useState<CurrentUserState | null>(null);
+  const [isAccountLoading, setIsAccountLoading] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isStandalone, setIsStandalone] = useState(() =>
     typeof window === 'undefined' ? false : window.matchMedia('(display-mode: standalone)').matches,
@@ -439,6 +447,49 @@ function App() {
   );
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
+
+  const loadCurrentUser = async () => {
+    setIsAccountLoading(true);
+    try {
+      setAccount(await fetchCurrentUser());
+    } catch {
+      setAccount({ authenticated: false });
+    } finally {
+      setIsAccountLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    if (typeof window === 'undefined') return;
+    const redirectPath = `${window.location.pathname}${window.location.search}${window.location.hash}` || '/';
+    window.location.assign(googleAuthStartUrl(redirectPath));
+  };
+
+  const handleLogout = async () => {
+    setIsAccountLoading(true);
+    try {
+      await logoutCurrentUser();
+      setAccount({ authenticated: false });
+      setNotice('Вы вышли из аккаунта.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось выйти из аккаунта.');
+    } finally {
+      setIsAccountLoading(false);
+    }
+  };
+
+  const handleSaveUserPreferences = async (preferences: UserPreferences) => {
+    const savedPreferences = await saveUserPreferences(preferences);
+    setAccount((current) =>
+      current?.authenticated
+        ? {
+            ...current,
+            preferences: savedPreferences,
+          }
+        : current,
+    );
+    setNotice('Персональные настройки сохранены.');
+  };
 
   const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>) => {
     if (!snapshot || snapshot.songs.length === 0) return false;
@@ -781,6 +832,10 @@ function App() {
   useEffect(() => {
     saveSettings(settings);
   }, [settings]);
+
+  useEffect(() => {
+    void loadCurrentUser();
+  }, []);
 
   useEffect(() => {
     saveRecentSongs(recentSongIds);
@@ -1393,7 +1448,15 @@ function App() {
                 <span aria-hidden="true" />
               </summary>
               <div className="menu-panel">
-                <SettingsPanel settings={settings} onChange={onSettingsChange} />
+                <SettingsPanel
+                  settings={settings}
+                  account={account}
+                  isAccountLoading={isAccountLoading}
+                  onChange={onSettingsChange}
+                  onGoogleLogin={handleGoogleLogin}
+                  onLogout={handleLogout}
+                  onSavePreferences={handleSaveUserPreferences}
+                />
 
                 {!isStandalone && installPrompt ? (
                   <button className="toolbar-button install-button" onClick={handleInstall}>

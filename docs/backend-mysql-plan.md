@@ -232,7 +232,58 @@ These entities are not in production migrations yet. They need auth/security app
 - No secrets, raw credentials, or private source tokens in import logs.
 
 ## Phase Safety Rules
-- Do not add auth, users, or public write APIs in Phase 1.
-- Do not expose admin catalog mutation without auth.
+- OAuth-only user accounts and personal preferences are approved for Phase 1.6.
+- Do not add password login.
+- Do not expose admin catalog mutation to regular users.
 - Do not make frontend reading depend on backend availability.
 - Do not introduce realtime/live transport before the catalog backend is stable.
+
+## Approved User Accounts and Personal Preferences Foundation
+The user model is now approved for implementation as an OAuth-only account layer. Password login is intentionally out of scope.
+
+### Authentication direction
+- Use external OAuth/OIDC providers: Google first, Apple second.
+- Backend owns OAuth callback handling and session creation.
+- Store provider identity references, not passwords.
+- Do not store raw OAuth access tokens unless a later provider API integration explicitly requires it.
+- Store app session tokens only as hashes in `user_sessions`.
+- Use short-lived OAuth state rows to protect login redirects from CSRF/replay.
+
+### Implemented schema slice
+- `users`: internal user profile and status.
+- `user_identities`: Google/Apple provider subject mapping.
+- `user_sessions`: app sessions backed by secure cookies.
+- `oauth_login_states`: one-time OAuth state tracking.
+- `user_preferences`: global musician settings such as instrument, preferred keys, capo and piano transpose flags.
+- `user_song_preferences`: per-song target key, transpose steps, capo hint, and notes.
+
+### Personal transposition rules
+- Canonical song data remains unchanged.
+- `songs.default_key` is treated as the original/default key when present.
+- A user preference can save either a `target_key` or explicit `transpose_steps` for a song.
+- Automatic key selection should be presented as a suggestion before saving.
+- Song UI should show original key, current key, semitone shift, guitar capo hint, and piano transpose hint.
+
+### Access patterns
+- Start Google OAuth through `GET /api/auth/google/start?redirect=/target`.
+- Finish Google OAuth through `GET /api/auth/google/callback`.
+- Logout by revoking the current hashed session through `POST /api/auth/logout`.
+- Read anonymous current-user state through `GET /api/me` without requiring login.
+- Resolve current user from session cookie.
+- Fetch current user profile and global preferences.
+- Upsert global preferences for the current user through `PUT /api/me/preferences`.
+- Fetch per-song preference for current user and song through `GET /api/me/song-preferences/{id}`.
+- Upsert per-song preference through `PUT /api/me/song-preferences/{id}` without mutating canonical song rows.
+- Reset per-song preference through `DELETE /api/me/song-preferences/{id}`.
+
+### Indexing notes
+- `user_identities(provider, provider_subject)` is unique for login resolution.
+- `user_sessions(session_token_hash)` is unique for session lookup.
+- `user_sessions(expires_at, revoked_at)` supports cleanup.
+- `oauth_login_states(state_hash)` is unique for callback validation.
+- `user_song_preferences(user_id, song_id)` is the primary per-song lookup.
+
+### Deployment notes
+- Production secrets must come from vault/env: Google client id/secret and Apple client/team/key material.
+- Apple OAuth requires Apple Developer configuration and domain/callback verification before production use.
+- Accounts are optional: catalog browsing and song reading must work for logged-out users.

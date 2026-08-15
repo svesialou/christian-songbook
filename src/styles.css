@@ -923,6 +923,67 @@ button:disabled {
   gap: 10px;
 }
 
+.account-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  padding: 12px;
+}
+
+.account-card div {
+  display: grid;
+  gap: 4px;
+}
+
+.account-card strong,
+.account-card span,
+.account-button {
+  font-family: Aptos, "Segoe UI", sans-serif;
+}
+
+.account-card strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.account-card span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.account-button {
+  width: 100%;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.personal-settings-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface-soft) 82%, transparent);
+  padding: 12px;
+}
+
+.personal-settings-card .submission-field {
+  margin: 0;
+}
+
+.personal-settings-card .select-row input {
+  width: 82px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  padding: 8px 10px;
+}
+
 .preset-fieldset {
   min-width: 0;
   margin: 0;

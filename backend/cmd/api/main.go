@@ -2,13 +2,18 @@ package main
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/sha256"
 	"crypto/subtle"
 	"database/sql"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"strconv"
@@ -20,14 +25,19 @@ import (
 )
 
 type config struct {
-	ServiceName string
-	HTTPAddr    string
-	DBHost      string
-	DBPort      string
-	DBName      string
-	DBUser      string
-	DBPassword  string
-	AdminAPIKey string
+	ServiceName             string
+	HTTPAddr                string
+	DBHost                  string
+	DBPort                  string
+	DBName                  string
+	DBUser                  string
+	DBPassword              string
+	AdminAPIKey             string
+	AuthCookieName          string
+	AuthSessionTTLHours     int
+	OAuthRedirectBaseURL    string
+	GoogleOAuthClientID     string
+	GoogleOAuthClientSecret string
 }
 
 type healthResponse struct {
@@ -157,6 +167,66 @@ type approveSubmissionResponse struct {
 	CatalogVersion string `json:"catalogVersion"`
 }
 
+type meResponse struct {
+	Authenticated bool                     `json:"authenticated"`
+	User          *currentUserResponse     `json:"user,omitempty"`
+	Preferences   *userPreferencesResponse `json:"preferences,omitempty"`
+}
+
+type currentUserResponse struct {
+	ID          int64  `json:"id"`
+	DisplayName string `json:"displayName"`
+	Email       string `json:"email,omitempty"`
+	AvatarURL   string `json:"avatarUrl,omitempty"`
+}
+
+type userPreferencesResponse struct {
+	Instrument            string   `json:"instrument"`
+	PreferredKeys         []string `json:"preferredKeys"`
+	CapoEnabled           bool     `json:"capoEnabled"`
+	MaxCapo               int      `json:"maxCapo"`
+	PianoTransposeEnabled bool     `json:"pianoTransposeEnabled"`
+	ShowOriginalKey       bool     `json:"showOriginalKey"`
+}
+
+type updateUserPreferencesRequest struct {
+	Instrument            string   `json:"instrument"`
+	PreferredKeys         []string `json:"preferredKeys"`
+	CapoEnabled           bool     `json:"capoEnabled"`
+	MaxCapo               int      `json:"maxCapo"`
+	PianoTransposeEnabled bool     `json:"pianoTransposeEnabled"`
+	ShowOriginalKey       bool     `json:"showOriginalKey"`
+}
+
+type userSongPreferenceResponse struct {
+	SongID         string `json:"songId"`
+	TargetKey      string `json:"targetKey,omitempty"`
+	TransposeSteps *int   `json:"transposeSteps,omitempty"`
+	Capo           *int   `json:"capo,omitempty"`
+	Note           string `json:"note,omitempty"`
+}
+
+type updateUserSongPreferenceRequest struct {
+	TargetKey      string `json:"targetKey"`
+	TransposeSteps *int   `json:"transposeSteps,omitempty"`
+	Capo           *int   `json:"capo,omitempty"`
+	Note           string `json:"note"`
+}
+
+type googleTokenResponse struct {
+	AccessToken string `json:"access_token"`
+	TokenType   string `json:"token_type"`
+	ExpiresIn   int    `json:"expires_in"`
+}
+
+type googleUserInfoResponse struct {
+	Subject       string `json:"sub"`
+	Email         string `json:"email"`
+	EmailVerified bool   `json:"email_verified"`
+	Name          string `json:"name"`
+	Picture       string `json:"picture"`
+}
+
 func main() {
 	cfg := loadConfig()
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
@@ -190,6 +260,51 @@ func main() {
 			Service: cfg.ServiceName,
 			MySQL:   "reachable",
 		})
+	})
+	mux.HandleFunc("GET /api/auth/google/start", func(w http.ResponseWriter, r *http.Request) {
+		redirectURL, err := startGoogleOAuth(r.Context(), db, cfg, r)
+		if errors.Is(err, errOAuthNotConfigured) {
+			writeError(w, http.StatusServiceUnavailable, "google auth is not configured")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("start google auth failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to start google auth")
+			return
+		}
+
+		http.Redirect(w, r, redirectURL, http.StatusFound)
+	})
+	mux.HandleFunc("GET /api/auth/google/callback", func(w http.ResponseWriter, r *http.Request) {
+		redirectPath, err := finishGoogleOAuth(r.Context(), db, cfg, w, r)
+		if errors.Is(err, errOAuthNotConfigured) {
+			writeError(w, http.StatusServiceUnavailable, "google auth is not configured")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("finish google auth failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to finish google auth")
+			return
+		}
+
+		http.Redirect(w, r, redirectPath, http.StatusFound)
+	})
+	mux.HandleFunc("POST /api/auth/logout", func(w http.ResponseWriter, r *http.Request) {
+		if err := logoutCurrentUser(r.Context(), db, cfg, w, r); err != nil {
+			logger.Error("logout failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to logout")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, map[string]bool{"authenticated": false})
 	})
 	mux.HandleFunc("GET /api/catalog/version", func(w http.ResponseWriter, r *http.Request) {
 		version, err := getCurrentCatalogVersion(r.Context(), db)
@@ -243,6 +358,131 @@ func main() {
 		}
 
 		writeJSON(w, http.StatusOK, song)
+	})
+	mux.HandleFunc("GET /api/me", func(w http.ResponseWriter, r *http.Request) {
+		me, err := getMe(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("get current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to get current user")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, me)
+	})
+	mux.HandleFunc("PUT /api/me/preferences", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to save preferences")
+			return
+		}
+
+		var payload updateUserPreferencesRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid preferences payload")
+			return
+		}
+
+		preferences, err := updateUserPreferences(r.Context(), db, userID, payload)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("update user preferences failed", "error", err, "user_id", userID)
+			writeError(w, http.StatusInternalServerError, "failed to update preferences")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, preferences)
+	})
+	mux.HandleFunc("GET /api/me/song-preferences/{id}", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to read song preferences")
+			return
+		}
+
+		songID := strings.TrimSpace(r.PathValue("id"))
+		preference, err := getUserSongPreference(r.Context(), db, userID, songID)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("get user song preference failed", "error", err, "user_id", userID, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to get song preference")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, preference)
+	})
+	mux.HandleFunc("PUT /api/me/song-preferences/{id}", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to save song preferences")
+			return
+		}
+
+		var payload updateUserSongPreferenceRequest
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid song preference payload")
+			return
+		}
+
+		songID := strings.TrimSpace(r.PathValue("id"))
+		preference, err := updateUserSongPreference(r.Context(), db, userID, songID, payload)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("update user song preference failed", "error", err, "user_id", userID, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to update song preference")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, preference)
+	})
+	mux.HandleFunc("DELETE /api/me/song-preferences/{id}", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to reset song preferences")
+			return
+		}
+
+		songID := strings.TrimSpace(r.PathValue("id"))
+		preference, err := deleteUserSongPreference(r.Context(), db, userID, songID)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("delete user song preference failed", "error", err, "user_id", userID, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to reset song preference")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, preference)
 	})
 	mux.HandleFunc("POST /api/song-submissions", func(w http.ResponseWriter, r *http.Request) {
 		var payload songSubmissionRequest
@@ -463,14 +703,19 @@ func main() {
 
 func loadConfig() config {
 	return config{
-		ServiceName: getenv("SERVICE_NAME", "christian-songbook-api"),
-		HTTPAddr:    getenv("HTTP_ADDR", ":8082"),
-		DBHost:      getenv("DB_HOST", "127.0.0.1"),
-		DBPort:      getenv("DB_PORT", "3306"),
-		DBName:      getenv("DB_NAME", "christian_songbook"),
-		DBUser:      getenv("DB_USER", "songbook"),
-		DBPassword:  getenv("DB_PASSWORD", "songbook"),
-		AdminAPIKey: getenv("ADMIN_API_KEY", "123456"),
+		ServiceName:             getenv("SERVICE_NAME", "christian-songbook-api"),
+		HTTPAddr:                getenv("HTTP_ADDR", ":8082"),
+		DBHost:                  getenv("DB_HOST", "127.0.0.1"),
+		DBPort:                  getenv("DB_PORT", "3306"),
+		DBName:                  getenv("DB_NAME", "christian_songbook"),
+		DBUser:                  getenv("DB_USER", "songbook"),
+		DBPassword:              getenv("DB_PASSWORD", "songbook"),
+		AdminAPIKey:             getenv("ADMIN_API_KEY", "123456"),
+		AuthCookieName:          getenv("AUTH_COOKIE_NAME", "christian_songbook_session"),
+		AuthSessionTTLHours:     getenvInt("AUTH_SESSION_TTL_HOURS", 720),
+		OAuthRedirectBaseURL:    strings.TrimRight(getenv("OAUTH_REDIRECT_BASE_URL", "http://localhost:8083"), "/"),
+		GoogleOAuthClientID:     getenv("GOOGLE_OAUTH_CLIENT_ID", ""),
+		GoogleOAuthClientSecret: getenv("GOOGLE_OAUTH_CLIENT_SECRET", ""),
 	}
 }
 
@@ -480,6 +725,18 @@ func getenv(key string, fallback string) string {
 		return fallback
 	}
 	return value
+}
+
+func getenvInt(key string, fallback int) int {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+	parsed, err := strconv.Atoi(value)
+	if err != nil {
+		return fallback
+	}
+	return parsed
 }
 
 func openDB(cfg config) (*sql.DB, error) {
@@ -524,6 +781,7 @@ func writeError(w http.ResponseWriter, status int, message string) {
 }
 
 var errValidation = errors.New("validation failed")
+var errOAuthNotConfigured = errors.New("oauth provider is not configured")
 
 const (
 	minBPM          = 40
@@ -549,6 +807,751 @@ func requireAdmin(w http.ResponseWriter, r *http.Request, cfg config) bool {
 	}
 
 	return true
+}
+
+func startGoogleOAuth(ctx context.Context, db *sql.DB, cfg config, r *http.Request) (string, error) {
+	if cfg.GoogleOAuthClientID == "" || cfg.GoogleOAuthClientSecret == "" || cfg.OAuthRedirectBaseURL == "" {
+		return "", errOAuthNotConfigured
+	}
+
+	state, err := randomURLToken(32)
+	if err != nil {
+		return "", err
+	}
+	redirectPath := safeRedirectPath(r.URL.Query().Get("redirect"))
+
+	const query = `
+INSERT INTO oauth_login_states (
+  provider,
+  state_hash,
+  redirect_path,
+  expires_at
+) VALUES ('google', ?, ?, DATE_ADD(UTC_TIMESTAMP(), INTERVAL 10 MINUTE))`
+	if _, err := db.ExecContext(ctx, query, sha256Hex(state), redirectPath); err != nil {
+		return "", err
+	}
+
+	values := url.Values{}
+	values.Set("client_id", cfg.GoogleOAuthClientID)
+	values.Set("redirect_uri", googleOAuthRedirectURI(cfg))
+	values.Set("response_type", "code")
+	values.Set("scope", "openid email profile")
+	values.Set("state", state)
+	values.Set("access_type", "online")
+	values.Set("prompt", "select_account")
+
+	return "https://accounts.google.com/o/oauth2/v2/auth?" + values.Encode(), nil
+}
+
+func finishGoogleOAuth(ctx context.Context, db *sql.DB, cfg config, w http.ResponseWriter, r *http.Request) (string, error) {
+	if cfg.GoogleOAuthClientID == "" || cfg.GoogleOAuthClientSecret == "" || cfg.OAuthRedirectBaseURL == "" {
+		return "", errOAuthNotConfigured
+	}
+
+	if oauthErr := strings.TrimSpace(r.URL.Query().Get("error")); oauthErr != "" {
+		return "", validationError("google auth failed")
+	}
+	code := strings.TrimSpace(r.URL.Query().Get("code"))
+	state := strings.TrimSpace(r.URL.Query().Get("state"))
+	if code == "" || state == "" {
+		return "", validationError("oauth code and state are required")
+	}
+
+	redirectPath, err := consumeOAuthState(ctx, db, "google", state)
+	if err != nil {
+		return "", err
+	}
+
+	token, err := exchangeGoogleOAuthCode(ctx, cfg, code)
+	if err != nil {
+		return "", err
+	}
+	userInfo, err := fetchGoogleUserInfo(ctx, token.AccessToken)
+	if err != nil {
+		return "", err
+	}
+
+	userID, err := upsertOAuthUser(ctx, db, "google", userInfo)
+	if err != nil {
+		return "", err
+	}
+	if err := createUserSession(ctx, db, cfg, w, userID); err != nil {
+		return "", err
+	}
+
+	return redirectPath, nil
+}
+
+func consumeOAuthState(ctx context.Context, db *sql.DB, provider string, state string) (string, error) {
+	stateHash := sha256Hex(state)
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return "", err
+	}
+	defer tx.Rollback()
+
+	var redirectPath string
+	err = tx.QueryRowContext(
+		ctx,
+		`SELECT COALESCE(redirect_path, '/')
+FROM oauth_login_states
+WHERE provider = ?
+  AND state_hash = ?
+  AND consumed_at IS NULL
+  AND expires_at > UTC_TIMESTAMP()
+LIMIT 1 FOR UPDATE`,
+		provider,
+		stateHash,
+	).Scan(&redirectPath)
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", validationError("oauth state is invalid or expired")
+	}
+	if err != nil {
+		return "", err
+	}
+
+	result, err := tx.ExecContext(
+		ctx,
+		`UPDATE oauth_login_states SET consumed_at = UTC_TIMESTAMP() WHERE provider = ? AND state_hash = ? AND consumed_at IS NULL`,
+		provider,
+		stateHash,
+	)
+	if err != nil {
+		return "", err
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return "", err
+	}
+	if affected == 0 {
+		return "", validationError("oauth state is already consumed")
+	}
+
+	if err := tx.Commit(); err != nil {
+		return "", err
+	}
+
+	return safeRedirectPath(redirectPath), nil
+}
+
+func exchangeGoogleOAuthCode(ctx context.Context, cfg config, code string) (googleTokenResponse, error) {
+	values := url.Values{}
+	values.Set("client_id", cfg.GoogleOAuthClientID)
+	values.Set("client_secret", cfg.GoogleOAuthClientSecret)
+	values.Set("code", code)
+	values.Set("grant_type", "authorization_code")
+	values.Set("redirect_uri", googleOAuthRedirectURI(cfg))
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		"https://oauth2.googleapis.com/token",
+		strings.NewReader(values.Encode()),
+	)
+	if err != nil {
+		return googleTokenResponse{}, err
+	}
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return googleTokenResponse{}, err
+	}
+	defer response.Body.Close()
+
+	body, err := io.ReadAll(io.LimitReader(response.Body, 1<<20))
+	if err != nil {
+		return googleTokenResponse{}, err
+	}
+	if response.StatusCode < 200 || response.StatusCode >= 300 {
+		return googleTokenResponse{}, validationError("google token exchange failed")
+	}
+
+	var token googleTokenResponse
+	if err := json.Unmarshal(body, &token); err != nil {
+		return googleTokenResponse{}, err
+	}
+	if token.AccessToken == "" {
+		return googleTokenResponse{}, validationError("google access token is empty")
+	}
+	return token, nil
+}
+
+func fetchGoogleUserInfo(ctx context.Context, accessToken string) (googleUserInfoResponse, error) {
+	request, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://www.googleapis.com/oauth2/v3/userinfo", nil)
+	if err != nil {
+		return googleUserInfoResponse{}, err
+	}
+	request.Header.Set("Authorization", "Bearer "+accessToken)
+
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return googleUserInfoResponse{}, err
+	}
+	defer response.Body.Close()
+
+	body, err := io.ReadAll(io.LimitReader(response.Body, 1<<20))
+	if err != nil {
+		return googleUserInfoResponse{}, err
+	}
+	if response.StatusCode < 200 || response.StatusCode >= 300 {
+		return googleUserInfoResponse{}, validationError("google userinfo request failed")
+	}
+
+	var userInfo googleUserInfoResponse
+	if err := json.Unmarshal(body, &userInfo); err != nil {
+		return googleUserInfoResponse{}, err
+	}
+	if strings.TrimSpace(userInfo.Subject) == "" {
+		return googleUserInfoResponse{}, validationError("google user subject is empty")
+	}
+	return userInfo, nil
+}
+
+func upsertOAuthUser(ctx context.Context, db *sql.DB, provider string, userInfo googleUserInfoResponse) (int64, error) {
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return 0, err
+	}
+	defer tx.Rollback()
+
+	var userID int64
+	err = tx.QueryRowContext(
+		ctx,
+		`SELECT user_id FROM user_identities WHERE provider = ? AND provider_subject = ? LIMIT 1 FOR UPDATE`,
+		provider,
+		userInfo.Subject,
+	).Scan(&userID)
+	if err != nil && !errors.Is(err, sql.ErrNoRows) {
+		return 0, err
+	}
+
+	displayName := strings.TrimSpace(userInfo.Name)
+	if displayName == "" {
+		displayName = strings.TrimSpace(userInfo.Email)
+	}
+	if displayName == "" {
+		displayName = "User"
+	}
+
+	if errors.Is(err, sql.ErrNoRows) {
+		result, err := tx.ExecContext(
+			ctx,
+			`INSERT INTO users (display_name, email, avatar_url, status) VALUES (?, NULLIF(?, ''), NULLIF(?, ''), 'active')`,
+			displayName,
+			strings.TrimSpace(userInfo.Email),
+			strings.TrimSpace(userInfo.Picture),
+		)
+		if err != nil {
+			return 0, err
+		}
+		userID, err = result.LastInsertId()
+		if err != nil {
+			return 0, err
+		}
+		if _, err := tx.ExecContext(
+			ctx,
+			`INSERT INTO user_identities (user_id, provider, provider_subject, email, email_verified) VALUES (?, ?, ?, NULLIF(?, ''), ?)`,
+			userID,
+			provider,
+			userInfo.Subject,
+			strings.TrimSpace(userInfo.Email),
+			boolParam(userInfo.EmailVerified),
+		); err != nil {
+			return 0, err
+		}
+	} else {
+		if _, err := tx.ExecContext(
+			ctx,
+			`UPDATE users SET display_name = ?, email = NULLIF(?, ''), avatar_url = NULLIF(?, '') WHERE id = ?`,
+			displayName,
+			strings.TrimSpace(userInfo.Email),
+			strings.TrimSpace(userInfo.Picture),
+			userID,
+		); err != nil {
+			return 0, err
+		}
+		if _, err := tx.ExecContext(
+			ctx,
+			`UPDATE user_identities SET email = NULLIF(?, ''), email_verified = ? WHERE user_id = ? AND provider = ? AND provider_subject = ?`,
+			strings.TrimSpace(userInfo.Email),
+			boolParam(userInfo.EmailVerified),
+			userID,
+			provider,
+			userInfo.Subject,
+		); err != nil {
+			return 0, err
+		}
+	}
+
+	if _, err := tx.ExecContext(
+		ctx,
+		`INSERT INTO user_preferences (user_id) VALUES (?) ON DUPLICATE KEY UPDATE user_id = VALUES(user_id)`,
+		userID,
+	); err != nil {
+		return 0, err
+	}
+
+	if err := tx.Commit(); err != nil {
+		return 0, err
+	}
+
+	return userID, nil
+}
+
+func createUserSession(ctx context.Context, db *sql.DB, cfg config, w http.ResponseWriter, userID int64) error {
+	sessionToken, err := randomURLToken(32)
+	if err != nil {
+		return err
+	}
+
+	ttlHours := cfg.AuthSessionTTLHours
+	if ttlHours <= 0 {
+		ttlHours = 720
+	}
+	expiresAt := time.Now().UTC().Add(time.Duration(ttlHours) * time.Hour)
+
+	const query = `
+INSERT INTO user_sessions (
+  user_id,
+  session_token_hash,
+  expires_at
+) VALUES (?, ?, ?)`
+	if _, err := db.ExecContext(ctx, query, userID, sha256Hex(sessionToken), expiresAt); err != nil {
+		return err
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     cfg.AuthCookieName,
+		Value:    sessionToken,
+		Path:     "/",
+		Expires:  expiresAt,
+		MaxAge:   int(time.Until(expiresAt).Seconds()),
+		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
+		Secure:   strings.HasPrefix(cfg.OAuthRedirectBaseURL, "https://"),
+	})
+	return nil
+}
+
+func logoutCurrentUser(ctx context.Context, db *sql.DB, cfg config, w http.ResponseWriter, r *http.Request) error {
+	cookie, err := r.Cookie(cfg.AuthCookieName)
+	if err == nil && strings.TrimSpace(cookie.Value) != "" {
+		if _, err := db.ExecContext(
+			ctx,
+			`UPDATE user_sessions SET revoked_at = UTC_TIMESTAMP() WHERE session_token_hash = ? AND revoked_at IS NULL`,
+			sha256Hex(cookie.Value),
+		); err != nil {
+			return err
+		}
+	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     cfg.AuthCookieName,
+		Value:    "",
+		Path:     "/",
+		Expires:  time.Unix(0, 0),
+		MaxAge:   -1,
+		HttpOnly: true,
+		SameSite: http.SameSiteLaxMode,
+		Secure:   strings.HasPrefix(cfg.OAuthRedirectBaseURL, "https://"),
+	})
+	return nil
+}
+
+func googleOAuthRedirectURI(cfg config) string {
+	return strings.TrimRight(cfg.OAuthRedirectBaseURL, "/") + "/api/auth/google/callback"
+}
+
+func randomURLToken(byteLength int) (string, error) {
+	if byteLength <= 0 {
+		return "", validationError("token length must be positive")
+	}
+	buffer := make([]byte, byteLength)
+	if _, err := rand.Read(buffer); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(buffer), nil
+}
+
+func safeRedirectPath(value string) string {
+	redirectPath := strings.TrimSpace(value)
+	if redirectPath == "" {
+		return "/"
+	}
+	if !strings.HasPrefix(redirectPath, "/") || strings.HasPrefix(redirectPath, "//") {
+		return "/"
+	}
+	return redirectPath
+}
+
+func getMe(ctx context.Context, db *sql.DB, cfg config, r *http.Request) (meResponse, error) {
+	cookie, err := r.Cookie(cfg.AuthCookieName)
+	if err != nil || strings.TrimSpace(cookie.Value) == "" {
+		return meResponse{Authenticated: false}, nil
+	}
+
+	const query = `
+SELECT
+  u.id,
+  u.display_name,
+  COALESCE(u.email, ''),
+  COALESCE(u.avatar_url, ''),
+  COALESCE(p.instrument, 'guitar'),
+  CAST(COALESCE(p.preferred_keys_json, JSON_ARRAY()) AS CHAR),
+  COALESCE(p.capo_enabled, 1),
+  COALESCE(p.max_capo, 5),
+  COALESCE(p.piano_transpose_enabled, 1),
+  COALESCE(p.show_original_key, 1)
+FROM user_sessions s
+JOIN users u ON u.id = s.user_id
+LEFT JOIN user_preferences p ON p.user_id = u.id
+WHERE s.session_token_hash = ?
+  AND s.revoked_at IS NULL
+  AND s.expires_at > UTC_TIMESTAMP()
+  AND u.status = 'active'
+LIMIT 1`
+
+	var user currentUserResponse
+	var preferences userPreferencesResponse
+	var preferredKeysJSON string
+	var capoEnabled int
+	var pianoTransposeEnabled int
+	var showOriginalKey int
+	err = db.QueryRowContext(ctx, query, sha256Hex(cookie.Value)).Scan(
+		&user.ID,
+		&user.DisplayName,
+		&user.Email,
+		&user.AvatarURL,
+		&preferences.Instrument,
+		&preferredKeysJSON,
+		&capoEnabled,
+		&preferences.MaxCapo,
+		&pianoTransposeEnabled,
+		&showOriginalKey,
+	)
+	if errors.Is(err, sql.ErrNoRows) {
+		return meResponse{Authenticated: false}, nil
+	}
+	if err != nil {
+		return meResponse{}, err
+	}
+
+	preferredKeys, err := parsePreferredKeysJSON(preferredKeysJSON)
+	if err != nil {
+		return meResponse{}, err
+	}
+	preferences.PreferredKeys = preferredKeys
+	preferences.CapoEnabled = capoEnabled == 1
+	preferences.PianoTransposeEnabled = pianoTransposeEnabled == 1
+	preferences.ShowOriginalKey = showOriginalKey == 1
+
+	return meResponse{
+		Authenticated: true,
+		User:          &user,
+		Preferences:   &preferences,
+	}, nil
+}
+
+func currentUserIDFromRequest(ctx context.Context, db *sql.DB, cfg config, r *http.Request) (int64, bool, error) {
+	cookie, err := r.Cookie(cfg.AuthCookieName)
+	if err != nil || strings.TrimSpace(cookie.Value) == "" {
+		return 0, false, nil
+	}
+
+	const query = `
+SELECT u.id
+FROM user_sessions s
+JOIN users u ON u.id = s.user_id
+WHERE s.session_token_hash = ?
+  AND s.revoked_at IS NULL
+  AND s.expires_at > UTC_TIMESTAMP()
+  AND u.status = 'active'
+LIMIT 1`
+
+	var userID int64
+	err = db.QueryRowContext(ctx, query, sha256Hex(cookie.Value)).Scan(&userID)
+	if errors.Is(err, sql.ErrNoRows) {
+		return 0, false, nil
+	}
+	if err != nil {
+		return 0, false, err
+	}
+	return userID, true, nil
+}
+
+func updateUserPreferences(
+	ctx context.Context,
+	db *sql.DB,
+	userID int64,
+	payload updateUserPreferencesRequest,
+) (userPreferencesResponse, error) {
+	preferences, err := normalizeUserPreferences(payload)
+	if err != nil {
+		return userPreferencesResponse{}, err
+	}
+
+	preferredKeysJSON, err := json.Marshal(preferences.PreferredKeys)
+	if err != nil {
+		return userPreferencesResponse{}, err
+	}
+
+	const query = `
+INSERT INTO user_preferences (
+  user_id,
+  instrument,
+  preferred_keys_json,
+  capo_enabled,
+  max_capo,
+  piano_transpose_enabled,
+  show_original_key
+) VALUES (?, ?, ?, ?, ?, ?, ?)
+ON DUPLICATE KEY UPDATE
+  instrument = VALUES(instrument),
+  preferred_keys_json = VALUES(preferred_keys_json),
+  capo_enabled = VALUES(capo_enabled),
+  max_capo = VALUES(max_capo),
+  piano_transpose_enabled = VALUES(piano_transpose_enabled),
+  show_original_key = VALUES(show_original_key)`
+
+	_, err = db.ExecContext(
+		ctx,
+		query,
+		userID,
+		preferences.Instrument,
+		string(preferredKeysJSON),
+		boolParam(preferences.CapoEnabled),
+		preferences.MaxCapo,
+		boolParam(preferences.PianoTransposeEnabled),
+		boolParam(preferences.ShowOriginalKey),
+	)
+	if err != nil {
+		return userPreferencesResponse{}, err
+	}
+
+	return preferences, nil
+}
+
+func normalizeUserPreferences(payload updateUserPreferencesRequest) (userPreferencesResponse, error) {
+	instrument := strings.ToLower(strings.TrimSpace(payload.Instrument))
+	if instrument == "" {
+		instrument = "guitar"
+	}
+	switch instrument {
+	case "guitar", "piano", "vocal", "other":
+	default:
+		return userPreferencesResponse{}, validationError("instrument must be guitar, piano, vocal, or other")
+	}
+
+	if payload.MaxCapo < 0 || payload.MaxCapo > 12 {
+		return userPreferencesResponse{}, validationError("maxCapo must be between 0 and 12")
+	}
+
+	preferredKeys := make([]string, 0, len(payload.PreferredKeys))
+	seenKeys := make(map[string]struct{}, len(payload.PreferredKeys))
+	for _, key := range payload.PreferredKeys {
+		normalizedKey := strings.TrimSpace(key)
+		if normalizedKey == "" {
+			continue
+		}
+		if len(normalizedKey) > 16 {
+			return userPreferencesResponse{}, validationError("preferred key is too long")
+		}
+		if _, exists := seenKeys[normalizedKey]; exists {
+			continue
+		}
+		seenKeys[normalizedKey] = struct{}{}
+		preferredKeys = append(preferredKeys, normalizedKey)
+	}
+	if len(preferredKeys) > 12 {
+		return userPreferencesResponse{}, validationError("preferredKeys must contain at most 12 keys")
+	}
+
+	return userPreferencesResponse{
+		Instrument:            instrument,
+		PreferredKeys:         preferredKeys,
+		CapoEnabled:           payload.CapoEnabled,
+		MaxCapo:               payload.MaxCapo,
+		PianoTransposeEnabled: payload.PianoTransposeEnabled,
+		ShowOriginalKey:       payload.ShowOriginalKey,
+	}, nil
+}
+
+func getUserSongPreference(ctx context.Context, db *sql.DB, userID int64, songID string) (userSongPreferenceResponse, error) {
+	normalizedSongID, err := normalizeSongID(songID)
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	const query = `
+SELECT
+  COALESCE(target_key, ''),
+  transpose_steps,
+  capo,
+  COALESCE(note, '')
+FROM user_song_preferences
+WHERE user_id = ? AND song_id = ?
+LIMIT 1`
+
+	preference := userSongPreferenceResponse{SongID: normalizedSongID}
+	var transposeSteps sql.NullInt64
+	var capo sql.NullInt64
+	err = db.QueryRowContext(ctx, query, userID, normalizedSongID).Scan(
+		&preference.TargetKey,
+		&transposeSteps,
+		&capo,
+		&preference.Note,
+	)
+	if errors.Is(err, sql.ErrNoRows) {
+		return preference, nil
+	}
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	preference.TransposeSteps = intPtrFromNull(transposeSteps)
+	preference.Capo = intPtrFromNull(capo)
+	return preference, nil
+}
+
+func updateUserSongPreference(
+	ctx context.Context,
+	db *sql.DB,
+	userID int64,
+	songID string,
+	payload updateUserSongPreferenceRequest,
+) (userSongPreferenceResponse, error) {
+	preference, err := normalizeUserSongPreference(songID, payload)
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	const query = `
+INSERT INTO user_song_preferences (
+  user_id,
+  song_id,
+  target_key,
+  transpose_steps,
+  capo,
+  note
+) VALUES (?, ?, NULLIF(?, ''), ?, ?, NULLIF(?, ''))
+ON DUPLICATE KEY UPDATE
+  target_key = VALUES(target_key),
+  transpose_steps = VALUES(transpose_steps),
+  capo = VALUES(capo),
+  note = VALUES(note)`
+
+	_, err = db.ExecContext(
+		ctx,
+		query,
+		userID,
+		preference.SongID,
+		preference.TargetKey,
+		optionalIntPtrParam(preference.TransposeSteps),
+		optionalIntPtrParam(preference.Capo),
+		preference.Note,
+	)
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	return preference, nil
+}
+
+func deleteUserSongPreference(ctx context.Context, db *sql.DB, userID int64, songID string) (userSongPreferenceResponse, error) {
+	normalizedSongID, err := normalizeSongID(songID)
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	_, err = db.ExecContext(ctx, `DELETE FROM user_song_preferences WHERE user_id = ? AND song_id = ?`, userID, normalizedSongID)
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	return userSongPreferenceResponse{SongID: normalizedSongID}, nil
+}
+
+func normalizeUserSongPreference(
+	songID string,
+	payload updateUserSongPreferenceRequest,
+) (userSongPreferenceResponse, error) {
+	normalizedSongID, err := normalizeSongID(songID)
+	if err != nil {
+		return userSongPreferenceResponse{}, err
+	}
+
+	targetKey := strings.TrimSpace(payload.TargetKey)
+	if len(targetKey) > 16 {
+		return userSongPreferenceResponse{}, validationError("targetKey is too long")
+	}
+
+	if payload.TransposeSteps != nil && (*payload.TransposeSteps < -11 || *payload.TransposeSteps > 11) {
+		return userSongPreferenceResponse{}, validationError("transposeSteps must be between -11 and 11")
+	}
+
+	if payload.Capo != nil && (*payload.Capo < 0 || *payload.Capo > 12) {
+		return userSongPreferenceResponse{}, validationError("capo must be between 0 and 12")
+	}
+
+	note := strings.TrimSpace(payload.Note)
+	if len(note) > 1000 {
+		return userSongPreferenceResponse{}, validationError("note is too long")
+	}
+
+	return userSongPreferenceResponse{
+		SongID:         normalizedSongID,
+		TargetKey:      targetKey,
+		TransposeSteps: payload.TransposeSteps,
+		Capo:           payload.Capo,
+		Note:           note,
+	}, nil
+}
+
+func normalizeSongID(songID string) (string, error) {
+	normalizedSongID := strings.TrimSpace(songID)
+	if normalizedSongID == "" {
+		return "", validationError("song id is required")
+	}
+	if len(normalizedSongID) > 64 {
+		return "", validationError("song id is too long")
+	}
+	return normalizedSongID, nil
+}
+
+func sha256Hex(value string) string {
+	sum := sha256.Sum256([]byte(value))
+	return hex.EncodeToString(sum[:])
+}
+
+func boolParam(value bool) int {
+	if value {
+		return 1
+	}
+	return 0
+}
+
+func optionalIntPtrParam(value *int) any {
+	if value == nil {
+		return nil
+	}
+	return *value
+}
+
+func parsePreferredKeysJSON(value string) ([]string, error) {
+	if strings.TrimSpace(value) == "" {
+		return []string{}, nil
+	}
+
+	var keys []string
+	if err := json.Unmarshal([]byte(value), &keys); err != nil {
+		return nil, err
+	}
+	if keys == nil {
+		return []string{}, nil
+	}
+	return keys, nil
 }
 
 func checkMySQL(ctx context.Context, db *sql.DB) error {

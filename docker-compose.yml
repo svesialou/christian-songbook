@@ -49,6 +49,11 @@ services:
       DB_USER: songbook
       DB_PASSWORD: songbook
       ADMIN_API_KEY: ${ADMIN_API_KEY:-123456}
+      AUTH_COOKIE_NAME: ${AUTH_COOKIE_NAME:-christian_songbook_session}
+      AUTH_SESSION_TTL_HOURS: ${AUTH_SESSION_TTL_HOURS:-720}
+      OAUTH_REDIRECT_BASE_URL: ${OAUTH_REDIRECT_BASE_URL:-http://localhost:8083}
+      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
+      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
     ports:
       - "8082:8082"
     depends_on:

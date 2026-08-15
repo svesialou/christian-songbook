@@ -64,6 +64,28 @@ export type AdminSongSectionUpdatePayload = {
   chords: string;
 };
 
+export type CurrentUser = {
+  id: number;
+  displayName: string;
+  email?: string;
+  avatarUrl?: string;
+};
+
+export type UserPreferences = {
+  instrument: string;
+  preferredKeys: string[];
+  capoEnabled: boolean;
+  maxCapo: number;
+  pianoTransposeEnabled: boolean;
+  showOriginalKey: boolean;
+};
+
+export type CurrentUserState = {
+  authenticated: boolean;
+  user?: CurrentUser;
+  preferences?: UserPreferences;
+};
+
 const API_TIMEOUT_MS = 3500;
 
 const resolveApiBaseUrl = (): string => {
@@ -192,6 +214,28 @@ export const fetchCatalogSnapshot = async (): Promise<CatalogSnapshot | null> =>
     window.clearTimeout(timeout);
   }
 };
+
+export const fetchCurrentUser = (): Promise<CurrentUserState> =>
+  requestJSON<CurrentUserState>('/api/me', {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+export const logoutCurrentUser = (): Promise<{ authenticated: false }> =>
+  requestJSON<{ authenticated: false }>('/api/auth/logout', {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+export const saveUserPreferences = (payload: UserPreferences): Promise<UserPreferences> =>
+  requestJSON<UserPreferences>('/api/me/preferences', {
+    method: 'PUT',
+    credentials: 'include',
+    body: JSON.stringify(payload),
+  });
+
+export const googleAuthStartUrl = (redirectPath: string): string =>
+  apiUrl(`/api/auth/google/start?redirect=${encodeURIComponent(redirectPath)}`);
 
 export const submitSongSubmission = (payload: SongSubmissionPayload): Promise<SongSubmissionCreated> =>
   requestJSON<SongSubmissionCreated>('/api/song-submissions', {
