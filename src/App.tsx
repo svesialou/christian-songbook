@@ -361,6 +361,8 @@ function App() {
     typeof window === 'undefined' ? false : window.matchMedia('(display-mode: standalone)').matches,
   );
   const pullStartY = useRef<number | null>(null);
+  const listScrollYRef = useRef(0);
+  const shouldRestoreListScrollRef = useRef(false);
   const appMenuRef = useRef<HTMLDetailsElement | null>(null);
   const adminStatusTapRef = useRef({ count: 0, lastAt: 0 });
   const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
@@ -762,6 +764,15 @@ function App() {
   }, [playbackPosition]);
 
   useEffect(() => {
+    if (activeSongId || !shouldRestoreListScrollRef.current) return;
+
+    shouldRestoreListScrollRef.current = false;
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: listScrollYRef.current, left: 0, behavior: 'auto' });
+    });
+  }, [activeSongId]);
+
+  useEffect(() => {
     if (isAdminMode && songs.length > 0) {
       saveSongs(songs);
     }
@@ -1043,6 +1054,9 @@ function App() {
   };
 
   const openSong = (songId: string) => {
+    listScrollYRef.current = window.scrollY;
+    shouldRestoreListScrollRef.current = false;
+
     if (listMode === 'live') {
       setLiveSongId(songId);
     }
@@ -1054,6 +1068,7 @@ function App() {
   };
 
   const closeSong = () => {
+    shouldRestoreListScrollRef.current = true;
     setActiveSongId(null);
     updateSongQuery(null);
   };
