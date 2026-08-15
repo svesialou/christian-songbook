@@ -1,4 +1,4 @@
-import { Song, SongOrderedSection, SongPlayback, SongSection } from '../types/song';
+import { Song, SongCollection, SongOrderedSection, SongPlayback, SongSection } from '../types/song';
 
 type CatalogSnapshotResponse = {
   version: string;
@@ -95,6 +95,13 @@ export type CurrentUserState = {
   authenticated: boolean;
   user?: CurrentUser;
   preferences?: UserPreferences;
+};
+
+export type UserLiveState = {
+  collections: SongCollection[];
+  collectionId?: string;
+  songId?: string;
+  songIds: string[];
 };
 
 const API_TIMEOUT_MS = 3500;
@@ -257,6 +264,19 @@ export const logoutCurrentUser = (): Promise<{ authenticated: false }> =>
 
 export const saveUserPreferences = (payload: UserPreferences): Promise<UserPreferences> =>
   requestJSON<UserPreferences>('/api/me/preferences', {
+    method: 'PUT',
+    credentials: 'include',
+    body: JSON.stringify(payload),
+  });
+
+export const fetchUserLiveState = (): Promise<UserLiveState> =>
+  requestJSON<UserLiveState>('/api/me/live-state', {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+export const saveUserLiveState = (payload: UserLiveState): Promise<UserLiveState> =>
+  requestJSON<UserLiveState>('/api/me/live-state', {
     method: 'PUT',
     credentials: 'include',
     body: JSON.stringify(payload),

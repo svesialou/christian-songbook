@@ -26,6 +26,8 @@ Endpoints:
 - `GET /api/me/song-preferences/{id}` - authenticated per-song preference read.
 - `PUT /api/me/song-preferences/{id}` - authenticated per-song preference upsert.
 - `DELETE /api/me/song-preferences/{id}` - authenticated per-song preference reset.
+- `GET /api/me/live-state` - authenticated user live collections and active live queue read.
+- `PUT /api/me/live-state` - authenticated user live collections and active live queue upsert.
 - `GET /api/admin/song-submissions` - admin-only pending song submissions.
 - `PUT /api/admin/song-submissions/{id}` - admin-only edit for pending song submissions.
 - `POST /api/admin/songs` - admin-only direct publish into the current MySQL catalog.
@@ -61,6 +63,7 @@ User account foundation:
 - Session tokens are stored as hashes in MySQL and sent to clients through `HttpOnly` cookies.
 - Saving preferences requires a valid app session; anonymous users receive `401` and can keep using the catalog.
 - Personal song preferences store target key, transpose steps, capo hint, and notes without mutating canonical song rows, and can be reset per song.
+- Live collections require a valid app session and are stored per user in `user_live_state`; anonymous users cannot use Live mode.
 
 Additional environment for upcoming auth implementation:
 - `AUTH_COOKIE_NAME` default `christian_songbook_session`

@@ -239,6 +239,21 @@ type updateUserSongPreferenceRequest struct {
 	Note           string `json:"note"`
 }
 
+type userLiveCollectionResponse struct {
+	ID        string   `json:"id"`
+	Name      string   `json:"name"`
+	SongIDs   []string `json:"songIds"`
+	CreatedAt string   `json:"createdAt"`
+	UpdatedAt string   `json:"updatedAt"`
+}
+
+type userLiveStateResponse struct {
+	Collections  []userLiveCollectionResponse `json:"collections"`
+	CollectionID string                       `json:"collectionId,omitempty"`
+	SongID       string                       `json:"songId,omitempty"`
+	SongIDs      []string                     `json:"songIds"`
+}
+
 type googleTokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
@@ -509,6 +524,58 @@ func main() {
 		}
 
 		writeJSON(w, http.StatusOK, preference)
+	})
+	mux.HandleFunc("GET /api/me/live-state", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to read live state")
+			return
+		}
+
+		state, err := getUserLiveState(r.Context(), db, userID)
+		if err != nil {
+			logger.Error("get user live state failed", "error", err, "user_id", userID)
+			writeError(w, http.StatusInternalServerError, "failed to get live state")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, state)
+	})
+	mux.HandleFunc("PUT /api/me/live-state", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to save live state")
+			return
+		}
+
+		var payload userLiveStateResponse
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid live state payload")
+			return
+		}
+
+		state, err := updateUserLiveState(r.Context(), db, userID, payload)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("update user live state failed", "error", err, "user_id", userID)
+			writeError(w, http.StatusInternalServerError, "failed to update live state")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, state)
 	})
 	mux.HandleFunc("POST /api/song-submissions", func(w http.ResponseWriter, r *http.Request) {
 		var payload songSubmissionRequest
@@ -1577,6 +1644,214 @@ func deleteUserSongPreference(ctx context.Context, db *sql.DB, userID int64, son
 	return userSongPreferenceResponse{SongID: normalizedSongID}, nil
 }
 
+func getUserLiveState(ctx context.Context, db *sql.DB, userID int64) (userLiveStateResponse, error) {
+	const query = `
+SELECT
+  CAST(collections_json AS CHAR),
+  COALESCE(active_collection_id, ''),
+  COALESCE(active_song_id, ''),
+  CAST(song_ids_json AS CHAR)
+FROM user_live_state
+WHERE user_id = ?
+LIMIT 1`
+
+	var collectionsJSON string
+	var songIDsJSON string
+	var state userLiveStateResponse
+	err := db.QueryRowContext(ctx, query, userID).Scan(
+		&collectionsJSON,
+		&state.CollectionID,
+		&state.SongID,
+		&songIDsJSON,
+	)
+	if errors.Is(err, sql.ErrNoRows) {
+		return emptyUserLiveState(), nil
+	}
+	if err != nil {
+		return userLiveStateResponse{}, err
+	}
+
+	if err := json.Unmarshal([]byte(collectionsJSON), &state.Collections); err != nil {
+		return userLiveStateResponse{}, err
+	}
+	if err := json.Unmarshal([]byte(songIDsJSON), &state.SongIDs); err != nil {
+		return userLiveStateResponse{}, err
+	}
+	if state.Collections == nil {
+		state.Collections = []userLiveCollectionResponse{}
+	}
+	if state.SongIDs == nil {
+		state.SongIDs = []string{}
+	}
+	return state, nil
+}
+
+func updateUserLiveState(ctx context.Context, db *sql.DB, userID int64, payload userLiveStateResponse) (userLiveStateResponse, error) {
+	state, err := normalizeUserLiveState(payload)
+	if err != nil {
+		return userLiveStateResponse{}, err
+	}
+
+	collectionsJSON, err := json.Marshal(state.Collections)
+	if err != nil {
+		return userLiveStateResponse{}, err
+	}
+	songIDsJSON, err := json.Marshal(state.SongIDs)
+	if err != nil {
+		return userLiveStateResponse{}, err
+	}
+
+	const query = `
+INSERT INTO user_live_state (
+  user_id,
+  collections_json,
+  active_collection_id,
+  active_song_id,
+  song_ids_json
+) VALUES (?, ?, NULLIF(?, ''), NULLIF(?, ''), ?)
+ON DUPLICATE KEY UPDATE
+  collections_json = VALUES(collections_json),
+  active_collection_id = VALUES(active_collection_id),
+  active_song_id = VALUES(active_song_id),
+  song_ids_json = VALUES(song_ids_json)`
+
+	_, err = db.ExecContext(
+		ctx,
+		query,
+		userID,
+		string(collectionsJSON),
+		state.CollectionID,
+		state.SongID,
+		string(songIDsJSON),
+	)
+	if err != nil {
+		return userLiveStateResponse{}, err
+	}
+
+	return state, nil
+}
+
+func normalizeUserLiveState(payload userLiveStateResponse) (userLiveStateResponse, error) {
+	if len(payload.Collections) > 50 {
+		return userLiveStateResponse{}, validationError("live collections must contain at most 50 items")
+	}
+
+	collectionIDs := make(map[string]struct{}, len(payload.Collections))
+	collections := make([]userLiveCollectionResponse, 0, len(payload.Collections))
+	for _, collection := range payload.Collections {
+		id := strings.TrimSpace(collection.ID)
+		if id == "" {
+			return userLiveStateResponse{}, validationError("live collection id is required")
+		}
+		if len(id) > 128 {
+			return userLiveStateResponse{}, validationError("live collection id is too long")
+		}
+		if _, exists := collectionIDs[id]; exists {
+			continue
+		}
+		collectionIDs[id] = struct{}{}
+
+		name := strings.TrimSpace(collection.Name)
+		if name == "" {
+			return userLiveStateResponse{}, validationError("live collection name is required")
+		}
+		if tooLong(name, 120) {
+			return userLiveStateResponse{}, validationError("live collection name is too long")
+		}
+
+		songIDs, err := normalizeLiveSongIDs(collection.SongIDs)
+		if err != nil {
+			return userLiveStateResponse{}, err
+		}
+		createdAt, err := normalizeOptionalTimestamp(collection.CreatedAt)
+		if err != nil {
+			return userLiveStateResponse{}, err
+		}
+		updatedAt, err := normalizeOptionalTimestamp(collection.UpdatedAt)
+		if err != nil {
+			return userLiveStateResponse{}, err
+		}
+
+		collections = append(collections, userLiveCollectionResponse{
+			ID:        id,
+			Name:      name,
+			SongIDs:   songIDs,
+			CreatedAt: createdAt,
+			UpdatedAt: updatedAt,
+		})
+	}
+
+	songIDs, err := normalizeLiveSongIDs(payload.SongIDs)
+	if err != nil {
+		return userLiveStateResponse{}, err
+	}
+
+	collectionID := strings.TrimSpace(payload.CollectionID)
+	if len(collectionID) > 128 {
+		return userLiveStateResponse{}, validationError("live collection id is too long")
+	}
+	if collectionID != "" {
+		if _, exists := collectionIDs[collectionID]; !exists {
+			collectionID = ""
+		}
+	}
+
+	songID := strings.TrimSpace(payload.SongID)
+	if songID != "" {
+		normalizedSongID, err := normalizeSongID(songID)
+		if err != nil {
+			return userLiveStateResponse{}, err
+		}
+		songID = normalizedSongID
+		if !containsString(songIDs, songID) {
+			songID = ""
+		}
+	}
+
+	return userLiveStateResponse{
+		Collections:  collections,
+		CollectionID: collectionID,
+		SongID:       songID,
+		SongIDs:      songIDs,
+	}, nil
+}
+
+func normalizeLiveSongIDs(values []string) ([]string, error) {
+	if len(values) > 200 {
+		return nil, validationError("live song ids must contain at most 200 items")
+	}
+
+	songIDs := make([]string, 0, len(values))
+	seen := make(map[string]struct{}, len(values))
+	for _, value := range values {
+		songID, err := normalizeSongID(value)
+		if err != nil {
+			return nil, err
+		}
+		if _, exists := seen[songID]; exists {
+			continue
+		}
+		seen[songID] = struct{}{}
+		songIDs = append(songIDs, songID)
+	}
+	return songIDs, nil
+}
+
+func normalizeOptionalTimestamp(value string) (string, error) {
+	normalized := strings.TrimSpace(value)
+	if len(normalized) > 64 {
+		return "", validationError("live timestamp is too long")
+	}
+	return normalized, nil
+}
+
+func emptyUserLiveState() userLiveStateResponse {
+	return userLiveStateResponse{
+		Collections: []userLiveCollectionResponse{},
+		SongIDs:     []string{},
+	}
+}
+
 func normalizeUserSongPreference(
 	songID string,
 	payload updateUserSongPreferenceRequest,
@@ -1634,6 +1909,15 @@ func boolParam(value bool) int {
 		return 1
 	}
 	return 0
+}
+
+func containsString(values []string, needle string) bool {
+	for _, value := range values {
+		if value == needle {
+			return true
+		}
+	}
+	return false
 }
 
 func optionalIntPtrParam(value *int) any {

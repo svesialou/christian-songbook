@@ -37,13 +37,16 @@ import {
   fetchCatalogSnapshot,
   fetchCurrentUser,
   fetchPendingSongSubmissions,
+  fetchUserLiveState,
   googleAuthStartUrl,
   logoutCurrentUser,
   rejectSongSubmission,
+  saveUserLiveState,
   saveUserPreferences,
   submitSongEditSubmission,
   updateAdminSong,
   updateSongSubmission,
+  UserLiveState,
 } from './lib/catalogApi';
 import AdminPanel, { AdminRoute } from './components/AdminPanel';
 import SongList from './components/SongList';
@@ -79,6 +82,7 @@ const MIN_BEATS_PER_LINE = 1;
 const MAX_BEATS_PER_LINE = 16;
 const MAX_INTRO_BEATS = 64;
 const DEFAULT_ADMIN_API_KEY = '123456';
+const LIVE_LOGIN_MESSAGE = 'Live-сборники доступны после входа. Так они будут привязаны к аккаунту и откроются на другом телефоне.';
 const KNOWN_SECTION_TYPES: SongOrderedSection['sectionType'][] = [
   'intro',
   'verse',
@@ -111,6 +115,29 @@ const isAdminRoute = () => {
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
   return pathname === '/admin' || pathname.startsWith('/admin/');
 };
+
+const normalizeUserLiveStateForCatalog = (state: UserLiveState, catalogSongs: Song[]): UserLiveState => {
+  const catalogSongIds = new Set(catalogSongs.map((song) => song.id));
+  const collections = (state.collections ?? []).map((collection) => ({
+    ...collection,
+    songIds: collection.songIds.filter((songId) => catalogSongIds.has(songId)),
+  }));
+  const songIds = (state.songIds ?? []).filter((songId) => catalogSongIds.has(songId));
+  const collectionId =
+    state.collectionId && collections.some((collection) => collection.id === state.collectionId)
+      ? state.collectionId
+      : undefined;
+  const songId = state.songId && songIds.includes(state.songId) ? state.songId : songIds[0] ?? undefined;
+
+  return {
+    collections,
+    collectionId,
+    songId,
+    songIds,
+  };
+};
+
+const liveStateSnapshot = (state: UserLiveState): string => JSON.stringify(state);
 
 const readAdminRoute = (): AdminRoute => {
   if (typeof window === 'undefined') return { page: 'home' };
@@ -474,6 +501,7 @@ function App() {
   const [syncState, setSyncState] = useState<SyncState>('idle');
   const [account, setAccount] = useState<CurrentUserState | null>(null);
   const [isAccountLoading, setIsAccountLoading] = useState(false);
+  const [isUserLiveStateReady, setIsUserLiveStateReady] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isStandalone, setIsStandalone] = useState(() =>
     typeof window === 'undefined' ? false : window.matchMedia('(display-mode: standalone)').matches,
@@ -483,6 +511,7 @@ function App() {
   const shouldRestoreListScrollRef = useRef(false);
   const appMenuRef = useRef<HTMLDetailsElement | null>(null);
   const adminStatusTapRef = useRef({ count: 0, lastAt: 0 });
+  const lastLiveStateSnapshotRef = useRef('');
   const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
   const [pullDistance, setPullDistance] = useState(0);
   const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
@@ -950,6 +979,71 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (isLiveListPreview) return;
+    if (!account) return;
+
+    lastLiveStateSnapshotRef.current = '';
+
+    if (!account.authenticated) {
+      setIsUserLiveStateReady(false);
+      setLiveCollections([]);
+      setLiveCollectionId(null);
+      setLiveSongId(null);
+      setLiveSongIds([]);
+      if (listMode === 'live') setListMode('all');
+      return;
+    }
+
+    let cancelled = false;
+    setIsUserLiveStateReady(false);
+
+    const loadUserLiveState = async () => {
+      try {
+        const state = normalizeUserLiveStateForCatalog(await fetchUserLiveState(), songs);
+        if (cancelled) return;
+        setLiveCollections(state.collections);
+        setLiveCollectionId(state.collectionId ?? null);
+        setLiveSongIds(state.songIds);
+        setLiveSongId(state.songId ?? null);
+        lastLiveStateSnapshotRef.current = liveStateSnapshot(state);
+        setIsUserLiveStateReady(true);
+      } catch (err) {
+        if (cancelled) return;
+        setIsUserLiveStateReady(false);
+        setError(err instanceof Error ? err.message : 'Не удалось загрузить live-сборники аккаунта.');
+      }
+    };
+
+    void loadUserLiveState();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [account?.authenticated, account?.user?.id, isLiveListPreview, songs]);
+
+  useEffect(() => {
+    if (isLiveListPreview || !account?.authenticated || !isUserLiveStateReady) return;
+
+    const state = normalizeUserLiveStateForCatalog(
+      {
+        collections: liveCollections,
+        collectionId: liveCollectionId ?? undefined,
+        songId: liveSongId ?? undefined,
+        songIds: liveSongIds,
+      },
+      songs,
+    );
+    const snapshot = liveStateSnapshot(state);
+    if (snapshot === lastLiveStateSnapshotRef.current) return;
+
+    lastLiveStateSnapshotRef.current = snapshot;
+    void saveUserLiveState(state).catch((err) => {
+      lastLiveStateSnapshotRef.current = '';
+      setError(err instanceof Error ? err.message : 'Не удалось сохранить live-сборники аккаунта.');
+    });
+  }, [account?.authenticated, isLiveListPreview, isUserLiveStateReady, liveCollectionId, liveCollections, liveSongId, liveSongIds, songs]);
+
+  useEffect(() => {
     saveRecentSongs(recentSongIds);
   }, [recentSongIds]);
 
@@ -959,24 +1053,24 @@ function App() {
   }, [collections, isLiveListPreview]);
 
   useEffect(() => {
-    if (isLiveListPreview) return;
+    if (isLiveListPreview || account?.authenticated) return;
     saveLiveCollections(liveCollections);
-  }, [isLiveListPreview, liveCollections]);
+  }, [account?.authenticated, isLiveListPreview, liveCollections]);
 
   useEffect(() => {
-    if (isLiveListPreview) return;
+    if (isLiveListPreview || account?.authenticated) return;
     saveLiveCollectionId(liveCollectionId);
-  }, [liveCollectionId, isLiveListPreview]);
+  }, [account?.authenticated, liveCollectionId, isLiveListPreview]);
 
   useEffect(() => {
-    if (isLiveListPreview) return;
+    if (isLiveListPreview || account?.authenticated) return;
     saveLiveSongId(liveSongId);
-  }, [liveSongId, isLiveListPreview]);
+  }, [account?.authenticated, liveSongId, isLiveListPreview]);
 
   useEffect(() => {
-    if (isLiveListPreview) return;
+    if (isLiveListPreview || account?.authenticated) return;
     saveLiveSongIds(liveSongIds);
-  }, [liveSongIds, isLiveListPreview]);
+  }, [account?.authenticated, liveSongIds, isLiveListPreview]);
 
   useEffect(() => {
     if (isLiveListPreview) return;
@@ -1158,7 +1252,22 @@ function App() {
   );
   const liveSourceSongs = songs;
 
+  const requireLiveAccount = () => {
+    if (isLiveListPreview) return true;
+    if (account?.authenticated && isUserLiveStateReady) return true;
+    if (account?.authenticated) {
+      setNotice('Загружаю live-сборники аккаунта...');
+      setError(null);
+      return false;
+    }
+    setNotice(isAccountLoading || !account ? 'Проверяю вход в аккаунт...' : LIVE_LOGIN_MESSAGE);
+    setError(null);
+    setIsAppMenuOpen(true);
+    return false;
+  };
+
   const openLiveMode = () => {
+    if (!requireLiveAccount()) return;
     const catalogSongIds = new Set(songs.map((song) => song.id));
     const nextLiveSongIds = liveSongIds.filter((songId) => catalogSongIds.has(songId));
     setLiveCollectionId(null);
@@ -1171,6 +1280,7 @@ function App() {
   };
 
   const selectLiveCollection = (collectionId: string) => {
+    if (!requireLiveAccount()) return;
     const collection = liveCollections.find((item) => item.id === collectionId);
     if (!collection) return;
 
@@ -1186,6 +1296,7 @@ function App() {
   };
 
   const createLiveCollection = () => {
+    if (!requireLiveAccount()) return;
     if (typeof window === 'undefined') return;
     const name = window.prompt('Название live-сборника')?.trim();
     if (!name) return;
@@ -1206,6 +1317,7 @@ function App() {
   };
 
   const addLiveSong = (songId: string) => {
+    if (!requireLiveAccount()) return;
     if (!liveSourceSongs.some((song) => song.id === songId)) return;
 
     setLiveSongIds((current) => (current.includes(songId) ? current : [...current, songId]));
@@ -1213,12 +1325,14 @@ function App() {
   };
 
   const removeLiveSong = (songId: string) => {
+    if (!requireLiveAccount()) return;
     const nextLiveSongIds = liveSongIds.filter((item) => item !== songId);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId((current) => (current === songId ? nextLiveSongIds[0] ?? null : current));
   };
 
   const resetLiveSongs = () => {
+    if (!requireLiveAccount()) return;
     setLiveSongIds([]);
     setLiveSongId(null);
   };
@@ -1249,11 +1363,13 @@ function App() {
   };
 
   const shareLive = () => {
+    if (!requireLiveAccount()) return;
     const title = liveCollection ? `Live: ${liveCollection.name}` : 'Live';
     void shareText(title, buildCollectionShareText(title, liveSongIds, songs));
   };
 
   const moveLiveSong = (songId: string, direction: -1 | 1) => {
+    if (!requireLiveAccount()) return;
     setLiveSongIds((current) => {
       const index = current.indexOf(songId);
       const nextIndex = index + direction;

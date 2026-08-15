@@ -25,6 +25,7 @@
 - Hide songs with soft delete by changing `songs.status` away from `published`; do not physically delete song rows in normal admin flows.
 - Keep transposition, BPM, playback, and view settings scoped to the current song when the UI behavior is song-specific.
 - Keep live collections separate from normal user collections unless the user explicitly asks to merge those concepts.
+- Live collections require an authenticated user and are stored in `user_live_state`, not only in local browser storage.
 
 ## UI style
 - Style direction: calm, readable, service-ready, mobile-first.
