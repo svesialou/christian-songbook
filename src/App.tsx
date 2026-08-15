@@ -72,6 +72,11 @@ const MAX_BEATS_PER_LINE = 16;
 const MAX_INTRO_BEATS = 64;
 const DEFAULT_ADMIN_API_KEY = '123456';
 
+const shouldPrefillDefaultAdminKey = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+};
+
 const readSearchParam = (key: string) => {
   if (typeof window === 'undefined') return null;
   return new URLSearchParams(window.location.search).get(key);
@@ -388,7 +393,9 @@ function App() {
   const [approvingSubmissionId, setApprovingSubmissionId] = useState<number | null>(null);
   const [rejectingSubmissionId, setRejectingSubmissionId] = useState<number | null>(null);
   const [savingAdminSongId, setSavingAdminSongId] = useState<string | null>(null);
-  const [adminApiKey, setAdminApiKey] = useState(() => (isAdminMode ? DEFAULT_ADMIN_API_KEY : ''));
+  const [adminApiKey, setAdminApiKey] = useState(() =>
+    isAdminMode && shouldPrefillDefaultAdminKey() ? DEFAULT_ADMIN_API_KEY : '',
+  );
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
 
