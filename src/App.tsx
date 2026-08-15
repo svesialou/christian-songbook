@@ -22,7 +22,7 @@ import {
   saveSettings,
   saveSongs,
 } from './lib/storage';
-import { sampleCatalog } from './data/sampleCatalog';
+import { bundledCatalog } from './data/bundledCatalog.generated';
 import { songCategories } from './data/songCategories';
 import {
   AdminSongUpdatePayload,
@@ -44,7 +44,7 @@ import SongView from './components/SongView';
 import SettingsPanel from './components/SettingsPanel';
 
 type SongListMode = 'all' | 'recent' | 'collection' | 'live';
-type CatalogSource = 'embedded' | 'local' | 'mysql';
+type CatalogSource = 'bundled' | 'local' | 'mysql';
 type SyncState = 'idle' | 'syncing' | 'success' | 'failed';
 type StatusTone = 'fresh' | 'syncing' | 'stale' | 'offline';
 type CollectionSheetState = { kind: 'create'; songId?: string } | { kind: 'pick'; songId: string } | null;
@@ -60,10 +60,11 @@ const DEFAULT_CATEGORY = 'Общее';
 const LIVE_PREVIEW_COLLECTION: SongCollection = {
   id: 'collection-live-preview',
   name: 'Live команда',
-  songIds: ['song-1', 'song-2'],
+  songIds: ['notion-youth-1', 'notion-youth-2'],
   createdAt: '2026-08-13T00:00:00.000Z',
   updatedAt: '2026-08-13T00:00:00.000Z',
 };
+const LIVE_PREVIEW_FIRST_SONG_ID = LIVE_PREVIEW_COLLECTION.songIds[0] ?? null;
 const MIN_BPM = 40;
 const MAX_BPM = 220;
 const MIN_BEATS_PER_LINE = 1;
@@ -276,6 +277,11 @@ const normalizeCatalog = (songs: Song[]) =>
     playback: normalizeSongPlayback(song.playback),
     verses: song.verses ?? [],
   }));
+const bundledSongs = normalizeCatalog(bundledCatalog);
+const isDemoCatalog = (songs: Song[]) => {
+  const ids = new Set(songs.map((song) => song.id));
+  return songs.length === 2 && ids.has('song-1') && ids.has('song-2');
+};
 
 const formatDateTime = (value: string | null | undefined) => {
   if (!value) return 'ещё не обновлялся';
@@ -297,15 +303,18 @@ const SearchHint = ({ query, count }: { query: string; count: number }) => {
 const statusTone = (isOnline: boolean, source: CatalogSource, state: SyncState): StatusTone => {
   if (!isOnline) return 'offline';
   if (state === 'syncing') return 'syncing';
-  if (state === 'success' || source === 'mysql') return 'fresh';
+  if (state === 'failed') return 'stale';
+  if (state === 'success' || source === 'mysql' || source === 'local' || source === 'bundled') return 'fresh';
   return 'stale';
 };
 
 const statusLabel = (tone: StatusTone, source: CatalogSource, meta: CatalogSnapshotMeta | null) => {
-  if (tone === 'fresh') return `Online, каталог свежий${meta ? `, версия ${meta.version}` : ''}`;
+  if (tone === 'fresh' && source === 'mysql') return `Online, каталог свежий${meta ? `, версия ${meta.version}` : ''}`;
+  if (tone === 'fresh' && source === 'local') return 'Online, локальный сборник доступен';
+  if (tone === 'fresh' && source === 'bundled') return 'Online, встроенный сборник доступен';
   if (tone === 'syncing') return 'Online, обновление каталога';
   if (tone === 'offline') return 'Offline, используется локальный каталог';
-  if (source === 'embedded') return 'Online, встроенный каталог';
+  if (source === 'bundled') return 'Online, встроенный сборник';
   return 'Online, локальный каталог';
 };
 
@@ -318,7 +327,7 @@ function App() {
   const [isAutoPlaybackPreview] = useState(() => readSearchParam('auto') === '1');
   const [isLiveListPreview] = useState(() => readSearchParam('livePreview') === '1');
   const [isLiveModePreview] = useState(() => readSearchParam('liveMode') === '1');
-  const [songs, setSongs] = useState<Song[]>(() => normalizeCatalog(sampleCatalog));
+  const [songs, setSongs] = useState<Song[]>(() => bundledSongs);
   const [recentSongIds, setRecentSongIds] = useState<string[]>([]);
   const [collections, setCollections] = useState<SongCollection[]>(() =>
     readSearchParam('livePreview') === '1' ? [LIVE_PREVIEW_COLLECTION] : [],
@@ -327,10 +336,10 @@ function App() {
     readSearchParam('livePreview') === '1' ? LIVE_PREVIEW_COLLECTION.id : null,
   );
   const [liveSongId, setLiveSongId] = useState<string | null>(() =>
-    readSearchParam('livePreview') === '1' && readSearchParam('liveMode') === '1' ? 'song-1' : null,
+    readSearchParam('livePreview') === '1' && readSearchParam('liveMode') === '1' ? LIVE_PREVIEW_FIRST_SONG_ID : null,
   );
   const [liveSongIds, setLiveSongIds] = useState<string[]>(() =>
-    readSearchParam('livePreview') === '1' && readSearchParam('liveMode') === '1' ? ['song-1'] : [],
+    readSearchParam('livePreview') === '1' && readSearchParam('liveMode') === '1' ? LIVE_PREVIEW_COLLECTION.songIds : [],
   );
   const [playbackPosition, setPlaybackPosition] = useState<SongPlaybackPosition | null>(null);
   const [settings, setSettings] = useState<SongSettings>(defaultSettings());
@@ -355,7 +364,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine));
-  const [catalogSource, setCatalogSource] = useState<CatalogSource>('embedded');
+  const [catalogSource, setCatalogSource] = useState<CatalogSource>('bundled');
   const [catalogMeta, setCatalogMeta] = useState<CatalogSnapshotMeta | null>(null);
   const [syncState, setSyncState] = useState<SyncState>('idle');
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -387,6 +396,7 @@ function App() {
     if (!snapshot || snapshot.songs.length === 0) return false;
 
     const normalizedSongs = normalizeCatalog(snapshot.songs);
+    if (isDemoCatalog(normalizedSongs)) return false;
     const nextMeta: CatalogSnapshotMeta = {
       version: snapshot.version,
       publishedAt: snapshot.publishedAt,
@@ -623,13 +633,18 @@ function App() {
         loadSettings(),
         loadCatalogMeta(),
       ]);
-      const baseCatalog = normalizeCatalog(loadedSongs.length > 0 ? loadedSongs : sampleCatalog);
+      const loadedCatalog = normalizeCatalog(loadedSongs);
+      const hasLocalCatalog = loadedCatalog.length > 0 && !isDemoCatalog(loadedCatalog);
+      const baseCatalog = hasLocalCatalog ? loadedCatalog : bundledSongs;
       const baseCollections = isLiveListPreview ? [LIVE_PREVIEW_COLLECTION] : loadedCollections;
 
       if (cancelled) return;
       setSongs(baseCatalog);
-      setCatalogSource(loadedSongs.length > 0 ? 'local' : 'embedded');
+      setCatalogSource(hasLocalCatalog ? 'local' : 'bundled');
       setCatalogMeta(loadedCatalogMeta);
+      if (!hasLocalCatalog) {
+        void saveSongs(baseCatalog);
+      }
       setRecentSongIds(loadedRecentSongs);
       setCollections(baseCollections);
       setLiveCollectionId(
@@ -642,13 +657,13 @@ function App() {
       setLiveSongId(
         isLiveListPreview
           ? isLiveModePreview
-            ? 'song-1'
+            ? LIVE_PREVIEW_FIRST_SONG_ID
             : null
           : baseCatalog.some((song) => song.id === loadedLiveSongId)
             ? loadedLiveSongId
             : null,
       );
-      setLiveSongIds(isLiveListPreview ? (isLiveModePreview ? ['song-1'] : []) : loadedLiveSongIds);
+      setLiveSongIds(isLiveListPreview ? (isLiveModePreview ? LIVE_PREVIEW_COLLECTION.songIds : []) : loadedLiveSongIds);
       if (isLiveListPreview) {
         setListMode(isLiveModePreview ? 'live' : 'collection');
         setActiveCollectionId(isLiveModePreview ? null : LIVE_PREVIEW_COLLECTION.id);
@@ -667,7 +682,7 @@ function App() {
       if (cancelled) return;
 
       const applied = await applyCatalogSnapshot(snapshot);
-      setSyncState(applied ? 'success' : 'failed');
+      setSyncState(applied ? 'success' : 'idle');
     };
 
     load();

@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "vite",
     "lint": "tsc --noEmit",
-    "test": "node --check scripts/generate-sw.mjs && node --check scripts/import-legacy-songs.mjs && node --check scripts/generate-staging-submissions-sql.mjs && node --check scripts/extract-notion-songbook.mjs",
+    "test": "node --check scripts/generate-sw.mjs && node --check scripts/import-legacy-songs.mjs && node --check scripts/generate-staging-submissions-sql.mjs && node --check scripts/extract-notion-songbook.mjs && node --check scripts/generate-bundled-catalog.mjs",
     "seed:legacy:example": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.example.json",
     "seed:legacy:json": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.dump.json --out src/data/importedCatalog.generated.json",
     "seed:legacy:sql": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.dump.json --sql-out migrations/003_legacy_catalog_seed.generated.sql",
     "seed:staging:submissions-sql": "node scripts/generate-staging-submissions-sql.mjs --sql-out seed/holychords/submissions.generated.sql",
     "seed:notion-youth:extract": "node scripts/extract-notion-songbook.mjs --input seed/notion-youth-songbook/songs.staging.json --output seed/notion-youth-songbook/songs.staging.json",
+    "seed:notion-youth:bundled-catalog": "node scripts/generate-bundled-catalog.mjs",
     "seed:notion-youth:submissions-sql": "node scripts/generate-staging-submissions-sql.mjs --input seed/notion-youth-songbook/songs.staging.json --marker notion-youth-songbook-2026-08-14 --sql-out seed/notion-youth-songbook/submissions.generated.sql",
     "build": "tsc && vite build && node scripts/generate-sw.mjs",
     "preview": "vite preview"

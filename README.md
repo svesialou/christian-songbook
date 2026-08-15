@@ -93,9 +93,9 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 
 Важно:
 - Backend читает опубликованный каталог из MySQL.
-- Fresh MySQL volume получает initial catalog через `docker-entrypoint-initdb.d`; для существующего volume использовать `make db-migrate`.
+- Fresh MySQL volume получает schema через `docker-entrypoint-initdb.d`; каталог наполняется через admin/import seed flow.
 - Admin mutation API сейчас защищён `ADMIN_API_KEY`; полноценные users/roles/audit остаются отдельным hardening-шагом.
-- Frontend обновляет локальный snapshot из `/api/catalog/snapshot`, но при недоступности backend продолжает читать локальный или встроенный каталог.
+- Frontend стартует со встроенного bundled-каталога, обновляет локальный snapshot из `/api/catalog/snapshot`, но при недоступности backend продолжает читать последний локальный snapshot или bundled-каталог.
 - Недавние песни и пользовательские сборники сохраняются локально и доступны рядом со списком.
 - В UI есть компактный индикатор статуса каталога; обновление каталога для обычного пользователя делается жестом pull-to-refresh, import/export не показываются.
 - В панели музыканта есть локальные view presets `Lead`, `Singer`, `Chords` как foundation для будущих ролей команды без server-side users/live sync.
@@ -116,6 +116,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
 - `scripts/generate-sw.mjs` после `vite build` подставляет в `dist/sw.js` реальные hashed assets из сборки.
 - `scripts/send-telegram-screenshots.sh` отправляет screenshot-файлы в Telegram task chat, если настроены `CODEX_TELEGRAM_BOT_TOKEN` и `CODEX_TELEGRAM_CHAT_ID`.
 - API-запросы не кэшируются service worker-ом: каталог сохраняется отдельно в IndexedDB.
+- Bundled offline-каталог генерируется командой `npm run seed:notion-youth:bundled-catalog` из `seed/notion-youth-songbook/songs.staging.json`.
 - Static assets в production-контейнере отдаются Go web runtime с long-cache, а `sw.js` и manifest — без долгого кэша.
 
 ## Запуск как production через Docker
