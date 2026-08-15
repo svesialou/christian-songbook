@@ -13,9 +13,11 @@
     "seed:staging:submissions-sql": "node scripts/generate-staging-submissions-sql.mjs --sql-out seed/holychords/submissions.generated.sql",
     "seed:notion-youth:extract": "node scripts/extract-notion-songbook.mjs --input seed/notion-youth-songbook/songs.staging.json --output seed/notion-youth-songbook/songs.staging.json",
     "seed:notion-youth:bundled-catalog": "node scripts/generate-bundled-catalog.mjs",
+    "seed:notion-youth:published-sql": "node scripts/generate-bundled-catalog.mjs --sql-out seed/notion-youth-songbook/catalog.generated.sql",
     "seed:notion-youth:submissions-sql": "node scripts/generate-staging-submissions-sql.mjs --input seed/notion-youth-songbook/songs.staging.json --marker songbook-staging-2026-08-14 --sql-out seed/notion-youth-songbook/submissions.generated.sql",
     "seed:songbook:extract": "npm run seed:notion-youth:extract",
     "seed:songbook:bundled-catalog": "npm run seed:notion-youth:bundled-catalog",
+    "seed:songbook:published-sql": "npm run seed:notion-youth:published-sql",
     "seed:songbook:submissions-sql": "npm run seed:notion-youth:submissions-sql",
     "build": "tsc && vite build && node scripts/generate-sw.mjs",
     "preview": "vite preview"

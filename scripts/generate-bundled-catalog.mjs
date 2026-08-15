@@ -5,6 +5,7 @@ import { uniqueSongSlug } from './lib/song-slug.mjs';
 
 const DEFAULT_INPUT = 'seed/notion-youth-songbook/songs.staging.json';
 const DEFAULT_OUTPUT = 'src/data/bundledCatalog.generated.ts';
+const DEFAULT_VERSION = '2026.08.15.songbook-lead-sheet';
 
 const args = parseArgs(process.argv.slice(2));
 const input = args.input || DEFAULT_INPUT;
@@ -33,12 +34,19 @@ await writeFile(
 
 process.stdout.write(`Generated ${songs.length} bundled songs into ${output}\n`);
 
+if (args.sqlOut) {
+  await writeFile(args.sqlOut, buildPublishedCatalogSQL(songs, args.version || DEFAULT_VERSION), 'utf8');
+  process.stdout.write(`Generated ${songs.length} published songs SQL into ${args.sqlOut}\n`);
+}
+
 function parseArgs(items) {
   const parsed = {};
   for (let index = 0; index < items.length; index += 1) {
     const item = items[index];
     if (item === '--input') parsed.input = items[++index];
     else if (item === '--output') parsed.output = items[++index];
+    else if (item === '--sql-out') parsed.sqlOut = items[++index];
+    else if (item === '--version') parsed.version = items[++index];
     else throw new Error(`Unknown argument: ${item}`);
   }
   return parsed;
@@ -55,7 +63,7 @@ function toSong(song, index) {
     number,
     title,
     category: categorizeSong(song, stringValue(song.category) || 'Разное'),
-    defaultKey: stringValue(song.defaultKey) || inferDefaultKey(leadSheet) || undefined,
+    defaultKey: stringValue(song.defaultKey) || inferDefaultKey(leadSheet) || 'C',
     leadSheet,
     playback: undefined,
     sections: sections.ordered,
@@ -205,4 +213,38 @@ function splitChordLine(line) {
 function inferDefaultKey(leadSheet) {
   const token = leadSheet.split(/\s+/).find((item) => /^[A-Ha-h][#b]?m?$/.test(item.replace(/[|,]/g, '')));
   return token ? token.replace(/[|,]/g, '') : '';
+}
+
+function buildPublishedCatalogSQL(items, version) {
+  const lines = [
+    'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;',
+    'START TRANSACTION;',
+    '',
+    'INSERT INTO catalog_versions (version, published_at, is_current, notes)',
+    `VALUES (${sql(version)}, UTC_TIMESTAMP(), 1, 'Published Notion songbook lead sheet seed')`,
+    'ON DUPLICATE KEY UPDATE',
+    '  published_at = VALUES(published_at),',
+    '  is_current = VALUES(is_current),',
+    '  notes = VALUES(notes);',
+    '',
+    `SET @catalog_version_id := (SELECT id FROM catalog_versions WHERE version = ${sql(version)} LIMIT 1);`,
+    'UPDATE catalog_versions SET is_current = 0 WHERE id <> @catalog_version_id;',
+    'DELETE FROM songs WHERE catalog_version_id = @catalog_version_id;',
+    '',
+  ];
+
+  for (const song of items) {
+    lines.push(
+      'INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, bpm, beats_per_line, intro_beats, status)',
+      `VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, NULL, NULL, NULL, 'published');`,
+      '',
+    );
+  }
+
+  lines.push('COMMIT;', '');
+  return lines.join('\n');
+}
+
+function sql(value) {
+  return `'${String(value ?? '').replaceAll('\\', '\\\\').replaceAll("'", "''")}'`;
 }
