@@ -375,6 +375,10 @@ button:disabled {
   padding: clamp(14px, 4vw, 24px);
 }
 
+.search-field {
+  position: relative;
+}
+
 .search {
   width: 100%;
   min-height: 54px;
@@ -388,6 +392,28 @@ button:disabled {
   font-size: 17px;
 }
 
+.search-field .search {
+  padding-right: 54px;
+}
+
+.search-clear {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 15px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 26px;
+  font-weight: 850;
+  line-height: 1;
+}
+
 .search::placeholder {
   color: color-mix(in srgb, var(--muted) 78%, transparent);
 }
@@ -395,6 +421,9 @@ button:disabled {
 .search:focus,
 .toolbar-button:focus-visible,
 .collection-btn:focus-visible,
+.collection-chip-main:focus-visible,
+.collection-chip-remove:focus-visible,
+.search-clear:focus-visible,
 .live-song-menu-action:focus-visible,
 .folder-chip:focus-visible,
 .live-list-button:focus-visible,
@@ -510,6 +539,37 @@ button:disabled {
   background: var(--surface-strong);
   color: var(--accent-strong);
   box-shadow: 0 8px 22px rgba(45, 39, 30, 0.09);
+}
+
+.collection-chip {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.collection-chip-main,
+.collection-chip-remove {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-weight: 850;
+}
+
+.collection-chip-main {
+  padding: 10px 4px 10px 13px;
+}
+
+.collection-chip-remove {
+  width: 42px;
+  border-left: 1px solid color-mix(in srgb, var(--border) 74%, transparent);
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1;
 }
 
 .folder-create {
@@ -795,6 +855,11 @@ button:disabled {
     color var(--motion-fast) ease,
     border-color var(--motion-fast) ease,
     background var(--motion-fast) ease;
+}
+
+.collection-btn.is-selected {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
 }
 
 .live-song-menu {
@@ -1710,6 +1775,18 @@ button:disabled {
   padding: 16px;
 }
 
+.auth-required-sheet {
+  gap: 16px;
+}
+
+.auth-required-sheet p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 720;
+  line-height: 1.5;
+}
+
 .sheet-header {
   display: flex;
   align-items: center;
@@ -1800,7 +1877,7 @@ button:disabled {
 }
 
 .collection-choice b:empty {
-  background: transparent;
+  background: var(--surface-soft);
 }
 
 .collection-choice {
@@ -1847,6 +1924,11 @@ button:disabled {
   color: var(--accent-strong);
   font-size: 22px;
   line-height: 1;
+}
+
+.collection-choice.is-selected {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+  background: var(--accent-soft);
 }
 
 .collection-choice-new {

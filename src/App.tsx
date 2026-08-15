@@ -83,6 +83,7 @@ const MAX_BEATS_PER_LINE = 16;
 const MAX_INTRO_BEATS = 64;
 const DEFAULT_ADMIN_API_KEY = '123456';
 const LIVE_LOGIN_MESSAGE = 'Live-сборники доступны после входа. Так они будут привязаны к аккаунту и откроются на другом телефоне.';
+const COLLECTION_LOGIN_MESSAGE = 'Сборники доступны после входа. Это нужно для привязки к аккаунту и доступа на другом телефоне.';
 const KNOWN_SECTION_TYPES: SongOrderedSection['sectionType'][] = [
   'intro',
   'verse',
@@ -531,6 +532,7 @@ function App() {
   );
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
+  const [isCollectionAuthSheetOpen, setIsCollectionAuthSheetOpen] = useState(false);
 
   const loadCurrentUser = async () => {
     setIsAccountLoading(true);
@@ -1076,6 +1078,20 @@ function App() {
   }, [account?.authenticated, liveSongIds, isLiveListPreview]);
 
   useEffect(() => {
+    if (!account) return;
+    if (account.authenticated) {
+      setIsCollectionAuthSheetOpen(false);
+      return;
+    }
+
+    setCollectionSheet(null);
+    if (listMode === 'collection') {
+      setListMode('all');
+      setActiveCollectionId(null);
+    }
+  }, [account?.authenticated, listMode]);
+
+  useEffect(() => {
     if (isLiveListPreview) return;
     if (!liveCollectionId) {
       if (listMode === 'live') return;
@@ -1157,7 +1173,18 @@ function App() {
 
   const onSettingsChange = (next: SongSettings) => setSettings(next);
 
+  const requireCollectionAccount = () => {
+    if (account?.authenticated) return true;
+
+    setCollectionSheet(null);
+    setNotice(isAccountLoading || !account ? 'Проверяю вход в аккаунт...' : COLLECTION_LOGIN_MESSAGE);
+    setError(null);
+    setIsCollectionAuthSheetOpen(true);
+    return false;
+  };
+
   const selectListMode = (mode: SongListMode) => {
+    if (mode === 'collection' && !requireCollectionAccount()) return;
     setListMode(mode);
     if (mode !== 'collection') {
       setActiveCollectionId(null);
@@ -1169,17 +1196,20 @@ function App() {
   };
 
   const selectCollection = (collectionId: string) => {
+    if (!requireCollectionAccount()) return;
     setListMode('collection');
     setActiveCollectionId(collectionId);
   };
 
   const openCreateCollection = (initialSongId?: string) => {
+    if (!requireCollectionAccount()) return;
     setCollectionName('');
     setCollectionSheet({ kind: 'create', songId: initialSongId });
   };
 
   const createCollection = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!requireCollectionAccount()) return;
     const normalizedName = collectionName.trim();
     if (!normalizedName) return;
 
@@ -1200,6 +1230,7 @@ function App() {
   };
 
   const toggleSongInCollection = (songId: string, targetCollectionId: string) => {
+    if (!requireCollectionAccount()) return;
     const now = new Date().toISOString();
     setCollections((current) =>
       current.map((collection) => {
@@ -1216,29 +1247,30 @@ function App() {
   };
 
   const toggleSongCollection = (songId: string) => {
+    if (!requireCollectionAccount()) return;
     if (collections.length === 0) {
       openCreateCollection(songId);
       return;
     }
 
-    let targetCollectionId =
-      listMode === 'collection' && activeCollectionId
-        ? activeCollectionId
-        : collections.length === 1
-          ? collections[0].id
-          : null;
-
-    if (!targetCollectionId) {
-      setCollectionSheet({ kind: 'pick', songId });
-      return;
-    }
-
-    toggleSongInCollection(songId, targetCollectionId);
+    setCollectionSheet({ kind: 'pick', songId });
   };
 
   const pickCollectionForSong = (songId: string, collectionId: string) => {
     toggleSongInCollection(songId, collectionId);
-    setCollectionSheet(null);
+  };
+
+  const deleteCollection = (collectionId: string) => {
+    if (!requireCollectionAccount()) return;
+    const collection = collections.find((item) => item.id === collectionId);
+    if (!collection) return;
+    if (typeof window !== 'undefined' && !window.confirm(`Удалить сборник «${collection.name}»?`)) return;
+
+    setCollections((current) => current.filter((item) => item.id !== collectionId));
+    if (activeCollectionId === collectionId) {
+      setActiveCollectionId(null);
+      setListMode('all');
+    }
   };
 
   const recentSongs = useMemo(
@@ -1247,8 +1279,8 @@ function App() {
   );
 
   const activeCollection = useMemo(
-    () => collections.find((collection) => collection.id === activeCollectionId) ?? null,
-    [collections, activeCollectionId],
+    () => (account?.authenticated ? collections.find((collection) => collection.id === activeCollectionId) ?? null : null),
+    [account?.authenticated, collections, activeCollectionId],
   );
   const liveCollection = useMemo(
     () => liveCollections.find((collection) => collection.id === liveCollectionId) ?? null,
@@ -1381,6 +1413,7 @@ function App() {
   const shareSong = (song: Song) => void shareText(song.title, buildSongShareText(song));
 
   const shareCollection = (collectionId: string) => {
+    if (!requireCollectionAccount()) return;
     const collection = collections.find((item) => item.id === collectionId);
     if (!collection) return;
     void shareText(collection.name, buildCollectionShareText(`Сборник: ${collection.name}`, collection.songIds, songs));
@@ -1868,7 +1901,7 @@ function App() {
                 onModeChange={selectListMode}
                 totalCount={songs.length}
                 recentCount={recentSongs.length}
-                collections={collections}
+                collections={account?.authenticated ? collections : []}
                 activeCollectionId={activeCollectionId}
                 liveCollectionId={liveCollectionId}
                 liveCollections={liveCollections}
@@ -1878,6 +1911,7 @@ function App() {
                 collectionCounts={collectionCounts}
                 activeCollectionSongIds={listMode === 'collection' ? activeCollection?.songIds ?? [] : []}
                 onCollectionSelect={selectCollection}
+                onDeleteCollection={deleteCollection}
                 onCreateCollection={() => openCreateCollection()}
                 onShareCollection={shareCollection}
                 onLiveCollectionChange={setLiveCollectionId}
@@ -1896,6 +1930,47 @@ function App() {
           )}
         </section>
       </div>
+
+      {isCollectionAuthSheetOpen && !account?.authenticated ? (
+        <div
+          className="sheet-backdrop"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsCollectionAuthSheetOpen(false);
+            }
+          }}
+        >
+          <section
+            className="bottom-sheet auth-required-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="collection-auth-title"
+          >
+            <div className="sheet-header">
+              <h2 id="collection-auth-title">Войдите, чтобы пользоваться сборниками</h2>
+              <button
+                className="sheet-close"
+                onClick={() => setIsCollectionAuthSheetOpen(false)}
+                aria-label="Закрыть"
+              >
+                Закрыть
+              </button>
+            </div>
+            <p>
+              Для сборников нужен аккаунт. Это следующий шаг к синхронизации между телефонами и добавлению сборников по
+              ссылке от другого пользователя.
+            </p>
+            <div className="sheet-actions">
+              <button type="button" className="sheet-secondary" onClick={() => setIsCollectionAuthSheetOpen(false)}>
+                Позже
+              </button>
+              <button type="button" className="sheet-primary" onClick={handleGoogleLogin} disabled={isAccountLoading}>
+                {isAccountLoading ? 'Проверка...' : 'Войти через Google'}
+              </button>
+            </div>
+          </section>
+        </div>
+      ) : null}
 
       {collectionSheet ? (
         <div
@@ -1946,15 +2021,16 @@ function App() {
                   return (
                     <button
                       key={collection.id}
-                      className="collection-choice"
+                      className={`collection-choice ${hasSong ? 'is-selected' : ''}`}
                       onClick={() => pickCollectionForSong(collectionSheet.songId, collection.id)}
                       aria-label={hasSong ? `Убрать из сборника ${collection.name}` : `Добавить в сборник ${collection.name}`}
+                      aria-pressed={hasSong}
                     >
                       <span>
                         <strong>{collection.name}</strong>
                         <small>{collectionCounts[collection.id] ?? 0} песен</small>
                       </span>
-                      <b aria-hidden="true">{hasSong ? '-' : '+'}</b>
+                      <b aria-hidden="true">{hasSong ? '✓' : ''}</b>
                     </button>
                   );
                 })}

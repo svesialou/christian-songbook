@@ -26,6 +26,7 @@ type SongListProps = {
   collectionCounts: Record<string, number>;
   activeCollectionSongIds: string[];
   onCollectionSelect: (collectionId: string) => void;
+  onDeleteCollection: (collectionId: string) => void;
   onCreateCollection: () => void;
   onShareCollection: (collectionId: string) => void;
   onLiveCollectionChange: (collectionId: string | null) => void;
@@ -78,6 +79,7 @@ const SongList = ({
   collectionCounts,
   activeCollectionSongIds,
   onCollectionSelect,
+  onDeleteCollection,
   onCreateCollection,
   onShareCollection,
   onLiveCollectionChange,
@@ -165,14 +167,21 @@ const SongList = ({
           <label className="search-label sr-only" htmlFor="song-search">
             Поиск
           </label>
-          <input
-            id="song-search"
-            value={query}
-            onChange={(event) => onQuery(event.target.value)}
-            placeholder="Поиск"
-            className="search"
-            aria-label="Поиск песни"
-          />
+          <div className="search-field">
+            <input
+              id="song-search"
+              value={query}
+              onChange={(event) => onQuery(event.target.value)}
+              placeholder="Поиск"
+              className="search"
+              aria-label="Поиск песни"
+            />
+            {query.trim().length > 0 ? (
+              <button type="button" className="search-clear" onClick={() => onQuery('')} aria-label="Очистить поиск">
+                ×
+              </button>
+            ) : null}
+          </div>
 
           <div className="folder-strip" aria-label="Сборники и фильтры">
             <button
@@ -182,6 +191,32 @@ const SongList = ({
             >
               Все <span>{totalCount}</span>
             </button>
+            {collections.map((collection) => (
+              <span
+                key={collection.id}
+                className={`folder-chip collection-chip ${
+                  mode === 'collection' && activeCollectionId === collection.id ? 'is-selected' : ''
+                }`}
+              >
+                <button
+                  type="button"
+                  className="collection-chip-main"
+                  onClick={() => onCollectionSelect(collection.id)}
+                  aria-pressed={mode === 'collection' && activeCollectionId === collection.id}
+                >
+                  {collection.name} <span>{collectionCounts[collection.id] ?? 0}</span>
+                </button>
+                <button
+                  type="button"
+                  className="collection-chip-remove"
+                  onClick={() => onDeleteCollection(collection.id)}
+                  aria-label={`Удалить сборник ${collection.name}`}
+                  title="Удалить сборник"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
             <button className="folder-chip folder-create" onClick={onCreateCollection}>
               + Сборник
             </button>
@@ -195,18 +230,6 @@ const SongList = ({
               <HistoryIcon />
               <span>{recentCount}</span>
             </button>
-            {collections.map((collection) => (
-              <button
-                key={collection.id}
-                className={`folder-chip ${
-                  mode === 'collection' && activeCollectionId === collection.id ? 'is-selected' : ''
-                }`}
-                onClick={() => onCollectionSelect(collection.id)}
-                aria-pressed={mode === 'collection' && activeCollectionId === collection.id}
-              >
-                {collection.name} <span>{collectionCounts[collection.id] ?? 0}</span>
-              </button>
-            ))}
           </div>
           {mode === 'collection' && activeCollection ? (
             <div className="live-list-card">
@@ -329,6 +352,7 @@ const SongList = ({
         ) : (
           songs.map((song, songIndex) => {
             const isInActiveCollection = mode === 'collection' && activeCollectionSongIds.includes(song.id);
+            const isInAnyCollection = collections.some((collection) => collection.songIds.includes(song.id));
             const isNowPlaying = isLiveMode && song.id === activeLiveSongId;
             const isNextPlaying = isLiveMode && song.id === nextPlaybackSongId;
 
@@ -403,11 +427,11 @@ const SongList = ({
                   </details>
                 ) : (
                   <button
-                    className="collection-btn"
+                    className={`collection-btn ${isInAnyCollection ? 'is-selected' : ''}`}
                     onClick={() => onToggleSongCollection(song.id)}
-                    aria-label={isInActiveCollection ? 'Убрать из текущего сборника' : 'Добавить в сборник'}
+                    aria-label={isInAnyCollection ? 'Изменить сборники песни' : 'Добавить в сборник'}
                   >
-                    {isInActiveCollection ? '-' : '+'}
+                    {isInActiveCollection || isInAnyCollection ? '✓' : '+'}
                   </button>
                 )}
               </li>
