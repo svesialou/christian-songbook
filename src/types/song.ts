@@ -45,6 +45,7 @@ export type SongSettings = {
   repeatChorus: boolean;
   splitSections: boolean;
   transposition: number;
+  showPlaybackDock: boolean;
   fontScale: 'normal' | 'large';
   darkTheme: boolean;
 };

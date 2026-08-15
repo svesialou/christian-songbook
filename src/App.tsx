@@ -126,12 +126,14 @@ const normalizeImportedSettings = (settings: unknown): SongSettings | undefined 
           ? raw.viewPreset
           : defaults.viewPreset,
       showChords: typeof raw.showChords === 'boolean' ? raw.showChords : defaults.showChords,
-    repeatChorus: typeof raw.repeatChorus === 'boolean' ? raw.repeatChorus : defaults.repeatChorus,
-    splitSections: typeof raw.splitSections === 'boolean' ? raw.splitSections : defaults.splitSections,
-    transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : defaults.transposition,
-    fontScale: raw.fontScale === 'large' || raw.fontScale === 'normal' ? raw.fontScale : defaults.fontScale,
-    darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : defaults.darkTheme,
-  };
+      repeatChorus: typeof raw.repeatChorus === 'boolean' ? raw.repeatChorus : defaults.repeatChorus,
+      splitSections: typeof raw.splitSections === 'boolean' ? raw.splitSections : defaults.splitSections,
+      transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : defaults.transposition,
+      showPlaybackDock:
+        typeof raw.showPlaybackDock === 'boolean' ? raw.showPlaybackDock : defaults.showPlaybackDock,
+      fontScale: raw.fontScale === 'large' || raw.fontScale === 'normal' ? raw.fontScale : defaults.fontScale,
+      darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : defaults.darkTheme,
+    };
 };
 
 const normalizeImportedCollections = (collections: unknown, validSongIds: Set<string>): SongCollection[] | undefined => {

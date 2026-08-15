@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS: SongSettings = {
   repeatChorus: false,
   splitSections: false,
   transposition: 0,
+  showPlaybackDock: false,
   fontScale: 'normal',
   darkTheme: false,
 };
@@ -85,6 +86,8 @@ const normalizeSettings = (settings: unknown): SongSettings => {
     repeatChorus: typeof raw.repeatChorus === 'boolean' ? raw.repeatChorus : DEFAULT_SETTINGS.repeatChorus,
     splitSections: typeof raw.splitSections === 'boolean' ? raw.splitSections : DEFAULT_SETTINGS.splitSections,
     transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : DEFAULT_SETTINGS.transposition,
+    showPlaybackDock:
+      typeof raw.showPlaybackDock === 'boolean' ? raw.showPlaybackDock : DEFAULT_SETTINGS.showPlaybackDock,
     fontScale: raw.fontScale === 'large' || raw.fontScale === 'normal' ? raw.fontScale : DEFAULT_SETTINGS.fontScale,
     darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : DEFAULT_SETTINGS.darkTheme,
   };

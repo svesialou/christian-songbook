@@ -168,6 +168,7 @@ const SongView = ({
   const [bpmInputValue, setBpmInputValue] = useState(() => String(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm));
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  const tapTempoTimes = useRef<number[]>([]);
   const introStartedAt = useRef<number | null>(initialAutoPlay ? Date.now() : null);
   const lineStartedAt = useRef<number | null>(null);
   const activePosition = playbackPosition?.songId === song.id ? playbackPosition : null;
@@ -357,6 +358,21 @@ const SongView = ({
 
     setBpmInputValue(String(playbackBpm));
   };
+  const tapBpm = () => {
+    const now = Date.now();
+    const recentTaps = [...tapTempoTimes.current.filter((time) => now - time <= 3000), now].slice(-5);
+    tapTempoTimes.current = recentTaps;
+    if (recentTaps.length < 2) return;
+
+    const intervals = recentTaps
+      .slice(1)
+      .map((time, index) => time - recentTaps[index])
+      .filter((interval) => interval >= 250 && interval <= 2000);
+    if (intervals.length === 0) return;
+
+    const averageInterval = intervals.reduce((total, interval) => total + interval, 0) / intervals.length;
+    setBpm(60000 / averageInterval);
+  };
   const setTransposition = (nextTransposition: number) =>
     onTranspositionChange(song.id, normalizeTransposition(nextTransposition));
 
@@ -532,52 +548,57 @@ const SongView = ({
         ) : null}
       </div>
 
-      <div className={`song-playback-dock ${isAutoPlaying ? 'is-running' : ''}`} style={playbackProgressStyle}>
-        <div className="song-playback-dock-main">
-          <strong>{playbackTimingLabel}</strong>
-          <span>{isAutoPlaying ? 'Автолистание включено' : 'Ручное управление строкой'}</span>
-        </div>
-        <div className="song-playback-dock-actions">
-          <button
-            type="button"
-            className={`playback-dock-button ${isAutoPlaying ? 'is-active' : ''}`}
-            onClick={toggleAutoPlayback}
-            aria-pressed={isAutoPlaying}
-            disabled={playbackLines.length === 0}
-          >
-            {isAutoPlaying ? 'Стоп' : 'Пуск'}
-          </button>
-          <button type="button" className="playback-dock-button" onClick={advancePlaybackLine} disabled={playbackLines.length === 0}>
-            Далее
-          </button>
-          <div className="playback-bpm-control" aria-label="Скорость автолистания">
-            <button type="button" onClick={() => setBpm(playback.bpm - 2)} disabled={playback.bpm <= MIN_BPM}>
-              -
+      {settings.showPlaybackDock ? (
+        <div className={`song-playback-dock ${isAutoPlaying ? 'is-running' : ''}`} style={playbackProgressStyle}>
+          <div className="song-playback-dock-main">
+            <strong>{playbackTimingLabel}</strong>
+            <span>{isAutoPlaying ? 'Автолистание включено' : 'Ручное управление строкой'}</span>
+          </div>
+          <div className="song-playback-dock-actions">
+            <button
+              type="button"
+              className={`playback-dock-button ${isAutoPlaying ? 'is-active' : ''}`}
+              onClick={toggleAutoPlayback}
+              aria-pressed={isAutoPlaying}
+              disabled={playbackLines.length === 0}
+            >
+              {isAutoPlaying ? 'Стоп' : 'Пуск'}
             </button>
-            <label>
-              <span>BPM</span>
-              <input
-                type="number"
-                inputMode="numeric"
-                min={MIN_BPM}
-                max={MAX_BPM}
-                value={bpmInputValue}
-                onChange={(event) => changeBpmInput(event.target.value)}
-                onBlur={commitBpmInput}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    event.currentTarget.blur();
-                  }
-                }}
-                aria-label="BPM песни"
-              />
-            </label>
-            <button type="button" onClick={() => setBpm(playback.bpm + 2)} disabled={playback.bpm >= MAX_BPM}>
-              +
+            <button type="button" className="playback-dock-button" onClick={advancePlaybackLine} disabled={playbackLines.length === 0}>
+              Далее
             </button>
+            <button type="button" className="playback-dock-button" onClick={tapBpm}>
+              Tap
+            </button>
+            <div className="playback-bpm-control" aria-label="Скорость автолистания">
+              <button type="button" onClick={() => setBpm(playback.bpm - 2)} disabled={playback.bpm <= MIN_BPM}>
+                -
+              </button>
+              <label>
+                <span>BPM</span>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min={MIN_BPM}
+                  max={MAX_BPM}
+                  value={bpmInputValue}
+                  onChange={(event) => changeBpmInput(event.target.value)}
+                  onBlur={commitBpmInput}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter') {
+                      event.currentTarget.blur();
+                    }
+                  }}
+                  aria-label="BPM песни"
+                />
+              </label>
+              <button type="button" onClick={() => setBpm(playback.bpm + 2)} disabled={playback.bpm >= MAX_BPM}>
+                +
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </section>
   );
 };

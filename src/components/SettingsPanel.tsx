@@ -79,6 +79,15 @@ const SettingsPanel = ({ settings, onChange }: SettingsPanelProps) => {
         <label className="toggle-row">
           <input
             type="checkbox"
+            checked={settings.showPlaybackDock}
+            onChange={(event) => change('showPlaybackDock', event.target.checked)}
+          />
+          <span>BPM-панель</span>
+        </label>
+
+        <label className="toggle-row">
+          <input
+            type="checkbox"
             checked={settings.darkTheme}
             onChange={(event) => change('darkTheme', event.target.checked)}
           />
