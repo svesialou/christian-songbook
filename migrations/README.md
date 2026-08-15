@@ -19,6 +19,8 @@ Current migrations:
 - `008_user_live_state.down.sql` - removes user live state.
 - `009_user_collections.up.sql` - stores authenticated regular collections per user with share tokens.
 - `009_user_collections.down.sql` - removes authenticated regular collections.
+- `010_user_collection_subscriptions.up.sql` - stores read-only subscriptions to shared user collections.
+- `010_user_collection_subscriptions.down.sql` - removes shared collection subscriptions.
 
 Apply locally:
 - `make db-migrate`

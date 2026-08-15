@@ -16,6 +16,8 @@ type SongListProps = {
   onModeChange: (mode: SongListMode) => void;
   totalCount: number;
   recentCount: number;
+  canUseCollections: boolean;
+  canUseLive: boolean;
   collections: SongCollection[];
   activeCollectionId: string | null;
   liveCollectionId: string | null;
@@ -69,6 +71,8 @@ const SongList = ({
   onModeChange,
   totalCount,
   recentCount,
+  canUseCollections,
+  canUseLive,
   collections,
   activeCollectionId,
   liveCollectionId,
@@ -118,7 +122,7 @@ const SongList = ({
     setIsCategoryPickerOpen(false);
     setCategoryQuery('');
   };
-  const isLiveMode = mode === 'live';
+  const isLiveMode = mode === 'live' && canUseLive;
   const activeCollection = collections.find((collection) => collection.id === activeCollectionId) ?? null;
   const activePlaybackIndex = isLiveMode
     ? songs.findIndex((song) => song.id === activeLiveSongId)
@@ -191,7 +195,7 @@ const SongList = ({
             >
               Все <span>{totalCount}</span>
             </button>
-            {collections.map((collection) => (
+            {canUseCollections ? collections.map((collection) => (
               <span
                 key={collection.id}
                 className={`folder-chip collection-chip ${
@@ -204,22 +208,30 @@ const SongList = ({
                   onClick={() => onCollectionSelect(collection.id)}
                   aria-pressed={mode === 'collection' && activeCollectionId === collection.id}
                 >
-                  {collection.name} <span>{collectionCounts[collection.id] ?? 0}</span>
+                  <span className="collection-chip-title">{collection.name}</span>
+                  <span className="collection-chip-count">{collectionCounts[collection.id] ?? 0}</span>
+                  {collection.isOwner === false ? (
+                    <small className="collection-chip-meta">{collection.authorName ? `Автор: ${collection.authorName}` : 'Подписка'}</small>
+                  ) : null}
                 </button>
-                <button
-                  type="button"
-                  className="collection-chip-remove"
-                  onClick={() => onDeleteCollection(collection.id)}
-                  aria-label={`Удалить сборник ${collection.name}`}
-                  title="Удалить сборник"
-                >
-                  ×
-                </button>
+                {collection.isOwner !== false ? (
+                  <button
+                    type="button"
+                    className="collection-chip-remove"
+                    onClick={() => onDeleteCollection(collection.id)}
+                    aria-label={`Удалить сборник ${collection.name}`}
+                    title="Удалить сборник"
+                  >
+                    ×
+                  </button>
+                ) : null}
               </span>
-            ))}
-            <button className="folder-chip folder-create" onClick={onCreateCollection}>
-              + Сборник
-            </button>
+            )) : null}
+            {canUseCollections ? (
+              <button className="folder-chip folder-create" onClick={onCreateCollection}>
+                + Сборник
+              </button>
+            ) : null}
             <button
               className={`folder-chip history-chip ${mode === 'recent' ? 'is-selected' : ''}`}
               onClick={() => onModeChange('recent')}
@@ -235,7 +247,11 @@ const SongList = ({
             <div className="live-list-card">
               <span>
                 <strong>{activeCollection.name}</strong>
-                <small>{activeCollection.songIds.length} песен</small>
+                <small>
+                  {activeCollection.songIds.length} песен
+                  {activeCollection.authorName ? ` · автор: ${activeCollection.authorName}` : ''}
+                  {activeCollection.isOwner === false ? ' · только чтение' : ''}
+                </small>
               </span>
               <button type="button" className="live-list-button" onClick={() => onShareCollection(activeCollection.id)}>
                 Поделиться
@@ -425,7 +441,7 @@ const SongList = ({
                       </button>
                     </div>
                   </details>
-                ) : (
+                ) : canUseCollections ? (
                   <button
                     className={`collection-btn ${isInAnyCollection ? 'is-selected' : ''}`}
                     onClick={() => onToggleSongCollection(song.id)}
@@ -433,7 +449,7 @@ const SongList = ({
                   >
                     {isInActiveCollection || isInAnyCollection ? '✓' : '+'}
                   </button>
-                )}
+                ) : null}
               </li>
             );
           })

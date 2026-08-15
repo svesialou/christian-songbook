@@ -261,6 +261,8 @@ type userCollectionResponse struct {
 	CreatedAt  string   `json:"createdAt"`
 	UpdatedAt  string   `json:"updatedAt"`
 	ShareToken string   `json:"shareToken,omitempty"`
+	AuthorName string   `json:"authorName,omitempty"`
+	IsOwner    bool     `json:"isOwner"`
 }
 
 type userCollectionsResponse struct {
@@ -1977,28 +1979,64 @@ func emptyUserLiveState() userLiveStateResponse {
 }
 
 func getUserCollections(ctx context.Context, db *sql.DB, userID int64) (userCollectionsResponse, error) {
-	const query = `
+	const ownedQuery = `
 SELECT
-  id,
-  name,
-  CAST(song_ids_json AS CHAR),
-  share_token,
-  created_at,
-  updated_at
-FROM user_collections
-WHERE user_id = ?
+  c.id,
+  c.name,
+  CAST(c.song_ids_json AS CHAR),
+  c.share_token,
+  c.created_at,
+  c.updated_at,
+  COALESCE(NULLIF(u.display_name, ''), u.email, 'Автор'),
+  TRUE
+FROM user_collections c
+JOIN users u ON u.id = c.user_id
+WHERE c.user_id = ?
 ORDER BY created_at ASC, id ASC`
 
-	rows, err := db.QueryContext(ctx, query, userID)
+	rows, err := db.QueryContext(ctx, ownedQuery, userID)
 	if err != nil {
 		return userCollectionsResponse{}, err
 	}
-	defer rows.Close()
 
 	collections, err := scanUserCollectionRows(rows)
 	if err != nil {
 		return userCollectionsResponse{}, err
 	}
+	if err := rows.Close(); err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	const subscribedQuery = `
+SELECT
+  CONCAT('shared-', c.user_id, '-', c.id),
+  c.name,
+  CAST(c.song_ids_json AS CHAR),
+  c.share_token,
+  c.created_at,
+  c.updated_at,
+  COALESCE(NULLIF(u.display_name, ''), u.email, 'Автор'),
+  FALSE
+FROM user_collection_subscriptions s
+JOIN user_collections c ON c.user_id = s.owner_user_id AND c.id = s.collection_id
+JOIN users u ON u.id = c.user_id
+WHERE s.user_id = ?
+ORDER BY s.created_at ASC, c.created_at ASC, c.id ASC`
+
+	rows, err = db.QueryContext(ctx, subscribedQuery, userID)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	subscribedCollections, err := scanUserCollectionRows(rows)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	if err := rows.Close(); err != nil {
+		return userCollectionsResponse{}, err
+	}
+	collections = append(collections, subscribedCollections...)
+
 	return userCollectionsResponse{Collections: collections}, nil
 }
 
@@ -2024,7 +2062,7 @@ func updateUserCollections(
 		return userCollectionsResponse{}, err
 	}
 
-	if _, err := tx.ExecContext(ctx, `DELETE FROM user_collections WHERE user_id = ?`, userID); err != nil {
+	if err := deleteMissingUserCollections(ctx, tx, userID, normalized); err != nil {
 		return userCollectionsResponse{}, err
 	}
 
@@ -2037,7 +2075,12 @@ INSERT INTO user_collections (
   share_token,
   created_at,
   updated_at
-) VALUES (?, ?, ?, ?, ?, ?, ?)`
+) VALUES (?, ?, ?, ?, ?, ?, ?)
+ON DUPLICATE KEY UPDATE
+  name = VALUES(name),
+  song_ids_json = VALUES(song_ids_json),
+  share_token = VALUES(share_token),
+  updated_at = VALUES(updated_at)`
 
 	now := time.Now().UTC()
 	for _, collection := range normalized {
@@ -2093,14 +2136,16 @@ func getSharedCollection(ctx context.Context, db *sql.DB, token string) (userCol
 
 	const query = `
 SELECT
-  id,
-  name,
-  CAST(song_ids_json AS CHAR),
-  share_token,
-  created_at,
-  updated_at
-FROM user_collections
-WHERE share_token = ?
+  c.id,
+  c.name,
+  CAST(c.song_ids_json AS CHAR),
+  c.share_token,
+  c.created_at,
+  c.updated_at,
+  COALESCE(NULLIF(u.display_name, ''), u.email, 'Автор')
+FROM user_collections c
+JOIN users u ON u.id = c.user_id
+WHERE c.share_token = ?
 LIMIT 1`
 
 	var collection userCollectionResponse
@@ -2114,6 +2159,7 @@ LIMIT 1`
 		&collection.ShareToken,
 		&createdAt,
 		&updatedAt,
+		&collection.AuthorName,
 	)
 	if err != nil {
 		return userCollectionResponse{}, err
@@ -2123,6 +2169,7 @@ LIMIT 1`
 	}
 	collection.CreatedAt = createdAt.UTC().Format(time.RFC3339)
 	collection.UpdatedAt = updatedAt.UTC().Format(time.RFC3339)
+	collection.IsOwner = false
 	if collection.SongIDs == nil {
 		collection.SongIDs = []string{}
 	}
@@ -2138,25 +2185,15 @@ func importSharedCollection(ctx context.Context, db *sql.DB, userID int64, token
 	const sourceQuery = `
 SELECT
   user_id,
-  name,
-  CAST(song_ids_json AS CHAR)
+  id
 FROM user_collections
 WHERE share_token = ?
 LIMIT 1`
 
 	var sourceUserID int64
-	var name string
-	var songIDsJSON string
-	if err := db.QueryRowContext(ctx, sourceQuery, shareToken).Scan(&sourceUserID, &name, &songIDsJSON); err != nil {
+	var sourceCollectionID string
+	if err := db.QueryRowContext(ctx, sourceQuery, shareToken).Scan(&sourceUserID, &sourceCollectionID); err != nil {
 		return userCollectionsResponse{}, err
-	}
-
-	var songIDs []string
-	if err := json.Unmarshal([]byte(songIDsJSON), &songIDs); err != nil {
-		return userCollectionsResponse{}, err
-	}
-	if songIDs == nil {
-		songIDs = []string{}
 	}
 
 	tx, err := db.BeginTx(ctx, nil)
@@ -2182,28 +2219,13 @@ LIMIT 1`
 		return collections, nil
 	}
 
-	collectionID, err := randomURLToken(8)
-	if err != nil {
-		return userCollectionsResponse{}, err
-	}
-	collectionID = "collection-" + collectionID
-	newShareToken, err := randomURLToken(16)
-	if err != nil {
-		return userCollectionsResponse{}, err
-	}
-	now := time.Now().UTC()
-
 	const insertQuery = `
-INSERT INTO user_collections (
+INSERT IGNORE INTO user_collection_subscriptions (
   user_id,
-  id,
-  name,
-  song_ids_json,
-  share_token,
-  created_at,
-  updated_at
-) VALUES (?, ?, ?, ?, ?, ?, ?)`
-	if _, err := tx.ExecContext(ctx, insertQuery, userID, collectionID, name, songIDsJSON, newShareToken, now, now); err != nil {
+  owner_user_id,
+  collection_id
+) VALUES (?, ?, ?)`
+	if _, err := tx.ExecContext(ctx, insertQuery, userID, sourceUserID, sourceCollectionID); err != nil {
 		return userCollectionsResponse{}, err
 	}
 	if err := tx.Commit(); err != nil {
@@ -2215,12 +2237,36 @@ INSERT INTO user_collections (
 		return userCollectionsResponse{}, err
 	}
 	for index := range collections.Collections {
-		if collections.Collections[index].ID == collectionID {
+		if collections.Collections[index].ShareToken == shareToken {
 			collections.Collection = &collections.Collections[index]
 			break
 		}
 	}
 	return collections, nil
+}
+
+func deleteMissingUserCollections(
+	ctx context.Context,
+	tx *sql.Tx,
+	userID int64,
+	collections []userCollectionResponse,
+) error {
+	if len(collections) == 0 {
+		_, err := tx.ExecContext(ctx, `DELETE FROM user_collections WHERE user_id = ?`, userID)
+		return err
+	}
+
+	args := make([]any, 0, len(collections)+1)
+	args = append(args, userID)
+	placeholders := make([]string, 0, len(collections))
+	for _, collection := range collections {
+		placeholders = append(placeholders, "?")
+		args = append(args, collection.ID)
+	}
+
+	query := `DELETE FROM user_collections WHERE user_id = ? AND id NOT IN (` + strings.Join(placeholders, ",") + `)`
+	_, err := tx.ExecContext(ctx, query, args...)
+	return err
 }
 
 func getUserCollectionTokens(ctx context.Context, tx *sql.Tx, userID int64) (map[string]string, error) {
@@ -2259,6 +2305,8 @@ func scanUserCollectionRows(rows *sql.Rows) ([]userCollectionResponse, error) {
 			&collection.ShareToken,
 			&createdAt,
 			&updatedAt,
+			&collection.AuthorName,
+			&collection.IsOwner,
 		); err != nil {
 			return nil, err
 		}

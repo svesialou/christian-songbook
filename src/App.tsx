@@ -159,6 +159,9 @@ const normalizeCollectionsForCatalog = (items: SongCollection[], catalogSongs: S
   }));
 };
 
+const ownedCollections = (items: SongCollection[]): SongCollection[] =>
+  items.filter((collection) => collection.isOwner !== false);
+
 const collectionsSnapshot = (items: SongCollection[]): string => JSON.stringify(items);
 
 const areSongIdListsEqual = (left: string[], right: string[]): boolean =>
@@ -1110,13 +1113,13 @@ function App() {
         const localCollections = normalizeCollectionsForCatalog(collections, songs);
         const state =
           serverState.collections.length === 0 && localCollections.length > 0
-            ? await saveUserCollections(localCollections)
+            ? await saveUserCollections(ownedCollections(localCollections))
             : serverState;
         if (cancelled) return;
 
         const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
         setCollections(normalizedCollections);
-        lastCollectionsSnapshotRef.current = collectionsSnapshot(normalizedCollections);
+        lastCollectionsSnapshotRef.current = collectionsSnapshot(ownedCollections(normalizedCollections));
         setIsUserCollectionsReady(true);
       } catch (err) {
         if (cancelled) return;
@@ -1136,14 +1139,15 @@ function App() {
     if (isLiveListPreview || !account?.authenticated || !isUserCollectionsReady) return;
 
     const normalizedCollections = normalizeCollectionsForCatalog(collections, songs);
-    const snapshot = collectionsSnapshot(normalizedCollections);
+    const editableCollections = ownedCollections(normalizedCollections);
+    const snapshot = collectionsSnapshot(editableCollections);
     if (snapshot === lastCollectionsSnapshotRef.current) return;
 
     lastCollectionsSnapshotRef.current = snapshot;
-    void saveUserCollections(normalizedCollections)
+    void saveUserCollections(editableCollections)
       .then((state) => {
         const savedCollections = normalizeCollectionsForCatalog(state.collections, songs);
-        lastCollectionsSnapshotRef.current = collectionsSnapshot(savedCollections);
+        lastCollectionsSnapshotRef.current = collectionsSnapshot(ownedCollections(savedCollections));
         setCollections(savedCollections);
       })
       .catch((err) => {
@@ -1205,7 +1209,7 @@ function App() {
       .then((state: UserCollectionsState) => {
         const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
         setCollections(normalizedCollections);
-        lastCollectionsSnapshotRef.current = collectionsSnapshot(normalizedCollections);
+        lastCollectionsSnapshotRef.current = collectionsSnapshot(ownedCollections(normalizedCollections));
         if (state.collection?.id) {
           setActiveCollectionId(state.collection.id);
           setListMode('collection');
@@ -1357,6 +1361,8 @@ function App() {
       songIds: collectionSheet?.kind === 'create' && collectionSheet.songId ? [collectionSheet.songId] : [],
       createdAt: now,
       updatedAt: now,
+      authorName: account?.authenticated ? account.user?.displayName : undefined,
+      isOwner: true,
     };
 
     setCollections((current) => [...current, collection]);
@@ -1372,6 +1378,7 @@ function App() {
     setCollections((current) =>
       current.map((collection) => {
         if (collection.id !== targetCollectionId) return collection;
+        if (collection.isOwner === false) return collection;
         const hasSong = collection.songIds.includes(songId);
 
         return {
@@ -1385,7 +1392,7 @@ function App() {
 
   const toggleSongCollection = (songId: string) => {
     if (!requireCollectionAccount()) return;
-    if (collections.length === 0) {
+    if (ownedCollections(collections).length === 0) {
       openCreateCollection(songId);
       return;
     }
@@ -1401,6 +1408,7 @@ function App() {
     if (!requireCollectionAccount()) return;
     const collection = collections.find((item) => item.id === collectionId);
     if (!collection) return;
+    if (collection.isOwner === false) return;
     if (typeof window !== 'undefined' && !window.confirm(`Удалить сборник «${collection.name}»?`)) return;
 
     setCollections((current) => current.filter((item) => item.id !== collectionId));
@@ -1752,7 +1760,9 @@ function App() {
   };
   const onSongTranspositionChange = (songId: string, transposition: number) =>
     setSongTranspositions((current) => ({ ...current, [songId]: transposition }));
-  const canShowLiveButton = !isAdminMode && !activeSong;
+  const canUseCollections = !!account?.authenticated && isUserCollectionsReady;
+  const canUseLive = !!account?.authenticated && isUserLiveStateReady;
+  const canShowLiveButton = !isAdminMode && !activeSong && canUseLive;
 
   const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
     if (!canPullRefresh || window.scrollY > 2) return;
@@ -2055,7 +2065,9 @@ function App() {
                 onModeChange={selectListMode}
                 totalCount={songs.length}
                 recentCount={recentSongs.length}
-                collections={account?.authenticated && isUserCollectionsReady ? collections : []}
+                canUseCollections={canUseCollections}
+                canUseLive={canUseLive}
+                collections={canUseCollections ? collections : []}
                 activeCollectionId={activeCollectionId}
                 liveCollectionId={liveCollectionId}
                 liveCollections={liveCollections}
@@ -2111,12 +2123,11 @@ function App() {
               </button>
             </div>
             <p>
-              Для сборников нужен аккаунт. После входа они сохраняются на сервере, доступны на другом телефоне и могут
-              добавляться по ссылке от другого пользователя.
+              Для личных сборников и live нужен аккаунт. Без входа можно пользоваться только базовым сборником песен.
             </p>
             <div className="sheet-actions">
               <button type="button" className="sheet-secondary" onClick={() => setIsCollectionAuthSheetOpen(false)}>
-                Позже
+                Только базовый сборник
               </button>
               <button type="button" className="sheet-primary" onClick={handleGoogleLogin} disabled={isAccountLoading}>
                 {isAccountLoading ? 'Проверка...' : 'Войти через Google'}
@@ -2169,7 +2180,7 @@ function App() {
               </form>
             ) : (
               <div className="collection-choice-list">
-                {collections.map((collection) => {
+                {ownedCollections(collections).map((collection) => {
                   const hasSong = collection.songIds.includes(collectionSheet.songId);
 
                   return (
