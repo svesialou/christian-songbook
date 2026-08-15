@@ -332,6 +332,7 @@ function App() {
   );
   const [playbackPosition, setPlaybackPosition] = useState<SongPlaybackPosition | null>(null);
   const [settings, setSettings] = useState<SongSettings>(defaultSettings());
+  const [songTranspositions, setSongTranspositions] = useState<Record<string, number>>({});
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [listMode, setListMode] = useState<SongListMode>(() =>
@@ -1049,6 +1050,7 @@ function App() {
     setRecentSongIds((current) => [songId, ...current.filter((item) => item !== songId)].slice(0, RECENT_LIMIT));
     setActiveSongId(songId);
     updateSongQuery(songId);
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
   };
 
   const closeSong = () => {
@@ -1070,7 +1072,14 @@ function App() {
   const isPullReady = pullDistance >= PULL_REFRESH_THRESHOLD;
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
-  const songViewSettings = isSplitPreview ? { ...settings, splitSections: true } : settings;
+  const activeSongTransposition = activeSong ? songTranspositions[activeSong.id] ?? 0 : 0;
+  const songViewSettings = {
+    ...settings,
+    splitSections: isSplitPreview ? true : settings.splitSections,
+    transposition: activeSongTransposition,
+  };
+  const onSongTranspositionChange = (songId: string, transposition: number) =>
+    setSongTranspositions((current) => ({ ...current, [songId]: transposition }));
   const canOpenLiveMode = !isAdminMode && !activeSong && listMode !== 'live';
 
   const handleTouchStart = (event: React.TouchEvent<HTMLElement>) => {
@@ -1224,11 +1233,6 @@ function App() {
                 <span aria-hidden="true" />
               </summary>
               <div className="menu-panel">
-                <div className="menu-status">
-                  <strong>{toneLabel}</strong>
-                  <span>Последнее обновление: {formatDateTime(catalogMeta?.syncedAt)}</span>
-                </div>
-
                 <SettingsPanel settings={settings} onChange={onSettingsChange} />
 
                 {!isStandalone && installPrompt ? (
@@ -1371,6 +1375,7 @@ function App() {
               playbackPosition={previewPlaybackPosition}
               initialAutoPlay={isAutoPlaybackPreview}
               onBack={closeSong}
+              onTranspositionChange={onSongTranspositionChange}
               onPlaybackPositionChange={setPlaybackPosition}
             />
           ) : (

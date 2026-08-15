@@ -1,5 +1,4 @@
 import { SongSettings } from '../types/song';
-import { normalizeTransposition } from '../lib/chords';
 
 type SettingsPanelProps = {
   settings: SongSettings;
@@ -28,10 +27,7 @@ const SettingsPanel = ({ settings, onChange }: SettingsPanelProps) => {
     <section className="settings" aria-label="Настройки отображения">
       <div className="settings-header">
         <strong>Настройки</strong>
-        <span>
-          {presetLabels[settings.viewPreset].title} · {settings.transposition > 0 ? '+' : ''}
-          {settings.transposition}
-        </span>
+        <span>{presetLabels[settings.viewPreset].title}</span>
       </div>
 
       <div className="settings-grid">
@@ -100,34 +96,6 @@ const SettingsPanel = ({ settings, onChange }: SettingsPanelProps) => {
           </select>
         </label>
 
-        <div className="transpose-control">
-          <span>Тональность</span>
-          <div className="stepper" aria-label="Транспонирование">
-            <button
-              className="stepper-button"
-              onClick={() => change('transposition', normalizeTransposition(settings.transposition - 1))}
-              aria-label="Понизить тональность"
-            >
-              -
-            </button>
-            <strong>{settings.transposition > 0 ? `+${settings.transposition}` : settings.transposition}</strong>
-            <button
-              className="stepper-button"
-              onClick={() => change('transposition', normalizeTransposition(settings.transposition + 1))}
-              aria-label="Повысить тональность"
-            >
-              +
-            </button>
-            <button
-              className="stepper-button"
-              onClick={() => change('transposition', 0)}
-              title="Сброс"
-              aria-label="Сбросить транспонирование"
-            >
-              0
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   );

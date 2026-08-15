@@ -1,6 +1,6 @@
 import { type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Song } from '../types/song';
-import { transposeSongRows } from '../lib/chords';
+import { normalizeTransposition, transposeSongRows } from '../lib/chords';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
 
 type SongViewProps = {
@@ -9,6 +9,7 @@ type SongViewProps = {
   playbackPosition: SongPlaybackPosition | null;
   initialAutoPlay?: boolean;
   onBack: () => void;
+  onTranspositionChange: (songId: string, transposition: number) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
 };
 
@@ -157,12 +158,14 @@ const SongView = ({
   playbackPosition,
   initialAutoPlay = false,
   onBack,
+  onTranspositionChange,
   onPlaybackPositionChange,
 }: SongViewProps) => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(initialAutoPlay);
   const [isIntroActive, setIsIntroActive] = useState(initialAutoPlay);
   const [playbackTick, setPlaybackTick] = useState(() => Date.now());
   const [playbackBpm, setPlaybackBpm] = useState(() => song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
+  const [bpmInputValue, setBpmInputValue] = useState(() => String(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm));
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const introStartedAt = useRef<number | null>(initialAutoPlay ? Date.now() : null);
@@ -210,7 +213,9 @@ const SongView = ({
       : `${playback.bpm} BPM · ${playback.beatsPerLine} доли`;
 
   useEffect(() => {
-    setPlaybackBpm(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
+    const nextBpm = song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm;
+    setPlaybackBpm(nextBpm);
+    setBpmInputValue(String(nextBpm));
     setIsAutoPlaying(initialAutoPlay);
     setIsIntroActive(initialAutoPlay);
     introStartedAt.current = initialAutoPlay ? Date.now() : null;
@@ -319,13 +324,41 @@ const SongView = ({
     setIsAutoPlaying(true);
   };
 
+  const clampBpm = (nextBpm: number) => Math.min(MAX_BPM, Math.max(MIN_BPM, Math.round(nextBpm)));
   const setBpm = (nextBpm: number) => {
-    setPlaybackBpm(Math.min(MAX_BPM, Math.max(MIN_BPM, Math.round(nextBpm))));
+    const clampedBpm = clampBpm(nextBpm);
+    setPlaybackBpm(clampedBpm);
+    setBpmInputValue(String(clampedBpm));
     if (isAutoPlaying && !isIntroActive) {
       lineStartedAt.current = Date.now();
       setPlaybackTick(Date.now());
     }
   };
+  const changeBpmInput = (value: string) => {
+    setBpmInputValue(value);
+    if (!value.trim()) return;
+
+    const nextBpm = Number(value);
+    if (Number.isFinite(nextBpm) && nextBpm >= MIN_BPM && nextBpm <= MAX_BPM) {
+      setBpm(nextBpm);
+    }
+  };
+  const commitBpmInput = () => {
+    if (!bpmInputValue.trim()) {
+      setBpmInputValue(String(playbackBpm));
+      return;
+    }
+
+    const nextBpm = Number(bpmInputValue);
+    if (Number.isFinite(nextBpm)) {
+      setBpm(nextBpm);
+      return;
+    }
+
+    setBpmInputValue(String(playbackBpm));
+  };
+  const setTransposition = (nextTransposition: number) =>
+    onTranspositionChange(song.id, normalizeTransposition(nextTransposition));
 
   const advancePlaybackLine = () => {
     if (playbackLines.length === 0) return;
@@ -379,6 +412,31 @@ const SongView = ({
           <h1>{song.title}</h1>
           <div className="song-meta-row">
             <p className="view-preset-chip">{viewPresetLabels[settings.viewPreset]}</p>
+            <div className="song-transpose-control" aria-label="Транспонирование этой песни">
+              <button
+                type="button"
+                onClick={() => setTransposition(settings.transposition - 1)}
+                aria-label="Понизить тональность этой песни"
+              >
+                -
+              </button>
+              <span>{settings.transposition > 0 ? `+${settings.transposition}` : settings.transposition}</span>
+              <button
+                type="button"
+                onClick={() => setTransposition(settings.transposition + 1)}
+                aria-label="Повысить тональность этой песни"
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => setTransposition(0)}
+                disabled={settings.transposition === 0}
+                aria-label="Сбросить тональность этой песни"
+              >
+                0
+              </button>
+            </div>
             <div
               className={`playback-control ${isAutoPlaying ? 'is-running' : ''}`}
               style={playbackProgressStyle}
@@ -496,7 +554,24 @@ const SongView = ({
             <button type="button" onClick={() => setBpm(playback.bpm - 2)} disabled={playback.bpm <= MIN_BPM}>
               -
             </button>
-            <span>{playback.bpm} BPM</span>
+            <label>
+              <span>BPM</span>
+              <input
+                type="number"
+                inputMode="numeric"
+                min={MIN_BPM}
+                max={MAX_BPM}
+                value={bpmInputValue}
+                onChange={(event) => changeBpmInput(event.target.value)}
+                onBlur={commitBpmInput}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.currentTarget.blur();
+                  }
+                }}
+                aria-label="BPM песни"
+              />
+            </label>
             <button type="button" onClick={() => setBpm(playback.bpm + 2)} disabled={playback.bpm >= MAX_BPM}>
               +
             </button>

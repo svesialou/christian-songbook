@@ -994,9 +994,12 @@ button:disabled {
 .toggle-row,
 .select-row,
 .transpose-control,
+.song-transpose-control,
 .stepper,
 .stepper-button,
 .select-row select,
+.playback-bpm-control label,
+.playback-bpm-control input,
 .submission-field,
 .submission-help,
 .submission-meta,
@@ -1196,6 +1199,48 @@ button:disabled {
   margin: 0;
 }
 
+.song-transpose-control {
+  min-height: 44px;
+  display: inline-grid;
+  grid-template-columns: 44px minmax(34px, auto) 44px 44px;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  padding: 3px;
+}
+
+.song-transpose-control button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.song-transpose-control button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.song-transpose-control button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
+  outline-offset: 2px;
+}
+
+.song-transpose-control span {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 950;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .playback-control {
   min-height: 34px;
   position: relative;
@@ -1373,7 +1418,7 @@ button:disabled {
 .playback-bpm-control {
   min-height: 44px;
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  grid-template-columns: 44px minmax(84px, 1fr) 44px;
   align-items: center;
   gap: 6px;
   border: 1px solid var(--border);
@@ -1382,13 +1427,37 @@ button:disabled {
   padding: 4px;
 }
 
+.playback-bpm-control label {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(46px, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+
 .playback-bpm-control span {
   color: var(--text);
-  font-family: Aptos, "Segoe UI", sans-serif;
   font-size: 12px;
   font-weight: 950;
   text-align: center;
   white-space: nowrap;
+}
+
+.playback-bpm-control input {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid color-mix(in srgb, var(--border) 86%, transparent);
+  border-radius: 11px;
+  background: var(--surface-strong);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 950;
+  text-align: center;
+}
+
+.playback-bpm-control input:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
+  outline-offset: 2px;
 }
 
 .eyebrow {
