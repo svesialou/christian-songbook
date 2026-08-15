@@ -254,6 +254,20 @@ type userLiveStateResponse struct {
 	SongIDs      []string                     `json:"songIds"`
 }
 
+type userCollectionResponse struct {
+	ID         string   `json:"id"`
+	Name       string   `json:"name"`
+	SongIDs    []string `json:"songIds"`
+	CreatedAt  string   `json:"createdAt"`
+	UpdatedAt  string   `json:"updatedAt"`
+	ShareToken string   `json:"shareToken,omitempty"`
+}
+
+type userCollectionsResponse struct {
+	Collections []userCollectionResponse `json:"collections"`
+	Collection  *userCollectionResponse  `json:"collection,omitempty"`
+}
+
 type googleTokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
@@ -576,6 +590,116 @@ func main() {
 		}
 
 		writeJSON(w, http.StatusOK, state)
+	})
+	mux.HandleFunc("GET /api/me/collections", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to read collections")
+			return
+		}
+
+		collections, err := getUserCollections(r.Context(), db, userID)
+		if err != nil {
+			logger.Error("get user collections failed", "error", err, "user_id", userID)
+			writeError(w, http.StatusInternalServerError, "failed to get collections")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, collections)
+	})
+	mux.HandleFunc("PUT /api/me/collections", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to save collections")
+			return
+		}
+
+		var payload userCollectionsResponse
+		if err := readJSON(w, r, &payload); err != nil {
+			writeError(w, http.StatusBadRequest, "invalid collections payload")
+			return
+		}
+
+		collections, err := updateUserCollections(r.Context(), db, userID, payload)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("update user collections failed", "error", err, "user_id", userID)
+			writeError(w, http.StatusInternalServerError, "failed to update collections")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, collections)
+	})
+	mux.HandleFunc("GET /api/shared-collections/{token}", func(w http.ResponseWriter, r *http.Request) {
+		_, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to read shared collections")
+			return
+		}
+
+		collection, err := getSharedCollection(r.Context(), db, r.PathValue("token"))
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "shared collection not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("get shared collection failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to get shared collection")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, userCollectionsResponse{Collections: []userCollectionResponse{collection}, Collection: &collection})
+	})
+	mux.HandleFunc("POST /api/shared-collections/{token}/import", func(w http.ResponseWriter, r *http.Request) {
+		userID, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
+		if err != nil {
+			logger.Error("resolve current user failed", "error", err)
+			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
+			return
+		}
+		if !authenticated {
+			writeError(w, http.StatusUnauthorized, "login is required to import shared collections")
+			return
+		}
+
+		collections, err := importSharedCollection(r.Context(), db, userID, r.PathValue("token"))
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "shared collection not found")
+			return
+		}
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("import shared collection failed", "error", err, "user_id", userID)
+			writeError(w, http.StatusInternalServerError, "failed to import shared collection")
+			return
+		}
+
+		writeJSON(w, http.StatusOK, collections)
 	})
 	mux.HandleFunc("POST /api/song-submissions", func(w http.ResponseWriter, r *http.Request) {
 		var payload songSubmissionRequest
@@ -1850,6 +1974,383 @@ func emptyUserLiveState() userLiveStateResponse {
 		Collections: []userLiveCollectionResponse{},
 		SongIDs:     []string{},
 	}
+}
+
+func getUserCollections(ctx context.Context, db *sql.DB, userID int64) (userCollectionsResponse, error) {
+	const query = `
+SELECT
+  id,
+  name,
+  CAST(song_ids_json AS CHAR),
+  share_token,
+  created_at,
+  updated_at
+FROM user_collections
+WHERE user_id = ?
+ORDER BY created_at ASC, id ASC`
+
+	rows, err := db.QueryContext(ctx, query, userID)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	defer rows.Close()
+
+	collections, err := scanUserCollectionRows(rows)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	return userCollectionsResponse{Collections: collections}, nil
+}
+
+func updateUserCollections(
+	ctx context.Context,
+	db *sql.DB,
+	userID int64,
+	payload userCollectionsResponse,
+) (userCollectionsResponse, error) {
+	normalized, err := normalizeUserCollections(payload.Collections)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	defer tx.Rollback()
+
+	existingTokens, err := getUserCollectionTokens(ctx, tx, userID)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	if _, err := tx.ExecContext(ctx, `DELETE FROM user_collections WHERE user_id = ?`, userID); err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	const insertQuery = `
+INSERT INTO user_collections (
+  user_id,
+  id,
+  name,
+  song_ids_json,
+  share_token,
+  created_at,
+  updated_at
+) VALUES (?, ?, ?, ?, ?, ?, ?)`
+
+	now := time.Now().UTC()
+	for _, collection := range normalized {
+		songIDsJSON, err := json.Marshal(collection.SongIDs)
+		if err != nil {
+			return userCollectionsResponse{}, err
+		}
+		shareToken := existingTokens[collection.ID]
+		if shareToken == "" {
+			shareToken, err = randomURLToken(16)
+			if err != nil {
+				return userCollectionsResponse{}, err
+			}
+		}
+		createdAt, err := parseCollectionTimestamp(collection.CreatedAt, now)
+		if err != nil {
+			return userCollectionsResponse{}, err
+		}
+		updatedAt, err := parseCollectionTimestamp(collection.UpdatedAt, createdAt)
+		if err != nil {
+			return userCollectionsResponse{}, err
+		}
+		if updatedAt.Before(createdAt) {
+			updatedAt = createdAt
+		}
+
+		if _, err := tx.ExecContext(
+			ctx,
+			insertQuery,
+			userID,
+			collection.ID,
+			collection.Name,
+			string(songIDsJSON),
+			shareToken,
+			createdAt,
+			updatedAt,
+		); err != nil {
+			return userCollectionsResponse{}, err
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		return userCollectionsResponse{}, err
+	}
+	return getUserCollections(ctx, db, userID)
+}
+
+func getSharedCollection(ctx context.Context, db *sql.DB, token string) (userCollectionResponse, error) {
+	shareToken, err := normalizeShareToken(token)
+	if err != nil {
+		return userCollectionResponse{}, err
+	}
+
+	const query = `
+SELECT
+  id,
+  name,
+  CAST(song_ids_json AS CHAR),
+  share_token,
+  created_at,
+  updated_at
+FROM user_collections
+WHERE share_token = ?
+LIMIT 1`
+
+	var collection userCollectionResponse
+	var songIDsJSON string
+	var createdAt time.Time
+	var updatedAt time.Time
+	err = db.QueryRowContext(ctx, query, shareToken).Scan(
+		&collection.ID,
+		&collection.Name,
+		&songIDsJSON,
+		&collection.ShareToken,
+		&createdAt,
+		&updatedAt,
+	)
+	if err != nil {
+		return userCollectionResponse{}, err
+	}
+	if err := json.Unmarshal([]byte(songIDsJSON), &collection.SongIDs); err != nil {
+		return userCollectionResponse{}, err
+	}
+	collection.CreatedAt = createdAt.UTC().Format(time.RFC3339)
+	collection.UpdatedAt = updatedAt.UTC().Format(time.RFC3339)
+	if collection.SongIDs == nil {
+		collection.SongIDs = []string{}
+	}
+	return collection, nil
+}
+
+func importSharedCollection(ctx context.Context, db *sql.DB, userID int64, token string) (userCollectionsResponse, error) {
+	shareToken, err := normalizeShareToken(token)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	const sourceQuery = `
+SELECT
+  user_id,
+  name,
+  CAST(song_ids_json AS CHAR)
+FROM user_collections
+WHERE share_token = ?
+LIMIT 1`
+
+	var sourceUserID int64
+	var name string
+	var songIDsJSON string
+	if err := db.QueryRowContext(ctx, sourceQuery, shareToken).Scan(&sourceUserID, &name, &songIDsJSON); err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	var songIDs []string
+	if err := json.Unmarshal([]byte(songIDsJSON), &songIDs); err != nil {
+		return userCollectionsResponse{}, err
+	}
+	if songIDs == nil {
+		songIDs = []string{}
+	}
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	defer tx.Rollback()
+
+	if sourceUserID == userID {
+		if err := tx.Commit(); err != nil {
+			return userCollectionsResponse{}, err
+		}
+		collections, err := getUserCollections(ctx, db, userID)
+		if err != nil {
+			return userCollectionsResponse{}, err
+		}
+		for index := range collections.Collections {
+			if collections.Collections[index].ShareToken == shareToken {
+				collections.Collection = &collections.Collections[index]
+				break
+			}
+		}
+		return collections, nil
+	}
+
+	collectionID, err := randomURLToken(8)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	collectionID = "collection-" + collectionID
+	newShareToken, err := randomURLToken(16)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	now := time.Now().UTC()
+
+	const insertQuery = `
+INSERT INTO user_collections (
+  user_id,
+  id,
+  name,
+  song_ids_json,
+  share_token,
+  created_at,
+  updated_at
+) VALUES (?, ?, ?, ?, ?, ?, ?)`
+	if _, err := tx.ExecContext(ctx, insertQuery, userID, collectionID, name, songIDsJSON, newShareToken, now, now); err != nil {
+		return userCollectionsResponse{}, err
+	}
+	if err := tx.Commit(); err != nil {
+		return userCollectionsResponse{}, err
+	}
+
+	collections, err := getUserCollections(ctx, db, userID)
+	if err != nil {
+		return userCollectionsResponse{}, err
+	}
+	for index := range collections.Collections {
+		if collections.Collections[index].ID == collectionID {
+			collections.Collection = &collections.Collections[index]
+			break
+		}
+	}
+	return collections, nil
+}
+
+func getUserCollectionTokens(ctx context.Context, tx *sql.Tx, userID int64) (map[string]string, error) {
+	rows, err := tx.QueryContext(ctx, `SELECT id, share_token FROM user_collections WHERE user_id = ?`, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	tokens := make(map[string]string)
+	for rows.Next() {
+		var id string
+		var token string
+		if err := rows.Scan(&id, &token); err != nil {
+			return nil, err
+		}
+		tokens[id] = token
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return tokens, nil
+}
+
+func scanUserCollectionRows(rows *sql.Rows) ([]userCollectionResponse, error) {
+	collections := []userCollectionResponse{}
+	for rows.Next() {
+		var collection userCollectionResponse
+		var songIDsJSON string
+		var createdAt time.Time
+		var updatedAt time.Time
+		if err := rows.Scan(
+			&collection.ID,
+			&collection.Name,
+			&songIDsJSON,
+			&collection.ShareToken,
+			&createdAt,
+			&updatedAt,
+		); err != nil {
+			return nil, err
+		}
+		if err := json.Unmarshal([]byte(songIDsJSON), &collection.SongIDs); err != nil {
+			return nil, err
+		}
+		if collection.SongIDs == nil {
+			collection.SongIDs = []string{}
+		}
+		collection.CreatedAt = createdAt.UTC().Format(time.RFC3339)
+		collection.UpdatedAt = updatedAt.UTC().Format(time.RFC3339)
+		collections = append(collections, collection)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return collections, nil
+}
+
+func normalizeUserCollections(values []userCollectionResponse) ([]userCollectionResponse, error) {
+	if len(values) > 100 {
+		return nil, validationError("collections must contain at most 100 items")
+	}
+
+	collections := make([]userCollectionResponse, 0, len(values))
+	seen := make(map[string]struct{}, len(values))
+	for _, value := range values {
+		id := strings.TrimSpace(value.ID)
+		if id == "" {
+			return nil, validationError("collection id is required")
+		}
+		if len(id) > 128 {
+			return nil, validationError("collection id is too long")
+		}
+		if _, exists := seen[id]; exists {
+			continue
+		}
+		seen[id] = struct{}{}
+
+		name := strings.TrimSpace(value.Name)
+		if name == "" {
+			return nil, validationError("collection name is required")
+		}
+		if tooLong(name, 120) {
+			return nil, validationError("collection name is too long")
+		}
+
+		songIDs, err := normalizeLiveSongIDs(value.SongIDs)
+		if err != nil {
+			return nil, err
+		}
+		if len(value.CreatedAt) > 64 || len(value.UpdatedAt) > 64 {
+			return nil, validationError("collection timestamp is too long")
+		}
+
+		collections = append(collections, userCollectionResponse{
+			ID:        id,
+			Name:      name,
+			SongIDs:   songIDs,
+			CreatedAt: strings.TrimSpace(value.CreatedAt),
+			UpdatedAt: strings.TrimSpace(value.UpdatedAt),
+		})
+	}
+	return collections, nil
+}
+
+func normalizeShareToken(value string) (string, error) {
+	token := strings.TrimSpace(value)
+	if token == "" {
+		return "", validationError("share token is required")
+	}
+	if len(token) > 64 {
+		return "", validationError("share token is too long")
+	}
+	for _, char := range token {
+		if (char < '0' || char > '9') && (char < 'a' || char > 'f') {
+			return "", validationError("share token is invalid")
+		}
+	}
+	return token, nil
+}
+
+func parseCollectionTimestamp(value string, fallback time.Time) (time.Time, error) {
+	normalized := strings.TrimSpace(value)
+	if normalized == "" {
+		return fallback, nil
+	}
+	parsed, err := time.Parse(time.RFC3339, normalized)
+	if err != nil {
+		return time.Time{}, validationError("collection timestamp is invalid")
+	}
+	return parsed.UTC(), nil
 }
 
 func normalizeUserSongPreference(

@@ -28,6 +28,10 @@ Endpoints:
 - `DELETE /api/me/song-preferences/{id}` - authenticated per-song preference reset.
 - `GET /api/me/live-state` - authenticated user live collections and active live queue read.
 - `PUT /api/me/live-state` - authenticated user live collections and active live queue upsert.
+- `GET /api/me/collections` - authenticated user regular collection read.
+- `PUT /api/me/collections` - authenticated user regular collection sync/upsert.
+- `GET /api/shared-collections/{token}` - authenticated shared collection preview by share token.
+- `POST /api/shared-collections/{token}/import` - authenticated import of a shared collection into the current account.
 - `GET /api/admin/song-submissions` - admin-only pending song submissions.
 - `PUT /api/admin/song-submissions/{id}` - admin-only edit for pending song submissions.
 - `POST /api/admin/songs` - admin-only direct publish into the current MySQL catalog.
@@ -64,6 +68,7 @@ User account foundation:
 - Saving preferences requires a valid app session; anonymous users receive `401` and can keep using the catalog.
 - Personal song preferences store target key, transpose steps, capo hint, and notes without mutating canonical song rows, and can be reset per song.
 - Live collections require a valid app session and are stored per user in `user_live_state`; anonymous users cannot use Live mode.
+- Regular user collections require a valid app session and are stored per user in `user_collections`; share links use unguessable tokens and importing creates a copy in the current user's account.
 
 Additional environment for upcoming auth implementation:
 - `AUTH_COOKIE_NAME` default `christian_songbook_session`

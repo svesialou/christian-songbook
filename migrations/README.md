@@ -13,6 +13,12 @@ Current migrations:
 - `005_user_preferences.down.sql` - removes user account and preference tables.
 - `006_sheet_music_url.up.sql` - adds optional sheet music URL fields for piano-friendly song view.
 - `006_sheet_music_url.down.sql` - removes optional sheet music URL fields.
+- `007_song_edit_submissions.up.sql` - adds edit submission source fields for review diffs.
+- `007_song_edit_submissions.down.sql` - removes edit submission source fields.
+- `008_user_live_state.up.sql` - stores authenticated live collections and active live queue per user.
+- `008_user_live_state.down.sql` - removes user live state.
+- `009_user_collections.up.sql` - stores authenticated regular collections per user with share tokens.
+- `009_user_collections.down.sql` - removes authenticated regular collections.
 
 Apply locally:
 - `make db-migrate`

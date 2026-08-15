@@ -104,6 +104,11 @@ export type UserLiveState = {
   songIds: string[];
 };
 
+export type UserCollectionsState = {
+  collections: SongCollection[];
+  collection?: SongCollection;
+};
+
 const API_TIMEOUT_MS = 3500;
 const UPLOAD_TIMEOUT_MS = 30000;
 
@@ -280,6 +285,25 @@ export const saveUserLiveState = (payload: UserLiveState): Promise<UserLiveState
     method: 'PUT',
     credentials: 'include',
     body: JSON.stringify(payload),
+  });
+
+export const fetchUserCollections = (): Promise<UserCollectionsState> =>
+  requestJSON<UserCollectionsState>('/api/me/collections', {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+export const saveUserCollections = (collections: SongCollection[]): Promise<UserCollectionsState> =>
+  requestJSON<UserCollectionsState>('/api/me/collections', {
+    method: 'PUT',
+    credentials: 'include',
+    body: JSON.stringify({ collections }),
+  });
+
+export const importSharedCollection = (shareToken: string): Promise<UserCollectionsState> =>
+  requestJSON<UserCollectionsState>(`/api/shared-collections/${encodeURIComponent(shareToken)}/import`, {
+    method: 'POST',
+    credentials: 'include',
   });
 
 export const googleAuthStartUrl = (redirectPath: string): string =>

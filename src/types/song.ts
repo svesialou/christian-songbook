@@ -35,6 +35,7 @@ export type SongCollection = {
   songIds: string[];
   createdAt: string;
   updatedAt: string;
+  shareToken?: string;
 };
 
 export type ViewPreset = 'lead' | 'singer' | 'chords';

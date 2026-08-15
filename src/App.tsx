@@ -37,15 +37,19 @@ import {
   fetchCatalogSnapshot,
   fetchCurrentUser,
   fetchPendingSongSubmissions,
+  fetchUserCollections,
   fetchUserLiveState,
   googleAuthStartUrl,
+  importSharedCollection,
   logoutCurrentUser,
   rejectSongSubmission,
+  saveUserCollections,
   saveUserLiveState,
   saveUserPreferences,
   submitSongEditSubmission,
   updateAdminSong,
   updateSongSubmission,
+  UserCollectionsState,
   UserLiveState,
 } from './lib/catalogApi';
 import AdminPanel, { AdminRoute } from './components/AdminPanel';
@@ -111,6 +115,12 @@ const readSongRouteParam = () => {
   return match ? decodeURIComponent(match[1]) : null;
 };
 
+const readCollectionShareRouteParam = () => {
+  if (typeof window === 'undefined') return null;
+  const match = window.location.pathname.match(/^\/collection\/([^/]+)\/?$/);
+  return match ? decodeURIComponent(match[1]) : null;
+};
+
 const isAdminRoute = () => {
   if (typeof window === 'undefined') return false;
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
@@ -139,6 +149,17 @@ const normalizeUserLiveStateForCatalog = (state: UserLiveState, catalogSongs: So
 };
 
 const liveStateSnapshot = (state: UserLiveState): string => JSON.stringify(state);
+
+const normalizeCollectionsForCatalog = (items: SongCollection[], catalogSongs: Song[]): SongCollection[] => {
+  const catalogSongIds = new Set(catalogSongs.map((song) => song.id));
+
+  return items.map((collection) => ({
+    ...collection,
+    songIds: collection.songIds.filter((songId) => catalogSongIds.has(songId)),
+  }));
+};
+
+const collectionsSnapshot = (items: SongCollection[]): string => JSON.stringify(items);
 
 const areSongIdListsEqual = (left: string[], right: string[]): boolean =>
   left.length === right.length && left.every((songId, index) => songId === right[index]);
@@ -506,6 +527,7 @@ function App() {
   const [account, setAccount] = useState<CurrentUserState | null>(null);
   const [isAccountLoading, setIsAccountLoading] = useState(false);
   const [isUserLiveStateReady, setIsUserLiveStateReady] = useState(false);
+  const [isUserCollectionsReady, setIsUserCollectionsReady] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isStandalone, setIsStandalone] = useState(() =>
     typeof window === 'undefined' ? false : window.matchMedia('(display-mode: standalone)').matches,
@@ -516,6 +538,9 @@ function App() {
   const appMenuRef = useRef<HTMLDetailsElement | null>(null);
   const adminStatusTapRef = useRef({ count: 0, lastAt: 0 });
   const lastLiveStateSnapshotRef = useRef('');
+  const lastCollectionsSnapshotRef = useRef('');
+  const sharedCollectionTokenRef = useRef(readCollectionShareRouteParam());
+  const handledSharedCollectionTokenRef = useRef(false);
   const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
   const [pullDistance, setPullDistance] = useState(0);
   const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
@@ -1053,9 +1078,79 @@ function App() {
   }, [recentSongIds]);
 
   useEffect(() => {
-    if (isLiveListPreview) return;
+    if (isLiveListPreview || account?.authenticated) return;
     saveCollections(collections);
-  }, [collections, isLiveListPreview]);
+  }, [account?.authenticated, collections, isLiveListPreview]);
+
+  useEffect(() => {
+    if (isLiveListPreview) return;
+    if (!account) return;
+
+    lastCollectionsSnapshotRef.current = '';
+
+    if (!account.authenticated) {
+      setIsUserCollectionsReady(false);
+      setCollections([]);
+      setCollectionSheet(null);
+      if (listMode === 'collection') {
+        setListMode('all');
+        setActiveCollectionId(null);
+      }
+      return;
+    }
+
+    let cancelled = false;
+    setIsUserCollectionsReady(false);
+
+    const loadUserCollections = async () => {
+      try {
+        const serverState = await fetchUserCollections();
+        if (cancelled) return;
+
+        const localCollections = normalizeCollectionsForCatalog(collections, songs);
+        const state =
+          serverState.collections.length === 0 && localCollections.length > 0
+            ? await saveUserCollections(localCollections)
+            : serverState;
+        if (cancelled) return;
+
+        const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
+        setCollections(normalizedCollections);
+        lastCollectionsSnapshotRef.current = collectionsSnapshot(normalizedCollections);
+        setIsUserCollectionsReady(true);
+      } catch (err) {
+        if (cancelled) return;
+        setIsUserCollectionsReady(false);
+        setError(err instanceof Error ? err.message : 'Не удалось загрузить сборники аккаунта.');
+      }
+    };
+
+    void loadUserCollections();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [account?.authenticated, account?.user?.id, isLiveListPreview]);
+
+  useEffect(() => {
+    if (isLiveListPreview || !account?.authenticated || !isUserCollectionsReady) return;
+
+    const normalizedCollections = normalizeCollectionsForCatalog(collections, songs);
+    const snapshot = collectionsSnapshot(normalizedCollections);
+    if (snapshot === lastCollectionsSnapshotRef.current) return;
+
+    lastCollectionsSnapshotRef.current = snapshot;
+    void saveUserCollections(normalizedCollections)
+      .then((state) => {
+        const savedCollections = normalizeCollectionsForCatalog(state.collections, songs);
+        lastCollectionsSnapshotRef.current = collectionsSnapshot(savedCollections);
+        setCollections(savedCollections);
+      })
+      .catch((err) => {
+        lastCollectionsSnapshotRef.current = '';
+        setError(err instanceof Error ? err.message : 'Не удалось сохранить сборники аккаунта.');
+      });
+  }, [account?.authenticated, collections, isLiveListPreview, isUserCollectionsReady, songs]);
 
   useEffect(() => {
     if (isLiveListPreview || account?.authenticated) return;
@@ -1090,6 +1185,43 @@ function App() {
       setActiveCollectionId(null);
     }
   }, [account?.authenticated, listMode]);
+
+  useEffect(() => {
+    const shareToken = sharedCollectionTokenRef.current;
+    if (!shareToken || handledSharedCollectionTokenRef.current || isAdminMode || isLiveListPreview) return;
+    if (!account) return;
+
+    if (!account.authenticated) {
+      setCollectionSheet(null);
+      setNotice(COLLECTION_LOGIN_MESSAGE);
+      setError(null);
+      setIsCollectionAuthSheetOpen(true);
+      return;
+    }
+    if (!isUserCollectionsReady) return;
+
+    handledSharedCollectionTokenRef.current = true;
+    void importSharedCollection(shareToken)
+      .then((state: UserCollectionsState) => {
+        const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
+        setCollections(normalizedCollections);
+        lastCollectionsSnapshotRef.current = collectionsSnapshot(normalizedCollections);
+        if (state.collection?.id) {
+          setActiveCollectionId(state.collection.id);
+          setListMode('collection');
+        }
+        setCollectionSheet(null);
+        setIsCollectionAuthSheetOpen(false);
+        setNotice('Сборник добавлен в ваш аккаунт.');
+        setError(null);
+        if (typeof window !== 'undefined') {
+          window.history.replaceState(null, '', '/');
+        }
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : 'Не удалось добавить сборник по ссылке.');
+      });
+  }, [account?.authenticated, account?.user?.id, isAdminMode, isLiveListPreview, isUserCollectionsReady, songs]);
 
   useEffect(() => {
     if (isLiveListPreview) return;
@@ -1174,7 +1306,12 @@ function App() {
   const onSettingsChange = (next: SongSettings) => setSettings(next);
 
   const requireCollectionAccount = () => {
-    if (account?.authenticated) return true;
+    if (account?.authenticated && isUserCollectionsReady) return true;
+    if (account?.authenticated) {
+      setNotice('Загружаю сборники аккаунта...');
+      setError(null);
+      return false;
+    }
 
     setCollectionSheet(null);
     setNotice(isAccountLoading || !account ? 'Проверяю вход в аккаунт...' : COLLECTION_LOGIN_MESSAGE);
@@ -1279,8 +1416,11 @@ function App() {
   );
 
   const activeCollection = useMemo(
-    () => (account?.authenticated ? collections.find((collection) => collection.id === activeCollectionId) ?? null : null),
-    [account?.authenticated, collections, activeCollectionId],
+    () =>
+      account?.authenticated && isUserCollectionsReady
+        ? collections.find((collection) => collection.id === activeCollectionId) ?? null
+        : null,
+    [account?.authenticated, activeCollectionId, collections, isUserCollectionsReady],
   );
   const liveCollection = useMemo(
     () => liveCollections.find((collection) => collection.id === liveCollectionId) ?? null,
@@ -1416,7 +1556,21 @@ function App() {
     if (!requireCollectionAccount()) return;
     const collection = collections.find((item) => item.id === collectionId);
     if (!collection) return;
-    void shareText(collection.name, buildCollectionShareText(`Сборник: ${collection.name}`, collection.songIds, songs));
+    if (!collection.shareToken) {
+      setNotice('Сборник сохраняется. Попробуйте поделиться через пару секунд.');
+      setError(null);
+      return;
+    }
+
+    const origin = getShareOrigin();
+    const link = origin ? `${origin}/collection/${encodeURIComponent(collection.shareToken)}` : '';
+    const body = [
+      `Сборник: ${collection.name}`,
+      link,
+      '',
+      buildCollectionShareText('Песни', collection.songIds, songs),
+    ].filter(Boolean).join('\n');
+    void shareText(collection.name, body);
   };
 
   const shareLive = () => {
@@ -1901,7 +2055,7 @@ function App() {
                 onModeChange={selectListMode}
                 totalCount={songs.length}
                 recentCount={recentSongs.length}
-                collections={account?.authenticated ? collections : []}
+                collections={account?.authenticated && isUserCollectionsReady ? collections : []}
                 activeCollectionId={activeCollectionId}
                 liveCollectionId={liveCollectionId}
                 liveCollections={liveCollections}
@@ -1957,8 +2111,8 @@ function App() {
               </button>
             </div>
             <p>
-              Для сборников нужен аккаунт. Это следующий шаг к синхронизации между телефонами и добавлению сборников по
-              ссылке от другого пользователя.
+              Для сборников нужен аккаунт. После входа они сохраняются на сервере, доступны на другом телефоне и могут
+              добавляться по ссылке от другого пользователя.
             </p>
             <div className="sheet-actions">
               <button type="button" className="sheet-secondary" onClick={() => setIsCollectionAuthSheetOpen(false)}>
