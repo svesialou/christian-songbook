@@ -1,12 +1,19 @@
 import { Fragment, type CSSProperties, type TouchEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { Song } from '../types/song';
-import { normalizeTransposition, transposeSongRows } from '../lib/chords';
+import {
+  findPreferredKeyTransposition,
+  normalizeTransposition,
+  transposeKeyLabel,
+  transposeSongRows,
+} from '../lib/chords';
+import { UserPreferences } from '../lib/catalogApi';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
 
 type SongViewProps = {
   song: Song;
   settings: SongSettings;
   playbackPosition: SongPlaybackPosition | null;
+  preferences?: UserPreferences;
   initialAutoPlay?: boolean;
   onBack: () => void;
   onShare: (song: Song) => void;
@@ -82,6 +89,7 @@ const Section = ({
   chords,
   settings,
   playbackPosition,
+  effectiveTransposition,
   registerLine,
   onPlaybackPositionChange,
 }: {
@@ -92,6 +100,7 @@ const Section = ({
   chords: string[][];
   settings: SongSettings;
   playbackPosition: SongPlaybackPosition | null;
+  effectiveTransposition: number;
   registerLine: (key: string, element: HTMLButtonElement | null) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
 }) => {
@@ -130,7 +139,7 @@ const Section = ({
           aria-label={`${isActive ? 'Снять фокус со строки' : 'Отметить текущую строку'}: ${title}, строка ${index + 1}`}
         >
           {chordText ? (
-            <span className="chords">{transposeSongRows([chordText], settings.transposition)[0]}</span>
+            <span className="chords">{transposeSongRows([chordText], effectiveTransposition)[0]}</span>
           ) : null}
           <span className="line">{text}</span>
         </button>
@@ -150,6 +159,7 @@ const SongView = ({
   song,
   settings,
   playbackPosition,
+  preferences,
   initialAutoPlay = false,
   onBack,
   onShare,
@@ -197,6 +207,34 @@ const SongView = ({
   const lineProgress = lineDurationMs > 0 ? Math.min(100, (lineElapsedMs / lineDurationMs) * 100) : 0;
   const playbackProgress = isAutoPlaying ? (isIntroActive ? introProgress : lineProgress) : 0;
   const playbackProgressStyle = { '--playback-progress': `${playbackProgress}%` } as CSSProperties;
+  const preferredTransposition = useMemo(
+    () =>
+      preferences?.preferredKeys?.length
+        ? findPreferredKeyTransposition(song.defaultKey, preferences.preferredKeys)
+        : null,
+    [preferences?.preferredKeys, song.defaultKey],
+  );
+  const personalTransposition = preferredTransposition?.shift ?? 0;
+  const effectiveTransposition = normalizeTransposition(personalTransposition + settings.transposition);
+  const renderedKey = transposeKeyLabel(song.defaultKey, effectiveTransposition);
+  const inverseTransposition = normalizeTransposition(-effectiveTransposition);
+  const capoValue =
+    preferences?.capoEnabled && effectiveTransposition < 0 && Math.abs(effectiveTransposition) <= preferences.maxCapo
+      ? Math.abs(effectiveTransposition)
+      : null;
+  const personalKeyAdvice = preferredTransposition
+    ? [
+        preferences?.showOriginalKey ? `Оригинал: ${preferredTransposition.originalKey}` : null,
+        renderedKey ? `Сейчас: ${renderedKey}` : `Удобно: ${preferredTransposition.targetKey}`,
+        `Сдвиг: ${effectiveTransposition > 0 ? `+${effectiveTransposition}` : effectiveTransposition}`,
+        capoValue !== null ? `Capo ${capoValue} для оригинальной высоты` : null,
+        preferences?.pianoTransposeEnabled && effectiveTransposition !== 0
+          ? `Клавиши transpose ${inverseTransposition > 0 ? `+${inverseTransposition}` : inverseTransposition}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(' · ')
+    : null;
   const playbackStatus = isIntroActive
     ? `Вступление: ${introBeats} долей`
     : isAutoPlaying
@@ -431,7 +469,7 @@ const SongView = ({
               >
                 -
               </button>
-              <span>{settings.transposition > 0 ? `+${settings.transposition}` : settings.transposition}</span>
+              <span>{effectiveTransposition > 0 ? `+${effectiveTransposition}` : effectiveTransposition}</span>
               <button
                 type="button"
                 onClick={() => setTransposition(settings.transposition + 1)}
@@ -479,6 +517,7 @@ const SongView = ({
               ) : null}
             </div>
           </div>
+          {personalKeyAdvice ? <p className="personal-key-advice">{personalKeyAdvice}</p> : null}
         </div>
       </div>
 
@@ -493,6 +532,7 @@ const SongView = ({
               chords={verse.chords}
               settings={settings}
               playbackPosition={activePosition}
+              effectiveTransposition={effectiveTransposition}
               registerLine={registerLine}
               onPlaybackPositionChange={onPlaybackPositionChange}
             />
@@ -506,6 +546,7 @@ const SongView = ({
                 chords={song.chorus.chords}
                 settings={settings}
                 playbackPosition={activePosition}
+                effectiveTransposition={effectiveTransposition}
                 registerLine={registerLine}
                 onPlaybackPositionChange={onPlaybackPositionChange}
               />
@@ -522,6 +563,7 @@ const SongView = ({
             chords={song.bridge.chords}
             settings={settings}
             playbackPosition={activePosition}
+            effectiveTransposition={effectiveTransposition}
             registerLine={registerLine}
             onPlaybackPositionChange={onPlaybackPositionChange}
           />

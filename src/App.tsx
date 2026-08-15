@@ -43,9 +43,7 @@ import {
   updateAdminSong,
   updateSongSubmission,
 } from './lib/catalogApi';
-import AdminCatalogSheet from './components/AdminCatalogSheet';
-import AdminSongCreateSheet from './components/AdminSongCreateSheet';
-import AdminSubmissionsSheet from './components/AdminSubmissionsSheet';
+import AdminPanel, { AdminRoute } from './components/AdminPanel';
 import SongList from './components/SongList';
 import SongSubmissionSheet from './components/SongSubmissionSheet';
 import SongView from './components/SongView';
@@ -99,7 +97,32 @@ const readSongRouteParam = () => {
 const isAdminRoute = () => {
   if (typeof window === 'undefined') return false;
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-  return pathname === '/admin';
+  return pathname === '/admin' || pathname.startsWith('/admin/');
+};
+
+const readAdminRoute = (): AdminRoute => {
+  if (typeof window === 'undefined') return { page: 'home' };
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/admin';
+  const segments = pathname.replace(/^\/admin\/?/, '').split('/').filter(Boolean);
+  if (segments.length === 0) return { page: 'home' };
+  if (segments[0] === 'songs' && segments[1]) return { page: 'song', songId: decodeURIComponent(segments[1]) };
+  if (segments[0] === 'songs') return { page: 'songs' };
+  if (segments[0] === 'new') return { page: 'new' };
+  if (segments[0] === 'submissions' && segments[1]) {
+    const submissionId = Number(segments[1]);
+    return Number.isFinite(submissionId) ? { page: 'submission', submissionId } : { page: 'submissions' };
+  }
+  if (segments[0] === 'submissions') return { page: 'submissions' };
+  return { page: 'home' };
+};
+
+const adminRoutePath = (route: AdminRoute) => {
+  if (route.page === 'songs') return '/admin/songs';
+  if (route.page === 'song') return `/admin/songs/${encodeURIComponent(route.songId)}`;
+  if (route.page === 'new') return '/admin/new';
+  if (route.page === 'submissions') return '/admin/submissions';
+  if (route.page === 'submission') return `/admin/submissions/${route.submissionId}`;
+  return '/admin';
 };
 
 const updateSongQuery = (songId: string | null) => {
@@ -433,9 +456,7 @@ function App() {
   const [isAppMenuOpen, setIsAppMenuOpen] = useState(isMenuPreview);
   const [pullDistance, setPullDistance] = useState(0);
   const [isSubmissionSheetOpen, setIsSubmissionSheetOpen] = useState(false);
-  const [isAdminSubmissionsOpen, setIsAdminSubmissionsOpen] = useState(false);
-  const [isAdminSongCreateOpen, setIsAdminSongCreateOpen] = useState(false);
-  const [isAdminCatalogOpen, setIsAdminCatalogOpen] = useState(false);
+  const [adminRoute, setAdminRoute] = useState<AdminRoute>(() => readAdminRoute());
   const [pendingSubmissions, setPendingSubmissions] = useState<SongSubmission[]>([]);
   const [isPendingSubmissionsLoading, setIsPendingSubmissionsLoading] = useState(false);
   const [savingSubmissionId, setSavingSubmissionId] = useState<number | null>(null);
@@ -489,6 +510,14 @@ function App() {
         : current,
     );
     setNotice('Персональные настройки сохранены.');
+  };
+
+  const navigateAdmin = (route: AdminRoute) => {
+    setAdminRoute(route);
+    setActiveSongId(null);
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', adminRoutePath(route));
+    }
   };
 
   const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>) => {
@@ -699,12 +728,27 @@ function App() {
     setAdminApiKey(DEFAULT_ADMIN_API_KEY);
     setPendingSubmissions([]);
     setIsAdminAuthenticated(false);
-    setIsAdminSubmissionsOpen(false);
-    setIsAdminSongCreateOpen(false);
-    setIsAdminCatalogOpen(false);
+    setAdminRoute({ page: 'home' });
+    if (typeof window !== 'undefined' && isAdminMode) {
+      window.history.replaceState(null, '', '/admin');
+    }
     setNotice(null);
     setError(null);
   };
+
+  useEffect(() => {
+    if (!isAdminMode) return undefined;
+    const handlePopState = () => setAdminRoute(readAdminRoute());
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isAdminMode]);
+
+  useEffect(() => {
+    if (!isAdminMode || !isAdminAuthenticated) return;
+    if (adminRoute.page === 'submissions' || adminRoute.page === 'submission') {
+      void loadPendingSubmissions();
+    }
+  }, [adminRoute.page, isAdminAuthenticated, isAdminMode]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1480,7 +1524,7 @@ function App() {
                   <div className="admin-tools">
                     <div>
                       <p className="admin-tools-title">Admin</p>
-                      <p className="admin-tools-note">Заявки и локальный импорт. Для обычных пользователей скрыто.</p>
+                      <p className="admin-tools-note">Отдельные страницы управления без модальных окон.</p>
                     </div>
                     <div className="toolbar">
 	                      <button
@@ -1488,7 +1532,7 @@ function App() {
 	                        className="toolbar-button"
 	                        onClick={() => {
 	                          setIsAppMenuOpen(false);
-	                          setIsAdminCatalogOpen(true);
+	                          navigateAdmin({ page: 'songs' });
 	                        }}
 	                      >
 	                        Каталог
@@ -1498,7 +1542,7 @@ function App() {
 	                        className="toolbar-button"
 	                        onClick={() => {
                           setIsAppMenuOpen(false);
-                          setIsAdminSongCreateOpen(true);
+                          navigateAdmin({ page: 'new' });
                         }}
                       >
                         Добавить песню
@@ -1508,8 +1552,7 @@ function App() {
                         className="toolbar-button"
                         onClick={() => {
                           setIsAppMenuOpen(false);
-                          setIsAdminSubmissionsOpen(true);
-                          if (adminApiKey.trim()) void loadPendingSubmissions();
+                          navigateAdmin({ page: 'submissions' });
                         }}
                       >
                         Заявки
@@ -1557,45 +1600,39 @@ function App() {
         <section className="content-panel">
           {error ? <div className="error">{error}</div> : null}
           {notice ? <div className="notice">{notice}</div> : null}
-          {isAdminMode && !activeSong ? (
-            <section className="admin-dashboard" aria-labelledby="admin-dashboard-title">
-              <div>
-                <p className="eyebrow">Admin panel</p>
-                <h2 id="admin-dashboard-title">Управление каталогом</h2>
-                <p>Каталог подтягивается из MySQL. Заявки можно проверить и добавить в текущую опубликованную версию.</p>
-              </div>
-              <div className="admin-dashboard-actions">
-	                <button type="button" className="sheet-primary" onClick={() => setIsAdminSongCreateOpen(true)}>
-	                  Добавить песню
-	                </button>
-	                <button type="button" className="sheet-primary" onClick={() => setIsAdminCatalogOpen(true)}>
-	                  Каталог
-	                </button>
-	                <button
-	                  type="button"
-	                  className="sheet-primary"
-                  onClick={() => {
-                    setIsAdminSubmissionsOpen(true);
-                    void loadPendingSubmissions();
-                  }}
-                >
-                  Заявки
-                </button>
-                <button type="button" className="sheet-secondary" onClick={() => void refreshCatalog(true)}>
-                  Обновить из БД
-                </button>
-                <button type="button" className="sheet-secondary" onClick={handleAdminLogout}>
-                  Выйти
-                </button>
-              </div>
-            </section>
-          ) : null}
-
-          {activeSong ? (
+          {isAdminMode ? (
+            <AdminPanel
+              route={adminRoute}
+              songs={songs}
+              categories={categoryOptions.map((category) => category.name)}
+              submissions={pendingSubmissions}
+              isSubmissionsLoading={isPendingSubmissionsLoading}
+              savingSubmissionId={savingSubmissionId}
+              approvingSubmissionId={approvingSubmissionId}
+              rejectingSubmissionId={rejectingSubmissionId}
+              savingSongId={savingAdminSongId}
+              onNavigate={navigateAdmin}
+              onRefreshCatalog={() => void refreshCatalog(true)}
+              onRefreshSubmissions={() => void loadPendingSubmissions()}
+              onCreateSong={async (message) => {
+                setNotice(message);
+                setError(null);
+                await refreshCatalog(false);
+                navigateAdmin({ page: 'songs' });
+              }}
+              onSaveSong={(songId, payload) => void handleSaveAdminSong(songId, payload)}
+              onSaveSubmission={(submissionId, payload) => void handleSaveSubmission(submissionId, payload)}
+              onApproveSubmission={(submissionId) => void handleApproveSubmission(submissionId)}
+              onRejectSubmission={(submissionId) => void handleRejectSubmission(submissionId)}
+              onLogout={handleAdminLogout}
+              adminKey={adminApiKey}
+            />
+          ) : activeSong ? (
             <SongView
               song={activeSong}
               settings={songViewSettings}
               playbackPosition={previewPlaybackPosition}
+              preferences={account?.authenticated ? account.preferences : undefined}
               initialAutoPlay={isAutoPlaybackPreview}
               onBack={closeSong}
               onShare={shareSong}
@@ -1734,46 +1771,6 @@ function App() {
             setIsSubmissionSheetOpen(false);
             setNotice(message);
             setError(null);
-          }}
-        />
-      ) : null}
-
-      {isAdminMode && isAdminSubmissionsOpen ? (
-        <AdminSubmissionsSheet
-          submissions={pendingSubmissions}
-          isLoading={isPendingSubmissionsLoading}
-          approvingId={approvingSubmissionId}
-          rejectingId={rejectingSubmissionId}
-          savingId={savingSubmissionId}
-          onRefresh={() => void loadPendingSubmissions()}
-          onSave={(submissionId, payload) => void handleSaveSubmission(submissionId, payload)}
-          onApprove={(submissionId) => void handleApproveSubmission(submissionId)}
-          onReject={(submissionId) => void handleRejectSubmission(submissionId)}
-          onClose={() => setIsAdminSubmissionsOpen(false)}
-        />
-      ) : null}
-
-      {isAdminMode && isAdminCatalogOpen ? (
-        <AdminCatalogSheet
-          songs={songs}
-          categories={categoryOptions.map((category) => category.name)}
-          savingId={savingAdminSongId}
-          onRefresh={() => void refreshCatalog(true)}
-          onSave={(songId, payload) => void handleSaveAdminSong(songId, payload)}
-          onClose={() => setIsAdminCatalogOpen(false)}
-        />
-      ) : null}
-
-      {isAdminMode && isAdminSongCreateOpen ? (
-        <AdminSongCreateSheet
-          adminKey={adminApiKey}
-          categories={categoryOptions.map((category) => category.name)}
-          onClose={() => setIsAdminSongCreateOpen(false)}
-          onCreated={async (message) => {
-            setIsAdminSongCreateOpen(false);
-            setNotice(message);
-            setError(null);
-            await refreshCatalog(false);
           }}
         />
       ) : null}

@@ -14,6 +14,18 @@ export const normalizeTransposition = (transposition: number): number => {
   return safe > 6 ? safe - 12 : safe;
 };
 
+export type SongKey = {
+  root: string;
+  minor: boolean;
+  label: string;
+};
+
+export type PreferredKeyTransposition = {
+  originalKey: string;
+  targetKey: string;
+  shift: number;
+};
+
 const normalizeNote = (note: string): string => {
   const accidental = note[1] === '#' || note[1] === 'b' ? note[1] : '';
   const normalized = `${note[0]?.toUpperCase() ?? ''}${accidental}`;
@@ -22,12 +34,72 @@ const normalizeNote = (note: string): string => {
   return FLAT_TO_SHARP[normalized] || normalized;
 };
 
+export const parseSongKey = (rawKey?: string): SongKey | null => {
+  const match = rawKey?.trim().match(/^([A-Ha-h][#b]?)(m?)/);
+  if (!match) return null;
+
+  const root = normalizeNote(match[1]);
+  if (!CHORDS.includes(root)) return null;
+
+  const minor = match[2]?.toLowerCase() === 'm';
+  return {
+    root,
+    minor,
+    label: `${root}${minor ? 'm' : ''}`,
+  };
+};
+
 const shiftIndex = (root: string, shift: number): string => {
   const index = CHORDS.indexOf(root);
   if (index === -1) return root;
   const count = CHORDS.length;
   const normalized = ((index + shift) % count + count) % count;
   return CHORDS[normalized];
+};
+
+export const transposeKeyLabel = (rawKey: string | undefined, transposition: number): string | null => {
+  const key = parseSongKey(rawKey);
+  if (!key) return null;
+
+  return `${shiftIndex(key.root, normalizeTransposition(transposition))}${key.minor ? 'm' : ''}`;
+};
+
+export const findPreferredKeyTransposition = (
+  rawOriginalKey: string | undefined,
+  preferredKeys: string[],
+): PreferredKeyTransposition | null => {
+  const originalKey = parseSongKey(rawOriginalKey);
+  if (!originalKey) return null;
+
+  const candidates = preferredKeys
+    .map((rawKey, index) => {
+      const key = parseSongKey(rawKey);
+      if (!key) return null;
+
+      return {
+        key,
+        index,
+        shift: normalizeTransposition(CHORDS.indexOf(key.root) - CHORDS.indexOf(originalKey.root)),
+      };
+    })
+    .filter((item): item is { key: SongKey; index: number; shift: number } => Boolean(item));
+  if (candidates.length === 0) return null;
+
+  const sameModeCandidates = candidates.filter((candidate) => candidate.key.minor === originalKey.minor);
+  const pool = sameModeCandidates.length > 0 ? sameModeCandidates : candidates;
+  const best = pool.reduce((currentBest, candidate) => {
+    const currentDistance = Math.abs(currentBest.shift);
+    const candidateDistance = Math.abs(candidate.shift);
+    if (candidateDistance < currentDistance) return candidate;
+    if (candidateDistance === currentDistance && candidate.index < currentBest.index) return candidate;
+    return currentBest;
+  }, pool[0]);
+
+  return {
+    originalKey: originalKey.label,
+    targetKey: best.key.label,
+    shift: best.shift,
+  };
 };
 
 const splitChordToken = (token: string): [string, string, string | null] | null => {
