@@ -646,17 +646,6 @@ func main() {
 		writeJSON(w, http.StatusOK, collections)
 	})
 	mux.HandleFunc("GET /api/shared-collections/{token}", func(w http.ResponseWriter, r *http.Request) {
-		_, authenticated, err := currentUserIDFromRequest(r.Context(), db, cfg, r)
-		if err != nil {
-			logger.Error("resolve current user failed", "error", err)
-			writeError(w, http.StatusInternalServerError, "failed to resolve current user")
-			return
-		}
-		if !authenticated {
-			writeError(w, http.StatusUnauthorized, "login is required to read shared collections")
-			return
-		}
-
 		collection, err := getSharedCollection(r.Context(), db, r.PathValue("token"))
 		if errors.Is(err, sql.ErrNoRows) {
 			writeError(w, http.StatusNotFound, "shared collection not found")

@@ -300,6 +300,12 @@ export const saveUserCollections = (collections: SongCollection[]): Promise<User
     body: JSON.stringify({ collections }),
   });
 
+export const fetchSharedCollection = (shareToken: string): Promise<UserCollectionsState> =>
+  requestJSON<UserCollectionsState>(`/api/shared-collections/${encodeURIComponent(shareToken)}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
 export const importSharedCollection = (shareToken: string): Promise<UserCollectionsState> =>
   requestJSON<UserCollectionsState>(`/api/shared-collections/${encodeURIComponent(shareToken)}/import`, {
     method: 'POST',

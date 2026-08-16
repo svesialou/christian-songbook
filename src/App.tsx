@@ -37,6 +37,7 @@ import {
   fetchCatalogSnapshot,
   fetchCurrentUser,
   fetchPendingSongSubmissions,
+  fetchSharedCollection,
   fetchUserCollections,
   fetchUserLiveState,
   googleAuthStartUrl,
@@ -489,6 +490,7 @@ function App() {
   const [collections, setCollections] = useState<SongCollection[]>(() =>
     readSearchParam('livePreview') === '1' ? [LIVE_PREVIEW_COLLECTION] : [],
   );
+  const [publicSharedCollection, setPublicSharedCollection] = useState<SongCollection | null>(null);
   const [liveCollections, setLiveCollections] = useState<SongCollection[]>(() =>
     readSearchParam('livePreview') === '1' ? [LIVE_PREVIEW_COLLECTION] : [],
   );
@@ -1191,11 +1193,11 @@ function App() {
     }
 
     setCollectionSheet(null);
-    if (listMode === 'collection') {
+    if (listMode === 'collection' && activeCollectionId !== publicSharedCollection?.id) {
       setListMode('all');
       setActiveCollectionId(null);
     }
-  }, [account?.authenticated, listMode]);
+  }, [account?.authenticated, activeCollectionId, listMode, publicSharedCollection?.id]);
 
   useEffect(() => {
     const shareToken = sharedCollectionTokenRef.current;
@@ -1203,15 +1205,36 @@ function App() {
     if (!account) return;
 
     if (!account.authenticated) {
-      setCollectionSheet(null);
-      setNotice(COLLECTION_LOGIN_MESSAGE);
-      setError(null);
-      setIsCollectionAuthSheetOpen(true);
+      handledSharedCollectionTokenRef.current = true;
+      void fetchSharedCollection(shareToken)
+        .then((state: UserCollectionsState) => {
+          const collection = state.collection ?? state.collections[0];
+          if (!collection) {
+            throw new Error('Сборник по ссылке не найден.');
+          }
+
+          const [normalizedCollection] = normalizeCollectionsForCatalog(
+            [{ ...collection, isOwner: false }],
+            songs,
+          );
+          setPublicSharedCollection(normalizedCollection);
+          setActiveCollectionId(normalizedCollection.id);
+          setListMode('collection');
+          setCollectionSheet(null);
+          setIsCollectionAuthSheetOpen(false);
+          setNotice('Открыт сборник по ссылке. Войдите, чтобы подписаться и сохранить его в аккаунте.');
+          setError(null);
+        })
+        .catch((err) => {
+          handledSharedCollectionTokenRef.current = false;
+          setError(err instanceof Error ? err.message : 'Не удалось открыть сборник по ссылке.');
+        });
       return;
     }
     if (!isUserCollectionsReady) return;
 
     handledSharedCollectionTokenRef.current = true;
+    setPublicSharedCollection(null);
     void importSharedCollection(shareToken)
       .then((state: UserCollectionsState) => {
         const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
@@ -1431,11 +1454,16 @@ function App() {
   );
 
   const activeCollection = useMemo(
-    () =>
-      account?.authenticated && isUserCollectionsReady
-        ? collections.find((collection) => collection.id === activeCollectionId) ?? null
-        : null,
-    [account?.authenticated, activeCollectionId, collections, isUserCollectionsReady],
+    () => {
+      if (account?.authenticated && isUserCollectionsReady) {
+        return collections.find((collection) => collection.id === activeCollectionId) ?? null;
+      }
+      if (publicSharedCollection?.id === activeCollectionId) {
+        return publicSharedCollection;
+      }
+      return null;
+    },
+    [account?.authenticated, activeCollectionId, collections, isUserCollectionsReady, publicSharedCollection],
   );
   const liveCollection = useMemo(
     () => liveCollections.find((collection) => collection.id === liveCollectionId) ?? null,
@@ -1568,8 +1596,9 @@ function App() {
   const shareSong = (song: Song) => void shareText(song.title, buildSongShareText(song));
 
   const shareCollection = (collectionId: string) => {
-    if (!requireCollectionAccount()) return;
-    const collection = collections.find((item) => item.id === collectionId);
+    const publicCollection = publicSharedCollection?.id === collectionId ? publicSharedCollection : null;
+    if (!publicCollection && !requireCollectionAccount()) return;
+    const collection = collections.find((item) => item.id === collectionId) ?? publicCollection;
     if (!collection) return;
     if (!collection.shareToken) {
       setNotice('Сборник сохраняется. Попробуйте поделиться через пару секунд.');
@@ -2084,7 +2113,7 @@ function App() {
                 recentCount={recentSongs.length}
                 canUseCollections={canUseCollections}
                 canUseLive={canUseLive}
-                collections={canUseCollections ? collections : []}
+                collections={canUseCollections ? collections : publicSharedCollection ? [publicSharedCollection] : []}
                 activeCollectionId={activeCollectionId}
                 liveCollectionId={liveCollectionId}
                 liveCollections={liveCollections}
