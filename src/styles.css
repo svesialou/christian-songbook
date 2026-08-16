@@ -1767,6 +1767,18 @@ button:disabled {
   box-shadow: inset 3px 0 0 var(--accent);
 }
 
+.song-line-block.is-chords-only {
+  margin-bottom: 10px;
+}
+
+.song-line-block.is-chords-only .song-line-button {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+  background: var(--surface-soft);
+}
+
 .line {
   display: block;
   color: var(--line);

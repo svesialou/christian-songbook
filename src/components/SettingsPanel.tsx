@@ -21,7 +21,7 @@ const presetSettings: Record<SongSettings['viewPreset'], Partial<SongSettings>> 
 const presetLabels: Record<SongSettings['viewPreset'], { title: string; description: string }> = {
   lead: { title: 'Lead', description: 'Текст и аккорды' },
   singer: { title: 'Singer', description: 'Крупный текст' },
-  chords: { title: 'Chords', description: 'Аккорды в фокусе' },
+  chords: { title: 'Chords', description: 'Только аккорды' },
 };
 
 const defaultUserPreferences = (): UserPreferences => ({

@@ -114,7 +114,7 @@ const buildPlaybackLines = (song: Song, repeatChorus: boolean): PlaybackLine[] =
 const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
   lead: 'Lead: текст и аккорды',
   singer: 'Singer: крупный текст',
-  chords: 'Chords: аккорды в фокусе',
+  chords: 'Chords: только аккорды',
 };
 
 const inferKeyFromChords = (song: Song): string | undefined => {
@@ -156,18 +156,18 @@ const Section = ({
   registerLine: (key: string, element: HTMLButtonElement | null) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
 }) => {
-  const rendered = rows.map((row, index) => {
+  const isChordsOnly = settings.viewPreset === 'chords';
+  const rendered = rows.flatMap((row, index) => {
     const chordRow = chords[index] || [];
     const chordText = settings.showChords ? chordRow.join('   ') : '';
     const text = row;
     const isActive = playbackPosition?.sectionId === sectionId && playbackPosition.lineIndex === index;
+    if (isChordsOnly && !chordText) return [];
 
-    return (
+    return [(
       <li
         key={`${title}-${index}`}
-        className={`song-line-block ${settings.viewPreset === 'chords' ? 'is-chords-focus' : ''} ${
-          isActive ? 'is-active' : ''
-        }`}
+        className={`song-line-block ${isChordsOnly ? 'is-chords-only' : ''} ${isActive ? 'is-active' : ''}`}
       >
         <button
           type="button"
@@ -188,15 +188,17 @@ const Section = ({
           }}
           aria-pressed={isActive}
           aria-current={isActive ? 'true' : undefined}
-          aria-label={`${isActive ? 'Снять фокус со строки' : 'Отметить текущую строку'}: ${title}, строка ${index + 1}`}
+          aria-label={`${isActive ? 'Снять фокус со строки' : 'Отметить текущую строку'}: ${title}, строка ${
+            index + 1
+          }${isChordsOnly ? `, аккорды ${transposeSongRows([chordText], effectiveTransposition)[0]}` : ''}`}
         >
           {chordText ? (
             <span className="chords">{transposeSongRows([chordText], effectiveTransposition)[0]}</span>
           ) : null}
-          <span className="line">{text}</span>
+          {!isChordsOnly ? <span className="line">{text}</span> : null}
         </button>
       </li>
-    );
+    )];
   });
 
   return (
