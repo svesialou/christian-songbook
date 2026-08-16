@@ -17,8 +17,12 @@ type SongViewProps = {
   playbackPosition: SongPlaybackPosition | null;
   preferences?: UserPreferences;
   initialAutoPlay?: boolean;
+  livePositionLabel?: string;
+  previousLiveSong?: Song;
+  nextLiveSong?: Song;
   onBack: () => void;
   onShare: (song: Song) => void;
+  onLiveSongSelect?: (songId: string) => void;
   onTranspositionChange: (songId: string, transposition: number) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
   onSubmitEdit: (song: Song, payload: SongSubmissionPayload) => Promise<void>;
@@ -239,8 +243,12 @@ const SongView = ({
   playbackPosition,
   preferences,
   initialAutoPlay = false,
+  livePositionLabel,
+  previousLiveSong,
+  nextLiveSong,
   onBack,
   onShare,
+  onLiveSongSelect,
   onTranspositionChange,
   onPlaybackPositionChange,
   onSubmitEdit,
@@ -608,6 +616,27 @@ const SongView = ({
           <button type="button" onClick={() => onShare(song)} className="toolbar-button">Поделиться</button>
           <button type="button" onClick={() => setIsEditOpen(true)} className="toolbar-button">Править</button>
         </div>
+        {onLiveSongSelect && livePositionLabel ? (
+          <nav className="song-live-navigation" aria-label="Навигация по live-сборнику">
+            <button
+              type="button"
+              className="toolbar-button"
+              onClick={() => previousLiveSong && onLiveSongSelect(previousLiveSong.id)}
+              disabled={!previousLiveSong}
+            >
+              Предыдущая
+            </button>
+            <span>{livePositionLabel}</span>
+            <button
+              type="button"
+              className="toolbar-button"
+              onClick={() => nextLiveSong && onLiveSongSelect(nextLiveSong.id)}
+              disabled={!nextLiveSong}
+            >
+              Следующая
+            </button>
+          </nav>
+        ) : null}
         <div>
           <p className="eyebrow">Песня №{song.number}</p>
           <h1>{song.title}</h1>

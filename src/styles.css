@@ -1454,6 +1454,27 @@ button:disabled {
   gap: 8px;
 }
 
+.song-live-navigation {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface-soft);
+  padding: 8px;
+}
+
+.song-live-navigation span {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  padding: 0 4px;
+}
+
 .song-sheet-music {
   display: grid;
   gap: 12px;

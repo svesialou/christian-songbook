@@ -1707,6 +1707,15 @@ function App() {
     const resolvedSongId = resolveRouteSongId(songs, activeSongId);
     return resolvedSongId ? songs.find((item) => item.id === resolvedSongId) : undefined;
   }, [songs, activeSongId]);
+  const activeLiveSongIndex = activeSong && listMode === 'live' ? liveSongIds.indexOf(activeSong.id) : -1;
+  const previousLiveSong =
+    activeLiveSongIndex > 0 ? songs.find((song) => song.id === liveSongIds[activeLiveSongIndex - 1]) : undefined;
+  const nextLiveSong =
+    activeLiveSongIndex >= 0 && activeLiveSongIndex < liveSongIds.length - 1
+      ? songs.find((song) => song.id === liveSongIds[activeLiveSongIndex + 1])
+      : undefined;
+  const livePositionLabel =
+    activeLiveSongIndex >= 0 ? `${activeLiveSongIndex + 1} из ${liveSongIds.length}` : undefined;
   const previewPlaybackPosition: SongPlaybackPosition | null =
     isPlaybackPreview && activeSong
       ? {
@@ -2090,8 +2099,12 @@ function App() {
               playbackPosition={previewPlaybackPosition}
               preferences={account?.authenticated ? account.preferences : undefined}
               initialAutoPlay={isAutoPlaybackPreview}
+              livePositionLabel={livePositionLabel}
+              previousLiveSong={previousLiveSong}
+              nextLiveSong={nextLiveSong}
               onBack={closeSong}
               onShare={shareSong}
+              onLiveSongSelect={openSong}
               onTranspositionChange={onSongTranspositionChange}
               onPlaybackPositionChange={setPlaybackPosition}
               onSubmitEdit={handleSubmitSongEdit}
