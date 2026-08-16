@@ -50,6 +50,20 @@ self.addEventListener('fetch', (event) => {
 
   const isNavigation = request.mode === 'navigate';
 
+  if (isNavigation) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response && response.ok) return response;
+          return caches.match('/').then((cached) => cached || response);
+        })
+        .catch(() =>
+          caches.match('/').then((cached) => cached || new Response('Offline', { status: 503, statusText: 'Offline' })),
+        ),
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
@@ -68,9 +82,6 @@ self.addEventListener('fetch', (event) => {
           return response;
         })
         .catch(() => {
-          if (isNavigation) {
-            return caches.match('/');
-          }
           return new Response('Offline', { status: 503, statusText: 'Offline' });
         });
     }),

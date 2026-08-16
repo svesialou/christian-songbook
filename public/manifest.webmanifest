@@ -2,9 +2,13 @@
   "name": "Христианский сборник песен",
   "short_name": "Сборник песен",
   "description": "Сборник песен с аккордами для прославления",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "lang": "ru",

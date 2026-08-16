@@ -2,9 +2,13 @@
   "name": "Админка | Христианский сборник песен",
   "short_name": "Админка",
   "description": "Админка христианского сборника песен",
+  "id": "/admin",
   "start_url": "/admin",
   "scope": "/",
   "display": "standalone",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "lang": "ru",
