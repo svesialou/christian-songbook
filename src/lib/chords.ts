@@ -90,6 +90,15 @@ export const findPreferredKeyTransposition = (
 
   const sameModeCandidates = candidates.filter((candidate) => candidate.key.minor === originalKey.minor);
   const pool = sameModeCandidates.length > 0 ? sameModeCandidates : candidates;
+  const exactMatch = pool.find((candidate) => candidate.shift === 0);
+  if (exactMatch) {
+    return {
+      originalKey: originalKey.label,
+      targetKey: exactMatch.key.label,
+      shift: 0,
+    };
+  }
+
   const downwardPool = pool.filter((candidate) => candidate.downwardShift >= -6 && candidate.downwardShift <= 0);
   if (downwardPool.length > 0) {
     const best = downwardPool.reduce((currentBest, candidate) =>
