@@ -94,11 +94,35 @@ const buildEditDraft = (song: Song): SongEditDraft => ({
 
 const sectionStableId = (section: SongOrderedSection, index: number) => `${section.sectionType}-${index}`;
 
-const buildPlaybackLines = (song: Song, repeatChorus: boolean): PlaybackLine[] => {
+const chordsOnlySectionTitles: Record<SongOrderedSection['sectionType'], string> = {
+  intro: 'Вступление',
+  verse: 'Куплет',
+  prechorus: 'Пред припев',
+  chorus: 'Припев',
+  bridge: 'Мост',
+  instrumental: 'Проигрыш',
+  outro: 'Концовка',
+  tag: 'Тег',
+};
+
+const getDisplaySections = (song: Song, repeatChorus: boolean, viewPreset: SongSettings['viewPreset']): SongOrderedSection[] => {
+  const sections = getRenderableSections(song, repeatChorus);
+  if (viewPreset !== 'chords') return sections;
+
+  const seenTypes = new Set<SongOrderedSection['sectionType']>();
+  return sections.flatMap((section) => {
+    if (seenTypes.has(section.sectionType)) return [];
+    seenTypes.add(section.sectionType);
+    return [{ ...section, title: chordsOnlySectionTitles[section.sectionType] }];
+  });
+};
+
+const buildPlaybackLines = (song: Song, sections: SongOrderedSection[], chordsOnly: boolean): PlaybackLine[] => {
   const lines: PlaybackLine[] = [];
-  getRenderableSections(song, repeatChorus).forEach((section, sectionIndex) => {
+  sections.forEach((section, sectionIndex) => {
     const sectionId = sectionStableId(section, sectionIndex);
     section.rows.forEach((_, lineIndex) => {
+      if (chordsOnly && !section.chords[lineIndex]?.length) return;
       lines.push({
         sequenceIndex: lines.length,
         songId: song.id,
@@ -243,8 +267,13 @@ const SongView = ({
   const introBeats = playback.introBeats ?? DEFAULT_PLAYBACK.introBeats;
   const introDurationMs = Math.max(0, Math.round((60000 / playback.bpm) * introBeats));
   const playbackLines = useMemo(
-    () => buildPlaybackLines(song, settings.repeatChorus),
-    [song, settings.repeatChorus],
+    () =>
+      buildPlaybackLines(
+        song,
+        getDisplaySections(song, settings.repeatChorus, settings.viewPreset),
+        settings.viewPreset === 'chords',
+      ),
+    [song, settings.repeatChorus, settings.viewPreset],
   );
   const activeLineIndex = activePosition
     ? playbackLines.findIndex(
@@ -663,7 +692,7 @@ const SongView = ({
         </div>
       ) : (
         <div className="song-sections">
-          {getRenderableSections(song, settings.repeatChorus).map((section, index) => (
+          {getDisplaySections(song, settings.repeatChorus, settings.viewPreset).map((section, index) => (
             <Section
               key={`${section.title}-${index}`}
               sectionId={sectionStableId(section, index)}
