@@ -80,17 +80,34 @@ export const findPreferredKeyTransposition = (
         key,
         index,
         shift: normalizeTransposition(CHORDS.indexOf(key.root) - CHORDS.indexOf(originalKey.root)),
+        downwardShift: CHORDS.indexOf(key.root) <= CHORDS.indexOf(originalKey.root)
+          ? CHORDS.indexOf(key.root) - CHORDS.indexOf(originalKey.root)
+          : CHORDS.indexOf(key.root) - CHORDS.indexOf(originalKey.root) - CHORDS.length,
       };
     })
-    .filter((item): item is { key: SongKey; index: number; shift: number } => Boolean(item));
+    .filter((item): item is { key: SongKey; index: number; shift: number; downwardShift: number } => Boolean(item));
   if (candidates.length === 0) return null;
 
   const sameModeCandidates = candidates.filter((candidate) => candidate.key.minor === originalKey.minor);
   const pool = sameModeCandidates.length > 0 ? sameModeCandidates : candidates;
+  const downwardPool = pool.filter((candidate) => candidate.downwardShift >= -6 && candidate.downwardShift <= 0);
+  if (downwardPool.length > 0) {
+    const best = downwardPool.reduce((currentBest, candidate) =>
+      candidate.index < currentBest.index ? candidate : currentBest,
+    );
+
+    return {
+      originalKey: originalKey.label,
+      targetKey: best.key.label,
+      shift: best.downwardShift,
+    };
+  }
+
   const best = pool.reduce((currentBest, candidate) => {
     const currentDistance = Math.abs(currentBest.shift);
     const candidateDistance = Math.abs(candidate.shift);
     if (candidateDistance < currentDistance) return candidate;
+    if (candidateDistance === currentDistance && candidate.shift <= 0 && currentBest.shift > 0) return candidate;
     if (candidateDistance === currentDistance && candidate.index < currentBest.index) return candidate;
     return currentBest;
   }, pool[0]);

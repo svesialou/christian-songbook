@@ -26,7 +26,7 @@ const presetLabels: Record<SongSettings['viewPreset'], { title: string; descript
 
 const defaultUserPreferences = (): UserPreferences => ({
   instrument: 'guitar',
-  preferredKeys: ['G', 'D', 'A'],
+  preferredKeys: ['C', 'G', 'D', 'A'],
   capoEnabled: true,
   maxCapo: 5,
   pianoTransposeEnabled: true,

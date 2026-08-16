@@ -269,12 +269,18 @@ const SongView = ({
   const playbackProgressStyle = { '--playback-progress': `${playbackProgress}%` } as CSSProperties;
   const inferredKey = useMemo(() => inferKeyFromChords(song), [song]);
   const sourceKey = song.defaultKey || inferredKey;
+  const effectivePreferredKeys = useMemo(() => {
+    const preferredKeys = preferences?.preferredKeys || [];
+    if (preferences?.instrument !== 'guitar') return preferredKeys;
+    const hasC = preferredKeys.some((key) => parseSongKey(key)?.root === 'C');
+    return hasC ? preferredKeys : ['C', ...preferredKeys];
+  }, [preferences?.instrument, preferences?.preferredKeys]);
   const preferredTransposition = useMemo(
     () =>
-      preferences?.preferredKeys?.length
-        ? findPreferredKeyTransposition(sourceKey, preferences.preferredKeys)
+      effectivePreferredKeys.length
+        ? findPreferredKeyTransposition(sourceKey, effectivePreferredKeys)
         : null,
-    [preferences?.preferredKeys, sourceKey],
+    [effectivePreferredKeys, sourceKey],
   );
   const personalTransposition = preferredTransposition?.shift ?? 0;
   const effectiveTransposition = normalizeTransposition(personalTransposition + settings.transposition);

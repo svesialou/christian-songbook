@@ -239,6 +239,10 @@ type updateUserSongPreferenceRequest struct {
 	Note           string `json:"note"`
 }
 
+func defaultPreferredKeys() []string {
+	return []string{"C", "G", "D", "A"}
+}
+
 type userLiveCollectionResponse struct {
 	ID        string   `json:"id"`
 	Name      string   `json:"name"`
@@ -1527,6 +1531,9 @@ LIMIT 1`
 	preferredKeys, err := parsePreferredKeysJSON(preferredKeysJSON)
 	if err != nil {
 		return meResponse{}, err
+	}
+	if len(preferredKeys) == 0 {
+		preferredKeys = defaultPreferredKeys()
 	}
 	preferences.PreferredKeys = preferredKeys
 	preferences.CapoEnabled = capoEnabled == 1
