@@ -34,6 +34,7 @@ type SongListProps = {
   onLiveCollectionChange: (collectionId: string | null) => void;
   onLiveCollectionSelect: (collectionId: string) => void;
   onCreateLiveCollection: () => void;
+  onDeleteLiveCollection: (collectionId: string) => void;
   onLiveSongChange: (songId: string | null) => void;
   onAddLiveSong: (songId: string) => void;
   onRemoveLiveSong: (songId: string) => void;
@@ -90,6 +91,7 @@ const SongList = ({
   onLiveCollectionChange,
   onLiveCollectionSelect,
   onCreateLiveCollection,
+  onDeleteLiveCollection,
   onLiveSongChange,
   onAddLiveSong,
   onRemoveLiveSong,
@@ -281,14 +283,29 @@ const SongList = ({
               + Live сборник
             </button>
             {liveCollections.map((collection) => (
-              <button
+              <span
                 key={collection.id}
-                className={`folder-chip ${liveCollectionId === collection.id ? 'is-selected' : ''}`}
-                onClick={() => onLiveCollectionSelect(collection.id)}
-                aria-pressed={liveCollectionId === collection.id}
+                className={`folder-chip collection-chip ${liveCollectionId === collection.id ? 'is-selected' : ''}`}
               >
-                {collection.name} <span>{collection.songIds.length}</span>
-              </button>
+                <button
+                  type="button"
+                  className="collection-chip-main"
+                  onClick={() => onLiveCollectionSelect(collection.id)}
+                  aria-pressed={liveCollectionId === collection.id}
+                >
+                  <span className="collection-chip-title">{collection.name}</span>
+                  <span className="collection-chip-count">{collection.songIds.length}</span>
+                </button>
+                <button
+                  type="button"
+                  className="collection-chip-remove"
+                  onClick={() => onDeleteLiveCollection(collection.id)}
+                  aria-label={`Удалить live-сборник ${collection.name}`}
+                  title="Удалить live-сборник"
+                >
+                  ×
+                </button>
+              </span>
             ))}
           </div>
           <div className="live-list-card is-stage">

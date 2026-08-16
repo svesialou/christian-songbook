@@ -1548,6 +1548,20 @@ function App() {
     setActiveCollectionId(null);
   };
 
+  const deleteLiveCollection = (collectionId: string) => {
+    if (!requireLiveAccount()) return;
+    const collection = liveCollections.find((item) => item.id === collectionId);
+    if (!collection) return;
+    if (typeof window !== 'undefined' && !window.confirm(`Удалить live-сборник «${collection.name}»?`)) return;
+
+    setLiveCollections((current) => current.filter((item) => item.id !== collectionId));
+    if (liveCollectionId === collectionId) {
+      setLiveCollectionId(null);
+      setLiveSongIds([]);
+      setLiveSongId(null);
+    }
+  };
+
   const addLiveSong = (songId: string) => {
     if (!requireLiveAccount()) return;
     if (!liveSourceSongs.some((song) => song.id === songId)) return;
@@ -2142,6 +2156,7 @@ function App() {
                 onLiveCollectionChange={setLiveCollectionId}
                 onLiveCollectionSelect={selectLiveCollection}
                 onCreateLiveCollection={createLiveCollection}
+                onDeleteLiveCollection={deleteLiveCollection}
                 onLiveSongChange={setLiveSongId}
                 onAddLiveSong={addLiveSong}
                 onRemoveLiveSong={removeLiveSong}
