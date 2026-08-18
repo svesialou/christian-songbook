@@ -333,6 +333,18 @@ const normalizeSongPlayback = (value: unknown): SongPlayback | undefined => {
   };
 };
 
+const normalizeSongAuthors = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return [];
+  const seen = new Set<string>();
+  return value.flatMap((item) => {
+    const author = typeof item === 'string' ? item.trim() : '';
+    const key = author.toLowerCase();
+    if (!author || seen.has(key)) return [];
+    seen.add(key);
+    return [author];
+  });
+};
+
 const parseCatalogImport = (
   text: string,
 ): { songs: Song[]; settings?: SongSettings; collections?: SongCollection[] } => {
@@ -395,6 +407,7 @@ const parseCatalogImport = (
       number,
       title,
       category: normalizeCategory(song.category),
+      authors: normalizeSongAuthors(song.authors),
       defaultKey: typeof song.defaultKey === 'string' && song.defaultKey.trim().length > 0 ? song.defaultKey.trim() : undefined,
       leadSheet: typeof song.leadSheet === 'string' && song.leadSheet.trim().length > 0 ? song.leadSheet : undefined,
       sections,
@@ -426,6 +439,7 @@ const normalizeCatalog = (songs: Song[]) =>
     id: song.id || `song-${index + 1}`,
     number: song.number || index + 1,
     category: normalizeCategory(song.category),
+    authors: normalizeSongAuthors(song.authors),
     defaultKey: typeof song.defaultKey === 'string' && song.defaultKey.trim().length > 0 ? song.defaultKey.trim() : undefined,
     playback: normalizeSongPlayback(song.playback),
     verses: song.verses ?? [],
@@ -769,6 +783,7 @@ function App() {
       ...payload,
       title: payload.title.trim(),
       category: payload.category.trim() || DEFAULT_CATEGORY,
+      authors: normalizeSongAuthors(payload.authors),
       defaultKey: payload.defaultKey.trim(),
     };
 
@@ -782,6 +797,7 @@ function App() {
                 ...song,
                 title: normalizedPayload.title,
                 category: normalizedPayload.category,
+                authors: normalizedPayload.authors,
                 defaultKey: normalizedPayload.defaultKey || undefined,
                 leadSheet: normalizedPayload.leadSheet || undefined,
                 sheetMusicUrl: normalizedPayload.sheetMusicUrl || undefined,
@@ -1702,6 +1718,7 @@ function App() {
     return categoryFiltered.filter((song) => {
       const text = [
         song.title,
+        ...(song.authors ?? []),
         normalizeCategory(song.category),
         String(song.number),
         ...(song.leadSheet ? [song.leadSheet] : []),

@@ -133,6 +133,17 @@ func TestParsePreferredKeysJSONEmpty(t *testing.T) {
 	}
 }
 
+func TestNormalizeAuthors(t *testing.T) {
+	authors, err := normalizeAuthors([]string{" Hillsong ", "", "hillsong", "Bethel Music"})
+	if err != nil {
+		t.Fatalf("normalizeAuthors returned error: %v", err)
+	}
+	expected := []string{"Hillsong", "Bethel Music"}
+	if !reflect.DeepEqual(authors, expected) {
+		t.Fatalf("unexpected authors: %#v", authors)
+	}
+}
+
 func TestNormalizeUserPreferences(t *testing.T) {
 	preferences, err := normalizeUserPreferences(updateUserPreferencesRequest{
 		Instrument:            " Guitar ",

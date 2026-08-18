@@ -826,9 +826,17 @@ button:disabled {
 
 .live-source-song strong {
   min-width: 0;
+  display: grid;
+  gap: 2px;
   overflow-wrap: anywhere;
   font-size: 14px;
   font-weight: 900;
+}
+
+.live-source-song strong small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 760;
 }
 
 .live-source-song b {
@@ -903,12 +911,25 @@ button:disabled {
   font-weight: 900;
 }
 
-.song-title {
+.song-title-block {
   flex: 1 1 auto;
   min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.song-title {
   overflow-wrap: anywhere;
   color: var(--text);
   font-size: 19px;
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.song-authors {
+  color: var(--muted);
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 13px;
   font-weight: 760;
   line-height: 1.25;
 }

@@ -51,6 +51,7 @@ const AdminSubmissionsSheet = ({
     setDraft({
       title: submission.title,
       category: submission.category,
+      authors: submission.authors ?? [],
       defaultKey: submission.defaultKey,
       leadSheet: submission.leadSheet || submission.lyrics || '',
       lyrics: submission.lyrics || '',

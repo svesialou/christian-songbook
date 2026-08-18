@@ -13,12 +13,24 @@ const DEFAULT_BPM = 72;
 const DEFAULT_BEATS_PER_LINE = 4;
 const DEFAULT_INTRO_BEATS = 4;
 
+const parseAuthorsInput = (value: string): string[] => {
+  const seen = new Set<string>();
+  return value.split(',').flatMap((item) => {
+    const author = item.trim();
+    const key = author.toLowerCase();
+    if (!author || seen.has(key)) return [];
+    seen.add(key);
+    return [author];
+  });
+};
+
 const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
   const categoryOptions = useMemo(() => {
     const unique = new Set([DEFAULT_CATEGORY, ...categories.filter((category) => category.trim().length > 0)]);
     return Array.from(unique);
   }, [categories]);
   const [title, setTitle] = useState('');
+  const [authorsInput, setAuthorsInput] = useState('');
   const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [defaultKey, setDefaultKey] = useState('');
   const [leadSheet, setLeadSheet] = useState('');
@@ -44,6 +56,7 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
       await submitSongSubmission({
         title,
         category,
+        authors: parseAuthorsInput(authorsInput),
         defaultKey,
         leadSheet,
         bpm,
@@ -82,6 +95,11 @@ const SongSubmissionSheet = ({ categories, onClose, onSubmitted }: Props) => {
           <label className="submission-field">
             <span>Название</span>
             <input value={title} onChange={(event) => setTitle(event.target.value)} autoFocus />
+          </label>
+
+          <label className="submission-field">
+            <span>Автор / исполнители</span>
+            <input value={authorsInput} onChange={(event) => setAuthorsInput(event.target.value)} placeholder="Hillsong, Bethel Music" />
           </label>
 
           <div className="submission-grid">

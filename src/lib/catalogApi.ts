@@ -15,6 +15,7 @@ export type CatalogSnapshot = {
 export type SongSubmissionPayload = {
   title: string;
   category: string;
+  authors: string[];
   defaultKey: string;
   leadSheet?: string;
   sheetMusicUrl?: string;
@@ -32,6 +33,7 @@ export type SongSubmission = SongSubmissionPayload & {
   id: number;
   sourceSongId?: string;
   sourceTitle?: string;
+  sourceAuthors?: string[];
   sourceLeadSheet?: string;
   status: string;
   createdAt: string;
@@ -59,6 +61,7 @@ export type CreateAdminSongResult = {
 export type AdminSongUpdatePayload = {
   title: string;
   category: string;
+  authors: string[];
   defaultKey: string;
   leadSheet?: string;
   sheetMusicUrl?: string;
@@ -156,6 +159,9 @@ const requestJSON = async <T>(path: string, init: RequestInit): Promise<T> => {
 const isStringList = (value: unknown): value is string[] =>
   Array.isArray(value) && value.every((item) => typeof item === 'string');
 
+const isOptionalStringList = (value: unknown): value is string[] | undefined =>
+  value === undefined || isStringList(value);
+
 const isChordGrid = (value: unknown): value is string[][] =>
   Array.isArray(value) && value.every(isStringList);
 
@@ -211,6 +217,7 @@ const isSong = (value: unknown): value is Song => {
     typeof song.category === 'string' &&
     Array.isArray(song.verses) &&
     song.verses.every(isSongSection) &&
+    isOptionalStringList(song.authors) &&
     isOptionalString(song.defaultKey) &&
     isOptionalString(song.leadSheet) &&
     isOptionalString(song.sheetMusicUrl) &&

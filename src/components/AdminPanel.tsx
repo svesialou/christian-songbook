@@ -38,7 +38,8 @@ type Props = {
 
 type SongDraft = AdminSongUpdatePayload & { leadSheet: string };
 type SubmissionDraft = SongSubmissionPayload & { leadSheet: string };
-type MetaKey = 'title' | 'category' | 'defaultKey' | 'sheetMusicUrl' | 'bpm' | 'beatsPerLine' | 'introBeats';
+type MetaKey = 'title' | 'category' | 'authors' | 'defaultKey' | 'sheetMusicUrl' | 'bpm' | 'beatsPerLine' | 'introBeats';
+type MetaValue = string | number | string[];
 type MetaDraft = Pick<SongDraft, MetaKey>;
 type SongListFilter = 'all' | 'missing-chords';
 
@@ -46,10 +47,25 @@ const DEFAULT_CATEGORY = 'Общее';
 const DEFAULT_BPM = 72;
 const DEFAULT_BEATS_PER_LINE = 4;
 const DEFAULT_INTRO_BEATS = 4;
+const AUTHORS_PLACEHOLDER = 'Hillsong, Bethel Music';
+
+const parseAuthorsInput = (value: string): string[] => {
+  const seen = new Set<string>();
+  return value.split(',').flatMap((item) => {
+    const author = item.trim();
+    const key = author.toLowerCase();
+    if (!author || seen.has(key)) return [];
+    seen.add(key);
+    return [author];
+  });
+};
+
+const formatAuthors = (authors: string[] | undefined): string => (authors ?? []).join(', ');
 
 const emptySubmissionDraft = (): SubmissionDraft => ({
   title: '',
   category: DEFAULT_CATEGORY,
+  authors: [],
   defaultKey: '',
   sheetMusicUrl: '',
   leadSheet: '',
@@ -100,6 +116,7 @@ const buildSongDraft = (song: Song): SongDraft => {
   return {
     title: song.title,
     category: song.category || DEFAULT_CATEGORY,
+    authors: song.authors ?? [],
     defaultKey: song.defaultKey || inferKeyFromLeadSheet(leadSheet),
     sheetMusicUrl: song.sheetMusicUrl || '',
     leadSheet,
@@ -299,7 +316,7 @@ const SongMetaFields = ({ draft, categories, disabled, adminKey, onChange }: {
   categories: string[];
   disabled: boolean;
   adminKey: string;
-  onChange: (key: MetaKey, value: string | number) => void;
+  onChange: (key: MetaKey, value: MetaValue) => void;
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -325,6 +342,15 @@ const SongMetaFields = ({ draft, categories, disabled, adminKey, onChange }: {
     <>
       <FieldBlock title="Основное">
         <label className="submission-field"><span>Название</span><input value={draft.title} onChange={(event) => onChange('title', event.target.value)} disabled={disabled} /></label>
+        <label className="submission-field">
+          <span>Автор / исполнители</span>
+          <input
+            value={formatAuthors(draft.authors)}
+            onChange={(event) => onChange('authors', parseAuthorsInput(event.target.value))}
+            disabled={disabled}
+            placeholder={AUTHORS_PLACEHOLDER}
+          />
+        </label>
         <div className="submission-grid">
           <label className="submission-field"><span>Категория</span><select value={draft.category} onChange={(event) => onChange('category', event.target.value)} disabled={disabled}>{categories.map((category) => <option key={category} value={category}>{category}</option>)}</select></label>
           <label className="submission-field"><span>Тональность</span><input value={draft.defaultKey} onChange={(event) => onChange('defaultKey', event.target.value)} disabled={disabled} placeholder="G, Am..." /></label>
@@ -402,7 +428,7 @@ const AdminSongPage = ({ song, categories, savingId, deletingId, adminKey, onSav
     return <section className="admin-page"><button type="button" className="sheet-secondary admin-back" onClick={onBackToSongs}>Назад к песням</button><p className="empty">Песня не найдена.</p></section>;
   }
 
-  const updateDraft = (key: keyof SongDraft, value: string | number) => setDraft((current) => (current ? { ...current, [key]: value } : current));
+  const updateDraft = (key: keyof SongDraft, value: MetaValue) => setDraft((current) => (current ? { ...current, [key]: value } : current));
   const updateLeadSheet = (leadSheet: string) => setDraft((current) => current ? { ...current, leadSheet, defaultKey: current.defaultKey || inferKeyFromLeadSheet(leadSheet) } : current);
   const inferDefaultKey = () => {
     const inferredKey = inferKeyFromLeadSheet(draft.leadSheet);
@@ -440,7 +466,7 @@ const AdminNewSongPage = ({ adminKey, categories, onCreateSong }: { adminKey: st
   const [draft, setDraft] = useState<SubmissionDraft>(() => emptySubmissionDraft());
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const updateDraft = (key: keyof SubmissionDraft, value: string | number) => setDraft((current) => ({ ...current, [key]: value }));
+  const updateDraft = (key: keyof SubmissionDraft, value: MetaValue) => setDraft((current) => ({ ...current, [key]: value }));
   const updateLeadSheet = (leadSheet: string) => setDraft((current) => ({ ...current, leadSheet, defaultKey: current.defaultKey || inferKeyFromLeadSheet(leadSheet) }));
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -520,12 +546,12 @@ const AdminSubmissionPage = ({ submission, categories, savingId, approvingId, re
   onNavigate: Props['onNavigate'];
 }) => {
   const [draft, setDraft] = useState<SubmissionDraft | null>(() =>
-    submission ? { ...submission, sheetMusicUrl: submission.sheetMusicUrl || '', leadSheet: submission.leadSheet || submission.lyrics || '' } : null,
+    submission ? { ...submission, authors: submission.authors ?? [], sheetMusicUrl: submission.sheetMusicUrl || '', leadSheet: submission.leadSheet || submission.lyrics || '' } : null,
   );
   const [error, setError] = useState<string | null>(null);
   const isBusy = !!submission && (savingId === submission.id || approvingId === submission.id || rejectingId === submission.id);
   if (!submission || !draft) return <section className="admin-page"><button type="button" className="sheet-secondary admin-back" onClick={() => onNavigate({ page: 'submissions' })}>Назад к заявкам</button><p className="empty">Заявка не найдена.</p></section>;
-  const updateDraft = (key: keyof SubmissionDraft, value: string | number) => setDraft((current) => (current ? { ...current, [key]: value } : current));
+  const updateDraft = (key: keyof SubmissionDraft, value: MetaValue) => setDraft((current) => (current ? { ...current, [key]: value } : current));
   const updateLeadSheet = (leadSheet: string) => setDraft((current) => current ? { ...current, leadSheet, defaultKey: current.defaultKey || inferKeyFromLeadSheet(leadSheet) } : current);
   const save = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -541,6 +567,14 @@ const AdminSubmissionPage = ({ submission, categories, savingId, approvingId, re
       <form className="admin-editor-form" onSubmit={save}>
         <SongMetaFields draft={draft} categories={categories} disabled={isBusy} adminKey={adminKey} onChange={updateDraft} />
         <LeadSheetField value={draft.leadSheet} disabled={isBusy} onChange={updateLeadSheet} />
+        {submission.sourceSongId && formatAuthors(submission.sourceAuthors) !== formatAuthors(draft.authors) ? (
+          <FieldBlock title="Изменение авторов">
+            <div className="admin-diff-summary">
+              <span>Было: {formatAuthors(submission.sourceAuthors) || 'без автора'}</span>
+              <span>Стало: {formatAuthors(draft.authors) || 'без автора'}</span>
+            </div>
+          </FieldBlock>
+        ) : null}
         {submission.sourceSongId && submission.sourceLeadSheet ? (
           <LeadSheetDiff
             sourceTitle={submission.sourceTitle || submission.sourceSongId}
@@ -597,7 +631,7 @@ const AdminPanel = ({
     return songs.filter((song) => {
       if (songListFilter === 'missing-chords' && songHasChords(song)) return false;
       if (!normalized) return true;
-      return [song.title, song.category, song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized);
+      return [song.title, song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized);
     });
   }, [query, songListFilter, songs]);
   const missingChordCount = useMemo(() => songs.filter((song) => !songHasChords(song)).length, [songs]);
@@ -617,7 +651,7 @@ const AdminPanel = ({
     <div className="admin-shell">
       <AdminNav active={page} onNavigate={onNavigate} />
       {page === 'home' ? <section className="admin-page"><div className="admin-page-header"><p className="eyebrow">Admin</p><h2>Управление каталогом</h2><p>Разделы вынесены на отдельные страницы. Песни редактируются одним блоком текста с аккордами.</p></div><div className="admin-card-grid"><button type="button" className="admin-action-card" onClick={() => onNavigate({ page: 'songs' })}><strong>Песни</strong><span>{songs.length} в каталоге</span></button><button type="button" className="admin-action-card" onClick={() => onNavigate({ page: 'new' })}><strong>Добавить песню</strong><span>Один блок как на Holychords</span></button><button type="button" className="admin-action-card" onClick={() => onNavigate({ page: 'submissions' })}><strong>Заявки</strong><span>{submissions.length} pending</span></button></div><div className="admin-inline-actions"><button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button><button type="button" className="sheet-secondary" onClick={onLogout}>Выйти</button></div></section> : null}
-      {page === 'songs' ? <section className="admin-page"><div className="admin-page-header"><p className="eyebrow">Каталог</p><h2>Песни</h2></div><label className="submission-field"><span>Поиск</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Название, категория, номер" /></label><div className="admin-filter-row" role="group" aria-label="Фильтр песен"><button type="button" className={songListFilter === 'all' ? 'is-active' : ''} onClick={() => setSongListFilter('all')} aria-pressed={songListFilter === 'all'}>Все песни <span>{songs.length}</span></button><button type="button" className={songListFilter === 'missing-chords' ? 'is-active' : ''} onClick={() => setSongListFilter('missing-chords')} aria-pressed={songListFilter === 'missing-chords'}>Без аккордов <span>{missingChordCount}</span></button></div><div className="admin-inline-actions"><button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button><button type="button" className="sheet-primary" onClick={() => onNavigate({ page: 'new' })}>Добавить песню</button></div><div className="admin-list">{filteredSongs.length === 0 ? <p className="empty">По текущему фильтру песен нет.</p> : null}{filteredSongs.slice(0, 180).map((song) => <article key={song.id} className="admin-list-card"><button type="button" className="admin-list-main" onClick={() => openSongEditor(song.id)}><strong>{song.title}</strong><small>№{song.number} · {song.category}{song.playback ? ` · ${song.playback.bpm} BPM` : ''} · {songHasChords(song) ? 'есть аккорды' : 'нет аккордов'}</small></button><b className="admin-key-badge">{song.defaultKey || '-'}</b></article>)}</div></section> : null}
+      {page === 'songs' ? <section className="admin-page"><div className="admin-page-header"><p className="eyebrow">Каталог</p><h2>Песни</h2></div><label className="submission-field"><span>Поиск</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Название, автор, категория, номер" /></label><div className="admin-filter-row" role="group" aria-label="Фильтр песен"><button type="button" className={songListFilter === 'all' ? 'is-active' : ''} onClick={() => setSongListFilter('all')} aria-pressed={songListFilter === 'all'}>Все песни <span>{songs.length}</span></button><button type="button" className={songListFilter === 'missing-chords' ? 'is-active' : ''} onClick={() => setSongListFilter('missing-chords')} aria-pressed={songListFilter === 'missing-chords'}>Без аккордов <span>{missingChordCount}</span></button></div><div className="admin-inline-actions"><button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button><button type="button" className="sheet-primary" onClick={() => onNavigate({ page: 'new' })}>Добавить песню</button></div><div className="admin-list">{filteredSongs.length === 0 ? <p className="empty">По текущему фильтру песен нет.</p> : null}{filteredSongs.slice(0, 180).map((song) => <article key={song.id} className="admin-list-card"><button type="button" className="admin-list-main" onClick={() => openSongEditor(song.id)}><strong>{song.title}</strong><small>№{song.number} · {song.category}{song.authors?.length ? ` · ${formatAuthors(song.authors)}` : ''}{song.playback ? ` · ${song.playback.bpm} BPM` : ''} · {songHasChords(song) ? 'есть аккорды' : 'нет аккордов'}</small></button><b className="admin-key-badge">{song.defaultKey || '-'}</b></article>)}</div></section> : null}
       {page === 'song' ? <AdminSongPage song={activeSong} categories={categoryOptions} savingId={savingSongId} deletingId={deletingSongId} adminKey={adminKey} onSave={onSaveSong} onDelete={onDeleteSong} onBackToSongs={backToSongs} /> : null}
       {page === 'new' ? <AdminNewSongPage adminKey={adminKey} categories={categoryOptions} onCreateSong={onCreateSong} /> : null}
       {page === 'submissions' ? <AdminSubmissionsPage submissions={submissions} isLoading={isSubmissionsLoading} busyIds={[savingSubmissionId, approvingSubmissionId, rejectingSubmissionId]} onNavigate={onNavigate} onRefresh={onRefreshSubmissions} onApprove={onApproveSubmission} onReject={onRejectSubmission} /> : null}

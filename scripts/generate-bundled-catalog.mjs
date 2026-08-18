@@ -63,6 +63,7 @@ function toSong(song, index) {
     number,
     title,
     category: categorizeSong(song, stringValue(song.category) || 'Разное'),
+    authors: normalizeAuthors(song.authors),
     defaultKey: stringValue(song.defaultKey) || inferDefaultKey(leadSheet) || 'C',
     leadSheet,
     sheetMusicUrl: stringValue(song.sheetMusicUrl) || undefined,
@@ -81,6 +82,18 @@ function positiveInteger(value) {
 
 function stringValue(value) {
   return typeof value === 'string' && value.trim().length > 0 ? value.trim() : '';
+}
+
+function normalizeAuthors(value) {
+  if (!Array.isArray(value)) return [];
+  const seen = new Set();
+  return value.flatMap((item) => {
+    const author = stringValue(item);
+    const key = author.toLowerCase();
+    if (!author || seen.has(key)) return [];
+    seen.add(key);
+    return [author];
+  });
 }
 
 function buildLeadSheet(lyrics, chords) {
@@ -242,8 +255,8 @@ function buildPublishedCatalogSQL(items, version) {
 
   for (const song of items) {
     lines.push(
-      'INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)',
-      `VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, NULLIF(${sql(song.sheetMusicUrl || '')}, ''), NULL, NULL, NULL, 'published');`,
+      'INSERT INTO songs (id, catalog_version_id, number, title, category, authors_json, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status)',
+      `VALUES (${sql(song.id)}, @catalog_version_id, ${Number(song.number)}, ${sql(song.title)}, ${sql(song.category)}, ${sql(JSON.stringify(song.authors || []))}, ${sql(song.defaultKey)}, ${sql(song.leadSheet)}, NULLIF(${sql(song.sheetMusicUrl || '')}, ''), NULL, NULL, NULL, 'published');`,
       '',
     );
   }

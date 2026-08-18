@@ -66,10 +66,11 @@ type catalogSnapshotResponse struct {
 }
 
 type songListItem struct {
-	ID       string `json:"id"`
-	Number   int    `json:"number"`
-	Title    string `json:"title"`
-	Category string `json:"category"`
+	ID       string   `json:"id"`
+	Number   int      `json:"number"`
+	Title    string   `json:"title"`
+	Category string   `json:"category"`
+	Authors  []string `json:"authors,omitempty"`
 }
 
 type songSection struct {
@@ -95,6 +96,7 @@ type songResponse struct {
 	Number        int                  `json:"number"`
 	Title         string               `json:"title"`
 	Category      string               `json:"category"`
+	Authors       []string             `json:"authors,omitempty"`
 	DefaultKey    string               `json:"defaultKey,omitempty"`
 	LeadSheet     string               `json:"leadSheet,omitempty"`
 	SheetMusicURL string               `json:"sheetMusicUrl,omitempty"`
@@ -112,24 +114,26 @@ type catalogVersion struct {
 }
 
 type songSubmissionRequest struct {
-	Title          string `json:"title"`
-	Category       string `json:"category"`
-	DefaultKey     string `json:"defaultKey"`
-	LeadSheet      string `json:"leadSheet"`
-	SheetMusicURL  string `json:"sheetMusicUrl,omitempty"`
-	Lyrics         string `json:"lyrics,omitempty"`
-	Chords         string `json:"chords,omitempty"`
-	BPM            *int   `json:"bpm,omitempty"`
-	BeatsPerLine   *int   `json:"beatsPerLine,omitempty"`
-	IntroBeats     *int   `json:"introBeats,omitempty"`
-	SubmitterName  string `json:"submitterName"`
-	SubmitterEmail string `json:"submitterEmail"`
-	Note           string `json:"note"`
+	Title          string   `json:"title"`
+	Category       string   `json:"category"`
+	Authors        []string `json:"authors,omitempty"`
+	DefaultKey     string   `json:"defaultKey"`
+	LeadSheet      string   `json:"leadSheet"`
+	SheetMusicURL  string   `json:"sheetMusicUrl,omitempty"`
+	Lyrics         string   `json:"lyrics,omitempty"`
+	Chords         string   `json:"chords,omitempty"`
+	BPM            *int     `json:"bpm,omitempty"`
+	BeatsPerLine   *int     `json:"beatsPerLine,omitempty"`
+	IntroBeats     *int     `json:"introBeats,omitempty"`
+	SubmitterName  string   `json:"submitterName"`
+	SubmitterEmail string   `json:"submitterEmail"`
+	Note           string   `json:"note"`
 }
 
 type songAdminUpdateRequest struct {
 	Title         string                          `json:"title"`
 	Category      string                          `json:"category"`
+	Authors       []string                        `json:"authors,omitempty"`
 	DefaultKey    string                          `json:"defaultKey"`
 	LeadSheet     string                          `json:"leadSheet"`
 	SheetMusicURL string                          `json:"sheetMusicUrl,omitempty"`
@@ -166,9 +170,11 @@ type songSubmissionListItem struct {
 	ID              int64     `json:"id"`
 	SourceSongID    string    `json:"sourceSongId,omitempty"`
 	SourceTitle     string    `json:"sourceTitle,omitempty"`
+	SourceAuthors   []string  `json:"sourceAuthors,omitempty"`
 	SourceLeadSheet string    `json:"sourceLeadSheet,omitempty"`
 	Title           string    `json:"title"`
 	Category        string    `json:"category"`
+	Authors         []string  `json:"authors,omitempty"`
 	DefaultKey      string    `json:"defaultKey"`
 	LeadSheet       string    `json:"leadSheet"`
 	SheetMusicURL   string    `json:"sheetMusicUrl,omitempty"`
@@ -2487,6 +2493,40 @@ func parsePreferredKeysJSON(value string) ([]string, error) {
 	return keys, nil
 }
 
+func parseAuthorsJSON(value string) ([]string, error) {
+	if strings.TrimSpace(value) == "" {
+		return []string{}, nil
+	}
+
+	var authors []string
+	if err := json.Unmarshal([]byte(value), &authors); err != nil {
+		return nil, err
+	}
+	if authors == nil {
+		return []string{}, nil
+	}
+	return normalizeAuthors(authors)
+}
+
+func authorsJSONParam(authors []string) (any, error) {
+	if len(authors) == 0 {
+		return nil, nil
+	}
+	value, err := json.Marshal(authors)
+	if err != nil {
+		return nil, err
+	}
+	return string(value), nil
+}
+
+func mustAuthorsJSONParam(authors []string) any {
+	value, err := authorsJSONParam(authors)
+	if err != nil {
+		panic(err)
+	}
+	return value
+}
+
 func checkMySQL(ctx context.Context, db *sql.DB) error {
 	checkCtx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
@@ -2511,17 +2551,22 @@ func createSongSubmission(ctx context.Context, db *sql.DB, payload songSubmissio
 	if err != nil {
 		return 0, err
 	}
+	authorsJSON, err := authorsJSONParam(normalized.Authors)
+	if err != nil {
+		return 0, err
+	}
 
 	const query = `
 INSERT INTO song_submissions (
-  title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note
-) VALUES (?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''))`
+  title, category, authors_json, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, submitter_name, submitter_email, note
+) VALUES (?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''))`
 
 	result, err := db.ExecContext(
 		ctx,
 		query,
 		normalized.Title,
 		normalized.Category,
+		authorsJSON,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
 		normalized.SheetMusicURL,
@@ -2551,6 +2596,9 @@ func createSongEditSubmission(ctx context.Context, db *sql.DB, songID string, pa
 	if strings.TrimSpace(payload.Category) == "" {
 		payload.Category = sourceSong.Category
 	}
+	if payload.Authors == nil && len(sourceSong.Authors) > 0 {
+		payload.Authors = sourceSong.Authors
+	}
 	if strings.TrimSpace(payload.DefaultKey) == "" {
 		payload.DefaultKey = sourceSong.DefaultKey
 	}
@@ -2575,11 +2623,20 @@ func createSongEditSubmission(ctx context.Context, db *sql.DB, songID string, pa
 	if err != nil {
 		return 0, err
 	}
+	authorsJSON, err := authorsJSONParam(normalized.Authors)
+	if err != nil {
+		return 0, err
+	}
+	sourceAuthorsJSON, err := authorsJSONParam(sourceSong.Authors)
+	if err != nil {
+		return 0, err
+	}
 
 	const query = `
 INSERT INTO song_submissions (
   title,
   category,
+  authors_json,
   default_key,
   lead_sheet,
   sheet_music_url,
@@ -2591,14 +2648,16 @@ INSERT INTO song_submissions (
   note,
   source_song_id,
   source_title,
+  source_authors_json,
   source_lead_sheet
-) VALUES (?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''), ?, ?, ?)`
+) VALUES (?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), NULLIF(?, ''), ?, ?, ?, ?)`
 
 	result, err := db.ExecContext(
 		ctx,
 		query,
 		normalized.Title,
 		normalized.Category,
+		authorsJSON,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
 		normalized.SheetMusicURL,
@@ -2610,6 +2669,7 @@ INSERT INTO song_submissions (
 		normalized.Note,
 		normalizedSourceSongID,
 		sourceSong.Title,
+		sourceAuthorsJSON,
 		sourceSong.LeadSheet,
 	)
 	if err != nil {
@@ -2624,6 +2684,10 @@ func updateSongSubmission(ctx context.Context, db *sql.DB, submissionID int64, p
 	if err != nil {
 		return songSubmissionCreatedResponse{}, err
 	}
+	authorsJSON, err := authorsJSONParam(normalized.Authors)
+	if err != nil {
+		return songSubmissionCreatedResponse{}, err
+	}
 
 	result, err := db.ExecContext(
 		ctx,
@@ -2631,6 +2695,7 @@ func updateSongSubmission(ctx context.Context, db *sql.DB, submissionID int64, p
 SET
   title = ?,
   category = ?,
+  authors_json = ?,
   default_key = NULLIF(?, ''),
   lead_sheet = ?,
   sheet_music_url = NULLIF(?, ''),
@@ -2643,6 +2708,7 @@ SET
 WHERE id = ? AND status = 'pending'`,
 		normalized.Title,
 		normalized.Category,
+		authorsJSON,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
 		normalized.SheetMusicURL,
@@ -2674,9 +2740,11 @@ SELECT
   id,
   COALESCE(source_song_id, ''),
   COALESCE(source_title, ''),
+  COALESCE(source_authors_json, '[]'),
   COALESCE(source_lead_sheet, ''),
   title,
   category,
+  COALESCE(authors_json, '[]'),
   COALESCE(default_key, ''),
   lead_sheet,
   COALESCE(sheet_music_url, ''),
@@ -2705,13 +2773,17 @@ LIMIT 100`
 		var bpm sql.NullInt64
 		var beatsPerLine sql.NullInt64
 		var introBeats sql.NullInt64
+		var sourceAuthorsJSON string
+		var authorsJSON string
 		if err := rows.Scan(
 			&item.ID,
 			&item.SourceSongID,
 			&item.SourceTitle,
+			&sourceAuthorsJSON,
 			&item.SourceLeadSheet,
 			&item.Title,
 			&item.Category,
+			&authorsJSON,
 			&item.DefaultKey,
 			&item.LeadSheet,
 			&item.SheetMusicURL,
@@ -2729,6 +2801,14 @@ LIMIT 100`
 		item.BPM = intPtrFromNull(bpm)
 		item.BeatsPerLine = intPtrFromNull(beatsPerLine)
 		item.IntroBeats = intPtrFromNull(introBeats)
+		item.SourceAuthors, err = parseAuthorsJSON(sourceAuthorsJSON)
+		if err != nil {
+			return nil, err
+		}
+		item.Authors, err = parseAuthorsJSON(authorsJSON)
+		if err != nil {
+			return nil, err
+		}
 		submissions = append(submissions, item)
 	}
 
@@ -2783,6 +2863,10 @@ func updatePublishedSongMetadata(ctx context.Context, db *sql.DB, songID string,
 	if err != nil {
 		return approveSubmissionResponse{}, err
 	}
+	authorsJSON, err := authorsJSONParam(normalized.Authors)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
 
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
@@ -2798,10 +2882,11 @@ func updatePublishedSongMetadata(ctx context.Context, db *sql.DB, songID string,
 	result, err := tx.ExecContext(
 		ctx,
 		`UPDATE songs
-SET title = ?, category = ?, default_key = NULLIF(?, ''), lead_sheet = ?, sheet_music_url = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
+SET title = ?, category = ?, authors_json = ?, default_key = NULLIF(?, ''), lead_sheet = ?, sheet_music_url = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
 WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
 		normalized.Title,
 		normalized.Category,
+		authorsJSON,
 		normalized.DefaultKey,
 		normalized.LeadSheet,
 		normalized.SheetMusicURL,
@@ -2933,6 +3018,7 @@ func approveSongSubmission(ctx context.Context, db *sql.DB, submissionID int64) 
 SELECT
   title,
   category,
+  COALESCE(authors_json, '[]'),
   COALESCE(default_key, ''),
   lead_sheet,
   COALESCE(sheet_music_url, ''),
@@ -2946,10 +3032,12 @@ FOR UPDATE`
 	var bpm sql.NullInt64
 	var beatsPerLine sql.NullInt64
 	var introBeats sql.NullInt64
+	var authorsJSON string
 	var sourceSongID string
 	if err := tx.QueryRowContext(ctx, submissionQuery, submissionID).Scan(
 		&submission.Title,
 		&submission.Category,
+		&authorsJSON,
 		&submission.DefaultKey,
 		&submission.LeadSheet,
 		&submission.SheetMusicURL,
@@ -2963,6 +3051,10 @@ FOR UPDATE`
 	submission.BPM = intPtrFromNull(bpm)
 	submission.BeatsPerLine = intPtrFromNull(beatsPerLine)
 	submission.IntroBeats = intPtrFromNull(introBeats)
+	submission.Authors, err = parseAuthorsJSON(authorsJSON)
+	if err != nil {
+		return approveSubmissionResponse{}, err
+	}
 
 	normalized, err := normalizeSongSubmission(submission)
 	if err != nil {
@@ -3048,10 +3140,11 @@ func approveSongEditSubmissionTx(
 	result, err := tx.ExecContext(
 		ctx,
 		`UPDATE songs
-SET title = ?, category = ?, default_key = NULLIF(?, ''), lead_sheet = ?, sheet_music_url = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
+SET title = ?, category = ?, authors_json = ?, default_key = NULLIF(?, ''), lead_sheet = ?, sheet_music_url = NULLIF(?, ''), bpm = ?, beats_per_line = ?, intro_beats = ?
 WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
 		normalized.Title,
 		normalized.Category,
+		mustAuthorsJSONParam(normalized.Authors),
 		normalized.DefaultKey,
 		normalized.LeadSheet,
 		normalized.SheetMusicURL,
@@ -3129,12 +3222,13 @@ func insertPublishedSongTx(
 ) error {
 	if _, err := tx.ExecContext(
 		ctx,
-		`INSERT INTO songs (id, catalog_version_id, number, title, category, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status) VALUES (?, ?, ?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, 'published')`,
+		`INSERT INTO songs (id, catalog_version_id, number, title, category, authors_json, default_key, lead_sheet, sheet_music_url, bpm, beats_per_line, intro_beats, status) VALUES (?, ?, ?, ?, ?, ?, NULLIF(?, ''), ?, NULLIF(?, ''), ?, ?, ?, 'published')`,
 		songID,
 		catalogVersionID,
 		number,
 		normalized.Title,
 		normalized.Category,
+		mustAuthorsJSONParam(normalized.Authors),
 		normalized.DefaultKey,
 		normalized.LeadSheet,
 		normalized.SheetMusicURL,
@@ -3548,9 +3642,14 @@ func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionReque
 	if leadSheet == "" {
 		leadSheet = mergeLegacyLeadSheet(payload.Lyrics, payload.Chords)
 	}
+	authors, err := normalizeAuthors(payload.Authors)
+	if err != nil {
+		return songSubmissionRequest{}, err
+	}
 	normalized := songSubmissionRequest{
 		Title:          strings.TrimSpace(payload.Title),
 		Category:       strings.TrimSpace(payload.Category),
+		Authors:        authors,
 		DefaultKey:     strings.TrimSpace(payload.DefaultKey),
 		LeadSheet:      leadSheet,
 		SheetMusicURL:  strings.TrimSpace(payload.SheetMusicURL),
@@ -3609,9 +3708,14 @@ func normalizeSongMetadata(payload songAdminUpdateRequest) (songAdminUpdateReque
 	if leadSheet == "" && payload.Sections != nil {
 		leadSheet = leadSheetFromAdminSections(payload.Sections)
 	}
+	authors, err := normalizeAuthors(payload.Authors)
+	if err != nil {
+		return songAdminUpdateRequest{}, err
+	}
 	normalized := songAdminUpdateRequest{
 		Title:         strings.TrimSpace(payload.Title),
 		Category:      strings.TrimSpace(payload.Category),
+		Authors:       authors,
 		DefaultKey:    strings.TrimSpace(payload.DefaultKey),
 		LeadSheet:     leadSheet,
 		SheetMusicURL: strings.TrimSpace(payload.SheetMusicURL),
@@ -3653,6 +3757,30 @@ func normalizeSongMetadata(payload songAdminUpdateRequest) (songAdminUpdateReque
 	}
 
 	return normalized, nil
+}
+
+func normalizeAuthors(values []string) ([]string, error) {
+	seen := make(map[string]struct{}, len(values))
+	authors := make([]string, 0, len(values))
+	for _, value := range values {
+		author := strings.TrimSpace(value)
+		if author == "" {
+			continue
+		}
+		if tooLong(author, 128) {
+			return nil, validationError("author is too long")
+		}
+		key := strings.ToLower(author)
+		if _, exists := seen[key]; exists {
+			continue
+		}
+		seen[key] = struct{}{}
+		authors = append(authors, author)
+		if len(authors) > 12 {
+			return nil, validationError("authors must contain at most 12 items")
+		}
+	}
+	return authors, nil
 }
 
 func normalizeOptionalHTTPURL(value string, field string) (string, error) {
@@ -3819,7 +3947,7 @@ func listSongs(ctx context.Context, db *sql.DB, searchQuery string) ([]songListI
 	}
 
 	const query = `
-SELECT s.id, s.number, s.title, s.category
+SELECT s.id, s.number, s.title, s.category, COALESCE(s.authors_json, '[]')
 FROM songs s
 WHERE s.catalog_version_id = ?
   AND s.status = 'published'
@@ -3829,11 +3957,12 @@ WHERE s.catalog_version_id = ?
     OR s.category LIKE CONCAT('%', ?, '%')
     OR CAST(s.number AS CHAR) = ?
     OR s.lead_sheet LIKE CONCAT('%', ?, '%')
+    OR CAST(COALESCE(s.authors_json, JSON_ARRAY()) AS CHAR) LIKE CONCAT('%', ?, '%')
   )
 ORDER BY s.number ASC, s.title ASC
 LIMIT 1000`
 
-	rows, err := db.QueryContext(ctx, query, version.ID, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery)
+	rows, err := db.QueryContext(ctx, query, version.ID, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery, searchQuery)
 	if err != nil {
 		return nil, err
 	}
@@ -3842,7 +3971,12 @@ LIMIT 1000`
 	songs := make([]songListItem, 0)
 	for rows.Next() {
 		var item songListItem
-		if err := rows.Scan(&item.ID, &item.Number, &item.Title, &item.Category); err != nil {
+		var authorsJSON string
+		if err := rows.Scan(&item.ID, &item.Number, &item.Title, &item.Category, &authorsJSON); err != nil {
+			return nil, err
+		}
+		item.Authors, err = parseAuthorsJSON(authorsJSON)
+		if err != nil {
 			return nil, err
 		}
 		songs = append(songs, item)
@@ -3902,7 +4036,7 @@ func getSong(ctx context.Context, db *sql.DB, songID string) (songResponse, erro
 
 func getSongByVersion(ctx context.Context, db *sql.DB, catalogVersionID int64, songID string) (songResponse, error) {
 	const songQuery = `
-SELECT id, number, title, category, COALESCE(default_key, ''), lead_sheet, COALESCE(sheet_music_url, ''), bpm, beats_per_line, intro_beats
+SELECT id, number, title, category, COALESCE(authors_json, '[]'), COALESCE(default_key, ''), lead_sheet, COALESCE(sheet_music_url, ''), bpm, beats_per_line, intro_beats
 FROM songs
 WHERE catalog_version_id = ? AND id = ? AND status = 'published'
 LIMIT 1`
@@ -3911,9 +4045,15 @@ LIMIT 1`
 	var bpm sql.NullInt64
 	var beatsPerLine sql.NullInt64
 	var introBeats sql.NullInt64
-	if err := db.QueryRowContext(ctx, songQuery, catalogVersionID, songID).Scan(&song.ID, &song.Number, &song.Title, &song.Category, &song.DefaultKey, &song.LeadSheet, &song.SheetMusicURL, &bpm, &beatsPerLine, &introBeats); err != nil {
+	var authorsJSON string
+	if err := db.QueryRowContext(ctx, songQuery, catalogVersionID, songID).Scan(&song.ID, &song.Number, &song.Title, &song.Category, &authorsJSON, &song.DefaultKey, &song.LeadSheet, &song.SheetMusicURL, &bpm, &beatsPerLine, &introBeats); err != nil {
 		return songResponse{}, err
 	}
+	authors, err := parseAuthorsJSON(authorsJSON)
+	if err != nil {
+		return songResponse{}, err
+	}
+	song.Authors = authors
 	if bpm.Valid && beatsPerLine.Valid {
 		song.Playback = &songPlayback{
 			BPM:          int(bpm.Int64),

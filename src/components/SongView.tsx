@@ -91,6 +91,7 @@ const buildEditDraft = (song: Song): SongEditDraft => ({
   bpm: song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm,
   beatsPerLine: song.playback?.beatsPerLine ?? DEFAULT_PLAYBACK.beatsPerLine,
   introBeats: song.playback?.introBeats ?? DEFAULT_PLAYBACK.introBeats,
+  authors: song.authors ?? [],
   submitterName: '',
   submitterEmail: '',
   note: '',
@@ -144,6 +145,19 @@ const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
   singer: 'Singer: крупный текст',
   chords: 'Chords: только аккорды',
 };
+
+const parseAuthorsInput = (value: string): string[] => {
+  const seen = new Set<string>();
+  return value.split(',').flatMap((item) => {
+    const author = item.trim();
+    const key = author.toLowerCase();
+    if (!author || seen.has(key)) return [];
+    seen.add(key);
+    return [author];
+  });
+};
+
+const formatAuthors = (authors: string[] | undefined): string => (authors ?? []).join(', ');
 
 const inferKeyFromChords = (song: Song): string | undefined => {
   const sections = getRenderableSections(song, false);
@@ -528,7 +542,7 @@ const SongView = ({
   const setTransposition = (nextTransposition: number) =>
     onTranspositionChange(song.id, normalizeTransposition(nextTransposition));
 
-  const updateEditDraft = (key: keyof SongEditDraft, value: string | number) => {
+  const updateEditDraft = (key: keyof SongEditDraft, value: string | number | string[]) => {
     setEditDraft((current) => ({ ...current, [key]: value }));
   };
 
@@ -551,6 +565,7 @@ const SongView = ({
         ...editDraft,
         title: editDraft.title.trim(),
         category: editDraft.category.trim() || song.category,
+        authors: editDraft.authors ?? [],
         defaultKey: editDraft.defaultKey.trim(),
         leadSheet: editDraft.leadSheet.trim(),
         sheetMusicUrl: editDraft.sheetMusicUrl?.trim(),
@@ -640,6 +655,7 @@ const SongView = ({
         <div>
           <p className="eyebrow">Песня №{song.number}</p>
           <h1>{song.title}</h1>
+          {song.authors?.length ? <p className="song-authors">Автор: {formatAuthors(song.authors)}</p> : null}
           <div className="song-meta-row">
             <p className="view-preset-chip">{viewPresetLabels[settings.viewPreset]}</p>
             {hasSheetMusic ? (
@@ -758,6 +774,15 @@ const SongView = ({
               <label className="submission-field">
                 <span>Название</span>
                 <input value={editDraft.title} onChange={(event) => updateEditDraft('title', event.target.value)} disabled={isEditSubmitting} />
+              </label>
+              <label className="submission-field">
+                <span>Автор / исполнители</span>
+                <input
+                  value={formatAuthors(editDraft.authors)}
+                  onChange={(event) => updateEditDraft('authors', parseAuthorsInput(event.target.value))}
+                  disabled={isEditSubmitting}
+                  placeholder="Hillsong, Bethel Music"
+                />
               </label>
               <div className="submission-grid">
                 <label className="submission-field">

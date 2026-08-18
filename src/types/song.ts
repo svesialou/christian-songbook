@@ -19,6 +19,7 @@ export type Song = {
   number: number;
   title: string;
   category: string;
+  authors?: string[];
   defaultKey?: string;
   leadSheet?: string;
   sheetMusicUrl?: string;

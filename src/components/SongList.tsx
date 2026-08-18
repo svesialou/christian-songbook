@@ -141,7 +141,7 @@ const SongList = ({
     if (!normalized) return liveSourceSongs;
 
     return liveSourceSongs.filter((song) =>
-      [song.title, song.category, String(song.number)].join(' ').toLowerCase().includes(normalized),
+      [song.title, song.category, ...(song.authors ?? []), String(song.number)].join(' ').toLowerCase().includes(normalized),
     );
   }, [liveSourceQuery, liveSourceSongs]);
 
@@ -419,7 +419,10 @@ const SongList = ({
                   }}
                 >
                   <span className="song-number">{song.number}</span>
-                  <span className="song-title">{song.title}</span>
+                  <span className="song-title-block">
+                    <span className="song-title">{song.title}</span>
+                    {song.authors?.length ? <small className="song-authors">{song.authors.join(', ')}</small> : null}
+                  </span>
                   {isNowPlaying ? <span className="live-song-badge">Сейчас</span> : null}
                   {isNextPlaying ? <span className="live-song-badge">Далее</span> : null}
                 </button>
@@ -522,7 +525,10 @@ const SongList = ({
                   aria-label={isAdded ? `${song.title} уже в live` : `Добавить ${song.title} в live`}
                 >
                   <span>{song.number}</span>
-                  <strong>{song.title}</strong>
+                  <strong>
+                    {song.title}
+                    {song.authors?.length ? <small>{song.authors.join(', ')}</small> : null}
+                  </strong>
                   <b>{isAdded ? 'В live' : '+'}</b>
                 </button>
               );

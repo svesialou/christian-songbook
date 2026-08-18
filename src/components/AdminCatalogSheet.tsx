@@ -64,7 +64,7 @@ const AdminCatalogSheet = ({ songs, categories, savingId, onRefresh, onSave, onC
     const normalized = query.trim().toLowerCase();
     if (!normalized) return songs;
     return songs.filter((song) =>
-      [song.title, song.category, song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized),
+      [song.title, song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized),
     );
   }, [query, songs]);
 
@@ -73,6 +73,7 @@ const AdminCatalogSheet = ({ songs, categories, savingId, onRefresh, onSave, onC
     setDraft({
       title: song.title,
       category: song.category || DEFAULT_CATEGORY,
+      authors: song.authors ?? [],
       defaultKey: song.defaultKey ?? '',
       bpm: song.playback?.bpm ?? DEFAULT_BPM,
       beatsPerLine: song.playback?.beatsPerLine ?? DEFAULT_BEATS_PER_LINE,
