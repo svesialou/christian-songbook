@@ -188,14 +188,15 @@ function parseLeadSheetSections(value) {
 function parseSectionHeading(value) {
   const title = String(value || '').replace(/^[\[\s]+|[\]\s:]+$/g, '').trim();
   const lower = title.toLowerCase();
-  if (/^(вступление|интро|intro)(\s+\d+)?$/.test(lower)) return { type: 'intro', title };
-  if (/^(куплет|запев|verse)(\s+\d+)?$/.test(lower)) return { type: 'verse', title };
-  if (/^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)(\s+\d+)?$/.test(lower)) return { type: 'prechorus', title };
-  if (/^(припев|chorus|refrain)(\s+\d+)?$/.test(lower)) return { type: 'chorus', title };
-  if (/^(бридж|мост|bridge)(\s+\d+)?$/.test(lower)) return { type: 'bridge', title };
-  if (/^(проигрыш|инструментал|instrumental|interlude)(\s+\d+)?$/.test(lower)) return { type: 'instrumental', title };
-  if (/^(концовка|окончание|аутро|outro|ending)(\s+\d+)?$/.test(lower)) return { type: 'outro', title };
-  if (/^(тэг|тег|tag)(\s+\d+)?$/.test(lower)) return { type: 'tag', title };
+  const suffix = String.raw`(?:\s+(?:\d+|[xх]\d+))?`;
+  if (new RegExp(String.raw`^(вступление|интро|intro)${suffix}$`).test(lower)) return { type: 'intro', title };
+  if (new RegExp(String.raw`^(куплет|запев|verse)${suffix}$`).test(lower)) return { type: 'verse', title };
+  if (new RegExp(String.raw`^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)${suffix}$`).test(lower)) return { type: 'prechorus', title };
+  if (new RegExp(String.raw`^(припев|chorus|refrain)${suffix}$`).test(lower)) return { type: 'chorus', title };
+  if (new RegExp(String.raw`^(бридж|мост|bridge)${suffix}$`).test(lower)) return { type: 'bridge', title };
+  if (new RegExp(String.raw`^(проигрыш|инструментал|instrumental|interlude)${suffix}$`).test(lower)) return { type: 'instrumental', title };
+  if (new RegExp(String.raw`^(концовка|окончание|аутро|outro|ending)${suffix}$`).test(lower)) return { type: 'outro', title };
+  if (new RegExp(String.raw`^(тэг|тег|tag)${suffix}$`).test(lower)) return { type: 'tag', title };
   return null;
 }
 

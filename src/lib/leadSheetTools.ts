@@ -12,14 +12,15 @@ type LeadSheetSection = {
 
 const sectionTypeFromTitle = (title: string): SongOrderedSection['sectionType'] => {
   const lower = title.trim().toLowerCase();
-  if (/^(вступление|интро|intro)(\s+\d+)?$/.test(lower)) return 'intro';
-  if (/^(куплет|запев|verse)(\s+\d+)?$/.test(lower)) return 'verse';
-  if (/^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)(\s+\d+)?$/.test(lower)) return 'prechorus';
-  if (/^(припев|chorus|refrain)(\s+\d+)?$/.test(lower)) return 'chorus';
-  if (/^(бридж|мост|bridge)(\s+\d+)?$/.test(lower)) return 'bridge';
-  if (/^(проигрыш|инструментал|instrumental|interlude)(\s+\d+)?$/.test(lower)) return 'instrumental';
-  if (/^(концовка|окончание|аутро|outro|ending)(\s+\d+)?$/.test(lower)) return 'outro';
-  if (/^(тэг|тег|tag)(\s+\d+)?$/.test(lower)) return 'tag';
+  const suffix = String.raw`(?:\s+(?:\d+|[xх]\d+))?`;
+  if (new RegExp(String.raw`^(вступление|интро|intro)${suffix}$`).test(lower)) return 'intro';
+  if (new RegExp(String.raw`^(куплет|запев|verse)${suffix}$`).test(lower)) return 'verse';
+  if (new RegExp(String.raw`^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)${suffix}$`).test(lower)) return 'prechorus';
+  if (new RegExp(String.raw`^(припев|chorus|refrain)${suffix}$`).test(lower)) return 'chorus';
+  if (new RegExp(String.raw`^(бридж|мост|bridge)${suffix}$`).test(lower)) return 'bridge';
+  if (new RegExp(String.raw`^(проигрыш|инструментал|instrumental|interlude)${suffix}$`).test(lower)) return 'instrumental';
+  if (new RegExp(String.raw`^(концовка|окончание|аутро|outro|ending)${suffix}$`).test(lower)) return 'outro';
+  if (new RegExp(String.raw`^(тэг|тег|tag)${suffix}$`).test(lower)) return 'tag';
   return 'verse';
 };
 

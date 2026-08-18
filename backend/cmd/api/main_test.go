@@ -78,6 +78,26 @@ Outro line`
 	assertParsedSection(t, sections[4], "outro", "Концовка", []string{"Outro line"}, [][]string{{"C"}})
 }
 
+func TestParseLeadSheetSectionsRecognizesRepeatSuffix(t *testing.T) {
+	leadSheet := `[Припев x2]
+F G
+Chorus line
+[Куплет х2]
+C
+Verse line`
+
+	sections, err := parseLeadSheetSections(leadSheet)
+	if err != nil {
+		t.Fatalf("parseLeadSheetSections returned error: %v", err)
+	}
+	if len(sections) != 2 {
+		t.Fatalf("expected 2 sections, got %d", len(sections))
+	}
+
+	assertParsedSection(t, sections[0], "chorus", "Припев x2", []string{"Chorus line"}, [][]string{{"F", "G"}})
+	assertParsedSection(t, sections[1], "verse", "Куплет х2", []string{"Verse line"}, [][]string{{"C"}})
+}
+
 func TestParseLeadSheetSectionsRejectsHeadingsWithoutLyrics(t *testing.T) {
 	_, err := parseLeadSheetSections("[Припев]")
 	if !errors.Is(err, errValidation) {

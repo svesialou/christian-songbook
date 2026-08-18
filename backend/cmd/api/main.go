@@ -3533,8 +3533,12 @@ func isSectionHeading(value string, prefix string) bool {
 		if suffix == "" {
 			return true
 		}
-		first := []rune(suffix)[0]
-		return first >= '0' && first <= '9'
+		runes := []rune(suffix)
+		first := runes[0]
+		if first >= '0' && first <= '9' {
+			return true
+		}
+		return len(runes) > 1 && (first == 'x' || first == 'х') && runes[1] >= '0' && runes[1] <= '9'
 	}
 	return false
 }

@@ -113,14 +113,15 @@ const parseHeader = (line: string): Pick<SongOrderedSection, 'sectionType' | 'ti
   const value = line.trim().replace(/^\[(.*)\]$/, '$1').replace(/:$/, '').trim();
   if (!value) return null;
   const lower = value.toLowerCase();
-  if (/^(вступление|интро|intro)(\s+\d+)?$/.test(lower)) return { sectionType: 'intro', title: value };
-  if (/^(куплет|запев|verse)(\s+\d+)?$/.test(lower)) return { sectionType: 'verse', title: value };
-  if (/^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)(\s+\d+)?$/.test(lower)) return { sectionType: 'prechorus', title: value };
-  if (/^(припев|chorus|refrain)(\s+\d+)?$/.test(lower)) return { sectionType: 'chorus', title: value };
-  if (/^(бридж|мост|bridge)(\s+\d+)?$/.test(lower)) return { sectionType: 'bridge', title: value };
-  if (/^(проигрыш|инструментал|instrumental|interlude)(\s+\d+)?$/.test(lower)) return { sectionType: 'instrumental', title: value };
-  if (/^(концовка|окончание|аутро|outro|ending)(\s+\d+)?$/.test(lower)) return { sectionType: 'outro', title: value };
-  if (/^(тэг|тег|tag)(\s+\d+)?$/.test(lower)) return { sectionType: 'tag', title: value };
+  const suffix = String.raw`(?:\s+(?:\d+|[xх]\d+))?`;
+  if (new RegExp(String.raw`^(вступление|интро|intro)${suffix}$`).test(lower)) return { sectionType: 'intro', title: value };
+  if (new RegExp(String.raw`^(куплет|запев|verse)${suffix}$`).test(lower)) return { sectionType: 'verse', title: value };
+  if (new RegExp(String.raw`^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)${suffix}$`).test(lower)) return { sectionType: 'prechorus', title: value };
+  if (new RegExp(String.raw`^(припев|chorus|refrain)${suffix}$`).test(lower)) return { sectionType: 'chorus', title: value };
+  if (new RegExp(String.raw`^(бридж|мост|bridge)${suffix}$`).test(lower)) return { sectionType: 'bridge', title: value };
+  if (new RegExp(String.raw`^(проигрыш|инструментал|instrumental|interlude)${suffix}$`).test(lower)) return { sectionType: 'instrumental', title: value };
+  if (new RegExp(String.raw`^(концовка|окончание|аутро|outro|ending)${suffix}$`).test(lower)) return { sectionType: 'outro', title: value };
+  if (new RegExp(String.raw`^(тэг|тег|tag)${suffix}$`).test(lower)) return { sectionType: 'tag', title: value };
   return null;
 };
 
