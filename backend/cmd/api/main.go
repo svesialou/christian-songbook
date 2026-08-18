@@ -1,6 +1,8 @@
 package main
 
 import (
+	"archive/zip"
+	"bytes"
 	"context"
 	"crypto/rand"
 	"crypto/sha256"
@@ -8,6 +10,7 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"encoding/json"
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
@@ -155,6 +158,11 @@ type parsedSongSection struct {
 	Title       string
 	Lines       []string
 	Chords      [][]string
+}
+
+type presentationSlide struct {
+	Title string
+	Lines []string
 }
 
 type rejectSongSubmissionRequest struct {
@@ -425,6 +433,44 @@ func main() {
 		}
 
 		writeJSON(w, http.StatusOK, song)
+	})
+	mux.HandleFunc("GET /api/songs/{id}/presentation.pptx", func(w http.ResponseWriter, r *http.Request) {
+		songID := strings.TrimSpace(r.PathValue("id"))
+		if songID == "" {
+			writeError(w, http.StatusBadRequest, "song id is required")
+			return
+		}
+
+		song, err := getSong(r.Context(), db, songID)
+		if errors.Is(err, sql.ErrNoRows) {
+			writeError(w, http.StatusNotFound, "song not found")
+			return
+		}
+		if err != nil {
+			logger.Error("get song for presentation failed", "error", err, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to get song")
+			return
+		}
+
+		presentation, err := buildSongPresentationPPTX(song)
+		if errors.Is(err, errValidation) {
+			writeError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		if err != nil {
+			logger.Error("build song presentation failed", "error", err, "song_id", songID)
+			writeError(w, http.StatusInternalServerError, "failed to build presentation")
+			return
+		}
+
+		filename := song.ID + "-presentation.pptx"
+		w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.presentationml.presentation")
+		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%q", filename))
+		w.Header().Set("Content-Length", strconv.Itoa(len(presentation)))
+		w.WriteHeader(http.StatusOK)
+		if _, err := w.Write(presentation); err != nil {
+			logger.Error("write song presentation failed", "error", err, "song_id", songID)
+		}
 	})
 	mux.HandleFunc("GET /api/me", func(w http.ResponseWriter, r *http.Request) {
 		me, err := getMe(r.Context(), db, cfg, r)
@@ -4069,6 +4115,266 @@ LIMIT 1`
 	applyParsedSections(&song, sections)
 
 	return song, nil
+}
+
+const presentationMaxLinesPerSlide = 8
+
+func buildSongPresentationPPTX(song songResponse) ([]byte, error) {
+	slides, err := buildSongPresentationSlides(song)
+	if err != nil {
+		return nil, err
+	}
+
+	var buffer bytes.Buffer
+	archive := zip.NewWriter(&buffer)
+	files := map[string]string{
+		"[Content_Types].xml":                          presentationContentTypes(len(slides)),
+		"_rels/.rels":                                  packageRelationshipsXML(),
+		"ppt/presentation.xml":                         presentationXML(len(slides)),
+		"ppt/_rels/presentation.xml.rels":              presentationRelationshipsXML(len(slides)),
+		"ppt/slideMasters/slideMaster1.xml":            slideMasterXML(),
+		"ppt/slideMasters/_rels/slideMaster1.xml.rels": slideMasterRelationshipsXML(),
+		"ppt/slideLayouts/slideLayout1.xml":            slideLayoutXML(),
+		"ppt/slideLayouts/_rels/slideLayout1.xml.rels": slideLayoutRelationshipsXML(),
+		"ppt/theme/theme1.xml":                         themeXML(),
+	}
+	for index, slide := range slides {
+		path := fmt.Sprintf("ppt/slides/slide%d.xml", index+1)
+		relsPath := fmt.Sprintf("ppt/slides/_rels/slide%d.xml.rels", index+1)
+		files[path] = slideXML(song, slide, index+1, len(slides))
+		files[relsPath] = slideRelationshipsXML()
+	}
+
+	for path, content := range files {
+		if err := writeZipFile(archive, path, []byte(content)); err != nil {
+			archive.Close()
+			return nil, err
+		}
+	}
+
+	if err := archive.Close(); err != nil {
+		return nil, err
+	}
+	return buffer.Bytes(), nil
+}
+
+func buildSongPresentationSlides(song songResponse) ([]presentationSlide, error) {
+	slides := make([]presentationSlide, 0)
+	for _, section := range song.Sections {
+		lines := make([]string, 0, len(section.Rows))
+		for _, row := range section.Rows {
+			line := strings.TrimSpace(row)
+			if line != "" {
+				lines = append(lines, line)
+			}
+		}
+		for start := 0; start < len(lines); start += presentationMaxLinesPerSlide {
+			end := start + presentationMaxLinesPerSlide
+			if end > len(lines) {
+				end = len(lines)
+			}
+			title := strings.TrimSpace(section.Title)
+			if title == "" {
+				title = "Слайд"
+			}
+			if start > 0 {
+				title = fmt.Sprintf("%s (%d)", title, start/presentationMaxLinesPerSlide+1)
+			}
+			slides = append(slides, presentationSlide{Title: title, Lines: lines[start:end]})
+		}
+	}
+	if len(slides) == 0 {
+		return nil, validationError("song must contain presentation text")
+	}
+	return slides, nil
+}
+
+func writeZipFile(archive *zip.Writer, path string, content []byte) error {
+	writer, err := archive.Create(path)
+	if err != nil {
+		return err
+	}
+	_, err = writer.Write(content)
+	return err
+}
+
+func presentationContentTypes(slideCount int) string {
+	var slides strings.Builder
+	for index := 1; index <= slideCount; index++ {
+		slides.WriteString(fmt.Sprintf(`<Override PartName="/ppt/slides/slide%d.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`, index))
+	}
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>
+  <Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>
+  <Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>
+  <Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>
+  ` + slides.String() + `
+</Types>`
+}
+
+func packageRelationshipsXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/>
+</Relationships>`
+}
+
+func presentationXML(slideCount int) string {
+	var slideIDs strings.Builder
+	for index := 1; index <= slideCount; index++ {
+		slideIDs.WriteString(fmt.Sprintf(`<p:sldId id="%d" r:id="rId%d"/>`, 255+index, index+1))
+	}
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+  <p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst>
+  <p:sldIdLst>` + slideIDs.String() + `</p:sldIdLst>
+  <p:sldSz cx="12192000" cy="6858000" type="wide"/>
+  <p:notesSz cx="6858000" cy="9144000"/>
+  <p:defaultTextStyle/>
+</p:presentation>`
+}
+
+func presentationRelationshipsXML(slideCount int) string {
+	var relationships strings.Builder
+	relationships.WriteString(`<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="slideMasters/slideMaster1.xml"/>`)
+	for index := 1; index <= slideCount; index++ {
+		relationships.WriteString(fmt.Sprintf(`<Relationship Id="rId%d" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide%d.xml"/>`, index+1, index))
+	}
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">` + relationships.String() + `</Relationships>`
+}
+
+func slideMasterXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldMaster xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+  <p:cSld>
+    <p:spTree>
+      <p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr>
+      <p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>
+    </p:spTree>
+  </p:cSld>
+  <p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/>
+  <p:sldLayoutIdLst><p:sldLayoutId id="2147483649" r:id="rId1"/></p:sldLayoutIdLst>
+  <p:txStyles><p:titleStyle/><p:bodyStyle/><p:otherStyle/></p:txStyles>
+</p:sldMaster>`
+}
+
+func slideMasterRelationshipsXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
+  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml"/>
+</Relationships>`
+}
+
+func slideLayoutXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldLayout xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" type="blank" preserve="1">
+  <p:cSld name="Blank">
+    <p:spTree>
+      <p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr>
+      <p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>
+    </p:spTree>
+  </p:cSld>
+  <p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>
+</p:sldLayout>`
+}
+
+func slideLayoutRelationshipsXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="../slideMasters/slideMaster1.xml"/>
+</Relationships>`
+}
+
+func slideRelationshipsXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
+</Relationships>`
+}
+
+func slideXML(song songResponse, slide presentationSlide, slideNumber int, slideCount int) string {
+	lineFontSize := 3200
+	switch {
+	case len(slide.Lines) >= 8:
+		lineFontSize = 2500
+	case len(slide.Lines) >= 6:
+		lineFontSize = 2800
+	case len(slide.Lines) <= 3:
+		lineFontSize = 3800
+	}
+
+	bodyParagraphs := make([]string, 0, len(slide.Lines))
+	for _, line := range slide.Lines {
+		bodyParagraphs = append(bodyParagraphs, textParagraph(line, lineFontSize, "FFFFFF", false))
+	}
+
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+  <p:cSld>
+    <p:bg><p:bgPr><a:solidFill><a:srgbClr val="101820"/></a:solidFill><a:effectLst/></p:bgPr></p:bg>
+    <p:spTree>
+      <p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr>
+      <p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>
+      ` + textShape(2, "Section title", 609600, 365760, 10972800, 731520, textParagraph(slide.Title, 3200, "F5C542", true), "mid") + `
+      ` + textShape(3, "Lyrics", 914400, 1371600, 10363200, 4389120, strings.Join(bodyParagraphs, ""), "mid") + `
+      ` + textShape(4, "Footer", 609600, 6263640, 10972800, 365760, textParagraph(fmt.Sprintf("%s · %d/%d", song.Title, slideNumber, slideCount), 1400, "AEB9B4", false), "b") + `
+    </p:spTree>
+  </p:cSld>
+  <p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>
+</p:sld>`
+}
+
+func textShape(id int, name string, x int, y int, cx int, cy int, paragraphs string, anchor string) string {
+	return fmt.Sprintf(`<p:sp>
+  <p:nvSpPr><p:cNvPr id="%d" name="%s"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="%d" y="%d"/><a:ext cx="%d" cy="%d"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/><a:ln><a:noFill/></a:ln></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="%s"/><a:lstStyle/>%s</p:txBody>
+</p:sp>`, id, name, x, y, cx, cy, anchor, paragraphs)
+}
+
+func textParagraph(value string, fontSize int, color string, bold bool) string {
+	boldAttribute := ""
+	if bold {
+		boldAttribute = ` b="1"`
+	}
+	return fmt.Sprintf(`<a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="ru-RU" sz="%d"%s><a:solidFill><a:srgbClr val="%s"/></a:solidFill><a:latin typeface="Aptos Display"/><a:cs typeface="Aptos"/></a:rPr><a:t>%s</a:t></a:r><a:endParaRPr lang="ru-RU" sz="%d"/></a:p>`, fontSize, boldAttribute, color, escapeXMLText(value), fontSize)
+}
+
+func escapeXMLText(value string) string {
+	var buffer bytes.Buffer
+	if err := xml.EscapeText(&buffer, []byte(value)); err != nil {
+		return ""
+	}
+	return buffer.String()
+}
+
+func themeXML() string {
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Christian Songbook">
+  <a:themeElements>
+    <a:clrScheme name="Songbook">
+      <a:dk1><a:srgbClr val="101820"/></a:dk1>
+      <a:lt1><a:srgbClr val="FFFFFF"/></a:lt1>
+      <a:dk2><a:srgbClr val="1C2824"/></a:dk2>
+      <a:lt2><a:srgbClr val="F7FAF8"/></a:lt2>
+      <a:accent1><a:srgbClr val="F5C542"/></a:accent1>
+      <a:accent2><a:srgbClr val="4EA382"/></a:accent2>
+      <a:accent3><a:srgbClr val="7B8CDE"/></a:accent3>
+      <a:accent4><a:srgbClr val="D98B6A"/></a:accent4>
+      <a:accent5><a:srgbClr val="8FC7D9"/></a:accent5>
+      <a:accent6><a:srgbClr val="AEB9B4"/></a:accent6>
+      <a:hlink><a:srgbClr val="8FC7D9"/></a:hlink>
+      <a:folHlink><a:srgbClr val="7B8CDE"/></a:folHlink>
+    </a:clrScheme>
+    <a:fontScheme name="Aptos"><a:majorFont><a:latin typeface="Aptos Display"/><a:cs typeface="Aptos"/></a:majorFont><a:minorFont><a:latin typeface="Aptos"/><a:cs typeface="Aptos"/></a:minorFont></a:fontScheme>
+    <a:fmtScheme name="Songbook"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme>
+  </a:themeElements>
+</a:theme>`
 }
 
 func requestLogger(logger *slog.Logger, next http.Handler) http.Handler {

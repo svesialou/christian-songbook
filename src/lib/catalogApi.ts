@@ -114,6 +114,7 @@ export type UserCollectionsState = {
 
 const API_TIMEOUT_MS = 3500;
 const UPLOAD_TIMEOUT_MS = 30000;
+const DOWNLOAD_TIMEOUT_MS = 30000;
 
 const resolveApiBaseUrl = (): string => {
   const configured = import.meta.env.VITE_API_BASE_URL?.trim();
@@ -321,6 +322,37 @@ export const importSharedCollection = (shareToken: string): Promise<UserCollecti
 
 export const googleAuthStartUrl = (redirectPath: string): string =>
   apiUrl(`/api/auth/google/start?redirect=${encodeURIComponent(redirectPath)}`);
+
+export const downloadSongPresentation = async (songId: string, filename: string): Promise<void> => {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), DOWNLOAD_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(apiUrl(`/api/songs/${encodeURIComponent(songId)}/presentation.pptx`), {
+      headers: {
+        Accept: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      },
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      throw new Error(payload?.error || `API request failed: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  } finally {
+    window.clearTimeout(timeout);
+  }
+};
 
 export const submitSongSubmission = (payload: SongSubmissionPayload): Promise<SongSubmissionCreated> =>
   requestJSON<SongSubmissionCreated>('/api/song-submissions', {

@@ -1,8 +1,12 @@
 package main
 
 import (
+	"archive/zip"
+	"bytes"
 	"errors"
+	"io"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -242,6 +246,74 @@ func TestRandomURLToken(t *testing.T) {
 	if len(token) != 32 {
 		t.Fatalf("expected 32 hex chars, got %d: %q", len(token), token)
 	}
+}
+
+func TestBuildSongPresentationPPTX(t *testing.T) {
+	data, err := buildSongPresentationPPTX(songResponse{
+		ID:    "blagoslovi",
+		Title: "Благослови",
+		Sections: []songOrderedSection{
+			{
+				SectionType: "verse",
+				Title:       "Куплет 1",
+				Rows:        []string{"Первая строка", "Вторая строка"},
+			},
+			{
+				SectionType: "chorus",
+				Title:       "Припев",
+				Rows:        []string{"Аллилуйя"},
+			},
+		},
+	})
+	if err != nil {
+		t.Fatalf("buildSongPresentationPPTX returned error: %v", err)
+	}
+	if len(data) == 0 {
+		t.Fatal("expected non-empty presentation")
+	}
+
+	reader, err := zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != nil {
+		t.Fatalf("generated presentation is not a zip archive: %v", err)
+	}
+
+	presentationXML := readZipText(t, reader, "ppt/presentation.xml")
+	if !strings.Contains(presentationXML, `ppt/slides/slide1.xml`) && !strings.Contains(presentationXML, `rId2`) {
+		t.Fatalf("presentation xml does not reference slides:\n%s", presentationXML)
+	}
+
+	firstSlide := readZipText(t, reader, "ppt/slides/slide1.xml")
+	if !strings.Contains(firstSlide, "Куплет 1") || !strings.Contains(firstSlide, "Первая строка") {
+		t.Fatalf("first slide does not contain expected text:\n%s", firstSlide)
+	}
+
+	secondSlide := readZipText(t, reader, "ppt/slides/slide2.xml")
+	if !strings.Contains(secondSlide, "Припев") || !strings.Contains(secondSlide, "Аллилуйя") {
+		t.Fatalf("second slide does not contain expected text:\n%s", secondSlide)
+	}
+}
+
+func readZipText(t *testing.T, reader *zip.Reader, path string) string {
+	t.Helper()
+
+	for _, file := range reader.File {
+		if file.Name != path {
+			continue
+		}
+		body, err := file.Open()
+		if err != nil {
+			t.Fatalf("open %s: %v", path, err)
+		}
+		defer body.Close()
+		content, err := io.ReadAll(body)
+		if err != nil {
+			t.Fatalf("read %s: %v", path, err)
+		}
+		return string(content)
+	}
+
+	t.Fatalf("zip entry %s not found", path)
+	return ""
 }
 
 func assertParsedSection(

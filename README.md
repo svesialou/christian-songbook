@@ -85,6 +85,7 @@ Phase 1.5 scaffold уже добавлен: backend, MySQL, read-only catalog sc
   - `GET http://127.0.0.1:8082/api/catalog/snapshot`
   - `GET http://127.0.0.1:8082/api/songs`
   - `GET http://127.0.0.1:8082/api/songs/song-1`
+  - `GET http://127.0.0.1:8082/api/songs/song-1/presentation.pptx`
 
 Команды:
 - `make backend-build`

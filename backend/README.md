@@ -17,6 +17,7 @@ Endpoints:
 - `GET /api/catalog/snapshot` - published catalog snapshot for PWA local cache, including song categories, capped at 1000 songs.
 - `GET /api/songs` - published song list with categories, optional `?query=` search, capped at 1000 songs.
 - `GET /api/songs/{id}` - one song in the frontend-compatible shape.
+- `GET /api/songs/{id}/presentation.pptx` - read-only generated PowerPoint presentation for one published song.
 - `POST /api/songs/{id}/edit-submissions` - public edit proposal for an existing song; creates a pending admin review item with source song metadata and original lead sheet snapshot.
 - `GET /api/auth/google/start?redirect=/settings` - starts Google OAuth when provider env is configured.
 - `GET /api/auth/google/callback` - handles Google OAuth callback, creates/updates user identity, and sets an app session cookie.

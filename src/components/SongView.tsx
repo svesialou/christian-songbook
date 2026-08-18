@@ -7,7 +7,7 @@ import {
   transposeKeyLabel,
   transposeSongRows,
 } from '../lib/chords';
-import { SongSubmissionPayload, UserPreferences } from '../lib/catalogApi';
+import { downloadSongPresentation, SongSubmissionPayload, UserPreferences } from '../lib/catalogApi';
 import { fillMissingVerseChords, fillMissingVerseSectionChords } from '../lib/leadSheetTools';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
 
@@ -36,6 +36,11 @@ type PlaybackLine = {
   lineIndex: number;
 };
 
+type PresentationSlide = {
+  title: string;
+  lines: string[];
+};
+
 const DEFAULT_PLAYBACK = {
   bpm: 72,
   beatsPerLine: 4,
@@ -43,6 +48,7 @@ const DEFAULT_PLAYBACK = {
 };
 const MIN_BPM = 40;
 const MAX_BPM = 220;
+const PRESENTATION_MAX_LINES_PER_SLIDE = 8;
 
 type SongEditDraft = SongSubmissionPayload & {
   leadSheet: string;
@@ -159,6 +165,25 @@ const parseAuthorsInput = (value: string): string[] => {
 
 const formatAuthors = (authors: string[] | undefined): string => (authors ?? []).join(', ');
 
+const buildPresentationSlides = (song: Song): PresentationSlide[] =>
+  getRenderableSections(song, true).flatMap((section) => {
+    const lines = section.rows.map((line) => line.trim()).filter(Boolean);
+    const slides: PresentationSlide[] = [];
+    for (let start = 0; start < lines.length; start += PRESENTATION_MAX_LINES_PER_SLIDE) {
+      const title = start === 0
+        ? section.title
+        : `${section.title} (${start / PRESENTATION_MAX_LINES_PER_SLIDE + 1})`;
+      slides.push({
+        title,
+        lines: lines.slice(start, start + PRESENTATION_MAX_LINES_PER_SLIDE),
+      });
+    }
+    return slides;
+  });
+
+const songPresentationFilename = (song: Song): string =>
+  `${song.id || song.title.toLowerCase().replace(/[^a-zа-я0-9]+/gi, '-')}-presentation.pptx`;
+
 const inferKeyFromChords = (song: Song): string | undefined => {
   const sections = getRenderableSections(song, false);
   for (const section of sections) {
@@ -272,7 +297,10 @@ const SongView = ({
   const [playbackTick, setPlaybackTick] = useState(() => Date.now());
   const [playbackBpm, setPlaybackBpm] = useState(() => song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm);
   const [bpmInputValue, setBpmInputValue] = useState(() => String(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm));
-  const [contentMode, setContentMode] = useState<'song' | 'sheet'>('song');
+  const [contentMode, setContentMode] = useState<'song' | 'presentation' | 'sheet'>('song');
+  const [presentationSlideIndex, setPresentationSlideIndex] = useState(0);
+  const [isPresentationDownloading, setIsPresentationDownloading] = useState(false);
+  const [presentationError, setPresentationError] = useState<string | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editDraft, setEditDraft] = useState<SongEditDraft>(() => buildEditDraft(song));
   const [editError, setEditError] = useState<string | null>(null);
@@ -297,6 +325,8 @@ const SongView = ({
       ),
     [song, settings.repeatChorus, settings.viewPreset],
   );
+  const presentationSlides = useMemo(() => buildPresentationSlides(song), [song]);
+  const currentPresentationSlide = presentationSlides[presentationSlideIndex] ?? presentationSlides[0] ?? null;
   const activeLineIndex = activePosition
     ? playbackLines.findIndex(
         (line) => line.sectionId === activePosition.sectionId && line.lineIndex === activePosition.lineIndex,
@@ -371,6 +401,8 @@ const SongView = ({
       : `${playback.bpm} BPM · ${playback.beatsPerLine} доли`;
   const hasSheetMusic = Boolean(song.sheetMusicUrl);
   const isSheetMode = hasSheetMusic && contentMode === 'sheet';
+  const hasPresentation = presentationSlides.length > 0;
+  const isPresentationMode = hasPresentation && contentMode === 'presentation';
 
   useEffect(() => {
     const nextBpm = song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm;
@@ -385,10 +417,17 @@ const SongView = ({
 
   useEffect(() => {
     setContentMode('song');
+    setPresentationSlideIndex(0);
+    setPresentationError(null);
     setIsEditOpen(false);
     setEditDraft(buildEditDraft(song));
     setEditError(null);
   }, [song.id]);
+
+  useEffect(() => {
+    if (presentationSlideIndex < presentationSlides.length) return;
+    setPresentationSlideIndex(Math.max(0, presentationSlides.length - 1));
+  }, [presentationSlideIndex, presentationSlides.length]);
 
   const registerLine = (key: string, element: HTMLButtonElement | null) => {
     lineElements.current[key] = element;
@@ -617,6 +656,18 @@ const SongView = ({
     onBack();
   };
 
+  const downloadPresentation = async () => {
+    setIsPresentationDownloading(true);
+    setPresentationError(null);
+    try {
+      await downloadSongPresentation(song.id, songPresentationFilename(song));
+    } catch (err) {
+      setPresentationError(err instanceof Error ? err.message : 'Не удалось скачать презентацию.');
+    } finally {
+      setIsPresentationDownloading(false);
+    }
+  };
+
   return (
     <section
       className={`song-view preset-${settings.viewPreset} ${settings.splitSections ? 'split-sections' : ''}`}
@@ -658,10 +709,15 @@ const SongView = ({
           {song.authors?.length ? <p className="song-authors">Автор: {formatAuthors(song.authors)}</p> : null}
           <div className="song-meta-row">
             <p className="view-preset-chip">{viewPresetLabels[settings.viewPreset]}</p>
-            {hasSheetMusic ? (
+            {hasPresentation || hasSheetMusic ? (
               <div className="song-mode-toggle" aria-label="Режим отображения песни">
-                <button type="button" className={!isSheetMode ? 'is-active' : ''} onClick={() => setContentMode('song')} aria-pressed={!isSheetMode}>Текст</button>
-                <button type="button" className={isSheetMode ? 'is-active' : ''} onClick={() => setContentMode('sheet')} aria-pressed={isSheetMode}>Ноты</button>
+                <button type="button" className={!isSheetMode && !isPresentationMode ? 'is-active' : ''} onClick={() => setContentMode('song')} aria-pressed={!isSheetMode && !isPresentationMode}>Текст</button>
+                {hasPresentation ? (
+                  <button type="button" className={isPresentationMode ? 'is-active' : ''} onClick={() => setContentMode('presentation')} aria-pressed={isPresentationMode}>Презентация</button>
+                ) : null}
+                {hasSheetMusic ? (
+                  <button type="button" className={isSheetMode ? 'is-active' : ''} onClick={() => setContentMode('sheet')} aria-pressed={isSheetMode}>Ноты</button>
+                ) : null}
               </div>
             ) : null}
             <div className="song-transpose-control" aria-label="Транспонирование этой песни">
@@ -734,6 +790,66 @@ const SongView = ({
             )}
           </div>
           <a className="song-sheet-link" href={song.sheetMusicUrl} target="_blank" rel="noreferrer">Открыть ноты отдельно</a>
+        </div>
+      ) : isPresentationMode && currentPresentationSlide ? (
+        <div className="song-presentation">
+          <div className="song-presentation-toolbar">
+            <div className="song-presentation-counter" aria-live="polite">
+              Слайд {presentationSlideIndex + 1} из {presentationSlides.length}
+            </div>
+            <div className="song-presentation-actions">
+              <button
+                type="button"
+                className="toolbar-button"
+                onClick={() => setPresentationSlideIndex((index) => Math.max(0, index - 1))}
+                disabled={presentationSlideIndex === 0}
+              >
+                Назад
+              </button>
+              <button
+                type="button"
+                className="toolbar-button"
+                onClick={() => setPresentationSlideIndex((index) => Math.min(presentationSlides.length - 1, index + 1))}
+                disabled={presentationSlideIndex >= presentationSlides.length - 1}
+              >
+                Вперёд
+              </button>
+              <button
+                type="button"
+                className="sheet-primary song-presentation-download"
+                onClick={downloadPresentation}
+                disabled={isPresentationDownloading}
+              >
+                {isPresentationDownloading ? 'Подготовка...' : 'Скачать PPTX'}
+              </button>
+            </div>
+          </div>
+          {presentationError ? <div className="error">{presentationError}</div> : null}
+          <div className="song-presentation-stage" aria-label={`Превью слайда ${presentationSlideIndex + 1}`}>
+            <div className="song-presentation-slide">
+              <h2>{currentPresentationSlide.title}</h2>
+              <div className="song-presentation-lines">
+                {currentPresentationSlide.lines.map((line, index) => (
+                  <p key={`${currentPresentationSlide.title}-${index}`}>{line}</p>
+                ))}
+              </div>
+              <span>{song.title}</span>
+            </div>
+          </div>
+          <div className="song-presentation-thumbs" aria-label="Слайды презентации">
+            {presentationSlides.map((slide, index) => (
+              <button
+                key={`${slide.title}-${index}`}
+                type="button"
+                className={index === presentationSlideIndex ? 'is-active' : ''}
+                onClick={() => setPresentationSlideIndex(index)}
+                aria-label={`Открыть слайд ${index + 1}: ${slide.title}`}
+                aria-current={index === presentationSlideIndex ? 'true' : undefined}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="song-sections">
@@ -854,7 +970,7 @@ const SongView = ({
         </div>
       ) : null}
 
-      {settings.showPlaybackDock && !isSheetMode ? (
+      {settings.showPlaybackDock && !isSheetMode && !isPresentationMode ? (
         <div className={`song-playback-dock ${isAutoPlaying ? 'is-running' : ''}`} style={playbackProgressStyle}>
           <div className="song-playback-dock-main">
             <strong>{playbackTimingLabel}</strong>
