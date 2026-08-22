@@ -172,23 +172,25 @@ const SongList = ({
     <div className="catalog">
       {!isLiveMode ? (
         <>
-          <label className="search-label sr-only" htmlFor="song-search">
-            Поиск
-          </label>
-          <div className="search-field">
-            <input
-              id="song-search"
-              value={query}
-              onChange={(event) => onQuery(event.target.value)}
-              placeholder="Поиск"
-              className="search"
-              aria-label="Поиск песни"
-            />
-            {query.trim().length > 0 ? (
-              <button type="button" className="search-clear" onClick={() => onQuery('')} aria-label="Очистить поиск">
-                ×
-              </button>
-            ) : null}
+          <div className="catalog-search-sticky">
+            <label className="search-label sr-only" htmlFor="song-search">
+              Поиск
+            </label>
+            <div className="search-field">
+              <input
+                id="song-search"
+                value={query}
+                onChange={(event) => onQuery(event.target.value)}
+                placeholder="Поиск"
+                className="search"
+                aria-label="Поиск песни"
+              />
+              {query.trim().length > 0 ? (
+                <button type="button" className="search-clear" onClick={() => onQuery('')} aria-label="Очистить поиск">
+                  ×
+                </button>
+              ) : null}
+            </div>
           </div>
 
           <div className="folder-strip" aria-label="Сборники и фильтры">
