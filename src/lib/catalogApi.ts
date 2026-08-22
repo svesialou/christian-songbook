@@ -12,6 +12,8 @@ export type CatalogSnapshot = {
   songs: Song[];
 };
 
+export type SongListItem = Pick<Song, 'id' | 'number' | 'title' | 'category' | 'authors'>;
+
 export type SongSubmissionPayload = {
   title: string;
   category: string;
@@ -229,6 +231,19 @@ const isSong = (value: unknown): value is Song => {
   );
 };
 
+const isSongListItem = (value: unknown): value is SongListItem => {
+  const song = value as SongListItem;
+  return (
+    !!song &&
+    typeof song === 'object' &&
+    typeof song.id === 'string' &&
+    typeof song.number === 'number' &&
+    typeof song.title === 'string' &&
+    typeof song.category === 'string' &&
+    isOptionalStringList(song.authors)
+  );
+};
+
 export const fetchCatalogSnapshot = async (): Promise<CatalogSnapshot | null> => {
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), API_TIMEOUT_MS);
@@ -261,6 +276,32 @@ export const fetchCatalogSnapshot = async (): Promise<CatalogSnapshot | null> =>
   } finally {
     window.clearTimeout(timeout);
   }
+};
+
+export const fetchSongList = async (query: string): Promise<SongListItem[]> => {
+  const normalizedQuery = query.trim();
+  const path = normalizedQuery ? `/api/songs?query=${encodeURIComponent(normalizedQuery)}` : '/api/songs';
+  const payload = await requestJSON<unknown>(path, {
+    method: 'GET',
+  });
+
+  if (!Array.isArray(payload) || !payload.every(isSongListItem)) {
+    throw new Error('Backend вернул некорректный список песен.');
+  }
+
+  return payload;
+};
+
+export const fetchSong = async (songId: string): Promise<Song> => {
+  const payload = await requestJSON<unknown>(`/api/songs/${encodeURIComponent(songId)}`, {
+    method: 'GET',
+  });
+
+  if (!isSong(payload)) {
+    throw new Error('Backend вернул некорректную песню.');
+  }
+
+  return payload;
 };
 
 export const fetchCurrentUser = (): Promise<CurrentUserState> =>

@@ -48,6 +48,7 @@ export type SongPlaybackPosition = {
   sectionId: string;
   sectionTitle: string;
   lineIndex: number;
+  sequenceIndex?: number;
   updatedAt: string;
 };
 

@@ -29,6 +29,7 @@ import { songCategories } from './data/songCategories';
 import {
   AdminSongUpdatePayload,
   CurrentUserState,
+  SongListItem,
   SongSubmission,
   SongSubmissionPayload,
   UserPreferences,
@@ -37,6 +38,8 @@ import {
   fetchCatalogSnapshot,
   fetchCurrentUser,
   fetchPendingSongSubmissions,
+  fetchSong,
+  fetchSongList,
   fetchSharedCollection,
   fetchUserCollections,
   fetchUserLiveState,
@@ -674,6 +677,23 @@ function App() {
     setSyncState('success');
     setError(null);
     if (showNotice) setNotice(`Каталог обновлён: ${snapshot!.songs.length} песен`);
+  };
+
+  const searchAdminSongs = (searchQuery: string): Promise<SongListItem[]> => fetchSongList(searchQuery);
+
+  const ensureAdminSongLoaded = async (songId: string) => {
+    if (songs.some((song) => song.id === songId)) return;
+
+    const song = await fetchSong(songId);
+    const [normalizedSong] = normalizeCatalog([song]);
+    if (!normalizedSong) throw new Error('Backend вернул некорректную песню.');
+
+    setSongs((current) => {
+      if (current.some((item) => item.id === normalizedSong.id)) return current;
+      const next = [...current, normalizedSong].sort((a, b) => a.number - b.number || a.title.localeCompare(b.title));
+      void saveSongs(next);
+      return next;
+    });
   };
 
   const loadPendingSubmissions = async () => {
@@ -2108,6 +2128,8 @@ function App() {
               deletingSongId={deletingAdminSongId}
               onNavigate={navigateAdmin}
               onRefreshCatalog={() => void refreshCatalog(true)}
+              onSearchSongs={searchAdminSongs}
+              onEnsureSongLoaded={ensureAdminSongLoaded}
               onRefreshSubmissions={() => void loadPendingSubmissions()}
               onCreateSong={async (message) => {
                 setNotice(message);

@@ -1,5 +1,5 @@
-import { FormEvent, ReactNode, useMemo, useRef, useState } from 'react';
-import { AdminSongUpdatePayload, SongSubmission, SongSubmissionPayload, createAdminSong, uploadSheetMusicFile } from '../lib/catalogApi';
+import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { AdminSongUpdatePayload, SongListItem, SongSubmission, SongSubmissionPayload, createAdminSong, uploadSheetMusicFile } from '../lib/catalogApi';
 import { parseSongKey } from '../lib/chords';
 import { fillMissingVerseChords } from '../lib/leadSheetTools';
 import { Song, SongOrderedSection } from '../types/song';
@@ -26,6 +26,8 @@ type Props = {
   adminKey: string;
   onNavigate: (route: AdminRoute) => void;
   onRefreshCatalog: () => void;
+  onSearchSongs: (query: string) => Promise<SongListItem[]>;
+  onEnsureSongLoaded: (songId: string) => Promise<void>;
   onRefreshSubmissions: () => void;
   onCreateSong: (message: string) => void | Promise<void>;
   onSaveSong: (songId: string, payload: AdminSongUpdatePayload) => void;
@@ -42,12 +44,16 @@ type MetaKey = 'title' | 'category' | 'authors' | 'defaultKey' | 'sheetMusicUrl'
 type MetaValue = string | number | string[];
 type MetaDraft = Pick<SongDraft, MetaKey>;
 type SongListFilter = 'all' | 'missing-chords';
+type AdminSongListItem = SongListItem & {
+  song?: Song;
+};
 
 const DEFAULT_CATEGORY = 'Общее';
 const DEFAULT_BPM = 72;
 const DEFAULT_BEATS_PER_LINE = 4;
 const DEFAULT_INTRO_BEATS = 4;
 const AUTHORS_PLACEHOLDER = 'Hillsong, Bethel Music';
+const ADMIN_SONG_PAGE_SIZE = 180;
 
 const parseAuthorsInput = (value: string): string[] => {
   const seen = new Set<string>();
@@ -613,6 +619,8 @@ const AdminPanel = ({
   adminKey,
   onNavigate,
   onRefreshCatalog,
+  onSearchSongs,
+  onEnsureSongLoaded,
   onRefreshSubmissions,
   onCreateSong,
   onSaveSong,
@@ -624,7 +632,12 @@ const AdminPanel = ({
 }: Props) => {
   const [query, setQuery] = useState('');
   const [songListFilter, setSongListFilter] = useState<SongListFilter>('all');
+  const [backendSongs, setBackendSongs] = useState<SongListItem[]>([]);
+  const [isBackendSearchLoading, setIsBackendSearchLoading] = useState(false);
+  const [backendSearchError, setBackendSearchError] = useState<string | null>(null);
+  const [visibleSongCount, setVisibleSongCount] = useState(ADMIN_SONG_PAGE_SIZE);
   const songListScrollY = useRef(0);
+  const page = route.page;
   const categoryOptions = useMemo(() => Array.from(new Set([DEFAULT_CATEGORY, ...categories.filter((category) => category.trim().length > 0)])), [categories]);
   const filteredSongs = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -634,16 +647,95 @@ const AdminPanel = ({
       return [song.title, song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized);
     });
   }, [query, songListFilter, songs]);
+  const songListItems = useMemo<AdminSongListItem[]>(() => {
+    const seen = new Set<string>();
+    const localItems = filteredSongs.map((song) => {
+      seen.add(song.id);
+      return {
+        id: song.id,
+        number: song.number,
+        title: song.title,
+        category: song.category,
+        authors: song.authors,
+        song,
+      };
+    });
+    if (!query.trim() || songListFilter === 'missing-chords') return localItems;
+
+    const remoteItems = backendSongs.flatMap((song) => {
+      if (seen.has(song.id)) return [];
+      seen.add(song.id);
+      return [song];
+    });
+    return [...localItems, ...remoteItems];
+  }, [backendSongs, filteredSongs, query, songListFilter]);
+  const visibleSongItems = useMemo(() => songListItems.slice(0, visibleSongCount), [songListItems, visibleSongCount]);
+  const hasMoreSongItems = visibleSongItems.length < songListItems.length;
   const missingChordCount = useMemo(() => songs.filter((song) => !songHasChords(song)).length, [songs]);
-  const openSongEditor = (songId: string) => {
+  useEffect(() => {
+    setVisibleSongCount(ADMIN_SONG_PAGE_SIZE);
+  }, [query, songListFilter]);
+  useEffect(() => {
+    const normalized = query.trim();
+    if (!normalized) {
+      setBackendSongs([]);
+      setBackendSearchError(null);
+      setIsBackendSearchLoading(false);
+      return undefined;
+    }
+
+    let cancelled = false;
+    setIsBackendSearchLoading(true);
+    const timeout = window.setTimeout(() => {
+      onSearchSongs(normalized)
+        .then((items) => {
+          if (cancelled) return;
+          setBackendSongs(items);
+          setBackendSearchError(null);
+        })
+        .catch((err) => {
+          if (cancelled) return;
+          setBackendSongs([]);
+          setBackendSearchError(err instanceof Error ? err.message : 'Не удалось найти песни в БД.');
+        })
+        .finally(() => {
+          if (!cancelled) setIsBackendSearchLoading(false);
+        });
+    }, 300);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeout);
+    };
+  }, [onSearchSongs, query]);
+  useEffect(() => {
+    if (page !== 'songs' || !hasMoreSongItems) return undefined;
+
+    const loadMoreNearBottom = () => {
+      const root = document.documentElement;
+      const remaining = root.scrollHeight - window.scrollY - window.innerHeight;
+      if (remaining > 520) return;
+      setVisibleSongCount((current) => Math.min(current + ADMIN_SONG_PAGE_SIZE, songListItems.length));
+    };
+
+    loadMoreNearBottom();
+    window.addEventListener('scroll', loadMoreNearBottom, { passive: true });
+    return () => window.removeEventListener('scroll', loadMoreNearBottom);
+  }, [hasMoreSongItems, page, songListItems.length]);
+  const openSongEditor = async (songId: string) => {
     songListScrollY.current = typeof window === 'undefined' ? 0 : window.scrollY;
-    onNavigate({ page: 'song', songId });
+    try {
+      await onEnsureSongLoaded(songId);
+      setBackendSearchError(null);
+      onNavigate({ page: 'song', songId });
+    } catch (err) {
+      setBackendSearchError(err instanceof Error ? err.message : 'Не удалось загрузить песню из БД.');
+    }
   };
   const backToSongs = () => {
     onNavigate({ page: 'songs' });
     if (typeof window !== 'undefined') window.requestAnimationFrame(() => window.scrollTo({ top: songListScrollY.current, left: 0, behavior: 'auto' }));
   };
-  const page = route.page;
   const activeSong = page === 'song' ? songs.find((song) => song.id === route.songId) : undefined;
   const activeSubmission = page === 'submission' ? submissions.find((submission) => submission.id === route.submissionId) : undefined;
 
@@ -651,7 +743,68 @@ const AdminPanel = ({
     <div className="admin-shell">
       <AdminNav active={page} onNavigate={onNavigate} />
       {page === 'home' ? <section className="admin-page"><div className="admin-page-header"><p className="eyebrow">Admin</p><h2>Управление каталогом</h2><p>Разделы вынесены на отдельные страницы. Песни редактируются одним блоком текста с аккордами.</p></div><div className="admin-card-grid"><button type="button" className="admin-action-card" onClick={() => onNavigate({ page: 'songs' })}><strong>Песни</strong><span>{songs.length} в каталоге</span></button><button type="button" className="admin-action-card" onClick={() => onNavigate({ page: 'new' })}><strong>Добавить песню</strong><span>Один блок как на Holychords</span></button><button type="button" className="admin-action-card" onClick={() => onNavigate({ page: 'submissions' })}><strong>Заявки</strong><span>{submissions.length} pending</span></button></div><div className="admin-inline-actions"><button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button><button type="button" className="sheet-secondary" onClick={onLogout}>Выйти</button></div></section> : null}
-      {page === 'songs' ? <section className="admin-page"><div className="admin-page-header"><p className="eyebrow">Каталог</p><h2>Песни</h2></div><label className="submission-field"><span>Поиск</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Название, автор, категория, номер" /></label><div className="admin-filter-row" role="group" aria-label="Фильтр песен"><button type="button" className={songListFilter === 'all' ? 'is-active' : ''} onClick={() => setSongListFilter('all')} aria-pressed={songListFilter === 'all'}>Все песни <span>{songs.length}</span></button><button type="button" className={songListFilter === 'missing-chords' ? 'is-active' : ''} onClick={() => setSongListFilter('missing-chords')} aria-pressed={songListFilter === 'missing-chords'}>Без аккордов <span>{missingChordCount}</span></button></div><div className="admin-inline-actions"><button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button><button type="button" className="sheet-primary" onClick={() => onNavigate({ page: 'new' })}>Добавить песню</button></div><div className="admin-list">{filteredSongs.length === 0 ? <p className="empty">По текущему фильтру песен нет.</p> : null}{filteredSongs.slice(0, 180).map((song) => <article key={song.id} className="admin-list-card"><button type="button" className="admin-list-main" onClick={() => openSongEditor(song.id)}><strong>{song.title}</strong><small>№{song.number} · {song.category}{song.authors?.length ? ` · ${formatAuthors(song.authors)}` : ''}{song.playback ? ` · ${song.playback.bpm} BPM` : ''} · {songHasChords(song) ? 'есть аккорды' : 'нет аккордов'}</small></button><b className="admin-key-badge">{song.defaultKey || '-'}</b></article>)}</div></section> : null}
+      {page === 'songs' ? (
+        <section className="admin-page">
+          <div className="admin-page-header">
+            <p className="eyebrow">Каталог</p>
+            <h2>Песни</h2>
+          </div>
+          <label className="submission-field">
+            <span>Поиск</span>
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Название, автор, категория, номер"
+            />
+          </label>
+          {isBackendSearchLoading ? <p className="submission-help">Ищу в БД...</p> : null}
+          {backendSearchError ? <div className="error">{backendSearchError}</div> : null}
+          <div className="admin-filter-row" role="group" aria-label="Фильтр песен">
+            <button
+              type="button"
+              className={songListFilter === 'all' ? 'is-active' : ''}
+              onClick={() => setSongListFilter('all')}
+              aria-pressed={songListFilter === 'all'}
+            >
+              Все песни <span>{songs.length}</span>
+            </button>
+            <button
+              type="button"
+              className={songListFilter === 'missing-chords' ? 'is-active' : ''}
+              onClick={() => setSongListFilter('missing-chords')}
+              aria-pressed={songListFilter === 'missing-chords'}
+            >
+              Без аккордов <span>{missingChordCount}</span>
+            </button>
+          </div>
+          <div className="admin-inline-actions">
+            <button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button>
+            <button type="button" className="sheet-primary" onClick={() => onNavigate({ page: 'new' })}>Добавить песню</button>
+          </div>
+          <div className="admin-list">
+            {songListItems.length === 0 && !isBackendSearchLoading ? <p className="empty">По текущему фильтру песен нет.</p> : null}
+            {visibleSongItems.map((item) => {
+              const song = item.song;
+              return (
+                <article key={item.id} className="admin-list-card">
+                  <button type="button" className="admin-list-main" onClick={() => void openSongEditor(item.id)}>
+                    <strong>{item.title}</strong>
+                    <small>
+                      №{item.number} · {item.category}
+                      {item.authors?.length ? ` · ${formatAuthors(item.authors)}` : ''}
+                      {song?.playback ? ` · ${song.playback.bpm} BPM` : ''}
+                      {' · '}
+                      {song ? (songHasChords(song) ? 'есть аккорды' : 'нет аккордов') : 'из БД'}
+                    </small>
+                  </button>
+                  <b className="admin-key-badge">{song?.defaultKey || '-'}</b>
+                </article>
+              );
+            })}
+            {hasMoreSongItems ? <p className="submission-help">Прокрутите ниже, чтобы загрузить ещё песни.</p> : null}
+          </div>
+        </section>
+      ) : null}
       {page === 'song' ? <AdminSongPage song={activeSong} categories={categoryOptions} savingId={savingSongId} deletingId={deletingSongId} adminKey={adminKey} onSave={onSaveSong} onDelete={onDeleteSong} onBackToSongs={backToSongs} /> : null}
       {page === 'new' ? <AdminNewSongPage adminKey={adminKey} categories={categoryOptions} onCreateSong={onCreateSong} /> : null}
       {page === 'submissions' ? <AdminSubmissionsPage submissions={submissions} isLoading={isSubmissionsLoading} busyIds={[savingSubmissionId, approvingSubmissionId, rejectingSubmissionId]} onNavigate={onNavigate} onRefresh={onRefreshSubmissions} onApprove={onApproveSubmission} onReject={onRejectSubmission} /> : null}

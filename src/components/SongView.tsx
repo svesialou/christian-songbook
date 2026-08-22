@@ -33,7 +33,9 @@ type PlaybackLine = {
   songId: string;
   sectionId: string;
   sectionTitle: string;
+  sectionType: SongOrderedSection['sectionType'];
   lineIndex: number;
+  text: string;
 };
 
 type PresentationSlide = {
@@ -48,6 +50,13 @@ const DEFAULT_PLAYBACK = {
 };
 const MIN_BPM = 40;
 const MAX_BPM = 220;
+const MAX_SECTION_REPEAT_COUNT = 12;
+const LONG_LINE_BASE_CHAR_COUNT = 42;
+const LONG_LINE_CHARS_PER_EXTRA_BEAT = 18;
+const VOCAL_BASE_SYLLABLE_COUNT = 10;
+const VOCAL_SYLLABLES_PER_EXTRA_BEAT = 4;
+const MAX_LINE_BEATS_MULTIPLIER = 3;
+const MAX_EXPLICIT_LINE_BEATS = 64;
 const PRESENTATION_MAX_LINES_PER_SLIDE = 8;
 
 type SongEditDraft = SongSubmissionPayload & {
@@ -61,8 +70,69 @@ const playbackLineToPosition = (line: PlaybackLine): SongPlaybackPosition => ({
   sectionId: line.sectionId,
   sectionTitle: line.sectionTitle,
   lineIndex: line.lineIndex,
+  sequenceIndex: line.sequenceIndex,
   updatedAt: new Date().toISOString(),
 });
+
+const parseSectionRepeatCount = (title: string): number => {
+  const normalizedTitle = title
+    .toLowerCase()
+    .replace(/[()[\]{}]/g, ' ')
+    .replace(/[×х]/g, 'x');
+  const patterns = [/\bx\s*(\d{1,2})\b/, /\b(\d{1,2})\s*x\b/, /\b(\d{1,2})\s*(?:раза?|times?)\b/];
+
+  for (const pattern of patterns) {
+    const count = Number(normalizedTitle.match(pattern)?.[1]);
+    if (Number.isInteger(count) && count > 1) return Math.min(count, MAX_SECTION_REPEAT_COUNT);
+  }
+
+  return 1;
+};
+
+const sectionPlaybackRepeatCount = (section: SongOrderedSection): number =>
+  section.sectionType === 'chorus' ? parseSectionRepeatCount(section.title) : 1;
+
+const timingHintPattern = /\b\d{1,2}\s*(?:такта?|тактов|дол[ияеюйь]*|bar|bars|beat|beats)\b/gi;
+const lyricVowelPattern = /[аеёиоуыэюяaeiouy]/gi;
+const instrumentalSectionTypes = new Set<SongOrderedSection['sectionType']>(['intro', 'instrumental', 'outro']);
+
+const parseExplicitBeatCount = (value: string, baseBeats: number): number | null => {
+  const normalized = value.toLowerCase().replace(/[×х]/g, 'x');
+  const barMatch = normalized.match(/\b(\d{1,2})\s*(?:такта?|тактов|bar|bars)\b/);
+  if (barMatch) return Math.min(Number(barMatch[1]) * baseBeats, MAX_EXPLICIT_LINE_BEATS);
+
+  const beatMatch = normalized.match(/\b(\d{1,2})\s*(?:дол[ияеюйь]*|beat|beats)\b/);
+  if (beatMatch) return Math.min(Number(beatMatch[1]), MAX_EXPLICIT_LINE_BEATS);
+
+  return null;
+};
+
+const countLyricSyllables = (text: string): number => {
+  const cleanText = text.replace(timingHintPattern, ' ');
+  return cleanText.match(lyricVowelPattern)?.length ?? 0;
+};
+
+const calculateLineDurationMs = (bpm: number, baseBeats: number, line?: PlaybackLine | null): number => {
+  const text = line?.text ?? '';
+  const explicitBeats =
+    parseExplicitBeatCount(text, baseBeats) ?? parseExplicitBeatCount(line?.sectionTitle ?? '', baseBeats);
+  if (explicitBeats !== null && explicitBeats > 0) {
+    return Math.max(1200, Math.round((60000 / bpm) * explicitBeats));
+  }
+
+  const readableLength = text.replace(/\s+/g, ' ').trim().length;
+  const syllableCount = countLyricSyllables(text);
+  const charExtraBeats = Math.ceil(Math.max(0, readableLength - LONG_LINE_BASE_CHAR_COUNT) / LONG_LINE_CHARS_PER_EXTRA_BEAT);
+  const syllableExtraBeats = Math.ceil(
+    Math.max(0, syllableCount - VOCAL_BASE_SYLLABLE_COUNT) / VOCAL_SYLLABLES_PER_EXTRA_BEAT,
+  );
+  const extraBeats =
+    syllableCount === 0 && line && instrumentalSectionTypes.has(line.sectionType)
+      ? 0
+      : Math.max(charExtraBeats, syllableExtraBeats);
+  const beats = Math.min(baseBeats + extraBeats, baseBeats * MAX_LINE_BEATS_MULTIPLIER);
+  return Math.max(1200, Math.round((60000 / bpm) * beats));
+};
 
 const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSection[] => {
   if (song.sections?.length) return fillMissingVerseSectionChords(song.sections);
@@ -132,18 +202,40 @@ const buildPlaybackLines = (song: Song, sections: SongOrderedSection[], chordsOn
   const lines: PlaybackLine[] = [];
   sections.forEach((section, sectionIndex) => {
     const sectionId = sectionStableId(section, sectionIndex);
-    section.rows.forEach((_, lineIndex) => {
-      if (chordsOnly && !section.chords[lineIndex]?.length) return;
-      lines.push({
-        sequenceIndex: lines.length,
-        songId: song.id,
-        sectionId,
-        sectionTitle: section.title,
-        lineIndex,
+    const repeatCount = sectionPlaybackRepeatCount(section);
+    for (let repeatIndex = 0; repeatIndex < repeatCount; repeatIndex += 1) {
+      section.rows.forEach((text, lineIndex) => {
+        if (chordsOnly && !section.chords[lineIndex]?.length) return;
+        lines.push({
+          sequenceIndex: lines.length,
+          songId: song.id,
+          sectionId,
+          sectionTitle: section.title,
+          sectionType: section.sectionType,
+          lineIndex,
+          text,
+        });
       });
-    });
+    }
   });
   return lines;
+};
+
+const findActivePlaybackLineIndex = (
+  position: SongPlaybackPosition,
+  playbackLines: PlaybackLine[],
+): number => {
+  const sequenceIndex = position.sequenceIndex;
+  if (Number.isInteger(sequenceIndex) && sequenceIndex !== undefined && sequenceIndex >= 0) {
+    const line = playbackLines[sequenceIndex];
+    if (line?.sectionId === position.sectionId && line.lineIndex === position.lineIndex) {
+      return sequenceIndex;
+    }
+  }
+
+  return playbackLines.findIndex(
+    (line) => line.sectionId === position.sectionId && line.lineIndex === position.lineIndex,
+  );
 };
 
 const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
@@ -313,7 +405,6 @@ const SongView = ({
   const activePosition = playbackPosition?.songId === song.id ? playbackPosition : null;
   const playback = { ...DEFAULT_PLAYBACK, ...song.playback, bpm: playbackBpm };
   const beatDurationMs = 60000 / playback.bpm;
-  const lineDurationMs = Math.max(1200, Math.round((60000 / playback.bpm) * playback.beatsPerLine));
   const introBeats = playback.introBeats ?? DEFAULT_PLAYBACK.introBeats;
   const introDurationMs = Math.max(0, Math.round((60000 / playback.bpm) * introBeats));
   const playbackLines = useMemo(
@@ -327,12 +418,13 @@ const SongView = ({
   );
   const presentationSlides = useMemo(() => buildPresentationSlides(song), [song]);
   const currentPresentationSlide = presentationSlides[presentationSlideIndex] ?? presentationSlides[0] ?? null;
-  const activeLineIndex = activePosition
-    ? playbackLines.findIndex(
-        (line) => line.sectionId === activePosition.sectionId && line.lineIndex === activePosition.lineIndex,
-      )
-    : -1;
+  const activeLineIndex = activePosition ? findActivePlaybackLineIndex(activePosition, playbackLines) : -1;
   const activePlaybackLine = activeLineIndex >= 0 ? playbackLines[activeLineIndex] : null;
+  const activeLineDurationMs = calculateLineDurationMs(
+    playback.bpm,
+    playback.beatsPerLine,
+    activePlaybackLine,
+  );
   const isPlaybackAtEnd = activeLineIndex >= playbackLines.length - 1;
   const introElapsedMs =
     isIntroActive && introStartedAt.current ? Math.max(0, playbackTick - introStartedAt.current) : 0;
@@ -345,7 +437,7 @@ const SongView = ({
     isAutoPlaying && !isIntroActive && activeLineIndex >= 0 && lineStartedAt.current
       ? Math.max(0, playbackTick - lineStartedAt.current)
       : 0;
-  const lineProgress = lineDurationMs > 0 ? Math.min(100, (lineElapsedMs / lineDurationMs) * 100) : 0;
+  const lineProgress = activeLineDurationMs > 0 ? Math.min(100, (lineElapsedMs / activeLineDurationMs) * 100) : 0;
   const playbackProgress = isAutoPlaying ? (isIntroActive ? introProgress : lineProgress) : 0;
   const playbackProgressStyle = { '--playback-progress': `${playbackProgress}%` } as CSSProperties;
   const inferredKey = useMemo(() => inferKeyFromChords(song), [song]);
@@ -499,10 +591,10 @@ const SongView = ({
 
     const timeout = window.setTimeout(() => {
       onPlaybackPositionChange(playbackLineToPosition(playbackLines[activeLineIndex + 1]));
-    }, lineDurationMs);
+    }, activeLineDurationMs);
 
     return () => window.clearTimeout(timeout);
-  }, [activeLineIndex, isAutoPlaying, isIntroActive, lineDurationMs, onPlaybackPositionChange, playbackLines]);
+  }, [activeLineDurationMs, activeLineIndex, isAutoPlaying, isIntroActive, onPlaybackPositionChange, playbackLines]);
 
   const toggleAutoPlayback = () => {
     if (isAutoPlaying) {

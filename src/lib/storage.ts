@@ -134,6 +134,8 @@ const normalizePlaybackPosition = (position: unknown): SongPlaybackPosition | nu
   const sectionTitle =
     typeof raw.sectionTitle === 'string' && raw.sectionTitle.trim().length > 0 ? raw.sectionTitle : '';
   const lineIndex = Number.isInteger(raw.lineIndex) && Number(raw.lineIndex) >= 0 ? Number(raw.lineIndex) : -1;
+  const sequenceIndex =
+    Number.isInteger(raw.sequenceIndex) && Number(raw.sequenceIndex) >= 0 ? Number(raw.sequenceIndex) : undefined;
   const updatedAt =
     typeof raw.updatedAt === 'string' && raw.updatedAt.trim().length > 0 ? raw.updatedAt : new Date().toISOString();
 
@@ -144,6 +146,7 @@ const normalizePlaybackPosition = (position: unknown): SongPlaybackPosition | nu
     sectionId,
     sectionTitle,
     lineIndex,
+    sequenceIndex,
     updatedAt,
   };
 };
