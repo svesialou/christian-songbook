@@ -1582,7 +1582,25 @@ button:disabled {
   border: 1px solid var(--border);
   border-radius: 18px;
   background: var(--surface-soft);
+  cursor: zoom-in;
   padding: 10px;
+}
+
+.song-presentation-stage:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
+  outline-offset: 2px;
+}
+
+.song-presentation-stage:fullscreen {
+  width: 100vw;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 0;
+  background: var(--presentation-bg);
+  cursor: pointer;
+  padding: clamp(12px, 2.5vw, 32px);
 }
 
 .song-presentation-slide {
@@ -1596,6 +1614,13 @@ button:disabled {
   color: var(--presentation-text);
   padding: clamp(18px, 5vw, 40px);
   text-align: center;
+}
+
+.song-presentation-stage:fullscreen .song-presentation-slide {
+  width: min(100%, calc(100dvh * 16 / 9));
+  max-height: 100%;
+  border-radius: 0;
+  padding: clamp(24px, 5vw, 64px);
 }
 
 .song-presentation-slide h2 {
@@ -1619,6 +1644,11 @@ button:disabled {
   font-weight: 760;
   line-height: 1.18;
   overflow-wrap: anywhere;
+}
+
+.song-presentation-stage:fullscreen .song-presentation-lines p {
+  font-size: clamp(28px, 5.4vw, 76px);
+  line-height: 1.12;
 }
 
 .song-presentation-slide span {
@@ -1653,140 +1683,6 @@ button:disabled {
 .song-presentation-thumbs button:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
   outline-offset: 2px;
-}
-
-.presenter-view {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  min-height: 100dvh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  background: var(--presentation-bg);
-  color: var(--presentation-text);
-  font-family: Aptos, "Segoe UI", sans-serif;
-}
-
-.presenter-toolbar,
-.presenter-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px clamp(12px, 2vw, 24px);
-  background: color-mix(in srgb, var(--presentation-bg) 88%, #000);
-}
-
-.presenter-counter {
-  min-width: 0;
-  display: grid;
-  gap: 2px;
-}
-
-.presenter-counter strong {
-  color: var(--presentation-title);
-  font-size: 14px;
-  font-weight: 950;
-}
-
-.presenter-counter span {
-  overflow: hidden;
-  color: var(--presentation-muted);
-  font-size: 13px;
-  font-weight: 800;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.presenter-actions {
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.presenter-action,
-.presenter-control {
-  min-height: 44px;
-  border: 1px solid color-mix(in srgb, var(--presentation-muted) 42%, transparent);
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--presentation-bg) 72%, var(--presentation-text));
-  color: var(--presentation-text);
-  cursor: pointer;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 900;
-  padding: 9px 13px;
-}
-
-.presenter-action:focus-visible,
-.presenter-control:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--presentation-title) 72%, transparent);
-  outline-offset: 2px;
-}
-
-.presenter-control:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
-}
-
-.presenter-stage {
-  min-height: 0;
-  display: grid;
-  place-items: center;
-  padding: clamp(12px, 2.5vw, 32px);
-}
-
-.presenter-slide {
-  width: min(100%, calc((100dvh - 132px) * 16 / 9));
-  max-height: 100%;
-  aspect-ratio: 16 / 9;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  align-items: center;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--presentation-muted) 28%, transparent);
-  border-radius: 10px;
-  background: var(--presentation-bg);
-  padding: clamp(22px, 4.5vw, 58px);
-  text-align: center;
-}
-
-.presenter-song-title {
-  overflow: hidden;
-  color: var(--presentation-muted);
-  font-size: clamp(13px, 1.6vw, 21px);
-  font-weight: 850;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.presenter-slide h2 {
-  margin: 8px 0 0;
-  color: var(--presentation-title);
-  font-size: clamp(22px, 3.1vw, 42px);
-  line-height: 1.1;
-}
-
-.presenter-lines {
-  min-width: 0;
-  display: grid;
-  align-content: center;
-  gap: clamp(6px, 1vw, 13px);
-}
-
-.presenter-lines p {
-  margin: 0;
-  color: var(--presentation-text);
-  font-size: clamp(26px, 4.6vw, 74px);
-  font-weight: 760;
-  line-height: 1.12;
-  overflow-wrap: anywhere;
-}
-
-.presenter-controls {
-  justify-content: center;
 }
 
 .playback-control {
@@ -2147,6 +2043,23 @@ button:disabled {
   background: var(--surface-strong);
   color: var(--muted);
   padding: 18px;
+}
+
+.empty-load-hint {
+  display: grid;
+  gap: 5px;
+}
+
+.empty-load-hint strong {
+  color: var(--text);
+  font-weight: 900;
+}
+
+.empty-load-hint small {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.35;
 }
 
 .muted {
@@ -2533,6 +2446,65 @@ button:disabled {
   animation: spin 800ms linear infinite;
 }
 
+.app.is-loading-blocked {
+  max-height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.catalog-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--surface) 64%, transparent);
+  padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+  pointer-events: auto;
+  touch-action: none;
+  overscroll-behavior: contain;
+  backdrop-filter: blur(3px);
+}
+
+.catalog-loading-panel {
+  min-width: min(280px, 100%);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.catalog-loading-panel strong,
+.catalog-loading-panel small {
+  font-family: Aptos, "Segoe UI", sans-serif;
+}
+
+.catalog-loading-panel strong {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.catalog-loading-panel small {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+}
+
+.catalog-loading-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+  border-top-color: var(--accent-strong);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2558,25 +2530,6 @@ button:disabled {
 
   .folder-chip {
     font-size: 13px;
-  }
-
-  .presenter-toolbar {
-    align-items: flex-start;
-  }
-
-  .presenter-stage {
-    padding: 10px;
-  }
-
-  .presenter-slide {
-    width: 100%;
-    min-height: calc(100dvh - 164px);
-    aspect-ratio: auto;
-    padding: 22px 16px;
-  }
-
-  .presenter-lines p {
-    font-size: clamp(24px, 9.2vw, 44px);
   }
 
   .song-main {

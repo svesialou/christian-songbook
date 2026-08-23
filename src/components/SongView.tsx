@@ -391,6 +391,7 @@ const SongView = ({
   const [bpmInputValue, setBpmInputValue] = useState(() => String(song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm));
   const [contentMode, setContentMode] = useState<'song' | 'presentation' | 'sheet'>('song');
   const [presentationSlideIndex, setPresentationSlideIndex] = useState(0);
+  const [isPresentationFullscreen, setIsPresentationFullscreen] = useState(false);
   const [isPresentationDownloading, setIsPresentationDownloading] = useState(false);
   const [presentationError, setPresentationError] = useState<string | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -398,6 +399,7 @@ const SongView = ({
   const [editError, setEditError] = useState<string | null>(null);
   const [isEditSubmitting, setIsEditSubmitting] = useState(false);
   const lineElements = useRef<Record<string, HTMLButtonElement | null>>({});
+  const presentationStageRef = useRef<HTMLDivElement | null>(null);
   const swipeStart = useRef<{ x: number; y: number } | null>(null);
   const tapTempoTimes = useRef<number[]>([]);
   const introStartedAt = useRef<number | null>(initialAutoPlay ? Date.now() : null);
@@ -510,6 +512,7 @@ const SongView = ({
   useEffect(() => {
     setContentMode('song');
     setPresentationSlideIndex(0);
+    setIsPresentationFullscreen(false);
     setPresentationError(null);
     setIsEditOpen(false);
     setEditDraft(buildEditDraft(song));
@@ -520,6 +523,61 @@ const SongView = ({
     if (presentationSlideIndex < presentationSlides.length) return;
     setPresentationSlideIndex(Math.max(0, presentationSlides.length - 1));
   }, [presentationSlideIndex, presentationSlides.length]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsPresentationFullscreen(document.fullscreenElement === presentationStageRef.current);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isPresentationMode) return undefined;
+
+    const handlePresentationKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as Element | null;
+      if (target?.closest('button, a, input, textarea, select')) return;
+
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        setPresentationSlideIndex((index) => Math.min(presentationSlides.length - 1, index + 1));
+        return;
+      }
+
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        setPresentationSlideIndex((index) => Math.max(0, index - 1));
+        return;
+      }
+
+      if (event.key === 'Home') {
+        event.preventDefault();
+        setPresentationSlideIndex(0);
+        return;
+      }
+
+      if (event.key === 'End') {
+        event.preventDefault();
+        setPresentationSlideIndex(Math.max(0, presentationSlides.length - 1));
+      }
+    };
+
+    window.addEventListener('keydown', handlePresentationKeyDown);
+    return () => window.removeEventListener('keydown', handlePresentationKeyDown);
+  }, [isPresentationMode, presentationSlides.length]);
+
+  const handlePresentationStageActivate = () => {
+    if (document.fullscreenElement === presentationStageRef.current) {
+      setPresentationSlideIndex((index) => Math.min(presentationSlides.length - 1, index + 1));
+      return;
+    }
+
+    if (presentationStageRef.current?.requestFullscreen) {
+      void presentationStageRef.current.requestFullscreen();
+    }
+  };
 
   const registerLine = (key: string, element: HTMLButtonElement | null) => {
     lineElements.current[key] = element;
@@ -917,7 +975,24 @@ const SongView = ({
             </div>
           </div>
           {presentationError ? <div className="error">{presentationError}</div> : null}
-          <div className="song-presentation-stage" aria-label={`Превью слайда ${presentationSlideIndex + 1}`}>
+          <div
+            className={`song-presentation-stage ${isPresentationFullscreen ? 'is-fullscreen' : ''}`}
+            ref={presentationStageRef}
+            role="button"
+            tabIndex={0}
+            onClick={handlePresentationStageActivate}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                handlePresentationStageActivate();
+              }
+            }}
+            aria-label={
+              isPresentationFullscreen
+                ? `Следующий слайд: ${presentationSlideIndex + 1} из ${presentationSlides.length}`
+                : `Открыть слайд ${presentationSlideIndex + 1} на весь экран`
+            }
+          >
             <div className="song-presentation-slide">
               <h2>{currentPresentationSlide.title}</h2>
               <div className="song-presentation-lines">

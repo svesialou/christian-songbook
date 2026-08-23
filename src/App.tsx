@@ -71,12 +71,6 @@ type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 };
-type PresenterSlide = {
-  songId: string;
-  songTitle: string;
-  title: string;
-  lines: string[];
-};
 
 const PULL_REFRESH_THRESHOLD = 72;
 const PULL_REFRESH_MAX = 104;
@@ -95,7 +89,6 @@ const MAX_BPM = 220;
 const MIN_BEATS_PER_LINE = 1;
 const MAX_BEATS_PER_LINE = 16;
 const MAX_INTRO_BEATS = 64;
-const PRESENTER_MAX_LINES_PER_SLIDE = 8;
 const DEFAULT_ADMIN_API_KEY = '123456';
 const LIVE_LOGIN_MESSAGE = 'Live-сборники доступны после входа. Так они будут привязаны к аккаунту и откроются на другом телефоне.';
 const COLLECTION_LOGIN_MESSAGE = 'Сборники доступны после входа. Это нужно для привязки к аккаунту и доступа на другом телефоне.';
@@ -177,42 +170,6 @@ const collectionsSnapshot = (items: SongCollection[]): string => JSON.stringify(
 
 const areSongIdListsEqual = (left: string[], right: string[]): boolean =>
   left.length === right.length && left.every((songId, index) => songId === right[index]);
-
-const getPresenterSections = (song: Song): SongOrderedSection[] => {
-  if (song.sections?.length) return song.sections;
-
-  const sections: SongOrderedSection[] = [];
-  song.verses.forEach((verse, index) => {
-    sections.push({ ...verse, sectionType: 'verse', title: index === 0 ? 'Куплет 1' : `Куплет ${index + 1}` });
-    if (song.chorus) {
-      sections.push({ ...song.chorus, sectionType: 'chorus', title: 'Припев' });
-    }
-  });
-  if (song.bridge) sections.push({ ...song.bridge, sectionType: 'bridge', title: 'Мост' });
-
-  return sections;
-};
-
-const buildPresenterSlides = (song: Song): PresenterSlide[] =>
-  getPresenterSections(song).flatMap((section) => {
-    const lines = section.rows.map((line) => line.trim()).filter(Boolean);
-    const slides: PresenterSlide[] = [];
-
-    for (let start = 0; start < lines.length; start += PRESENTER_MAX_LINES_PER_SLIDE) {
-      const part = start / PRESENTER_MAX_LINES_PER_SLIDE + 1;
-      slides.push({
-        songId: song.id,
-        songTitle: song.title,
-        title: start === 0 ? section.title : `${section.title} (${part})`,
-        lines: lines.slice(start, start + PRESENTER_MAX_LINES_PER_SLIDE),
-      });
-    }
-
-    return slides;
-  });
-
-const buildPresenterSlidesForSongs = (songs: Song[]): PresenterSlide[] =>
-  songs.flatMap((song) => buildPresenterSlides(song));
 
 const readAdminRoute = (): AdminRoute => {
   if (typeof window === 'undefined') return { page: 'home' };
@@ -564,8 +521,6 @@ function App() {
     readSearchParam('livePreview') === '1' && readSearchParam('liveMode') === '1' ? LIVE_PREVIEW_COLLECTION.songIds : [],
   );
   const [playbackPosition, setPlaybackPosition] = useState<SongPlaybackPosition | null>(null);
-  const [isPresenterOpen, setIsPresenterOpen] = useState(false);
-  const [presenterSlideIndex, setPresenterSlideIndex] = useState(0);
   const [settings, setSettings] = useState<SongSettings>(defaultSettings());
   const [songTranspositions, setSongTranspositions] = useState<Record<string, number>>({});
   const [query, setQuery] = useState('');
@@ -603,7 +558,6 @@ function App() {
   const listScrollYRef = useRef(0);
   const shouldRestoreListScrollRef = useRef(false);
   const appMenuRef = useRef<HTMLDetailsElement | null>(null);
-  const presenterViewRef = useRef<HTMLElement | null>(null);
   const adminStatusTapRef = useRef({ count: 0, lastAt: 0 });
   const lastLiveStateSnapshotRef = useRef('');
   const lastCollectionsSnapshotRef = useRef('');
@@ -1813,80 +1767,6 @@ function App() {
       return text.includes(normalized);
     });
   }, [songs, recentSongs, activeCollection, liveSongIds, listMode, activeCategory, query]);
-  const presenterSlides = useMemo(() => buildPresenterSlidesForSongs(filteredSongs), [filteredSongs]);
-  const currentPresenterSlide = presenterSlides[presenterSlideIndex] ?? presenterSlides[0] ?? null;
-
-  useEffect(() => {
-    if (presenterSlideIndex < presenterSlides.length) return;
-    setPresenterSlideIndex(Math.max(0, presenterSlides.length - 1));
-  }, [presenterSlideIndex, presenterSlides.length]);
-
-  useEffect(() => {
-    if (!isPresenterOpen) return undefined;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        setIsPresenterOpen(false);
-        if (document.fullscreenElement) {
-          void document.exitFullscreen();
-        }
-        return;
-      }
-
-      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
-        event.preventDefault();
-        setPresenterSlideIndex((index) => Math.min(presenterSlides.length - 1, index + 1));
-        return;
-      }
-
-      if (['ArrowLeft', 'PageUp'].includes(event.key)) {
-        event.preventDefault();
-        setPresenterSlideIndex((index) => Math.max(0, index - 1));
-        return;
-      }
-
-      if (event.key === 'Home') {
-        event.preventDefault();
-        setPresenterSlideIndex(0);
-        return;
-      }
-
-      if (event.key === 'End') {
-        event.preventDefault();
-        setPresenterSlideIndex(Math.max(0, presenterSlides.length - 1));
-      }
-    };
-
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isPresenterOpen, presenterSlides.length]);
-
-  const openPresenter = () => {
-    if (presenterSlides.length === 0) {
-      setNotice('Нет песен для презентации.');
-      setError(null);
-      return;
-    }
-
-    setPresenterSlideIndex(0);
-    setIsPresenterOpen(true);
-  };
-
-  const closePresenter = () => {
-    setIsPresenterOpen(false);
-    if (typeof document !== 'undefined' && document.fullscreenElement) {
-      void document.exitFullscreen();
-    }
-  };
-
-  const enterPresenterFullscreen = () => {
-    const target = presenterViewRef.current ?? document.documentElement;
-    if (target.requestFullscreen) {
-      void target.requestFullscreen();
-    }
-  };
-
   const activeSong = useMemo(() => {
     const resolvedSongId = resolveRouteSongId(songs, activeSongId);
     return resolvedSongId ? songs.find((item) => item.id === resolvedSongId) : undefined;
@@ -1978,6 +1858,7 @@ function App() {
   };
 
   const canPullRefresh = isOnline && syncState !== 'syncing';
+  const isCatalogLoadingBlocked = !isAdminMode && isOnline && syncState === 'syncing';
   const isPullReady = pullDistance >= PULL_REFRESH_THRESHOLD;
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
@@ -2031,6 +1912,20 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (!isCatalogLoadingBlocked || typeof document === 'undefined') return undefined;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousDocumentOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousDocumentOverflow;
+    };
+  }, [isCatalogLoadingBlocked]);
+
   if (isAdminMode && !isAdminAuthenticated) {
     return (
       <main className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}>
@@ -2071,7 +1966,9 @@ function App() {
 
   return (
     <main
-      className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}
+      className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale} ${
+        isCatalogLoadingBlocked ? 'is-loading-blocked' : ''
+      }`}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={finishPullRefresh}
@@ -2091,6 +1988,16 @@ function App() {
               : 'Потяните вниз'}
         </span>
       </div>
+
+      {isCatalogLoadingBlocked ? (
+        <div className="catalog-loading-overlay" role="status" aria-live="polite" aria-label="Загрузка сборника">
+          <div className="catalog-loading-panel">
+            <span className="catalog-loading-spinner" aria-hidden="true" />
+            <strong>Загружаю сборник</strong>
+            <small>Сохраняю свежие песни для offline</small>
+          </div>
+        </div>
+      ) : null}
 
       <div className="app-shell">
         <header className="top-bar">
@@ -2325,7 +2232,6 @@ function App() {
                 onDeleteCollection={deleteCollection}
                 onCreateCollection={() => openCreateCollection()}
                 onShareCollection={shareCollection}
-                onOpenPresenter={openPresenter}
                 onLiveCollectionChange={setLiveCollectionId}
                 onLiveCollectionSelect={selectLiveCollection}
                 onCreateLiveCollection={createLiveCollection}
@@ -2344,64 +2250,6 @@ function App() {
           )}
         </section>
       </div>
-
-      {isPresenterOpen && currentPresenterSlide ? (
-        <section
-          className="presenter-view"
-          ref={presenterViewRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Презентация сборника"
-        >
-          <header className="presenter-toolbar">
-            <div className="presenter-counter" aria-live="polite">
-              <strong>
-                {presenterSlideIndex + 1} / {presenterSlides.length}
-              </strong>
-              <span>{currentPresenterSlide.songTitle}</span>
-            </div>
-            <div className="presenter-actions">
-              <button type="button" className="presenter-action" onClick={enterPresenterFullscreen}>
-                На весь экран
-              </button>
-              <button type="button" className="presenter-action" onClick={closePresenter}>
-                Закрыть
-              </button>
-            </div>
-          </header>
-
-          <div className="presenter-stage">
-            <article className="presenter-slide">
-              <div className="presenter-song-title">{currentPresenterSlide.songTitle}</div>
-              <h2>{currentPresenterSlide.title}</h2>
-              <div className="presenter-lines">
-                {currentPresenterSlide.lines.map((line, index) => (
-                  <p key={`${currentPresenterSlide.songId}-${presenterSlideIndex}-${index}`}>{line}</p>
-                ))}
-              </div>
-            </article>
-          </div>
-
-          <div className="presenter-controls" aria-label="Управление слайдами">
-            <button
-              type="button"
-              className="presenter-control"
-              onClick={() => setPresenterSlideIndex((index) => Math.max(0, index - 1))}
-              disabled={presenterSlideIndex === 0}
-            >
-              Назад
-            </button>
-            <button
-              type="button"
-              className="presenter-control"
-              onClick={() => setPresenterSlideIndex((index) => Math.min(presenterSlides.length - 1, index + 1))}
-              disabled={presenterSlideIndex >= presenterSlides.length - 1}
-            >
-              Далее
-            </button>
-          </div>
-        </section>
-      ) : null}
 
       {isCollectionAuthSheetOpen && !account?.authenticated ? (
         <div
