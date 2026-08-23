@@ -1858,7 +1858,7 @@ function App() {
   };
 
   const canPullRefresh = isOnline && syncState !== 'syncing';
-  const isCatalogLoadingBlocked = !isAdminMode && isOnline && syncState === 'syncing';
+  const isCatalogLoadingVisible = !isAdminMode && isOnline && syncState === 'syncing';
   const isPullReady = pullDistance >= PULL_REFRESH_THRESHOLD;
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
@@ -1912,20 +1912,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    if (!isCatalogLoadingBlocked || typeof document === 'undefined') return undefined;
-
-    const previousBodyOverflow = document.body.style.overflow;
-    const previousDocumentOverflow = document.documentElement.style.overflow;
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = previousBodyOverflow;
-      document.documentElement.style.overflow = previousDocumentOverflow;
-    };
-  }, [isCatalogLoadingBlocked]);
-
   if (isAdminMode && !isAdminAuthenticated) {
     return (
       <main className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}>
@@ -1966,9 +1952,7 @@ function App() {
 
   return (
     <main
-      className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale} ${
-        isCatalogLoadingBlocked ? 'is-loading-blocked' : ''
-      }`}
+      className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={finishPullRefresh}
@@ -1989,7 +1973,7 @@ function App() {
         </span>
       </div>
 
-      {isCatalogLoadingBlocked ? (
+      {isCatalogLoadingVisible ? (
         <div className="catalog-loading-overlay" role="status" aria-live="polite" aria-label="Загрузка сборника">
           <div className="catalog-loading-panel">
             <span className="catalog-loading-spinner" aria-hidden="true" />

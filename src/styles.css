@@ -2446,36 +2446,28 @@ button:disabled {
   animation: spin 800ms linear infinite;
 }
 
-.app.is-loading-blocked {
-  max-height: 100dvh;
-  overflow: hidden;
-  touch-action: none;
-}
-
 .catalog-loading-overlay {
   position: fixed;
   inset: 0;
   z-index: 90;
   display: grid;
   place-items: center;
-  background: color-mix(in srgb, var(--surface) 64%, transparent);
+  background: transparent;
   padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
-  pointer-events: auto;
-  touch-action: none;
-  overscroll-behavior: contain;
-  backdrop-filter: blur(3px);
+  pointer-events: none;
 }
 
 .catalog-loading-panel {
-  min-width: min(280px, 100%);
+  min-width: min(240px, 100%);
   display: grid;
   justify-items: center;
   gap: 8px;
-  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
   border-radius: 18px;
-  background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+  background: color-mix(in srgb, var(--surface-strong) 96%, transparent);
   color: var(--text);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
   padding: 18px 20px;
   text-align: center;
 }
