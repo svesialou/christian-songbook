@@ -114,7 +114,10 @@ export type UserCollectionsState = {
   collection?: SongCollection;
 };
 
-const API_TIMEOUT_MS = 3500;
+const API_TIMEOUT_MS = 12000;
+const CATALOG_TIMEOUT_MS = 20000;
+const API_RETRY_ATTEMPTS = 3;
+const API_RETRY_DELAY_MS = 700;
 const UPLOAD_TIMEOUT_MS = 30000;
 const DOWNLOAD_TIMEOUT_MS = 30000;
 
@@ -133,12 +136,54 @@ const resolveApiBaseUrl = (): string => {
 
 const apiUrl = (path: string): string => `${resolveApiBaseUrl()}${path}`;
 
-const requestJSON = async <T>(path: string, init: RequestInit): Promise<T> => {
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+const wait = (ms: number): Promise<void> => new Promise((resolve) => window.setTimeout(resolve, ms));
 
-  try {
-    const response = await fetch(apiUrl(path), {
+const isRetriableMethod = (method: string | undefined): boolean => {
+  const normalized = (method ?? 'GET').toUpperCase();
+  return normalized === 'GET' || normalized === 'HEAD';
+};
+
+const isRetriableStatus = (status: number): boolean => status === 408 || status === 429 || status >= 500;
+
+const fetchWithTimeout = async (
+  url: string,
+  init: RequestInit,
+  timeoutMs: number,
+  attempts: number,
+): Promise<Response> => {
+  let lastError: unknown = null;
+
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(url, {
+        ...init,
+        signal: controller.signal,
+      });
+      if (response.ok || !isRetriableStatus(response.status) || attempt === attempts - 1) {
+        return response;
+      }
+    } catch (err) {
+      lastError = err;
+      if (attempt === attempts - 1) {
+        throw err;
+      }
+    } finally {
+      window.clearTimeout(timeout);
+    }
+
+    await wait(API_RETRY_DELAY_MS * (attempt + 1));
+  }
+
+  throw lastError instanceof Error ? lastError : new Error('API request failed.');
+};
+
+const requestJSON = async <T>(path: string, init: RequestInit): Promise<T> => {
+  const response = await fetchWithTimeout(
+    apiUrl(path),
+    {
       ...init,
       headers: {
         Accept: 'application/json',
@@ -146,17 +191,16 @@ const requestJSON = async <T>(path: string, init: RequestInit): Promise<T> => {
         ...init.headers,
       },
       cache: 'no-store',
-      signal: controller.signal,
-    });
-    if (!response.ok) {
-      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
-      throw new Error(payload?.error || `API request failed: ${response.status}`);
-    }
-
-    return (await response.json()) as T;
-  } finally {
-    window.clearTimeout(timeout);
+    },
+    API_TIMEOUT_MS,
+    isRetriableMethod(init.method) ? API_RETRY_ATTEMPTS : 1,
+  );
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+    throw new Error(payload?.error || `API request failed: ${response.status}`);
   }
+
+  return (await response.json()) as T;
 };
 
 const isStringList = (value: unknown): value is string[] =>
@@ -245,15 +289,16 @@ const isSongListItem = (value: unknown): value is SongListItem => {
 };
 
 export const fetchCatalogSnapshot = async (): Promise<CatalogSnapshot | null> => {
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), API_TIMEOUT_MS);
-
   try {
-    const response = await fetch(apiUrl('/api/catalog/snapshot'), {
-      headers: { Accept: 'application/json' },
-      cache: 'no-store',
-      signal: controller.signal,
-    });
+    const response = await fetchWithTimeout(
+      apiUrl('/api/catalog/snapshot'),
+      {
+        headers: { Accept: 'application/json' },
+        cache: 'no-store',
+      },
+      CATALOG_TIMEOUT_MS,
+      API_RETRY_ATTEMPTS,
+    );
     if (!response.ok) return null;
 
     const payload = (await response.json()) as CatalogSnapshotResponse;
@@ -273,8 +318,6 @@ export const fetchCatalogSnapshot = async (): Promise<CatalogSnapshot | null> =>
     };
   } catch {
     return null;
-  } finally {
-    window.clearTimeout(timeout);
   }
 };
 

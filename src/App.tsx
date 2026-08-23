@@ -522,18 +522,18 @@ const statusTone = (isOnline: boolean, source: CatalogSource, state: SyncState):
   if (!isOnline) return 'offline';
   if (state === 'syncing') return 'syncing';
   if (state === 'failed') return 'stale';
-  if (state === 'success' || source === 'mysql' || source === 'local' || source === 'bundled') return 'fresh';
+  if (state === 'success' || source === 'mysql') return 'fresh';
   return 'stale';
 };
 
 const statusLabel = (tone: StatusTone, source: CatalogSource, meta: CatalogSnapshotMeta | null) => {
   if (tone === 'fresh' && source === 'mysql') return `Online, каталог свежий${meta ? `, версия ${meta.version}` : ''}`;
-  if (tone === 'fresh' && source === 'local') return 'Online, локальный сборник доступен';
-  if (tone === 'fresh' && source === 'bundled') return 'Online, встроенный сборник доступен';
   if (tone === 'syncing') return 'Online, обновление каталога';
   if (tone === 'offline') return 'Offline, используется локальный каталог';
-  if (source === 'bundled') return 'Online, встроенный сборник';
-  return 'Online, локальный каталог';
+  if (source === 'mysql') return `Online, сохранённый каталог доступен${meta ? `, версия ${meta.version}` : ''}, свежесть не подтверждена`;
+  if (source === 'local') return 'Online, локальный сборник доступен, свежесть не подтверждена';
+  if (source === 'bundled') return 'Online, встроенный сборник, свежесть не подтверждена';
+  return 'Online, каталог требует обновления';
 };
 
 function App() {
@@ -685,11 +685,11 @@ function App() {
     }
   };
 
-  const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>) => {
-    if (!snapshot || snapshot.songs.length === 0) return false;
+  const applyCatalogSnapshot = async (snapshot: Awaited<ReturnType<typeof fetchCatalogSnapshot>>): Promise<Song[] | null> => {
+    if (!snapshot || snapshot.songs.length === 0) return null;
 
     const normalizedSongs = normalizeCatalog(snapshot.songs);
-    if (isDemoCatalog(normalizedSongs)) return false;
+    if (isDemoCatalog(normalizedSongs)) return null;
     const nextMeta: CatalogSnapshotMeta = {
       version: snapshot.version,
       publishedAt: snapshot.publishedAt,
@@ -700,7 +700,7 @@ function App() {
     setCatalogSource('mysql');
     setCatalogMeta(nextMeta);
     await Promise.all([saveSongs(normalizedSongs), saveCatalogMeta(nextMeta)]);
-    return true;
+    return normalizedSongs;
   };
 
   const refreshCatalog = async (showNotice: boolean) => {
@@ -712,9 +712,9 @@ function App() {
 
     setSyncState('syncing');
     const snapshot = await fetchCatalogSnapshot();
-    const applied = await applyCatalogSnapshot(snapshot);
+    const appliedSongs = await applyCatalogSnapshot(snapshot);
 
-    if (!applied) {
+    if (!appliedSongs) {
       setSyncState('failed');
       if (showNotice) setError('Backend недоступен или вернул некорректный каталог. Локальный каталог сохранён.');
       return;
@@ -723,6 +723,17 @@ function App() {
     setSyncState('success');
     setError(null);
     if (showNotice) setNotice(`Каталог обновлён: ${snapshot!.songs.length} песен`);
+  };
+
+  const syncCatalogForCollection = async (): Promise<Song[]> => {
+    if (typeof navigator !== 'undefined' && !navigator.onLine) return songs;
+
+    setSyncState('syncing');
+    const snapshot = await fetchCatalogSnapshot();
+    const appliedSongs = await applyCatalogSnapshot(snapshot);
+    setSyncState(appliedSongs ? 'success' : 'failed');
+
+    return appliedSongs ?? songs;
   };
 
   const searchAdminSongs = (searchQuery: string): Promise<SongListItem[]> => fetchSongList(searchQuery);
@@ -1201,14 +1212,17 @@ function App() {
         const serverState = await fetchUserCollections();
         if (cancelled) return;
 
-        const localCollections = normalizeCollectionsForCatalog(collections, songs);
+        const catalogSongs = await syncCatalogForCollection();
+        if (cancelled) return;
+
+        const localCollections = normalizeCollectionsForCatalog(collections, catalogSongs);
         const state =
           serverState.collections.length === 0 && localCollections.length > 0
             ? await saveUserCollections(ownedCollections(localCollections))
             : serverState;
         if (cancelled) return;
 
-        const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
+        const normalizedCollections = normalizeCollectionsForCatalog(state.collections, catalogSongs);
         setCollections(normalizedCollections);
         lastCollectionsSnapshotRef.current = collectionsSnapshot(ownedCollections(normalizedCollections));
         setIsUserCollectionsReady(true);
@@ -1288,8 +1302,8 @@ function App() {
 
     if (!account.authenticated) {
       handledSharedCollectionTokenRef.current = true;
-      void fetchSharedCollection(shareToken)
-        .then((state: UserCollectionsState) => {
+      void Promise.all([fetchSharedCollection(shareToken), syncCatalogForCollection()])
+        .then(([state, catalogSongs]: [UserCollectionsState, Song[]]) => {
           const collection = state.collection ?? state.collections[0];
           if (!collection) {
             throw new Error('Сборник по ссылке не найден.');
@@ -1297,7 +1311,7 @@ function App() {
 
           const [normalizedCollection] = normalizeCollectionsForCatalog(
             [{ ...collection, isOwner: false }],
-            songs,
+            catalogSongs,
           );
           setPublicSharedCollection(normalizedCollection);
           setActiveCollectionId(normalizedCollection.id);
@@ -1317,9 +1331,9 @@ function App() {
 
     handledSharedCollectionTokenRef.current = true;
     setPublicSharedCollection(null);
-    void importSharedCollection(shareToken)
-      .then((state: UserCollectionsState) => {
-        const normalizedCollections = normalizeCollectionsForCatalog(state.collections, songs);
+    void Promise.all([importSharedCollection(shareToken), syncCatalogForCollection()])
+      .then(([state, catalogSongs]: [UserCollectionsState, Song[]]) => {
+        const normalizedCollections = normalizeCollectionsForCatalog(state.collections, catalogSongs);
         setCollections(normalizedCollections);
         lastCollectionsSnapshotRef.current = collectionsSnapshot(ownedCollections(normalizedCollections));
         if (state.collection?.id) {
