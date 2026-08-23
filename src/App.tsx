@@ -1858,7 +1858,6 @@ function App() {
   };
 
   const canPullRefresh = isOnline && syncState !== 'syncing';
-  const isCatalogLoadingVisible = !isAdminMode && isOnline && syncState === 'syncing';
   const isPullReady = pullDistance >= PULL_REFRESH_THRESHOLD;
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
@@ -1959,7 +1958,7 @@ function App() {
       onTouchCancel={finishPullRefresh}
     >
       <div
-        className={`pull-refresh ${pullDistance > 0 || syncState === 'syncing' ? 'is-visible' : ''}`}
+        className={`pull-refresh ${pullDistance > 0 ? 'is-visible' : ''}`}
         style={{ transform: `translate3d(-50%, ${pullDistance > 0 ? Math.min(pullDistance, 72) - 84 : -84}px, 0)` }}
         aria-live="polite"
       >
@@ -1972,16 +1971,6 @@ function App() {
               : 'Потяните вниз'}
         </span>
       </div>
-
-      {isCatalogLoadingVisible ? (
-        <div className="catalog-loading-overlay" role="status" aria-live="polite" aria-label="Загрузка сборника">
-          <div className="catalog-loading-panel">
-            <span className="catalog-loading-spinner" aria-hidden="true" />
-            <strong>Загружаю сборник</strong>
-            <small>Сохраняю свежие песни для offline</small>
-          </div>
-        </div>
-      ) : null}
 
       <div className="app-shell">
         <header className="top-bar">
@@ -2011,7 +2000,7 @@ function App() {
             ) : null}
             <button
               type="button"
-              className={`status-dot status-${tone}`}
+              className={`status-dot status-${tone} ${syncState === 'syncing' ? 'is-syncing' : ''}`}
               title={toneLabel}
               aria-label={toneLabel}
               onClick={handleStatusDotClick}

@@ -233,6 +233,7 @@ button:disabled {
 }
 
 .status-dot {
+  position: relative;
   width: 44px;
   height: 44px;
   min-width: 44px;
@@ -257,6 +258,17 @@ button:disabled {
   border: 2px solid var(--surface);
   border-radius: 999px;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--text) 8%, transparent), 0 6px 16px rgba(0, 0, 0, 0.16);
+}
+
+.status-dot.is-syncing::after {
+  position: absolute;
+  inset: 10px;
+  content: '';
+  border: 2px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+  border-top-color: var(--accent-strong);
+  border-radius: 999px;
+  pointer-events: none;
+  animation: spin 800ms linear infinite;
 }
 
 .status-dot:focus-visible {
@@ -2446,57 +2458,6 @@ button:disabled {
   animation: spin 800ms linear infinite;
 }
 
-.catalog-loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  display: grid;
-  place-items: center;
-  background: transparent;
-  padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
-  pointer-events: none;
-}
-
-.catalog-loading-panel {
-  min-width: min(240px, 100%);
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  border: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--surface-strong) 96%, transparent);
-  color: var(--text);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
-  padding: 18px 20px;
-  text-align: center;
-}
-
-.catalog-loading-panel strong,
-.catalog-loading-panel small {
-  font-family: Aptos, "Segoe UI", sans-serif;
-}
-
-.catalog-loading-panel strong {
-  font-size: 15px;
-  font-weight: 900;
-}
-
-.catalog-loading-panel small {
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 760;
-}
-
-.catalog-loading-spinner {
-  width: 34px;
-  height: 34px;
-  border: 3px solid color-mix(in srgb, var(--accent) 24%, var(--border));
-  border-top-color: var(--accent-strong);
-  border-radius: 50%;
-  animation: spin 800ms linear infinite;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2632,6 +2593,10 @@ button:disabled {
   }
 
   .pull-refresh-ring.is-spinning {
+    animation: none;
+  }
+
+  .status-dot.is-syncing::after {
     animation: none;
   }
 }
