@@ -1655,6 +1655,140 @@ button:disabled {
   outline-offset: 2px;
 }
 
+.presenter-view {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--presentation-bg);
+  color: var(--presentation-text);
+  font-family: Aptos, "Segoe UI", sans-serif;
+}
+
+.presenter-toolbar,
+.presenter-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px clamp(12px, 2vw, 24px);
+  background: color-mix(in srgb, var(--presentation-bg) 88%, #000);
+}
+
+.presenter-counter {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.presenter-counter strong {
+  color: var(--presentation-title);
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.presenter-counter span {
+  overflow: hidden;
+  color: var(--presentation-muted);
+  font-size: 13px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.presenter-actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.presenter-action,
+.presenter-control {
+  min-height: 44px;
+  border: 1px solid color-mix(in srgb, var(--presentation-muted) 42%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--presentation-bg) 72%, var(--presentation-text));
+  color: var(--presentation-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 9px 13px;
+}
+
+.presenter-action:focus-visible,
+.presenter-control:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--presentation-title) 72%, transparent);
+  outline-offset: 2px;
+}
+
+.presenter-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.presenter-stage {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 2.5vw, 32px);
+}
+
+.presenter-slide {
+  width: min(100%, calc((100dvh - 132px) * 16 / 9));
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--presentation-muted) 28%, transparent);
+  border-radius: 10px;
+  background: var(--presentation-bg);
+  padding: clamp(22px, 4.5vw, 58px);
+  text-align: center;
+}
+
+.presenter-song-title {
+  overflow: hidden;
+  color: var(--presentation-muted);
+  font-size: clamp(13px, 1.6vw, 21px);
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.presenter-slide h2 {
+  margin: 8px 0 0;
+  color: var(--presentation-title);
+  font-size: clamp(22px, 3.1vw, 42px);
+  line-height: 1.1;
+}
+
+.presenter-lines {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: clamp(6px, 1vw, 13px);
+}
+
+.presenter-lines p {
+  margin: 0;
+  color: var(--presentation-text);
+  font-size: clamp(26px, 4.6vw, 74px);
+  font-weight: 760;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.presenter-controls {
+  justify-content: center;
+}
+
 .playback-control {
   min-height: 34px;
   position: relative;
@@ -2424,6 +2558,25 @@ button:disabled {
 
   .folder-chip {
     font-size: 13px;
+  }
+
+  .presenter-toolbar {
+    align-items: flex-start;
+  }
+
+  .presenter-stage {
+    padding: 10px;
+  }
+
+  .presenter-slide {
+    width: 100%;
+    min-height: calc(100dvh - 164px);
+    aspect-ratio: auto;
+    padding: 22px 16px;
+  }
+
+  .presenter-lines p {
+    font-size: clamp(24px, 9.2vw, 44px);
   }
 
   .song-main {

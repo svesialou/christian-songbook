@@ -31,6 +31,7 @@ type SongListProps = {
   onDeleteCollection: (collectionId: string) => void;
   onCreateCollection: () => void;
   onShareCollection: (collectionId: string) => void;
+  onOpenPresenter: () => void;
   onLiveCollectionChange: (collectionId: string | null) => void;
   onLiveCollectionSelect: (collectionId: string) => void;
   onCreateLiveCollection: () => void;
@@ -88,6 +89,7 @@ const SongList = ({
   onDeleteCollection,
   onCreateCollection,
   onShareCollection,
+  onOpenPresenter,
   onLiveCollectionChange,
   onLiveCollectionSelect,
   onCreateLiveCollection,
@@ -248,6 +250,11 @@ const SongList = ({
               <HistoryIcon />
               <span>{recentCount}</span>
             </button>
+            {songs.length > 0 && mode !== 'collection' ? (
+              <button className="folder-chip" type="button" onClick={onOpenPresenter}>
+                Презентация
+              </button>
+            ) : null}
           </div>
           {!canUseCollections ? (
             <div className="account-benefits-card">
@@ -270,9 +277,14 @@ const SongList = ({
                   {activeCollection.isOwner === false ? ' · только чтение' : ''}
                 </small>
               </span>
-              <button type="button" className="live-list-button" onClick={() => onShareCollection(activeCollection.id)}>
-                Поделиться
-              </button>
+              <div className="live-list-actions">
+                <button type="button" className="live-list-button live-list-button-secondary" onClick={onOpenPresenter}>
+                  Презентация
+                </button>
+                <button type="button" className="live-list-button" onClick={() => onShareCollection(activeCollection.id)}>
+                  Поделиться
+                </button>
+              </div>
             </div>
           ) : null}
         </>
@@ -333,6 +345,9 @@ const SongList = ({
                   </button>
                   <button type="button" className="live-list-button live-list-button-secondary" onClick={onShareLive}>
                     Поделиться
+                  </button>
+                  <button type="button" className="live-list-button live-list-button-secondary" onClick={onOpenPresenter}>
+                    Презентация
                   </button>
                 </>
               ) : null}
