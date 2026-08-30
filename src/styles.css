@@ -463,6 +463,42 @@ button:disabled {
   line-height: 1;
 }
 
+.scroll-return-button {
+  position: fixed;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  max-width: calc(100vw - 28px);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--border));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  color: var(--accent-strong);
+  box-shadow: 0 16px 46px color-mix(in srgb, var(--text) 15%, transparent);
+  cursor: pointer;
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  padding: 10px 14px;
+  backdrop-filter: blur(14px);
+}
+
+.scroll-return-button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 16px;
+  line-height: 1;
+}
+
 .search::placeholder {
   color: color-mix(in srgb, var(--muted) 78%, transparent);
 }
@@ -482,6 +518,7 @@ button:disabled {
 .sheet-primary:focus-visible,
 .collection-choice:focus-visible,
 .collection-name-input:focus,
+.scroll-return-button:focus-visible,
 .submission-field input:focus,
 .submission-field select:focus,
 .submission-field textarea:focus,
@@ -2926,6 +2963,32 @@ textarea.admin-large-textarea {
 
 .admin-page {
   gap: clamp(18px, 3vw, 30px);
+}
+
+.admin-search-sticky {
+  position: sticky;
+  top: 72px;
+  z-index: 11;
+  display: grid;
+  gap: 12px;
+  margin: -8px 0 0;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--admin-surface) 94%, transparent);
+  box-shadow: 0 16px 46px color-mix(in srgb, var(--admin-text) 10%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.admin-search-field {
+  max-width: min(680px, 100%);
+}
+
+.admin-search-field .search {
+  min-height: 50px;
+  border-color: var(--admin-border);
+  background: var(--admin-surface-strong);
+  color: var(--admin-text);
 }
 
 .admin-page-header {

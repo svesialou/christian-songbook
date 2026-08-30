@@ -24,6 +24,8 @@ import {
   saveSettings,
   saveSongs,
 } from './lib/storage';
+import { buildSongSearchIndex, matchesSearchQuery, normalizeSearchText } from './lib/search';
+import { preferredScrollBehavior } from './lib/scroll';
 import { bundledCatalog } from './data/bundledCatalog.generated';
 import { songCategories } from './data/songCategories';
 import {
@@ -57,6 +59,7 @@ import {
   UserLiveState,
 } from './lib/catalogApi';
 import AdminPanel, { AdminRoute } from './components/AdminPanel';
+import ScrollReturnButton from './components/ScrollReturnButton';
 import SongList from './components/SongList';
 import SongSubmissionSheet from './components/SongSubmissionSheet';
 import SongView from './components/SongView';
@@ -539,6 +542,8 @@ function App() {
   );
   const [collectionSheet, setCollectionSheet] = useState<CollectionSheetState>(null);
   const [collectionName, setCollectionName] = useState('');
+  const [isLiveCollectionSheetOpen, setIsLiveCollectionSheetOpen] = useState(false);
+  const [liveCollectionName, setLiveCollectionName] = useState('');
   const [activeSongId, setActiveSongId] = useState<string | null>(() => readSongRouteParam());
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -580,6 +585,10 @@ function App() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false);
   const [isCollectionAuthSheetOpen, setIsCollectionAuthSheetOpen] = useState(false);
+  const [windowScrollY, setWindowScrollY] = useState(0);
+  const [mainScrollReturnY, setMainScrollReturnY] = useState<number | null>(null);
+  const [rejectSubmissionSheetId, setRejectSubmissionSheetId] = useState<number | null>(null);
+  const [rejectReason, setRejectReason] = useState('');
 
   const loadCurrentUser = async () => {
     setIsAccountLoading(true);
@@ -776,7 +785,7 @@ function App() {
     }
   };
 
-  const handleRejectSubmission = async (submissionId: number) => {
+  const handleRejectSubmission = (submissionId: number) => {
     if (!isAdminAuthenticated) {
       setError('Нужно войти в админку.');
       return;
@@ -786,12 +795,30 @@ function App() {
       return;
     }
 
-    const reason = window.prompt('Причина отклонения заявки (опционально)', '') ?? '';
+    setRejectReason('');
+    setRejectSubmissionSheetId(submissionId);
+  };
+
+  const confirmRejectSubmission = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (rejectSubmissionSheetId === null) return;
+    if (!isAdminAuthenticated) {
+      setError('Нужно войти в админку.');
+      return;
+    }
+    if (!adminApiKey.trim()) {
+      setError('Введите admin key для отклонения.');
+      return;
+    }
+
+    const submissionId = rejectSubmissionSheetId;
     setRejectingSubmissionId(submissionId);
     try {
-      await rejectSongSubmission(submissionId, reason, adminApiKey);
+      await rejectSongSubmission(submissionId, rejectReason.trim(), adminApiKey);
       setPendingSubmissions((current) => current.filter((submission) => submission.id !== submissionId));
       setNotice(`Заявка #${submissionId} отклонена.`);
+      setRejectSubmissionSheetId(null);
+      setRejectReason('');
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Не удалось отклонить заявку.');
@@ -1351,6 +1378,26 @@ function App() {
   }, [playbackPosition]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+
+    let frameId = 0;
+    const syncScrollY = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        setWindowScrollY(window.scrollY);
+      });
+    };
+
+    syncScrollY();
+    window.addEventListener('scroll', syncScrollY, { passive: true });
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener('scroll', syncScrollY);
+    };
+  }, []);
+
+  useEffect(() => {
     if (activeSongId || !shouldRestoreListScrollRef.current) return;
 
     shouldRestoreListScrollRef.current = false;
@@ -1577,10 +1624,16 @@ function App() {
     setActiveCollectionId(null);
   };
 
-  const createLiveCollection = () => {
+  const openCreateLiveCollection = () => {
     if (!requireLiveAccount()) return;
-    if (typeof window === 'undefined') return;
-    const name = window.prompt('Название live-сборника')?.trim();
+    setLiveCollectionName('');
+    setIsLiveCollectionSheetOpen(true);
+  };
+
+  const createLiveCollection = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!requireLiveAccount()) return;
+    const name = liveCollectionName.trim();
     if (!name) return;
 
     const now = new Date().toISOString();
@@ -1594,6 +1647,8 @@ function App() {
 
     setLiveCollections((current) => [...current, collection]);
     setLiveCollectionId(collection.id);
+    setLiveCollectionName('');
+    setIsLiveCollectionSheetOpen(false);
     setListMode('live');
     setActiveCollectionId(null);
   };
@@ -1745,33 +1800,20 @@ function App() {
     const categoryFiltered = activeCategory
       ? source.filter((song) => normalizeCategory(song.category) === activeCategory)
       : source;
-    const normalized = query.trim().toLowerCase();
+    const normalized = normalizeSearchText(query);
     if (!normalized) {
       return categoryFiltered;
     }
-    return categoryFiltered.filter((song) => {
-      const text = [
-        song.title,
-        ...(song.authors ?? []),
-        normalizeCategory(song.category),
-        String(song.number),
-        ...(song.leadSheet ? [song.leadSheet] : []),
-        ...(song.sections?.flatMap((section) => [...section.rows, ...section.chords.flat()]) ?? []),
-        ...song.verses.flatMap((verse) => [...verse.rows, ...verse.chords.flat()]),
-        ...(song.chorus ? [...song.chorus.rows, ...song.chorus.chords.flat()] : []),
-        ...(song.bridge ? [...song.bridge.rows, ...song.bridge.chords.flat()] : []),
-      ]
-        .join(' ')
-        .toLowerCase();
-
-      return text.includes(normalized);
-    });
+    return categoryFiltered.filter((song) =>
+      matchesSearchQuery(buildSongSearchIndex({ ...song, category: normalizeCategory(song.category) }), normalized),
+    );
   }, [songs, recentSongs, activeCollection, liveSongIds, listMode, activeCategory, query]);
   const activeSong = useMemo(() => {
     const resolvedSongId = resolveRouteSongId(songs, activeSongId);
     return resolvedSongId ? songs.find((item) => item.id === resolvedSongId) : undefined;
   }, [songs, activeSongId]);
   const activeLiveSongIndex = activeSong && listMode === 'live' ? liveSongIds.indexOf(activeSong.id) : -1;
+  const canShowMainScrollReturnButton = !isAdminMode && !activeSong && (windowScrollY > 420 || mainScrollReturnY !== null);
   const previousLiveSong =
     activeLiveSongIndex > 0 ? songs.find((song) => song.id === liveSongIds[activeLiveSongIndex - 1]) : undefined;
   const nextLiveSong =
@@ -1822,6 +1864,19 @@ function App() {
   };
 
   const handleQueryChange = (value: string) => setQuery(value);
+
+  const toggleMainListScroll = () => {
+    if (typeof window === 'undefined') return;
+    if (mainScrollReturnY !== null) {
+      const targetY = mainScrollReturnY;
+      setMainScrollReturnY(null);
+      window.scrollTo({ top: targetY, left: 0, behavior: preferredScrollBehavior() });
+      return;
+    }
+
+    setMainScrollReturnY(window.scrollY);
+    window.scrollTo({ top: 0, left: 0, behavior: preferredScrollBehavior() });
+  };
 
   const handleFileInput = async (file: File) => {
     await importHandler(file);
@@ -2207,7 +2262,7 @@ function App() {
                 onShareCollection={shareCollection}
                 onLiveCollectionChange={setLiveCollectionId}
                 onLiveCollectionSelect={selectLiveCollection}
-                onCreateLiveCollection={createLiveCollection}
+                onCreateLiveCollection={openCreateLiveCollection}
                 onDeleteLiveCollection={deleteLiveCollection}
                 onLiveSongChange={setLiveSongId}
                 onAddLiveSong={addLiveSong}
@@ -2223,6 +2278,10 @@ function App() {
           )}
         </section>
       </div>
+
+      {canShowMainScrollReturnButton ? (
+        <ScrollReturnButton isReturning={mainScrollReturnY !== null} onClick={toggleMainListScroll} />
+      ) : null}
 
       {isCollectionAuthSheetOpen && !account?.authenticated ? (
         <div
@@ -2346,6 +2405,88 @@ function App() {
                 </button>
               </div>
             )}
+          </section>
+        </div>
+      ) : null}
+
+      {isLiveCollectionSheetOpen ? (
+        <div
+          className="sheet-backdrop"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsLiveCollectionSheetOpen(false);
+            }
+          }}
+        >
+          <section className="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="live-collection-sheet-title">
+            <div className="sheet-header">
+              <h2 id="live-collection-sheet-title">Новый live-сборник</h2>
+              <button className="sheet-close" onClick={() => setIsLiveCollectionSheetOpen(false)} aria-label="Закрыть">
+                Закрыть
+              </button>
+            </div>
+            <form className="collection-form" onSubmit={createLiveCollection}>
+              <label className="sr-only" htmlFor="live-collection-name">
+                Название live-сборника
+              </label>
+              <input
+                id="live-collection-name"
+                className="collection-name-input"
+                value={liveCollectionName}
+                onChange={(event) => setLiveCollectionName(event.target.value)}
+                placeholder="Название"
+                autoFocus
+              />
+              <div className="sheet-actions">
+                <button type="button" className="sheet-secondary" onClick={() => setIsLiveCollectionSheetOpen(false)}>
+                  Отмена
+                </button>
+                <button type="submit" className="sheet-primary" disabled={liveCollectionName.trim().length === 0}>
+                  Создать
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      ) : null}
+
+      {rejectSubmissionSheetId !== null ? (
+        <div
+          className="sheet-backdrop"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setRejectSubmissionSheetId(null);
+            }
+          }}
+        >
+          <section className="bottom-sheet admin-reject-sheet" role="dialog" aria-modal="true" aria-labelledby="reject-submission-title">
+            <div className="sheet-header">
+              <h2 id="reject-submission-title">Отклонить заявку #{rejectSubmissionSheetId}</h2>
+              <button className="sheet-close" onClick={() => setRejectSubmissionSheetId(null)} aria-label="Закрыть">
+                Закрыть
+              </button>
+            </div>
+            <form className="collection-form" onSubmit={confirmRejectSubmission}>
+              <label className="submission-field" htmlFor="reject-submission-reason">
+                <span>Причина</span>
+                <textarea
+                  id="reject-submission-reason"
+                  value={rejectReason}
+                  onChange={(event) => setRejectReason(event.target.value)}
+                  placeholder="Опционально"
+                  rows={4}
+                  autoFocus
+                />
+              </label>
+              <div className="sheet-actions">
+                <button type="button" className="sheet-secondary" onClick={() => setRejectSubmissionSheetId(null)}>
+                  Отмена
+                </button>
+                <button type="submit" className="sheet-primary" disabled={rejectingSubmissionId === rejectSubmissionSheetId}>
+                  {rejectingSubmissionId === rejectSubmissionSheetId ? 'Отклонение...' : 'Отклонить'}
+                </button>
+              </div>
+            </form>
           </section>
         </div>
       ) : null}

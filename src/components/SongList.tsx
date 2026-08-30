@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Song, SongCollection } from '../types/song';
+import { matchesSearchQuery, normalizeSearchText } from '../lib/search';
 
 type SongListMode = 'all' | 'recent' | 'collection' | 'live';
 
@@ -117,9 +118,9 @@ const SongList = ({
     return sorted.slice(0, QUICK_CATEGORY_LIMIT);
   }, [activeCategory, categories, hasCategoryOverflow]);
   const filteredCategories = useMemo(() => {
-    const normalized = categoryQuery.trim().toLowerCase();
+    const normalized = normalizeSearchText(categoryQuery);
     if (!normalized) return categories;
-    return categories.filter((category) => category.name.toLowerCase().includes(normalized));
+    return categories.filter((category) => matchesSearchQuery(category.name, normalized));
   }, [categories, categoryQuery]);
   const selectCategory = (category: string | null) => {
     onCategoryChange(category);
@@ -137,11 +138,11 @@ const SongList = ({
     isLiveMode && activePlaybackIndex < 0 ? songs[0]?.id ?? null : nextPlaybackSongId;
   const liveAdvanceLabel = activePlaybackIndex < 0 ? 'Начать' : 'Далее';
   const filteredLiveSourceSongs = useMemo(() => {
-    const normalized = liveSourceQuery.trim().toLowerCase();
+    const normalized = normalizeSearchText(liveSourceQuery);
     if (!normalized) return liveSourceSongs;
 
     return liveSourceSongs.filter((song) =>
-      [song.title, song.category, ...(song.authors ?? []), String(song.number)].join(' ').toLowerCase().includes(normalized),
+      matchesSearchQuery([song.title, song.category, ...(song.authors ?? []), String(song.number)].join(' '), normalized),
     );
   }, [liveSourceQuery, liveSourceSongs]);
 

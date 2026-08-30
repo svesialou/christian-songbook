@@ -2,7 +2,10 @@ import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'reac
 import { AdminSongUpdatePayload, SongListItem, SongSubmission, SongSubmissionPayload, createAdminSong, uploadSheetMusicFile } from '../lib/catalogApi';
 import { parseSongKey } from '../lib/chords';
 import { fillMissingVerseChords } from '../lib/leadSheetTools';
+import { buildSongSearchIndex, matchesSearchQuery, normalizeSearchText } from '../lib/search';
+import { preferredScrollBehavior } from '../lib/scroll';
 import { Song, SongOrderedSection } from '../types/song';
+import ScrollReturnButton from './ScrollReturnButton';
 
 export type AdminRoute =
   | { page: 'home' }
@@ -636,15 +639,17 @@ const AdminPanel = ({
   const [isBackendSearchLoading, setIsBackendSearchLoading] = useState(false);
   const [backendSearchError, setBackendSearchError] = useState<string | null>(null);
   const [visibleSongCount, setVisibleSongCount] = useState(ADMIN_SONG_PAGE_SIZE);
+  const [scrollY, setScrollY] = useState(0);
+  const [scrollReturnY, setScrollReturnY] = useState<number | null>(null);
   const songListScrollY = useRef(0);
   const page = route.page;
   const categoryOptions = useMemo(() => Array.from(new Set([DEFAULT_CATEGORY, ...categories.filter((category) => category.trim().length > 0)])), [categories]);
   const filteredSongs = useMemo(() => {
-    const normalized = query.trim().toLowerCase();
+    const normalized = normalizeSearchText(query);
     return songs.filter((song) => {
       if (songListFilter === 'missing-chords' && songHasChords(song)) return false;
       if (!normalized) return true;
-      return [song.title, song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].join(' ').toLowerCase().includes(normalized);
+      return matchesSearchQuery(`${buildSongSearchIndex(song)} ${song.defaultKey ?? ''}`, normalized);
     });
   }, [query, songListFilter, songs]);
   const songListItems = useMemo<AdminSongListItem[]>(() => {
@@ -722,6 +727,41 @@ const AdminPanel = ({
     window.addEventListener('scroll', loadMoreNearBottom, { passive: true });
     return () => window.removeEventListener('scroll', loadMoreNearBottom);
   }, [hasMoreSongItems, page, songListItems.length]);
+  useEffect(() => {
+    if (page !== 'songs') {
+      setScrollReturnY(null);
+      return undefined;
+    }
+    if (typeof window === 'undefined') return undefined;
+
+    let frameId = 0;
+    const syncScrollY = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        setScrollY(window.scrollY);
+      });
+    };
+
+    syncScrollY();
+    window.addEventListener('scroll', syncScrollY, { passive: true });
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener('scroll', syncScrollY);
+    };
+  }, [page]);
+  const toggleSongListScroll = () => {
+    if (typeof window === 'undefined') return;
+    if (scrollReturnY !== null) {
+      const targetY = scrollReturnY;
+      setScrollReturnY(null);
+      window.scrollTo({ top: targetY, left: 0, behavior: preferredScrollBehavior() });
+      return;
+    }
+
+    setScrollReturnY(window.scrollY);
+    window.scrollTo({ top: 0, left: 0, behavior: preferredScrollBehavior() });
+  };
   const openSongEditor = async (songId: string) => {
     songListScrollY.current = typeof window === 'undefined' ? 0 : window.scrollY;
     try {
@@ -738,6 +778,7 @@ const AdminPanel = ({
   };
   const activeSong = page === 'song' ? songs.find((song) => song.id === route.songId) : undefined;
   const activeSubmission = page === 'submission' ? submissions.find((submission) => submission.id === route.submissionId) : undefined;
+  const canShowScrollReturnButton = page === 'songs' && (scrollY > 420 || scrollReturnY !== null);
 
   return (
     <div className="admin-shell">
@@ -749,33 +790,44 @@ const AdminPanel = ({
             <p className="eyebrow">Каталог</p>
             <h2>Песни</h2>
           </div>
-          <label className="submission-field">
-            <span>Поиск</span>
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Название, автор, категория, номер"
-            />
-          </label>
-          {isBackendSearchLoading ? <p className="submission-help">Ищу в БД...</p> : null}
-          {backendSearchError ? <div className="error">{backendSearchError}</div> : null}
-          <div className="admin-filter-row" role="group" aria-label="Фильтр песен">
-            <button
-              type="button"
-              className={songListFilter === 'all' ? 'is-active' : ''}
-              onClick={() => setSongListFilter('all')}
-              aria-pressed={songListFilter === 'all'}
-            >
-              Все песни <span>{songs.length}</span>
-            </button>
-            <button
-              type="button"
-              className={songListFilter === 'missing-chords' ? 'is-active' : ''}
-              onClick={() => setSongListFilter('missing-chords')}
-              aria-pressed={songListFilter === 'missing-chords'}
-            >
-              Без аккордов <span>{missingChordCount}</span>
-            </button>
+          <div className="admin-search-sticky">
+            <label className="submission-field admin-search-field">
+              <span>Поиск</span>
+              <div className="search-field">
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Название, текст, автор, категория, номер"
+                  className="search"
+                  aria-label="Поиск песни в админке"
+                />
+                {query.trim().length > 0 ? (
+                  <button type="button" className="search-clear" onClick={() => setQuery('')} aria-label="Очистить поиск">
+                    ×
+                  </button>
+                ) : null}
+              </div>
+            </label>
+            {isBackendSearchLoading ? <p className="submission-help">Ищу в БД...</p> : null}
+            {backendSearchError ? <div className="error">{backendSearchError}</div> : null}
+            <div className="admin-filter-row" role="group" aria-label="Фильтр песен">
+              <button
+                type="button"
+                className={songListFilter === 'all' ? 'is-active' : ''}
+                onClick={() => setSongListFilter('all')}
+                aria-pressed={songListFilter === 'all'}
+              >
+                Все песни <span>{songs.length}</span>
+              </button>
+              <button
+                type="button"
+                className={songListFilter === 'missing-chords' ? 'is-active' : ''}
+                onClick={() => setSongListFilter('missing-chords')}
+                aria-pressed={songListFilter === 'missing-chords'}
+              >
+                Без аккордов <span>{missingChordCount}</span>
+              </button>
+            </div>
           </div>
           <div className="admin-inline-actions">
             <button type="button" className="sheet-secondary" onClick={onRefreshCatalog}>Обновить из БД</button>
@@ -803,6 +855,9 @@ const AdminPanel = ({
             })}
             {hasMoreSongItems ? <p className="submission-help">Прокрутите ниже, чтобы загрузить ещё песни.</p> : null}
           </div>
+          {canShowScrollReturnButton ? (
+            <ScrollReturnButton isReturning={scrollReturnY !== null} onClick={toggleSongListScroll} />
+          ) : null}
         </section>
       ) : null}
       {page === 'song' ? <AdminSongPage song={activeSong} categories={categoryOptions} savingId={savingSongId} deletingId={deletingSongId} adminKey={adminKey} onSave={onSaveSong} onDelete={onDeleteSong} onBackToSongs={backToSongs} /> : null}

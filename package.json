@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "lint": "tsc --noEmit",
-    "test": "node --check scripts/lib/song-category-rules.mjs && node --check scripts/lib/song-slug.mjs && node --check scripts/generate-sw.mjs && node --check scripts/import-legacy-songs.mjs && node --check scripts/generate-staging-submissions-sql.mjs && node --check scripts/extract-notion-songbook.mjs && node --check scripts/generate-bundled-catalog.mjs",
+    "test": "node --check scripts/lib/song-category-rules.mjs && node --check scripts/lib/song-slug.mjs && node --check scripts/generate-sw.mjs && node --check scripts/import-legacy-songs.mjs && node --check scripts/generate-staging-submissions-sql.mjs && node --check scripts/extract-notion-songbook.mjs && node --check scripts/generate-bundled-catalog.mjs && node --check scripts/check-search-normalization.mjs && node scripts/check-search-normalization.mjs",
     "seed:legacy:example": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.example.json",
     "seed:legacy:json": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.dump.json --out src/data/importedCatalog.generated.json",
     "seed:legacy:sql": "node scripts/import-legacy-songs.mjs --input seed/legacy/songs.dump.json --sql-out migrations/003_legacy_catalog_seed.generated.sql",
