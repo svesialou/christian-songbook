@@ -999,6 +999,30 @@ button:disabled {
   line-height: 1.25;
 }
 
+.search-highlight {
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--warning) 22%, transparent);
+  color: inherit;
+  padding: 0 2px;
+}
+
+.song-search-snippet {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-family: Aptos, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.song-search-snippet .search-highlight {
+  background: color-mix(in srgb, var(--warning) 18%, transparent);
+  color: var(--text);
+}
+
 .song-authors {
   color: var(--muted);
   font-family: Aptos, "Segoe UI", sans-serif;

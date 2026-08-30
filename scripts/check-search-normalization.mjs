@@ -18,7 +18,14 @@ const modulePath = path.join(tempDir, 'search.mjs');
 
 try {
   writeFileSync(modulePath, compiled.outputText);
-  const { buildSongSearchIndex, matchesSearchQuery, normalizeSearchText } = await import(pathToFileURL(modulePath).href);
+  const {
+    buildSearchSnippet,
+    buildSearchTextSegments,
+    buildSongSearchIndex,
+    buildSongTextSearchSource,
+    matchesSearchQuery,
+    normalizeSearchText,
+  } = await import(pathToFileURL(modulePath).href);
   const song = {
     id: 'test-song',
     number: 1,
@@ -37,6 +44,9 @@ try {
   assert.equal(matchesSearchQuery('Ты радость моя', 'победа'), false);
   assert.equal(matchesSearchQuery(buildSongSearchIndex(song), 'будь зрением'), true);
   assert.equal(matchesSearchQuery(buildSongSearchIndex(song), 'среди штормов'), true);
+  assert.deepEqual(buildSearchTextSegments(song.title, 'БУДЬ').map((segment) => segment.isMatch), [true, false]);
+  assert.equal(buildSearchSnippet(buildSongTextSearchSource(song), 'среди')?.includes('среди штормов'), true);
+  assert.equal(buildSearchSnippet(buildSongTextSearchSource(song), 'будь'), null);
 } finally {
   rmSync(tempDir, { recursive: true, force: true });
 }

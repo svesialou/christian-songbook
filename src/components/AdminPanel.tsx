@@ -649,7 +649,10 @@ const AdminPanel = ({
     return songs.filter((song) => {
       if (songListFilter === 'missing-chords' && songHasChords(song)) return false;
       if (!normalized) return true;
-      return matchesSearchQuery(`${buildSongSearchIndex(song)} ${song.defaultKey ?? ''}`, normalized);
+      return matchesSearchQuery(
+        [buildSongSearchIndex(song), song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].join(' '),
+        normalized,
+      );
     });
   }, [query, songListFilter, songs]);
   const songListItems = useMemo<AdminSongListItem[]>(() => {

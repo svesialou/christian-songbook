@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Song, SongCollection } from '../types/song';
-import { matchesSearchQuery, normalizeSearchText } from '../lib/search';
+import {
+  buildSearchSnippet,
+  buildSearchTextSegments,
+  buildSongTextSearchSource,
+  matchesSearchQuery,
+  normalizeSearchText,
+} from '../lib/search';
 
 type SongListMode = 'all' | 'recent' | 'collection' | 'live';
 
@@ -47,6 +53,17 @@ type SongListProps = {
 };
 
 const QUICK_CATEGORY_LIMIT = 1;
+
+const renderHighlightedText = (value: string, query: string) =>
+  buildSearchTextSegments(value, query).map((segment, index) =>
+    segment.isMatch ? (
+      <mark className="search-highlight" key={`${segment.text}-${index}`}>
+        {segment.text}
+      </mark>
+    ) : (
+      <span key={`${segment.text}-${index}`}>{segment.text}</span>
+    ),
+  );
 
 const HistoryIcon = () => (
   <svg className="history-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -128,6 +145,7 @@ const SongList = ({
     setCategoryQuery('');
   };
   const isLiveMode = mode === 'live' && canUseLive;
+  const normalizedSongQuery = isLiveMode ? '' : normalizeSearchText(query);
   const activeCollection = collections.find((collection) => collection.id === activeCollectionId) ?? null;
   const activePlaybackIndex = isLiveMode
     ? songs.findIndex((song) => song.id === activeLiveSongId)
@@ -413,6 +431,9 @@ const SongList = ({
             const isInAnyCollection = collections.some((collection) => collection.songIds.includes(song.id));
             const isNowPlaying = isLiveMode && song.id === activeLiveSongId;
             const isNextPlaying = isLiveMode && song.id === nextPlaybackSongId;
+            const songTextSnippet = normalizedSongQuery
+              ? buildSearchSnippet(buildSongTextSearchSource(song), normalizedSongQuery)
+              : null;
 
             return (
               <li
@@ -432,7 +453,12 @@ const SongList = ({
                 >
                   <span className="song-number">{song.number}</span>
                   <span className="song-title-block">
-                    <span className="song-title">{song.title}</span>
+                    <span className="song-title">
+                      {normalizedSongQuery ? renderHighlightedText(song.title, normalizedSongQuery) : song.title}
+                    </span>
+                    {songTextSnippet ? (
+                      <small className="song-search-snippet">{renderHighlightedText(songTextSnippet, normalizedSongQuery)}</small>
+                    ) : null}
                     {song.authors?.length ? <small className="song-authors">{song.authors.join(', ')}</small> : null}
                   </span>
                   {isNowPlaying ? <span className="live-song-badge">Сейчас</span> : null}
