@@ -24,7 +24,7 @@ import {
   saveSettings,
   saveSongs,
 } from './lib/storage';
-import { buildSongSearchIndex, matchesSearchQuery, normalizeSearchText } from './lib/search';
+import { normalizeSearchText, songMatchesSearchQuery } from './lib/search';
 import { preferredScrollBehavior } from './lib/scroll';
 import { bundledCatalog } from './data/bundledCatalog.generated';
 import { songCategories } from './data/songCategories';
@@ -1804,9 +1804,7 @@ function App() {
     if (!normalized) {
       return categoryFiltered;
     }
-    return categoryFiltered.filter((song) =>
-      matchesSearchQuery(buildSongSearchIndex({ ...song, category: normalizeCategory(song.category) }), normalized),
-    );
+    return categoryFiltered.filter((song) => songMatchesSearchQuery(song, normalized));
   }, [songs, recentSongs, activeCollection, liveSongIds, listMode, activeCategory, query]);
   const activeSong = useMemo(() => {
     const resolvedSongId = resolveRouteSongId(songs, activeSongId);

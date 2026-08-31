@@ -1,13 +1,26 @@
 import type { Song } from '../types/song';
 
 const SEARCH_SEPARATOR_PATTERN = /[\p{P}\p{S}_]+/gu;
+const SEARCH_SEPARATOR_CHAR_PATTERN = /[\p{P}\p{S}_]/u;
 const WHITESPACE_PATTERN = /\s+/g;
+const WHITESPACE_CHAR_PATTERN = /\s/u;
 const SECTION_HEADING_PATTERN = /^\s*\[[^\]]+\]\s*$/;
 const CHORD_LINE_TOKEN_PATTERN = /^(?:[A-Ha-h][#b]?(?:m|maj|min|sus|dim|aug|add|\d)*(?:\/[A-Ha-h][#b]?)?|[|,;()[\]{}.-]+)$/;
 
 export type SearchTextSegment = {
   text: string;
   isMatch: boolean;
+};
+
+type SearchMatchRange = {
+  start: number;
+  end: number;
+};
+
+type NormalizedSearchIndex = {
+  text: string;
+  originalStartByNormalizedIndex: number[];
+  originalEndByNormalizedIndex: number[];
 };
 
 export const normalizeSearchText = (value: string): string =>
@@ -18,25 +31,74 @@ export const normalizeSearchText = (value: string): string =>
     .replace(WHITESPACE_PATTERN, ' ')
     .trim();
 
-export const searchWords = (value: string): string[] => {
-  const seen = new Set<string>();
-  return normalizeSearchText(value)
-    .split(' ')
-    .flatMap((word) => {
-      if (!word || seen.has(word)) return [];
-      seen.add(word);
-      return [word];
-    });
+const buildNormalizedSearchIndex = (value: string): NormalizedSearchIndex => {
+  let text = '';
+  const originalStartByNormalizedIndex: number[] = [];
+  const originalEndByNormalizedIndex: number[] = [];
+  let pendingSeparator: SearchMatchRange | null = null;
+  let originalIndex = 0;
+
+  for (const rawCharacter of value) {
+    const characterStart = originalIndex;
+    const characterEnd = characterStart + rawCharacter.length;
+    const normalizedCharacter = rawCharacter.normalize('NFKC').toLocaleLowerCase('ru-RU');
+    originalIndex = characterEnd;
+
+    if (SEARCH_SEPARATOR_CHAR_PATTERN.test(normalizedCharacter) || WHITESPACE_CHAR_PATTERN.test(normalizedCharacter)) {
+      if (text.length > 0) {
+        pendingSeparator = pendingSeparator
+          ? { start: pendingSeparator.start, end: characterEnd }
+          : { start: characterStart, end: characterEnd };
+      }
+      continue;
+    }
+
+    if (pendingSeparator) {
+      text += ' ';
+      originalStartByNormalizedIndex.push(pendingSeparator.start);
+      originalEndByNormalizedIndex.push(pendingSeparator.end);
+      pendingSeparator = null;
+    }
+
+    for (const normalizedPart of normalizedCharacter) {
+      text += normalizedPart;
+      originalStartByNormalizedIndex.push(characterStart);
+      originalEndByNormalizedIndex.push(characterEnd);
+    }
+  }
+
+  return { text, originalStartByNormalizedIndex, originalEndByNormalizedIndex };
+};
+
+const findSearchMatchRanges = (value: string, query: string): SearchMatchRange[] => {
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery || !value) return [];
+
+  const normalizedIndex = buildNormalizedSearchIndex(value);
+  const ranges: SearchMatchRange[] = [];
+  let offset = 0;
+
+  while (offset < normalizedIndex.text.length) {
+    const normalizedStart = normalizedIndex.text.indexOf(normalizedQuery, offset);
+    if (normalizedStart < 0) break;
+
+    const normalizedEnd = normalizedStart + normalizedQuery.length;
+    const start = normalizedIndex.originalStartByNormalizedIndex[normalizedStart];
+    const end = normalizedIndex.originalEndByNormalizedIndex[normalizedEnd - 1];
+    if (start !== undefined && end !== undefined && end > start) {
+      ranges.push({ start, end });
+    }
+    offset = normalizedEnd;
+  }
+
+  return ranges;
 };
 
 export const matchesSearchQuery = (value: string, query: string): boolean => {
   const normalizedQuery = normalizeSearchText(query);
   if (!normalizedQuery) return true;
 
-  const normalizedValue = normalizeSearchText(value);
-  if (normalizedValue.includes(normalizedQuery)) return true;
-
-  return searchWords(normalizedQuery).every((word) => normalizedValue.includes(word));
+  return normalizeSearchText(value).includes(normalizedQuery);
 };
 
 const cleanLeadSheetPreview = (leadSheet: string): string =>
@@ -65,23 +127,16 @@ export const buildSongTextSearchSource = (song: Song): string => {
 
 export const buildSongSearchIndex = (song: Song): string => [song.title, buildSongTextSearchSource(song)].join(' ');
 
-export const buildSearchTextSegments = (value: string, query: string): SearchTextSegment[] => {
-  const words = searchWords(query).sort((a, b) => b.length - a.length);
-  if (words.length === 0 || !value) return [{ text: value, isMatch: false }];
+export const songMatchesSearchQuery = (song: Song, query: string): boolean => {
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery) return true;
 
-  const lowerValue = value.toLocaleLowerCase('ru-RU');
-  const ranges = words.flatMap((word) => {
-    const matches: { start: number; end: number }[] = [];
-    let offset = 0;
-    while (offset < lowerValue.length) {
-      const start = lowerValue.indexOf(word, offset);
-      if (start < 0) break;
-      const end = start + word.length;
-      matches.push({ start, end });
-      offset = end;
-    }
-    return matches;
-  });
+  return matchesSearchQuery(song.title, normalizedQuery) || matchesSearchQuery(buildSongTextSearchSource(song), normalizedQuery);
+};
+
+export const buildSearchTextSegments = (value: string, query: string): SearchTextSegment[] => {
+  const ranges = findSearchMatchRanges(value, query);
+  if (ranges.length === 0 || !value) return [{ text: value, isMatch: false }];
 
   const selectedRanges = ranges
     .sort((a, b) => a.start - b.start || b.end - a.end)
@@ -106,25 +161,19 @@ export const buildSearchTextSegments = (value: string, query: string): SearchTex
 };
 
 export const buildSearchSnippet = (value: string, query: string, radius = 64): string | null => {
-  const words = searchWords(query);
-  if (words.length === 0 || !value.trim()) return null;
+  const normalizedQuery = normalizeSearchText(query);
+  if (!normalizedQuery || !value.trim()) return null;
 
   const compactValue = value.replace(WHITESPACE_PATTERN, ' ').trim();
-  const lowerValue = compactValue.toLocaleLowerCase('ru-RU');
-  const firstMatch = words
-    .flatMap((word) => {
-      const index = lowerValue.indexOf(word);
-      return index >= 0 ? [{ index, length: word.length }] : [];
-    })
-    .sort((a, b) => a.index - b.index)[0];
+  const firstMatch = findSearchMatchRanges(compactValue, normalizedQuery)[0];
   if (!firstMatch) return null;
 
-  const rawStart = Math.max(0, firstMatch.index - radius);
-  const rawEnd = Math.min(compactValue.length, firstMatch.index + firstMatch.length + radius);
+  const rawStart = Math.max(0, firstMatch.start - radius);
+  const rawEnd = Math.min(compactValue.length, firstMatch.end + radius);
   const nextSpace = compactValue.indexOf(' ', rawStart);
   const previousSpace = compactValue.lastIndexOf(' ', rawEnd);
-  const start = rawStart > 0 && nextSpace >= 0 && nextSpace < firstMatch.index ? nextSpace + 1 : rawStart;
-  const end = rawEnd < compactValue.length && previousSpace > firstMatch.index + firstMatch.length ? previousSpace : rawEnd;
+  const start = rawStart > 0 && nextSpace >= 0 && nextSpace < firstMatch.start ? nextSpace + 1 : rawStart;
+  const end = rawEnd < compactValue.length && previousSpace > firstMatch.end ? previousSpace : rawEnd;
   const snippet = compactValue.slice(start, end).trim();
 
   return `${start > 0 ? '... ' : ''}${snippet}${end < compactValue.length ? ' ...' : ''}`;

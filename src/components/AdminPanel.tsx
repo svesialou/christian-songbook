@@ -2,7 +2,7 @@ import { FormEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'reac
 import { AdminSongUpdatePayload, SongListItem, SongSubmission, SongSubmissionPayload, createAdminSong, uploadSheetMusicFile } from '../lib/catalogApi';
 import { parseSongKey } from '../lib/chords';
 import { fillMissingVerseChords } from '../lib/leadSheetTools';
-import { buildSongSearchIndex, matchesSearchQuery, normalizeSearchText } from '../lib/search';
+import { matchesSearchQuery, normalizeSearchText, songMatchesSearchQuery } from '../lib/search';
 import { preferredScrollBehavior } from '../lib/scroll';
 import { Song, SongOrderedSection } from '../types/song';
 import ScrollReturnButton from './ScrollReturnButton';
@@ -649,9 +649,11 @@ const AdminPanel = ({
     return songs.filter((song) => {
       if (songListFilter === 'missing-chords' && songHasChords(song)) return false;
       if (!normalized) return true;
-      return matchesSearchQuery(
-        [buildSongSearchIndex(song), song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].join(' '),
-        normalized,
+      return (
+        songMatchesSearchQuery(song, normalized) ||
+        [song.category, ...(song.authors ?? []), song.defaultKey ?? '', String(song.number)].some((value) =>
+          matchesSearchQuery(value, normalized),
+        )
       );
     });
   }, [query, songListFilter, songs]);
