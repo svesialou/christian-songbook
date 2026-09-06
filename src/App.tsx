@@ -1,5 +1,14 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { CatalogSnapshotMeta, Song, SongCollection, SongOrderedSection, SongPlayback, SongPlaybackPosition, SongSettings } from './types/song';
+import {
+  CatalogSnapshotMeta,
+  FontScale,
+  Song,
+  SongCollection,
+  SongOrderedSection,
+  SongPlayback,
+  SongPlaybackPosition,
+  SongSettings,
+} from './types/song';
 import {
   defaultSettings,
   hydrateLegacyState,
@@ -261,21 +270,23 @@ const normalizeImportedSettings = (settings: unknown): SongSettings | undefined 
   if (!settings || typeof settings !== 'object') return undefined;
   const raw = settings as Record<string, unknown>;
   const defaults = defaultSettings();
+  const isFontScale = (value: unknown): value is FontScale =>
+    value === 'small' || value === 'normal' || value === 'large' || value === 'xlarge';
 
-    return {
-      viewPreset:
-        raw.viewPreset === 'lead' || raw.viewPreset === 'singer' || raw.viewPreset === 'chords'
-          ? raw.viewPreset
-          : defaults.viewPreset,
-      showChords: typeof raw.showChords === 'boolean' ? raw.showChords : defaults.showChords,
-      repeatChorus: typeof raw.repeatChorus === 'boolean' ? raw.repeatChorus : defaults.repeatChorus,
-      splitSections: typeof raw.splitSections === 'boolean' ? raw.splitSections : defaults.splitSections,
-      transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : defaults.transposition,
-      showPlaybackDock:
-        typeof raw.showPlaybackDock === 'boolean' ? raw.showPlaybackDock : defaults.showPlaybackDock,
-      fontScale: raw.fontScale === 'large' || raw.fontScale === 'normal' ? raw.fontScale : defaults.fontScale,
-      darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : defaults.darkTheme,
-    };
+  return {
+    viewPreset:
+      raw.viewPreset === 'lead' || raw.viewPreset === 'singer' || raw.viewPreset === 'chords'
+        ? raw.viewPreset
+        : defaults.viewPreset,
+    showChords: typeof raw.showChords === 'boolean' ? raw.showChords : defaults.showChords,
+    repeatChorus: typeof raw.repeatChorus === 'boolean' ? raw.repeatChorus : defaults.repeatChorus,
+    splitSections: typeof raw.splitSections === 'boolean' ? raw.splitSections : defaults.splitSections,
+    transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : defaults.transposition,
+    showPlaybackDock:
+      typeof raw.showPlaybackDock === 'boolean' ? raw.showPlaybackDock : defaults.showPlaybackDock,
+    fontScale: isFontScale(raw.fontScale) ? raw.fontScale : defaults.fontScale,
+    darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : defaults.darkTheme,
+  };
 };
 
 const normalizeImportedCollections = (collections: unknown, validSongIds: Set<string>): SongCollection[] | undefined => {
@@ -1922,6 +1933,7 @@ function App() {
   };
   const onSongTranspositionChange = (songId: string, transposition: number) =>
     setSongTranspositions((current) => ({ ...current, [songId]: transposition }));
+  const onFontScaleChange = (fontScale: FontScale) => setSettings((current) => ({ ...current, fontScale }));
   const canUseCollections = !!account?.authenticated && isUserCollectionsReady;
   const canUseLive = !!account?.authenticated && isUserLiveStateReady;
   const canShowLiveButton = !isAdminMode && !activeSong && canUseLive;
@@ -2225,6 +2237,7 @@ function App() {
               onShare={shareSong}
               onLiveSongSelect={openSong}
               onTranspositionChange={onSongTranspositionChange}
+              onFontScaleChange={onFontScaleChange}
               onPlaybackPositionChange={setPlaybackPosition}
               onSubmitEdit={handleSubmitSongEdit}
             />

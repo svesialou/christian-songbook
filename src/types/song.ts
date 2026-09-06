@@ -43,6 +43,8 @@ export type SongCollection = {
 
 export type ViewPreset = 'lead' | 'singer' | 'chords';
 
+export type FontScale = 'small' | 'normal' | 'large' | 'xlarge';
+
 export type SongPlaybackPosition = {
   songId: string;
   sectionId: string;
@@ -59,7 +61,7 @@ export type SongSettings = {
   splitSections: boolean;
   transposition: number;
   showPlaybackDock: boolean;
-  fontScale: 'normal' | 'large';
+  fontScale: FontScale;
   darkTheme: boolean;
 };
 

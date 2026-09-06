@@ -24,6 +24,13 @@ const presetLabels: Record<SongSettings['viewPreset'], { title: string; descript
   chords: { title: 'Chords', description: 'Только аккорды' },
 };
 
+const fontScaleLabels: Record<SongSettings['fontScale'], string> = {
+  small: 'Мелкий',
+  normal: 'Обычный',
+  large: 'Крупный',
+  xlarge: 'Очень крупный',
+};
+
 const defaultUserPreferences = (): UserPreferences => ({
   instrument: 'guitar',
   preferredKeys: ['C', 'G', 'D', 'A'],
@@ -241,8 +248,11 @@ const SettingsPanel = ({
             value={settings.fontScale}
             onChange={(event) => change('fontScale', event.target.value as SongSettings['fontScale'])}
           >
-            <option value="normal">Обычный</option>
-            <option value="large">Крупный</option>
+            {(Object.keys(fontScaleLabels) as SongSettings['fontScale'][]).map((fontScale) => (
+              <option key={fontScale} value={fontScale}>
+                {fontScaleLabels[fontScale]}
+              </option>
+            ))}
           </select>
         </label>
 

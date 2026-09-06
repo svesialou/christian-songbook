@@ -1295,6 +1295,7 @@ button:disabled {
 .select-row,
 .transpose-control,
 .song-transpose-control,
+.song-font-control,
 .stepper,
 .stepper-button,
 .select-row select,
@@ -1533,7 +1534,49 @@ button:disabled {
   outline-offset: 2px;
 }
 
+.song-font-control button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
+  outline-offset: 2px;
+}
+
 .song-transpose-control span {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 950;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.song-font-control {
+  min-height: 44px;
+  display: inline-grid;
+  grid-template-columns: 44px minmax(78px, auto) 44px;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  padding: 3px;
+}
+
+.song-font-control button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.song-font-control button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.song-font-control span {
   color: var(--text);
   font-size: 12px;
   font-weight: 950;
@@ -2080,12 +2123,49 @@ button:disabled {
   line-height: 1.45;
 }
 
+.small .chords {
+  font-size: 15px;
+}
+
+.small .preset-chords .chords {
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.large .chords {
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.large .preset-chords .chords {
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+.xlarge .chords {
+  font-size: 23px;
+  line-height: 1.45;
+}
+
+.xlarge .preset-chords .chords {
+  font-size: 26px;
+  line-height: 1.45;
+}
+
+.small .line {
+  font-size: 19px;
+}
+
 .normal .line {
   font-size: 21px;
 }
 
 .large .line {
   font-size: 26px;
+}
+
+.xlarge .line {
+  font-size: 31px;
 }
 
 .error,
@@ -2555,6 +2635,10 @@ button:disabled {
     font-size: 18px;
   }
 
+  .small .line {
+    font-size: 17px;
+  }
+
   .line,
   .normal .line {
     font-size: 19px;
@@ -2562,6 +2646,10 @@ button:disabled {
 
   .large .line {
     font-size: 24px;
+  }
+
+  .xlarge .line {
+    font-size: 28px;
   }
 
   .playback-control {

@@ -24,6 +24,7 @@ type SongViewProps = {
   onShare: (song: Song) => void;
   onLiveSongSelect?: (songId: string) => void;
   onTranspositionChange: (songId: string, transposition: number) => void;
+  onFontScaleChange: (fontScale: SongSettings['fontScale']) => void;
   onPlaybackPositionChange: (position: SongPlaybackPosition | null) => void;
   onSubmitEdit: (song: Song, payload: SongSubmissionPayload) => Promise<void>;
 };
@@ -244,6 +245,15 @@ const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
   chords: 'Chords: только аккорды',
 };
 
+const fontScaleSteps: SongSettings['fontScale'][] = ['small', 'normal', 'large', 'xlarge'];
+
+const fontScaleLabels: Record<SongSettings['fontScale'], string> = {
+  small: 'Мелкий',
+  normal: 'Обычный',
+  large: 'Крупный',
+  xlarge: 'Очень крупный',
+};
+
 const parseAuthorsInput = (value: string): string[] => {
   const seen = new Set<string>();
   return value.split(',').flatMap((item) => {
@@ -381,6 +391,7 @@ const SongView = ({
   onShare,
   onLiveSongSelect,
   onTranspositionChange,
+  onFontScaleChange,
   onPlaybackPositionChange,
   onSubmitEdit,
 }: SongViewProps) => {
@@ -497,6 +508,9 @@ const SongView = ({
   const isSheetMode = hasSheetMusic && contentMode === 'sheet';
   const hasPresentation = presentationSlides.length > 0;
   const isPresentationMode = hasPresentation && contentMode === 'presentation';
+  const fontScaleIndex = Math.max(0, fontScaleSteps.indexOf(settings.fontScale));
+  const canDecreaseFontScale = fontScaleIndex > 0;
+  const canIncreaseFontScale = fontScaleIndex < fontScaleSteps.length - 1;
 
   useEffect(() => {
     const nextBpm = song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm;
@@ -730,6 +744,10 @@ const SongView = ({
   };
   const setTransposition = (nextTransposition: number) =>
     onTranspositionChange(song.id, normalizeTransposition(nextTransposition));
+  const changeFontScale = (step: -1 | 1) => {
+    const nextScale = fontScaleSteps[fontScaleIndex + step];
+    if (nextScale) onFontScaleChange(nextScale);
+  };
 
   const updateEditDraft = (key: keyof SongEditDraft, value: string | number | string[]) => {
     setEditDraft((current) => ({ ...current, [key]: value }));
@@ -893,6 +911,25 @@ const SongView = ({
                 aria-label="Сбросить тональность этой песни"
               >
                 0
+              </button>
+            </div>
+            <div className="song-font-control" aria-label="Размер шрифта песни">
+              <button
+                type="button"
+                onClick={() => changeFontScale(-1)}
+                disabled={!canDecreaseFontScale}
+                aria-label="Уменьшить шрифт песни"
+              >
+                A-
+              </button>
+              <span>{fontScaleLabels[settings.fontScale]}</span>
+              <button
+                type="button"
+                onClick={() => changeFontScale(1)}
+                disabled={!canIncreaseFontScale}
+                aria-label="Увеличить шрифт песни"
+              >
+                A+
               </button>
             </div>
             <div

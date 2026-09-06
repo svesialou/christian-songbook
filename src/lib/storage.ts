@@ -1,5 +1,5 @@
 import { openDB } from 'idb';
-import { CatalogSnapshotMeta, Song, SongCollection, SongPlaybackPosition, SongSettings } from '../types/song';
+import { CatalogSnapshotMeta, FontScale, Song, SongCollection, SongPlaybackPosition, SongSettings } from '../types/song';
 
 const DB_NAME = 'christian-songbook';
 const DB_VERSION = 1;
@@ -78,6 +78,11 @@ const fallbackWrite = <T>(key: string, value: T): void => {
 const isViewPreset = (value: unknown): value is SongSettings['viewPreset'] =>
   value === 'lead' || value === 'singer' || value === 'chords';
 
+const fontScales = new Set<FontScale>(['small', 'normal', 'large', 'xlarge']);
+
+const isFontScale = (value: unknown): value is FontScale =>
+  typeof value === 'string' && fontScales.has(value as FontScale);
+
 const normalizeSettings = (settings: unknown): SongSettings => {
   if (!settings || typeof settings !== 'object') return { ...DEFAULT_SETTINGS };
   const raw = settings as Partial<SongSettings>;
@@ -90,7 +95,7 @@ const normalizeSettings = (settings: unknown): SongSettings => {
     transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : DEFAULT_SETTINGS.transposition,
     showPlaybackDock:
       typeof raw.showPlaybackDock === 'boolean' ? raw.showPlaybackDock : DEFAULT_SETTINGS.showPlaybackDock,
-    fontScale: raw.fontScale === 'large' || raw.fontScale === 'normal' ? raw.fontScale : DEFAULT_SETTINGS.fontScale,
+    fontScale: isFontScale(raw.fontScale) ? raw.fontScale : DEFAULT_SETTINGS.fontScale,
     darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : DEFAULT_SETTINGS.darkTheme,
   };
 };
