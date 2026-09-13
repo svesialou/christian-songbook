@@ -139,15 +139,16 @@ const parseHeader = (line: string): Pick<SongOrderedSection, 'sectionType' | 'ti
   const value = line.trim().replace(/^\[(.*)\]$/, '$1').replace(/:$/, '').trim();
   if (!value) return null;
   const lower = value.toLowerCase();
+  const prefix = String.raw`(?:\d+\s+)?`;
   const suffix = String.raw`(?:\s+(?:\d+|[xх]\d+))?`;
-  if (new RegExp(String.raw`^(вступление|интро|intro)${suffix}$`).test(lower)) return { sectionType: 'intro', title: value };
-  if (new RegExp(String.raw`^(куплет|запев|verse)${suffix}$`).test(lower)) return { sectionType: 'verse', title: value };
-  if (new RegExp(String.raw`^(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)${suffix}$`).test(lower)) return { sectionType: 'prechorus', title: value };
-  if (new RegExp(String.raw`^(припев|chorus|refrain)${suffix}$`).test(lower)) return { sectionType: 'chorus', title: value };
-  if (new RegExp(String.raw`^(бридж|мост|bridge)${suffix}$`).test(lower)) return { sectionType: 'bridge', title: value };
-  if (new RegExp(String.raw`^(проигрыш|инструментал|instrumental|interlude)${suffix}$`).test(lower)) return { sectionType: 'instrumental', title: value };
-  if (new RegExp(String.raw`^(концовка|окончание|аутро|outro|ending)${suffix}$`).test(lower)) return { sectionType: 'outro', title: value };
-  if (new RegExp(String.raw`^(тэг|тег|tag)${suffix}$`).test(lower)) return { sectionType: 'tag', title: value };
+  if (new RegExp(String.raw`^${prefix}(вступление|интро|intro)${suffix}$`).test(lower)) return { sectionType: 'intro', title: value };
+  if (new RegExp(String.raw`^${prefix}(куплет|запев|verse)${suffix}$`).test(lower)) return { sectionType: 'verse', title: value };
+  if (new RegExp(String.raw`^${prefix}(пред[\s-]*припев|предприпев|pre[\s-]*chorus|prechorus)${suffix}$`).test(lower)) return { sectionType: 'prechorus', title: value };
+  if (new RegExp(String.raw`^${prefix}(припев|chorus|refrain)${suffix}$`).test(lower)) return { sectionType: 'chorus', title: value };
+  if (new RegExp(String.raw`^${prefix}(бридж|мост|bridge)${suffix}$`).test(lower)) return { sectionType: 'bridge', title: value };
+  if (new RegExp(String.raw`^${prefix}(проигрыш|инструментал|instrumental|interlude)${suffix}$`).test(lower)) return { sectionType: 'instrumental', title: value };
+  if (new RegExp(String.raw`^${prefix}(концовка|окончание|аутро|outro|ending)${suffix}$`).test(lower)) return { sectionType: 'outro', title: value };
+  if (new RegExp(String.raw`^${prefix}(тэг|тег|tag)${suffix}$`).test(lower)) return { sectionType: 'tag', title: value };
   return null;
 };
 
@@ -300,7 +301,7 @@ const LeadSheetField = ({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           disabled={disabled}
-          placeholder={'[Куплет 1]\nG      D\nБог твой Царь...\n\n[Припев]\nEm     C\nСлава Тебе...'}
+          placeholder={'[1 куплет]\nG      D\nБог твой Царь...\n\n[Припев]\nEm     C\nСлава Тебе...'}
           rows={18}
         />
       </label>

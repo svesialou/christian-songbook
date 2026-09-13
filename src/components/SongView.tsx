@@ -22,6 +22,7 @@ type SongViewProps = {
   nextLiveSong?: Song;
   onBack: () => void;
   onShare: (song: Song) => void;
+  onPrint: () => void;
   onLiveSongSelect?: (songId: string) => void;
   onTranspositionChange: (songId: string, transposition: number) => void;
   onFontScaleChange: (fontScale: SongSettings['fontScale']) => void;
@@ -389,6 +390,7 @@ const SongView = ({
   nextLiveSong,
   onBack,
   onShare,
+  onPrint,
   onLiveSongSelect,
   onTranspositionChange,
   onFontScaleChange,
@@ -420,14 +422,18 @@ const SongView = ({
   const beatDurationMs = 60000 / playback.bpm;
   const introBeats = playback.introBeats ?? DEFAULT_PLAYBACK.introBeats;
   const introDurationMs = Math.max(0, Math.round((60000 / playback.bpm) * introBeats));
+  const displaySections = useMemo(
+    () => getDisplaySections(song, settings.repeatChorus, settings.viewPreset),
+    [song, settings.repeatChorus, settings.viewPreset],
+  );
   const playbackLines = useMemo(
     () =>
       buildPlaybackLines(
         song,
-        getDisplaySections(song, settings.repeatChorus, settings.viewPreset),
+        displaySections,
         settings.viewPreset === 'chords',
       ),
-    [song, settings.repeatChorus, settings.viewPreset],
+    [displaySections, song, settings.viewPreset],
   );
   const presentationSlides = useMemo(() => buildPresentationSlides(song), [song]);
   const currentPresentationSlide = presentationSlides[presentationSlideIndex] ?? presentationSlides[0] ?? null;
@@ -848,6 +854,7 @@ const SongView = ({
       <div className="song-header">
         <div className="song-header-actions">
           <button type="button" onClick={() => onShare(song)} className="toolbar-button">Поделиться</button>
+          <button type="button" onClick={onPrint} className="toolbar-button">Печать</button>
           <button type="button" onClick={() => setIsEditOpen(true)} className="toolbar-button">Править</button>
         </div>
         {onLiveSongSelect && livePositionLabel ? (
@@ -967,6 +974,35 @@ const SongView = ({
         </div>
       </div>
 
+      <div className="song-print-sheet" aria-hidden="true">
+        <p className="song-print-eyebrow">Песня №{song.number}</p>
+        <h1>{song.title}</h1>
+        {song.authors?.length ? <p className="song-print-meta">Автор: {formatAuthors(song.authors)}</p> : null}
+        {renderedKey || sourceKey ? <p className="song-print-meta">Тональность: {renderedKey || sourceKey}</p> : null}
+        <div className="song-print-sections">
+          {displaySections.map((section, sectionIndex) => (
+            <section className="song-print-section" key={`${section.title}-${sectionIndex}`}>
+              <h2>{section.title}</h2>
+              {section.rows.map((text, lineIndex) => {
+                const chordText = settings.showChords ? section.chords[lineIndex]?.join(' ').trim() ?? '' : '';
+                const transposedChordText = chordText
+                  ? transposeSongRows([chordText], effectiveTransposition)[0]
+                  : '';
+
+                if (settings.viewPreset === 'chords' && !transposedChordText) return null;
+
+                return (
+                  <div className="song-print-line" key={`${section.title}-${sectionIndex}-${lineIndex}`}>
+                    {transposedChordText ? <span className="song-print-chords">{transposedChordText}</span> : null}
+                    {settings.viewPreset !== 'chords' ? <span>{text}</span> : null}
+                  </div>
+                );
+              })}
+            </section>
+          ))}
+        </div>
+      </div>
+
       {isSheetMode && song.sheetMusicUrl ? (
         <div className="song-sheet-music">
           <div className="song-sheet-frame">
@@ -1057,7 +1093,7 @@ const SongView = ({
         </div>
       ) : (
         <div className="song-sections">
-          {getDisplaySections(song, settings.repeatChorus, settings.viewPreset).map((section, index) => (
+          {displaySections.map((section, index) => (
             <Section
               key={`${section.title}-${index}`}
               sectionId={sectionStableId(section, index)}

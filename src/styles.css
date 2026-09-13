@@ -1469,6 +1469,10 @@ button:disabled {
   max-width: 720px;
 }
 
+.song-print-sheet {
+  display: none;
+}
+
 .song-sections {
   display: grid;
 }
@@ -3720,5 +3724,112 @@ textarea.admin-large-textarea {
   .admin-filter-row {
     grid-template-columns: 1fr;
     width: 100%;
+  }
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  :root {
+    color: #111111;
+  }
+
+  body {
+    min-width: 0;
+    background: #ffffff;
+  }
+
+  .app {
+    min-height: auto;
+    background: #ffffff;
+    color: #111111;
+    padding: 0;
+  }
+
+  .app-shell,
+  .content-panel,
+  .song-view {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: #ffffff;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .top-bar,
+  .error,
+  .notice,
+  .scroll-return-button,
+  .sheet-backdrop {
+    display: none !important;
+  }
+
+  .song-view > :not(.song-print-sheet) {
+    display: none !important;
+  }
+
+  .song-print-sheet {
+    display: block;
+    color: #111111;
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  }
+
+  .song-print-eyebrow,
+  .song-print-meta {
+    margin: 0 0 5px;
+    color: #444444;
+    font-family: Aptos, "Segoe UI", sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+  }
+
+  .song-print-sheet h1 {
+    margin: 0 0 6mm;
+    color: #111111;
+    font-size: 24pt;
+    line-height: 1.1;
+  }
+
+  .song-print-sections {
+    display: grid;
+    gap: 6mm;
+  }
+
+  .song-print-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .song-print-section h2 {
+    margin: 0 0 3mm;
+    color: #111111;
+    font-family: Aptos, "Segoe UI", sans-serif;
+    font-size: 10pt;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .song-print-line {
+    margin: 0 0 3mm;
+    color: #111111;
+    font-size: 14pt;
+    font-weight: 650;
+    line-height: 1.35;
+    white-space: pre-wrap;
+  }
+
+  .song-print-chords {
+    display: block;
+    color: #111111;
+    font-family: "Courier New", monospace;
+    font-size: 11pt;
+    font-weight: 900;
+    line-height: 1.25;
   }
 }

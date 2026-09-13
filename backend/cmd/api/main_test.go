@@ -50,6 +50,30 @@ Chorus line repeat`
 	assertParsedSection(t, sections[3], "chorus", "Припев", []string{"Chorus line repeat"}, [][]string{{"F", "G"}})
 }
 
+func TestParseLeadSheetSectionsRecognizesLeadingVerseNumber(t *testing.T) {
+	leadSheet := `[1 куплет]
+C
+Line one
+[Припев]
+F G
+Chorus line
+[2 куплет]
+Am
+Line two`
+
+	sections, err := parseLeadSheetSections(leadSheet)
+	if err != nil {
+		t.Fatalf("parseLeadSheetSections returned error: %v", err)
+	}
+	if len(sections) != 3 {
+		t.Fatalf("expected 3 sections, got %d", len(sections))
+	}
+
+	assertParsedSection(t, sections[0], "verse", "1 куплет", []string{"Line one"}, [][]string{{"C"}})
+	assertParsedSection(t, sections[1], "chorus", "Припев", []string{"Chorus line"}, [][]string{{"F", "G"}})
+	assertParsedSection(t, sections[2], "verse", "2 куплет", []string{"Line two"}, [][]string{{"Am"}})
+}
+
 func TestParseLeadSheetSectionsRecognizesExtendedHeadings(t *testing.T) {
 	leadSheet := `[Вступление]
 C

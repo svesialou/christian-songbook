@@ -1725,6 +1725,16 @@ function App() {
 
   const shareSong = (song: Song) => void shareText(song.title, buildSongShareText(song));
 
+  const printSong = () => {
+    if (typeof window === 'undefined' || typeof window.print !== 'function') {
+      setError('Печать недоступна в этом браузере.');
+      return;
+    }
+
+    setError(null);
+    window.print();
+  };
+
   const shareCollection = (collectionId: string) => {
     const publicCollection = publicSharedCollection?.id === collectionId ? publicSharedCollection : null;
     if (!publicCollection && !requireCollectionAccount()) return;
@@ -2235,6 +2245,7 @@ function App() {
               nextLiveSong={nextLiveSong}
               onBack={closeSong}
               onShare={shareSong}
+              onPrint={printSong}
               onLiveSongSelect={openSong}
               onTranspositionChange={onSongTranspositionChange}
               onFontScaleChange={onFontScaleChange}

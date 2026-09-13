@@ -3664,6 +3664,9 @@ func isSectionHeading(value string, prefix string) bool {
 	if value == prefix {
 		return true
 	}
+	if rest, ok := trimLeadingSectionNumber(value); ok {
+		return isSectionHeading(rest, prefix)
+	}
 	for _, separator := range []string{" ", "-"} {
 		suffix, ok := strings.CutPrefix(value, prefix+separator)
 		if !ok {
@@ -3681,6 +3684,26 @@ func isSectionHeading(value string, prefix string) bool {
 		return len(runes) > 1 && (first == 'x' || first == 'х') && runes[1] >= '0' && runes[1] <= '9'
 	}
 	return false
+}
+
+func trimLeadingSectionNumber(value string) (string, bool) {
+	fields := strings.Fields(value)
+	if len(fields) < 2 || !isDecimalNumber(fields[0]) {
+		return "", false
+	}
+	return strings.Join(fields[1:], " "), true
+}
+
+func isDecimalNumber(value string) bool {
+	if value == "" {
+		return false
+	}
+	for _, char := range value {
+		if char < '0' || char > '9' {
+			return false
+		}
+	}
+	return true
 }
 
 func normalizeSongSubmission(payload songSubmissionRequest) (songSubmissionRequest, error) {
