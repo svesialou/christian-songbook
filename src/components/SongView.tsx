@@ -97,7 +97,8 @@ const sectionPlaybackRepeatCount = (section: SongOrderedSection): number =>
 const timingHintPattern = /\b\d{1,2}\s*(?:такта?|тактов|дол[ияеюйь]*|bar|bars|beat|beats)\b/gi;
 const lyricVowelPattern = /[аеёиоуыэюяaeiouy]/gi;
 const instrumentalSectionTypes = new Set<SongOrderedSection['sectionType']>(['intro', 'instrumental', 'outro']);
-const repeatChorusAfterSectionTypes = new Set<SongOrderedSection['sectionType']>(['verse', 'bridge']);
+const repeatAfterSectionTypes = new Set<SongOrderedSection['sectionType']>(['verse', 'bridge']);
+const repeatedSectionTypes = new Set<SongOrderedSection['sectionType']>(['prechorus', 'chorus']);
 
 const parseExplicitBeatCount = (value: string, baseBeats: number): number | null => {
   const normalized = value.toLowerCase().replace(/[×х]/g, 'x');
@@ -140,15 +141,22 @@ const calculateLineDurationMs = (bpm: number, baseBeats: number, line?: Playback
 const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSection[] => {
   if (song.sections?.length) {
     const orderedSections = fillMissingVerseSectionChords(song.sections);
-    const chorus = orderedSections.find((section) => section.sectionType === 'chorus');
-    if (!repeatChorus || !chorus) return orderedSections;
+    const repeatedSections = orderedSections.filter(
+      (section, index) =>
+        repeatedSectionTypes.has(section.sectionType) &&
+        orderedSections.findIndex((candidate) => candidate.sectionType === section.sectionType) === index,
+    );
+    if (!repeatChorus || repeatedSections.length === 0) return orderedSections;
 
     return orderedSections.flatMap((section, index) => {
       const nextSection = orderedSections[index + 1];
-      if (!repeatChorusAfterSectionTypes.has(section.sectionType) || nextSection?.sectionType === 'chorus') {
+      if (
+        !repeatAfterSectionTypes.has(section.sectionType) ||
+        (nextSection && repeatedSectionTypes.has(nextSection.sectionType))
+      ) {
         return [section];
       }
-      return [section, chorus];
+      return [section, ...repeatedSections];
     });
   }
 

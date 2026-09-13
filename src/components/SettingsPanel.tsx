@@ -212,7 +212,7 @@ const SettingsPanel = ({
             checked={settings.repeatChorus}
             onChange={(event) => change('repeatChorus', event.target.checked)}
           />
-          <span>Повтор припева</span>
+          <span>Повтор пред припева и припева</span>
         </label>
 
         <label className="toggle-row">
