@@ -9,7 +9,7 @@ const STORE = 'state';
 const DEFAULT_SETTINGS: SongSettings = {
   viewPreset: 'lead',
   showChords: true,
-  repeatChorus: false,
+  repeatChorus: true,
   splitSections: false,
   transposition: 0,
   showPlaybackDock: false,

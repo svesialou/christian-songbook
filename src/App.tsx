@@ -1179,8 +1179,9 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!isStoredStateReady) return;
     saveSettings(settings);
-  }, [settings]);
+  }, [isStoredStateReady, settings]);
 
   useEffect(() => {
     void loadCurrentUser();
