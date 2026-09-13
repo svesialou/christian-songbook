@@ -159,14 +159,15 @@ const normalizeUserLiveStateForCatalog = (state: UserLiveState, catalogSongs: So
   const catalogSongIds = new Set(catalogSongs.map((song) => song.id));
   const collections = (state.collections ?? []).map((collection) => ({
     ...collection,
-    songIds: collection.songIds.filter((songId) => catalogSongIds.has(songId)),
+    songIds: collection.songIds ?? [],
   }));
-  const songIds = (state.songIds ?? []).filter((songId) => catalogSongIds.has(songId));
+  const songIds = state.songIds ?? [];
   const collectionId =
     state.collectionId && collections.some((collection) => collection.id === state.collectionId)
       ? state.collectionId
       : undefined;
-  const songId = state.songId && songIds.includes(state.songId) ? state.songId : songIds[0] ?? undefined;
+  const firstKnownSongId = songIds.find((songId) => catalogSongIds.has(songId));
+  const songId = state.songId && songIds.includes(state.songId) ? state.songId : firstKnownSongId ?? songIds[0];
 
   return {
     collections,
@@ -177,6 +178,55 @@ const normalizeUserLiveStateForCatalog = (state: UserLiveState, catalogSongs: So
 };
 
 const liveStateSnapshot = (state: UserLiveState): string => JSON.stringify(state);
+
+const liveCollectionUpdatedAtMs = (collection: SongCollection): number => {
+  const timestamp = Date.parse(collection.updatedAt);
+  return Number.isFinite(timestamp) ? timestamp : 0;
+};
+
+const latestLiveStateUpdatedAtMs = (state: UserLiveState): number =>
+  Math.max(0, ...(state.collections ?? []).map(liveCollectionUpdatedAtMs));
+
+const mergeUserLiveState = (serverState: UserLiveState, localState: UserLiveState): UserLiveState => {
+  const collectionsById = new Map<string, SongCollection>();
+  (serverState.collections ?? []).forEach((collection) => {
+    collectionsById.set(collection.id, collection);
+  });
+  (localState.collections ?? []).forEach((collection) => {
+    const serverCollection = collectionsById.get(collection.id);
+    if (!serverCollection || liveCollectionUpdatedAtMs(collection) > liveCollectionUpdatedAtMs(serverCollection)) {
+      collectionsById.set(collection.id, collection);
+    }
+  });
+
+  const collections = Array.from(collectionsById.values());
+  const localIsNewer = latestLiveStateUpdatedAtMs(localState) > latestLiveStateUpdatedAtMs(serverState);
+  const primaryState = localIsNewer ? localState : serverState;
+  const fallbackState = localIsNewer ? serverState : localState;
+  const collectionId = [primaryState.collectionId, fallbackState.collectionId].find(
+    (id): id is string => !!id && collections.some((collection) => collection.id === id),
+  );
+  const collectionSongIds = collectionId
+    ? collections.find((collection) => collection.id === collectionId)?.songIds
+    : undefined;
+  const primarySongIds = primaryState.songIds ?? [];
+  const fallbackSongIds = fallbackState.songIds ?? [];
+  const songIds =
+    collectionSongIds ??
+    (primarySongIds.length > 0 || fallbackSongIds.length === 0
+      ? primarySongIds
+      : fallbackSongIds);
+  const songId = [primaryState.songId, fallbackState.songId, songIds[0]].find(
+    (id): id is string => !!id && songIds.includes(id),
+  );
+
+  return {
+    collections,
+    collectionId,
+    songId,
+    songIds,
+  };
+};
 
 const normalizeCollectionsForCatalog = (items: SongCollection[], catalogSongs: Song[]): SongCollection[] => {
   const catalogSongIds = new Set(catalogSongs.map((song) => song.id));
@@ -593,6 +643,7 @@ function App() {
   const [syncState, setSyncState] = useState<SyncState>('idle');
   const [account, setAccount] = useState<CurrentUserState | null>(null);
   const [isAccountLoading, setIsAccountLoading] = useState(false);
+  const [isStoredStateReady, setIsStoredStateReady] = useState(false);
   const [isUserLiveStateReady, setIsUserLiveStateReady] = useState(false);
   const [isUserCollectionsReady, setIsUserCollectionsReady] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -1070,6 +1121,7 @@ function App() {
       }
       setPlaybackPosition(loadedPlaybackPosition);
       setSettings(loadedSettings);
+      setIsStoredStateReady(true);
       const resolvedActiveSongId = resolveRouteSongId(baseCatalog, activeSongId);
       if (activeSongId && resolvedActiveSongId && resolvedActiveSongId !== activeSongId) {
         setActiveSongId(resolvedActiveSongId);
@@ -1137,6 +1189,7 @@ function App() {
   useEffect(() => {
     if (isLiveListPreview) return;
     if (!account) return;
+    if (!isStoredStateReady) return;
 
     lastLiveStateSnapshotRef.current = '';
 
@@ -1155,7 +1208,39 @@ function App() {
 
     const loadUserLiveState = async () => {
       try {
-        const state = normalizeUserLiveStateForCatalog(await fetchUserLiveState(), songs);
+        const [
+          serverLiveState,
+          localLiveCollections,
+          localLiveCollectionId,
+          localLiveSongId,
+          localLiveSongIds,
+        ] = await Promise.all([
+          fetchUserLiveState(),
+          loadLiveCollections(),
+          loadLiveCollectionId(),
+          loadLiveSongId(),
+          loadLiveSongIds(),
+        ]);
+        if (cancelled) return;
+
+        const catalogSongs = await syncCatalogForCollection();
+        if (cancelled) return;
+
+        const serverState = normalizeUserLiveStateForCatalog(serverLiveState, catalogSongs);
+        const localState = normalizeUserLiveStateForCatalog(
+          {
+            collections: localLiveCollections,
+            collectionId: localLiveCollectionId ?? undefined,
+            songId: localLiveSongId ?? undefined,
+            songIds: localLiveSongIds,
+          },
+          catalogSongs,
+        );
+        const mergedState = normalizeUserLiveStateForCatalog(mergeUserLiveState(serverState, localState), catalogSongs);
+        const state =
+          liveStateSnapshot(mergedState) === liveStateSnapshot(serverState)
+            ? mergedState
+            : normalizeUserLiveStateForCatalog(await saveUserLiveState(mergedState), catalogSongs);
         if (cancelled) return;
         setLiveCollections(state.collections);
         setLiveCollectionId(state.collectionId ?? null);
@@ -1175,7 +1260,7 @@ function App() {
     return () => {
       cancelled = true;
     };
-  }, [account?.authenticated, account?.user?.id, isLiveListPreview]);
+  }, [account?.authenticated, account?.user?.id, isLiveListPreview, isStoredStateReady]);
 
   useEffect(() => {
     if (isLiveListPreview || !account?.authenticated || !isUserLiveStateReady) return;
@@ -1283,24 +1368,24 @@ function App() {
   }, [account?.authenticated, collections, isLiveListPreview, isUserCollectionsReady, songs]);
 
   useEffect(() => {
-    if (isLiveListPreview || account?.authenticated) return;
+    if (isLiveListPreview || !isStoredStateReady) return;
     saveLiveCollections(liveCollections);
-  }, [account?.authenticated, isLiveListPreview, liveCollections]);
+  }, [isLiveListPreview, isStoredStateReady, liveCollections]);
 
   useEffect(() => {
-    if (isLiveListPreview || account?.authenticated) return;
+    if (isLiveListPreview || !isStoredStateReady) return;
     saveLiveCollectionId(liveCollectionId);
-  }, [account?.authenticated, liveCollectionId, isLiveListPreview]);
+  }, [isLiveListPreview, isStoredStateReady, liveCollectionId]);
 
   useEffect(() => {
-    if (isLiveListPreview || account?.authenticated) return;
+    if (isLiveListPreview || !isStoredStateReady) return;
     saveLiveSongId(liveSongId);
-  }, [account?.authenticated, liveSongId, isLiveListPreview]);
+  }, [isLiveListPreview, isStoredStateReady, liveSongId]);
 
   useEffect(() => {
-    if (isLiveListPreview || account?.authenticated) return;
+    if (isLiveListPreview || !isStoredStateReady) return;
     saveLiveSongIds(liveSongIds);
-  }, [account?.authenticated, liveSongIds, isLiveListPreview]);
+  }, [isLiveListPreview, isStoredStateReady, liveSongIds]);
 
   useEffect(() => {
     if (!account) return;
@@ -1390,8 +1475,7 @@ function App() {
       return;
     }
 
-    const catalogSongIds = new Set(songs.map((song) => song.id));
-    const sourceSongIds = new Set(liveCollection.songIds.filter((songId) => catalogSongIds.has(songId)));
+    const sourceSongIds = new Set(liveCollection.songIds);
     const nextLiveSongIds = liveSongIds.filter((songId) => sourceSongIds.has(songId));
     if (nextLiveSongIds.length !== liveSongIds.length) {
       setLiveSongIds(nextLiveSongIds);
@@ -1637,8 +1721,7 @@ function App() {
 
   const openLiveMode = () => {
     if (!requireLiveAccount()) return;
-    const catalogSongIds = new Set(songs.map((song) => song.id));
-    const nextLiveSongIds = liveSongIds.filter((songId) => catalogSongIds.has(songId));
+    const nextLiveSongIds = liveSongIds;
     setLiveCollectionId(null);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId(liveSongId && nextLiveSongIds.includes(liveSongId) ? liveSongId : nextLiveSongIds[0] ?? null);
@@ -1653,8 +1736,7 @@ function App() {
     const collection = liveCollections.find((item) => item.id === collectionId);
     if (!collection) return;
 
-    const catalogSongIds = new Set(songs.map((song) => song.id));
-    const nextLiveSongIds = collection.songIds.filter((songId) => catalogSongIds.has(songId));
+    const nextLiveSongIds = collection.songIds;
     setLiveCollectionId(collection.id);
     setLiveSongIds(nextLiveSongIds);
     setLiveSongId(nextLiveSongIds[0] ?? null);
