@@ -2086,19 +2086,23 @@ button:disabled {
 }
 
 .song-line-block {
-  margin-bottom: 14px;
+  margin-bottom: max(6px, calc(var(--song-line-size) * 0.67));
 }
 
 .song-line-button {
   width: 100%;
-  min-height: 44px;
+  min-height: max(26px, calc(var(--song-line-size) * 2.1));
   position: relative;
   display: block;
   border: 0;
   border-radius: 16px;
   background: transparent;
   color: inherit;
-  padding: 5px 8px 5px 12px;
+  padding:
+    max(2px, calc(var(--song-line-size) * 0.24))
+    max(4px, calc(var(--song-line-size) * 0.38))
+    max(2px, calc(var(--song-line-size) * 0.24))
+    max(6px, calc(var(--song-line-size) * 0.57));
   text-align: left;
   transition:
     background-color 180ms ease,
@@ -2116,11 +2120,11 @@ button:disabled {
 }
 
 .song-line-block.is-chords-only {
-  margin-bottom: 10px;
+  margin-bottom: max(5px, calc(var(--song-line-size) * 0.48));
 }
 
 .song-line-block.is-chords-only .song-line-button {
-  min-height: 50px;
+  min-height: max(28px, calc(var(--song-line-size) * 2.38));
   display: flex;
   align-items: center;
   border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
@@ -2133,16 +2137,17 @@ button:disabled {
   font-size: var(--song-line-size);
   font-weight: 650;
   line-height: 1.55;
-  padding: 3px 0;
+  padding: clamp(1px, calc(var(--song-line-size) * 0.14), 3px) 0;
 }
 
 .chords {
   display: block;
-  min-height: 20px;
+  min-height: 1.2em;
   color: var(--accent-strong);
   font-family: "Courier New", monospace;
   font-size: var(--song-chord-size);
   font-weight: 900;
+  line-height: 1.15;
 }
 
 .preset-chords .line {
