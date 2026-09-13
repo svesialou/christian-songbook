@@ -2877,6 +2877,9 @@ func createPublishedSong(ctx context.Context, db *sql.DB, payload songSubmission
 	if err != nil {
 		return approveSubmissionResponse{}, err
 	}
+	if err := ensurePublishedSongTitleUnique(ctx, tx, version.ID, normalized.Title, ""); err != nil {
+		return approveSubmissionResponse{}, err
+	}
 
 	songID, err := uniqueSongID(ctx, tx, version.ID, normalized.Title, fmt.Sprintf("song-%d", nextNumber))
 	if err != nil {
@@ -2951,6 +2954,9 @@ WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
 	}
 	if affected == 0 {
 		return approveSubmissionResponse{}, sql.ErrNoRows
+	}
+	if err := ensurePublishedSongTitleUnique(ctx, tx, version.ID, normalized.Title, songID); err != nil {
+		return approveSubmissionResponse{}, err
 	}
 	nextVersion := fmt.Sprintf("admin-edit-%s", time.Now().UTC().Format("20060102150405"))
 	if _, err := tx.ExecContext(
@@ -3144,6 +3150,9 @@ func approveNewSongSubmissionTx(
 	if err != nil {
 		return "", "", err
 	}
+	if err := ensurePublishedSongTitleUnique(ctx, tx, version.ID, normalized.Title, ""); err != nil {
+		return "", "", err
+	}
 
 	songID, err := uniqueSongID(ctx, tx, version.ID, normalized.Title, fmt.Sprintf("song-%d", nextNumber))
 	if err != nil {
@@ -3210,6 +3219,9 @@ WHERE id = ? AND catalog_version_id = ? AND status = 'published'`,
 	if affected == 0 {
 		return "", "", sql.ErrNoRows
 	}
+	if err := ensurePublishedSongTitleUnique(ctx, tx, version.ID, normalized.Title, songID); err != nil {
+		return "", "", err
+	}
 	if _, err := parseLeadSheetSections(normalized.LeadSheet); err != nil {
 		return "", "", err
 	}
@@ -3256,6 +3268,32 @@ FOR UPDATE`
 	}
 
 	return version, nil
+}
+
+func ensurePublishedSongTitleUnique(
+	ctx context.Context,
+	tx *sql.Tx,
+	catalogVersionID int64,
+	title string,
+	excludeSongID string,
+) error {
+	query := `SELECT id FROM songs WHERE catalog_version_id = ? AND status = 'published' AND title = ?`
+	args := []any{catalogVersionID, strings.TrimSpace(title)}
+	if excludeSongID != "" {
+		query += ` AND id <> ?`
+		args = append(args, excludeSongID)
+	}
+	query += ` LIMIT 1`
+
+	var existingID string
+	if err := tx.QueryRowContext(ctx, query, args...).Scan(&existingID); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil
+		}
+		return err
+	}
+
+	return validationError("song title already exists")
 }
 
 func insertPublishedSongTx(
