@@ -97,6 +97,7 @@ const sectionPlaybackRepeatCount = (section: SongOrderedSection): number =>
 const timingHintPattern = /\b\d{1,2}\s*(?:такта?|тактов|дол[ияеюйь]*|bar|bars|beat|beats)\b/gi;
 const lyricVowelPattern = /[аеёиоуыэюяaeiouy]/gi;
 const instrumentalSectionTypes = new Set<SongOrderedSection['sectionType']>(['intro', 'instrumental', 'outro']);
+const repeatChorusAfterSectionTypes = new Set<SongOrderedSection['sectionType']>(['verse', 'bridge']);
 
 const parseExplicitBeatCount = (value: string, baseBeats: number): number | null => {
   const normalized = value.toLowerCase().replace(/[×х]/g, 'x');
@@ -137,7 +138,20 @@ const calculateLineDurationMs = (bpm: number, baseBeats: number, line?: Playback
 };
 
 const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSection[] => {
-  if (song.sections?.length) return fillMissingVerseSectionChords(song.sections);
+  if (song.sections?.length) {
+    const orderedSections = fillMissingVerseSectionChords(song.sections);
+    const chorus = orderedSections.find((section) => section.sectionType === 'chorus');
+    if (!repeatChorus || !chorus) return orderedSections;
+
+    return orderedSections.flatMap((section, index) => {
+      const nextSection = orderedSections[index + 1];
+      if (!repeatChorusAfterSectionTypes.has(section.sectionType) || nextSection?.sectionType === 'chorus') {
+        return [section];
+      }
+      return [section, chorus];
+    });
+  }
+
   const sections: SongOrderedSection[] = [];
   song.verses.forEach((verse, index) => {
     sections.push({ ...verse, sectionType: 'verse', title: index === 0 ? 'Куплет 1' : `Куплет ${index + 1}` });
@@ -146,6 +160,7 @@ const getRenderableSections = (song: Song, repeatChorus: boolean): SongOrderedSe
     }
   });
   if (song.bridge) sections.push({ ...song.bridge, sectionType: 'bridge', title: 'Мост' });
+  if (song.bridge && song.chorus && repeatChorus) sections.push({ ...song.chorus, sectionType: 'chorus', title: 'Припев' });
   return fillMissingVerseSectionChords(sections);
 };
 
