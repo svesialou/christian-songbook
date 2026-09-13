@@ -31,7 +31,7 @@
   - `metadata{}` (тема, тональность, теги, порядок)
 
 - `SessionConfig`
-  - `showChords`, `transposition`, `repeatChorus`, `fontScale`, `theme`
+  - `showChords`, `transposition`, `repeatChorus`, `fontScale` (numeric px), `theme`
 
 - `Preset`
   - `name`

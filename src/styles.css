@@ -103,6 +103,12 @@ button:disabled {
 }
 
 .app {
+  --song-line-size: 21px;
+  --song-chord-size: 17px;
+  --song-chords-only-line-size: 18px;
+  --song-chords-only-chord-size: 20px;
+  --song-content-width: 720px;
+  --song-shell-width: 1120px;
   min-height: 100dvh;
   background:
     radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 30%),
@@ -1255,6 +1261,27 @@ button:disabled {
   padding: 8px 10px;
 }
 
+.range-row {
+  min-height: 44px;
+  display: grid;
+  grid-template-columns: minmax(80px, auto) minmax(120px, 1fr) minmax(52px, auto);
+  align-items: center;
+  gap: 10px;
+}
+
+.range-row input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.range-row strong {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 950;
+  text-align: right;
+  white-space: nowrap;
+}
+
 .preset-fieldset {
   min-width: 0;
   margin: 0;
@@ -1293,6 +1320,7 @@ button:disabled {
 .preset-button span,
 .toggle-row,
 .select-row,
+.range-row,
 .transpose-control,
 .song-transpose-control,
 .song-font-control,
@@ -1466,7 +1494,8 @@ button:disabled {
 }
 
 .song-view {
-  max-width: 720px;
+  max-width: min(var(--song-content-width), 100%);
+  margin: 0 auto;
 }
 
 .song-print-sheet {
@@ -2101,7 +2130,7 @@ button:disabled {
 .line {
   display: block;
   color: var(--line);
-  font-size: 21px;
+  font-size: var(--song-line-size);
   font-weight: 650;
   line-height: 1.55;
   padding: 3px 0;
@@ -2112,64 +2141,19 @@ button:disabled {
   min-height: 20px;
   color: var(--accent-strong);
   font-family: "Courier New", monospace;
-  font-size: 17px;
+  font-size: var(--song-chord-size);
   font-weight: 900;
 }
 
 .preset-chords .line {
   color: var(--muted);
-  font-size: 18px;
+  font-size: var(--song-chords-only-line-size);
   font-weight: 600;
 }
 
 .preset-chords .chords {
-  font-size: 20px;
+  font-size: var(--song-chords-only-chord-size);
   line-height: 1.45;
-}
-
-.small .chords {
-  font-size: 15px;
-}
-
-.small .preset-chords .chords {
-  font-size: 18px;
-  line-height: 1.45;
-}
-
-.large .chords {
-  font-size: 20px;
-  line-height: 1.45;
-}
-
-.large .preset-chords .chords {
-  font-size: 22px;
-  line-height: 1.45;
-}
-
-.xlarge .chords {
-  font-size: 23px;
-  line-height: 1.45;
-}
-
-.xlarge .preset-chords .chords {
-  font-size: 26px;
-  line-height: 1.45;
-}
-
-.small .line {
-  font-size: 19px;
-}
-
-.normal .line {
-  font-size: 21px;
-}
-
-.large .line {
-  font-size: 26px;
-}
-
-.xlarge .line {
-  font-size: 31px;
 }
 
 .error,
@@ -2639,21 +2623,8 @@ button:disabled {
     font-size: 18px;
   }
 
-  .small .line {
-    font-size: 17px;
-  }
-
-  .line,
-  .normal .line {
-    font-size: 19px;
-  }
-
-  .large .line {
-    font-size: 24px;
-  }
-
-  .xlarge .line {
-    font-size: 28px;
+  .line {
+    font-size: max(10px, calc(var(--song-line-size) - 2px));
   }
 
   .playback-control {
@@ -2672,7 +2643,7 @@ button:disabled {
 
 @media (min-width: 720px) {
   .app-shell:has(.song-view.split-sections) {
-    width: min(1120px, 100%);
+    width: min(var(--song-shell-width), 100%);
   }
 
   .app-shell:has(.song-view.split-sections) .content-panel {
@@ -2689,7 +2660,7 @@ button:disabled {
   }
 
   .song-view.split-sections .song-header > div {
-    max-width: 760px;
+    max-width: var(--song-content-width);
   }
 
   .song-view.split-sections .song-sections {
@@ -2705,7 +2676,7 @@ button:disabled {
 
 @media (min-width: 1040px) {
   .app-shell:has(.song-view) {
-    width: min(1120px, 100%);
+    width: min(var(--song-shell-width), 100%);
   }
 
   .app-shell:has(.song-view) .content-panel {
@@ -2722,7 +2693,7 @@ button:disabled {
   }
 
   .song-header > div {
-    max-width: 760px;
+    max-width: var(--song-content-width);
   }
 
   .song-sections {

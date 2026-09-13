@@ -8,6 +8,13 @@ import {
   transposeSongRows,
 } from '../lib/chords';
 import { downloadSongPresentation, SongSubmissionPayload, UserPreferences } from '../lib/catalogApi';
+import {
+  FONT_SCALE_MAX,
+  FONT_SCALE_MIN,
+  FONT_SCALE_STEP,
+  formatFontScale,
+  normalizeFontScale,
+} from '../lib/fontScale';
 import { fillMissingVerseChords, fillMissingVerseSectionChords } from '../lib/leadSheetTools';
 import { SongPlaybackPosition, SongSettings } from '../types/song';
 
@@ -269,15 +276,6 @@ const viewPresetLabels: Record<SongSettings['viewPreset'], string> = {
   chords: 'Chords: только аккорды',
 };
 
-const fontScaleSteps: SongSettings['fontScale'][] = ['small', 'normal', 'large', 'xlarge'];
-
-const fontScaleLabels: Record<SongSettings['fontScale'], string> = {
-  small: 'Мелкий',
-  normal: 'Обычный',
-  large: 'Крупный',
-  xlarge: 'Очень крупный',
-};
-
 const parseAuthorsInput = (value: string): string[] => {
   const seen = new Set<string>();
   return value.split(',').flatMap((item) => {
@@ -537,9 +535,8 @@ const SongView = ({
   const isSheetMode = hasSheetMusic && contentMode === 'sheet';
   const hasPresentation = presentationSlides.length > 0;
   const isPresentationMode = hasPresentation && contentMode === 'presentation';
-  const fontScaleIndex = Math.max(0, fontScaleSteps.indexOf(settings.fontScale));
-  const canDecreaseFontScale = fontScaleIndex > 0;
-  const canIncreaseFontScale = fontScaleIndex < fontScaleSteps.length - 1;
+  const canDecreaseFontScale = settings.fontScale > FONT_SCALE_MIN;
+  const canIncreaseFontScale = settings.fontScale < FONT_SCALE_MAX;
 
   useEffect(() => {
     const nextBpm = song.playback?.bpm ?? DEFAULT_PLAYBACK.bpm;
@@ -774,8 +771,7 @@ const SongView = ({
   const setTransposition = (nextTransposition: number) =>
     onTranspositionChange(song.id, normalizeTransposition(nextTransposition));
   const changeFontScale = (step: -1 | 1) => {
-    const nextScale = fontScaleSteps[fontScaleIndex + step];
-    if (nextScale) onFontScaleChange(nextScale);
+    onFontScaleChange(normalizeFontScale(settings.fontScale + step * FONT_SCALE_STEP, settings.fontScale));
   };
 
   const updateEditDraft = (key: keyof SongEditDraft, value: string | number | string[]) => {
@@ -952,7 +948,7 @@ const SongView = ({
               >
                 A-
               </button>
-              <span>{fontScaleLabels[settings.fontScale]}</span>
+              <span>{formatFontScale(settings.fontScale)}</span>
               <button
                 type="button"
                 onClick={() => changeFontScale(1)}

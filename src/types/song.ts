@@ -43,7 +43,7 @@ export type SongCollection = {
 
 export type ViewPreset = 'lead' | 'singer' | 'chords';
 
-export type FontScale = 'small' | 'normal' | 'large' | 'xlarge';
+export type FontScale = number;
 
 export type SongPlaybackPosition = {
   songId: string;

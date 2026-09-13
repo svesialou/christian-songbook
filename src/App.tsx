@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import {
   CatalogSnapshotMeta,
   FontScale,
@@ -35,6 +35,7 @@ import {
 } from './lib/storage';
 import { normalizeSearchText, songMatchesSearchQuery } from './lib/search';
 import { preferredScrollBehavior } from './lib/scroll';
+import { DEFAULT_FONT_SCALE, normalizeFontScale } from './lib/fontScale';
 import { bundledCatalog } from './data/bundledCatalog.generated';
 import { songCategories } from './data/songCategories';
 import {
@@ -73,6 +74,17 @@ import SongList from './components/SongList';
 import SongSubmissionSheet from './components/SongSubmissionSheet';
 import SongView from './components/SongView';
 import SettingsPanel from './components/SettingsPanel';
+
+type SongFontScaleStyle = CSSProperties &
+  Record<
+    | '--song-line-size'
+    | '--song-chord-size'
+    | '--song-chords-only-line-size'
+    | '--song-chords-only-chord-size'
+    | '--song-content-width'
+    | '--song-shell-width',
+    string
+  >;
 
 type SongListMode = 'all' | 'recent' | 'collection' | 'live';
 type CatalogSource = 'bundled' | 'local' | 'mysql';
@@ -270,8 +282,6 @@ const normalizeImportedSettings = (settings: unknown): SongSettings | undefined 
   if (!settings || typeof settings !== 'object') return undefined;
   const raw = settings as Record<string, unknown>;
   const defaults = defaultSettings();
-  const isFontScale = (value: unknown): value is FontScale =>
-    value === 'small' || value === 'normal' || value === 'large' || value === 'xlarge';
 
   return {
     viewPreset:
@@ -284,8 +294,27 @@ const normalizeImportedSettings = (settings: unknown): SongSettings | undefined 
     transposition: Number.isFinite(raw.transposition) ? Number(raw.transposition) : defaults.transposition,
     showPlaybackDock:
       typeof raw.showPlaybackDock === 'boolean' ? raw.showPlaybackDock : defaults.showPlaybackDock,
-    fontScale: isFontScale(raw.fontScale) ? raw.fontScale : defaults.fontScale,
+    fontScale: normalizeFontScale(raw.fontScale, defaults.fontScale),
     darkTheme: typeof raw.darkTheme === 'boolean' ? raw.darkTheme : defaults.darkTheme,
+  };
+};
+
+const buildSongFontScaleStyle = (fontScale: FontScale): SongFontScaleStyle => {
+  const lineSize = normalizeFontScale(fontScale);
+  const scaleRatio = lineSize / DEFAULT_FONT_SCALE;
+  const chordSize = Math.max(10, Math.round(lineSize * 0.81));
+  const chordsOnlyLineSize = Math.max(10, Math.round(lineSize * 0.86));
+  const chordsOnlyChordSize = Math.max(10, Math.round(lineSize * 0.95));
+  const contentWidth = Math.round(720 * scaleRatio);
+  const shellWidth = Math.round(1120 * scaleRatio);
+
+  return {
+    '--song-line-size': `${lineSize}px`,
+    '--song-chord-size': `${chordSize}px`,
+    '--song-chords-only-line-size': `${chordsOnlyLineSize}px`,
+    '--song-chords-only-chord-size': `${chordsOnlyChordSize}px`,
+    '--song-content-width': `${contentWidth}px`,
+    '--song-shell-width': `${shellWidth}px`,
   };
 };
 
@@ -1936,6 +1965,7 @@ function App() {
   const tone = statusTone(isOnline, catalogSource, syncState);
   const toneLabel = statusLabel(tone, catalogSource, catalogMeta);
   const activeSongTransposition = activeSong ? songTranspositions[activeSong.id] ?? 0 : 0;
+  const appStyle = buildSongFontScaleStyle(settings.fontScale);
   const songViewSettings = {
     ...settings,
     splitSections: isSplitPreview ? true : settings.splitSections,
@@ -1988,7 +2018,7 @@ function App() {
 
   if (isAdminMode && !isAdminAuthenticated) {
     return (
-      <main className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}>
+      <main className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'}`} style={appStyle}>
         <div className="admin-login-shell">
           <section className="admin-login-card" aria-labelledby="admin-login-title">
             <div>
@@ -2026,7 +2056,8 @@ function App() {
 
   return (
     <main
-      className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'} ${settings.fontScale}`}
+      className={`app ${settings.darkTheme ? 'theme-dark' : 'theme-light'}`}
+      style={appStyle}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={finishPullRefresh}

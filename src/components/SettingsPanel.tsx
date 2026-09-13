@@ -1,6 +1,14 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { SongSettings } from '../types/song';
 import { CurrentUserState, UserPreferences } from '../lib/catalogApi';
+import {
+  DEFAULT_FONT_SCALE,
+  FONT_SCALE_MAX,
+  FONT_SCALE_MIN,
+  FONT_SCALE_STEP,
+  formatFontScale,
+  normalizeFontScale,
+} from '../lib/fontScale';
 
 type SettingsPanelProps = {
   settings: SongSettings;
@@ -13,22 +21,15 @@ type SettingsPanelProps = {
 };
 
 const presetSettings: Record<SongSettings['viewPreset'], Partial<SongSettings>> = {
-  lead: { showChords: true, fontScale: 'normal' },
-  singer: { showChords: false, fontScale: 'large' },
-  chords: { showChords: true, fontScale: 'normal' },
+  lead: { showChords: true, fontScale: DEFAULT_FONT_SCALE },
+  singer: { showChords: false, fontScale: 26 },
+  chords: { showChords: true, fontScale: DEFAULT_FONT_SCALE },
 };
 
 const presetLabels: Record<SongSettings['viewPreset'], { title: string; description: string }> = {
   lead: { title: 'Lead', description: 'Текст и аккорды' },
   singer: { title: 'Singer', description: 'Крупный текст' },
   chords: { title: 'Chords', description: 'Только аккорды' },
-};
-
-const fontScaleLabels: Record<SongSettings['fontScale'], string> = {
-  small: 'Мелкий',
-  normal: 'Обычный',
-  large: 'Крупный',
-  xlarge: 'Очень крупный',
 };
 
 const defaultUserPreferences = (): UserPreferences => ({
@@ -54,6 +55,8 @@ const SettingsPanel = ({
   const [isSavingPreferences, setIsSavingPreferences] = useState(false);
   const change = <K extends keyof SongSettings>(key: K, value: SongSettings[K]) =>
     onChange({ ...settings, [key]: value });
+  const changeFontScale = (value: string) =>
+    change('fontScale', normalizeFontScale(Number(value), settings.fontScale));
   const applyPreset = (viewPreset: SongSettings['viewPreset']) =>
     onChange({ ...settings, ...presetSettings[viewPreset], viewPreset });
   const changePersonal = <K extends keyof UserPreferences>(key: K, value: UserPreferences[K]) =>
@@ -242,18 +245,18 @@ const SettingsPanel = ({
           <span>Тёмная тема</span>
         </label>
 
-        <label className="select-row">
+        <label className="range-row">
           <span>Шрифт</span>
-          <select
+          <input
+            type="range"
+            min={FONT_SCALE_MIN}
+            max={FONT_SCALE_MAX}
+            step={FONT_SCALE_STEP}
             value={settings.fontScale}
-            onChange={(event) => change('fontScale', event.target.value as SongSettings['fontScale'])}
-          >
-            {(Object.keys(fontScaleLabels) as SongSettings['fontScale'][]).map((fontScale) => (
-              <option key={fontScale} value={fontScale}>
-                {fontScaleLabels[fontScale]}
-              </option>
-            ))}
-          </select>
+            onChange={(event) => changeFontScale(event.target.value)}
+            aria-label="Размер шрифта песни"
+          />
+          <strong>{formatFontScale(settings.fontScale)}</strong>
         </label>
 
       </div>

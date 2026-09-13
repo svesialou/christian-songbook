@@ -93,7 +93,7 @@ Updates a participant display preset for the session.
   "settings": {
     "showChords": true,
     "repeatChorus": true,
-    "fontScale": "large",
+    "fontScale": 26,
     "transposition": 0
   }
 }
